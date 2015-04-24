@@ -1,14 +1,34 @@
 /*
-Arduino Control Code for BREADBOARD VERSION
+Arduino Control Code for breadboard and PCB version - controlled by Matlab code (for now) ScouseTom_Init ScouseTom_Start etc.
 
-New to V6 - set stim voltage programmatically, power to stim and switches turned off when not in use, PCB and breadboard pin numbering in separate header files
+Overview of commands is SOMEWHERE
 
+
+########
+23/04/15 - Fixed bug where first switch after turning on power to switches was not working - caused by setting pins too fast after power, fixed by reseting switches after pwr on
+- added delay to start time as Current source takes some time to actually turn on
+
+Last Major Update - set stim voltage programmatically, power to stim and switches turned off when not in use, PCB and breadboard pin numbering in separate header files
+
+########
 To do:
 
-Lower power consumption - it is possible to set pmc_enable_sleep to save some power, or even put the SAM3X into "backup" mode, awakened by interupt on RX pin, but not sure how
-also it is possible to turn off/lower clocks when not in use, and turn off adc's etc. my googling failed me. THis is unlikely to reduce the consumption by much however. 
+Set number of cycles to inject rather than time - best done in matlab though will need to get array of injection times too
 
-pulse trains - so kirill can replicate thomas' experiments on nerve - repeated stim should demonstrate refactory period
+Check that sources and sinks arent the same for a line in the protocol
+
+Tidy up:
+- everything under "do stuff" would be easier if it was replaced with inline functions - that way they could be jumped too in visual studio
+- rearrange code into more logical tabs - the multifreq stuff within "CS_comm" for example
+Debug mode - use #IF to set verbose debug mode
+
+Pulse trains - so kirill can replicate thomas' experiments on nerve - repeated stim should demonstrate refactory period. Also could be used to replicate BOLD experimental paradigm - with
+
+Lower power consumption - it is possible to set pmc_enable_sleep to save some power, or even put the SAM3X into "backup" mode, awakened by interupt on RX pin, but not sure how
+also it is possible to turn off/lower clocks when not in use, and turn off adc's etc. my googling failed me. THis is unlikely to reduce the consumption by much however.
+########
+
+Jimmy wrote this so blame him
 
 */
 
@@ -18,8 +38,8 @@ pulse trains - so kirill can replicate thomas' experiments on nerve - repeated s
 
 #include <Wire.h> //i2c for digipot
 
-//#include "BreadboardPins.h" // Pins for breadboard version - used by kirill and me (testing)
-#include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
+#include "BreadboardPins.h" // Pins for breadboard version - used by kirill and me (testing)
+//#include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
 
 
 //#####################################
@@ -69,6 +89,10 @@ long MeasTime = 0; //injection time in microseconds - set by user (USER SELECTS 
 long ContactTime = 0; // contact impedance measurement time in ms
 
 int FreqOrder[maxFreqs] = { 0 }; // order of the frequencies - initilised
+
+long StartDelay_CS = 53 * 1000; //number of microseconds taken for CS to actually start injecting after being told to - this need verification 
+long StartElapsed_CS = 0;// time since CS_Start was called
+long StartTime_CS = 0; //time when CS_Start() was called
 
 //############################
 //Contact Check Stuff
@@ -177,7 +201,7 @@ void setup() {
 
 
 	Wire.begin(); // start I2C
-	Stim_SetDigipot(StimOffValue); // set potentiometer to highest resistance to minimise current
+	Stim_SetDigipot(StimOffValue); // set potentiometer to highest resistance to minimise current draw
 
 	// setup PC connection
 	Serial.begin(115200);
@@ -356,7 +380,7 @@ void dostuff()
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
 			//pulse pins different amounts so we can find them in the EEG loading 
-			indpinds_pulse(2, 3, 4, 5);
+			indpins_pulse(2, 3, 4, 5);
 
 			//reset all counters
 			iFreq = 0;
@@ -388,9 +412,14 @@ void dostuff()
 				}
 				else
 				{
+					// everything is ok - lets inject! 
 					Serial.print(CS_commokmsg);
 					CS_Disp("CS SET OK");
 					CS_Disp_Wind2("SingleFreqMode");
+					// turn on switches ready for injecting and that
+					SwitchesPwrOn();
+
+
 				}
 			}
 			else // we are in multifrequency mode and thus we need to set more stuff before we start injection
@@ -438,7 +467,7 @@ void dostuff()
 				Serial.print(Injection[iPrt][0]);
 				Serial.print(" and ");
 				Serial.println(Injection[iPrt][1]);*/
-
+				///* debug trig */indpins_pulse(0, 0, 0, 2);
 				SetSwitchesFixed(); // if switches havent been programmed then do that based on iPrt and take a set amount of time
 			}
 
@@ -451,21 +480,27 @@ void dostuff()
 					stim_init(Freq[iFreq]);
 				}
 
-				//turn on power to switches
-				digitalWriteDirect(PWR_SWITCH, HIGH);
+
+				///* debug trig */indpins_pulse(0, 0, 0, 1); 
+
 
 				//start current source
+				StartTime_CS = micros();
 				CS_start();
+
+				///* debug trig */indpins_pulse(0, 0, 0, 1);
+
 				//display some stuff on the front
 				CS_Disp("EIT is happening...");
 				CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, NumRep);
 
-				indpinds_pulse(1, 0, 0, 0); //send start pulse to indicators 
+				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators 
+
 				lastInjSwitch = micros(); //start timer
 
 
 				PC_sendupdate(); //send stuff to PC
-				
+
 				FirstInj = 0; // we dont want this to happen again
 				Switchflag = 1; //we also want to switch the channels right now
 
@@ -476,6 +511,16 @@ void dostuff()
 					lastStimTrigger = lastInjSwitch;
 					StimOffsetCurrent = StimOffset;
 				}
+
+
+				// delay the start of injection to give the current source time to get ready 
+				StartElapsed_CS = micros() - StartTime_CS;
+
+				if (StartElapsed_CS < (StartDelay_CS - 10))
+				{
+					delayMicroseconds(StartDelay_CS - StartElapsed_CS);
+				}
+
 
 				//Serial.println("Starting SingleInject");
 			}
@@ -521,6 +566,8 @@ void dostuff()
 				else // otherwise carry on with switching etc.
 				{
 
+					/* debug trig */indpins_pulse(0, 0, 0, 1);
+
 					SwitchChn(); // switch channel
 					StimOffsetCurrent = StimOffset; //reset the stimoffset as we are switching again
 				}
@@ -541,15 +588,11 @@ void dostuff()
 		{
 			if (FirstInj) //if this is the first time it is called then setup straight away
 			{
-				
-				//turn on power to switches
-				digitalWriteDirect(PWR_SWITCH, HIGH);
-				
+
 				CS_Disp("EIT IS GO");
 				Switchflag = 1;
 
-				indpinds_pulse(1, 0, 0, 0); //send start pulse to indicators 
-
+				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators 
 
 				if (StimMode) Stimflag = 1;
 
@@ -558,11 +601,15 @@ void dostuff()
 				shuffle(FreqOrder, NumFreq);
 				//send info to PC
 				PC_sendupdate();
+
+				//turn on power to switches
+				SwitchesPwrOn();
+
 			}
 			else // if this is NOT the first time called, then check if time has elapsed before changing frequency
 			{
 				currentMicros = micros();
-				if ((currentMicros - lastFreqSwitch) > (MeasTime - SwitchTimeFix)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
+				if ((currentMicros - lastFreqSwitch) > (MeasTime /*- SwitchTimeFix*/)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
 				{
 					Switchflag = 1; //set that we should switch now 
 				}
@@ -615,17 +662,12 @@ void dostuff()
 		CS_stop(); //stop current source
 		stim_stop(); //stop stimulation
 		Stim_SetDigipot(StimOffValue); // set stim voltage low again
+		SwitchesPwrOff(); // turn off switch network
+		reset_pins_pwr(); //turn off power to switches and stim - duplication here but only of 2 clock cycles so its ok...
 
-		//close switches so CS not connected
+		indpins_pulse(0, 1, 0, 0); // indicate injection has stopped
 
-		//set SYNC pin high again
-		digitalWriteDirect(SYNC, HIGH);
-
-		//reset switches
-		digitalWrite(RESET, LOW);
-		digitalWrite(RESET, HIGH);
-		indpinds_pulse(0, 1, 0, 0);
-
+		//front panel stuff
 		CS_Disp("Inj Stopped");
 		CS_Disp_Wind2("Immortality reached");
 
@@ -633,11 +675,6 @@ void dostuff()
 		Serial.print(CS_finishedmsg);
 
 		reset_pins(); //over the top but reset all of the switches again
-		
-		//turn off power to switches
-		digitalWriteDirect(PWR_SWITCH, LOW);
-		digitalWriteDirect(PWR_STIM, LOW); //turn off stimulator power supply
-
 
 		state = 0;
 		checkidle = 1;
@@ -656,7 +693,7 @@ void dostuff()
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
 			//pulse pins different amounts so we can find them in the EEG loading 
-			indpinds_pulse(2, 3, 4, 5);
+			indpins_pulse(2, 3, 4, 5);
 
 			//reset all counters
 			iFreq = 0;
@@ -775,7 +812,7 @@ void dostuff()
 	{
 		//this is badly coded because who cares
 
-		indpinds_pulse(50, 50, 50, 50);
+		indpins_pulse(50, 50, 50, 50);
 		delay(50); //make sure this finished before we do other stuff
 		state = 0;
 		/*Serial.print("ind done");
@@ -809,7 +846,10 @@ void dostuff()
 			CS_Disp("Checking Contact");
 			CS_Disp_Contact(iContact, NumElec);
 
-			indpinds_pulse(1, 0, 0, 0);
+			indpins_pulse(1, 0, 0, 0);
+			//indpins_pulse(0, 0, 3, 0); // compatible with OLD CODE ONLY
+
+
 			FirstInj = 0;
 			Switchflag = 1;
 			lastInjSwitch = micros();
@@ -833,6 +873,8 @@ void dostuff()
 				if (ContactEndofSeq == 1) // if we have reached the total number of injections
 				{
 					state = 3; // do stop command
+					//for OLD CODE COMPATONLY
+					//indpins_pulse(0, 0, 5, 0);
 				}
 				else // otherwise carry on with switching etc.
 				{
@@ -910,7 +952,7 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 
 			Stim_goflag = 0; //stop it from happening again
 			TC_Stop(TC1, 1);
-			
+
 		}
 
 		StiminterruptCtr++; //increment intrctr

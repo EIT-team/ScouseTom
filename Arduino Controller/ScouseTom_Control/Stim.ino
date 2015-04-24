@@ -45,7 +45,7 @@ void ISR_PMARK() // this ISR runs when pmark detected
 
 	if (Stim_ready) // if software says we should have a stim
 	{
-		
+
 		Stim_goflag = 1; // set flag for the TC7 Handler
 		Stim_ready = 0; //no more stims till time has elapsed
 		detachInterrupt(INTR_PMARK); //remove this interupt as we want to ignore it during stimulation

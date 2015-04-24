@@ -1,5 +1,6 @@
 /*Stuff for communication with the current source, as well as incrementing channel and frequency during injections  */
 
+long curFreq = 0; // index of frequency vector current being injected
 
 void CS_next_chn() // setup next channel for multi frequency injection
 {
@@ -15,15 +16,15 @@ void CS_next_chn() // setup next channel for multi frequency injection
 		iRep++;
 	}
 
-	if (iRep !=NumRep) // if we arent finished then shuffle and send new info to pc
-	{ 
+	if (iRep != NumRep) // if we arent finished then shuffle and send new info to pc
+	{
 		//shuffle freq order
 		shuffle(FreqOrder, NumFreq);
 		//		reset frequency counter
 		iFreq = 0;
 		//send info to PC
 		PC_sendupdate();
-		indpinds_pulse(0, 0, 1, 0); // indicate we are changing prt now 
+		indpins_pulse(0, 0, 1, 0); // indicate we are changing prt now
 	}
 }
 
@@ -35,15 +36,19 @@ void CS_next_freq() // set up next frequency of injection
 	long tsw = 0;
 	long ttot = 0;
 	*/
+
 	CS_stop(); // stop current source - changing amp and freq may mean we set current too high for the new/old frequency
+
+	indpins_pulse(0, 0, 0, 1); // indicate that this freq inj is done
+
 	//tstart = micros();
-	if (iRep != NumRep) // check if we arent finished - do nothing if we are finished (this is to prevent an eroneous short injection at the end0
+	if (iRep != NumRep) // check if we arent finished - do nothing if we are finished (this is to prevent an eroneous short injection at the end
 	{
 		//Serial.println("changing frequency"); //debug info
 
-		long curFreq = FreqOrder[iFreq]; // get the new frequency from the shuffled freqorder array
+		curFreq = FreqOrder[iFreq]; // get the new frequency from the shuffled freqorder array
 
-		if (StimMode) //initialise stimulator trigger if we are in stim mode 
+		if (StimMode) //initialise stimulator trigger if we are in stim mode
 		{
 			stim_init(Freq[curFreq]);
 			Stimflag = 1;
@@ -57,25 +62,43 @@ void CS_next_freq() // set up next frequency of injection
 		CS_sendsettings(Amp[curFreq], Freq[curFreq]); // set the new amp and freq in the current source, with no error checking for speed
 		//tset = micros();
 
-		indpinds_pulse(0, 0, 0, 1);
-	
-		CS_Disp_multi(Amp[iFreq], Freq[iFreq], iFreq + 1, NumFreq, iPrt + 1, NumInj, iRep + 1, NumRep); // write the front panel of the CS
-		//tdisp = micros();
-
-		iFreq++; //increment the frequency counter (as all has gone well)
-
 		/*Serial.print("Channels I am about to program: ");
 		Serial.print(Injection[iPrt][0]);
 		Serial.print(" and ");
 		Serial.println(Injection[iPrt][1]);*/
 
+
+		/*#################
+		Switching stuff moved to *after* CS start to limit the amount of time wasted waiting for CS to actually start in delay routine below
+		*/
+
+		StartTime_CS = micros();
+		CS_start(); //start current source
+		
+
 		programswitches(Injection[iPrt][0], Injection[iPrt][1]); //programm the switches
-		SwitchChn(); // open switches to CS 
+		SwitchChn(); // open switches to CS
 		//tsw = micros();
 
-		CS_start(); //start current source
+		CS_Disp_multi(Amp[iFreq], Freq[iFreq], iFreq + 1, NumFreq, iPrt + 1, NumInj, iRep + 1, NumRep); // write the front panel of the CS
+		//tdisp = micros();
+
+		iFreq++; //increment the frequency counter (as all has gone well)
+
+		// delay the start of injection to give the current source time to get ready
+		StartElapsed_CS = micros() - StartTime_CS;
+
+		if (StartElapsed_CS < (StartDelay_CS - 10))
+		{
+			delayMicroseconds(StartDelay_CS - StartElapsed_CS);
+		}
+
+
 		lastFreqSwitch = micros(); // record time we switches freq
-		indpinds_pulse(0, 0, 0, 1); // send new freq pulse 
+		indpins_pulse(0, 0, 0, 1); // send new freq pulse
+
+
+
 	}
 	/*ttot = micros();
 	sprintf(PC_outputBuffer, "Timing: %d set, %d disp, %d tsw, %d tot", tset - tstart, tdisp - tstart, tsw - tstart, ttot - tstart);
@@ -94,6 +117,7 @@ int CS_start() //start current injection
 	Serial1.println("SOUR:WAVE:ARM"); // put CS in "ARM" mode
 
 	/* not checking at the moment as its to slow ~30ms
+
 	CS_getresponse("SOUR:WAVE:ARM?"); //check it went ok
 	goodnessflag = CS_checkresponse("1");
 	if (goodnessflag == 0) // check all is legit
@@ -102,6 +126,7 @@ int CS_start() //start current injection
 	return goodnessflag;
 	}
 	*/
+
 	//Serial.println("inj");
 	Serial1.println("SOUR:WAVE:INIT"); //start current injection!
 
@@ -134,8 +159,8 @@ int CS_stop() //start current injection
 	return goodnessflag;
 }
 
-int CS_sendsettings_check(long Amp, long Freq) 
-// send amplitude and frequency to the current source WITH CHECK 
+int CS_sendsettings_check(long Amp, long Freq)
+// send amplitude and frequency to the current source WITH CHECK
 {
 	int goodnessflag = 0; //communication ok flag
 
@@ -163,7 +188,7 @@ int CS_sendsettings_check(long Amp, long Freq)
 	/*
 	if (goodnessflag == 0) // if bad comm then return and complain
 	{
-		Serial.print(CS_commerrmsg);
+	Serial.print(CS_commerrmsg);
 	}
 	*/
 	return goodnessflag;
@@ -172,8 +197,8 @@ int CS_sendsettings_check(long Amp, long Freq)
 
 
 
-void CS_sendsettings(long Amp, long Freq) 
-// send amplitude and frequency to the current source NO CHECKING as too slow 
+void CS_sendsettings(long Amp, long Freq)
+// send amplitude and frequency to the current source NO CHECKING as too slow
 //- all potential settings are checked during initialisation to make sure no errors
 {
 	sprintf(CS_outputBuffer, "SOUR:WAVE:FREQ %d", Freq); //make string to send to CS
@@ -248,23 +273,23 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 	/*
 	if (goodnessflag == 0) // if bad comm then return and complain
 	{
-		Serial.print(CS_commerrmsg);
+	Serial.print(CS_commerrmsg);
 	}
 	*/
 	return goodnessflag;
 }
 
 
-void CS_Disp_single(long Amp, long Freq, int Rep, int Repeats) //display text for singlefreqmode 
+void CS_Disp_single(long Amp, long Freq, int Rep, int Repeats) //display text for singlefreqmode
 {
 	sprintf(CS_outputBuffer, "DISP:WIND2:TEXT \"%duA:%dHz:Rep %d of %d\"", Amp, Freq, Rep, Repeats); //make string to send to CS
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); // debug to PC
 }
 
-void CS_Disp_Contact(int Pair, int Elecs) //display text for singlefreqmode 
+void CS_Disp_Contact(int Pair, int Elecs) //display text for singlefreqmode
 {
-	sprintf(CS_outputBuffer, "DISP:WIND2:TEXT \"Elec Pair %d of %d\"", Pair,Elecs); //make string to send to CS
+	sprintf(CS_outputBuffer, "DISP:WIND2:TEXT \"Elec Pair %d of %d\"", Pair, Elecs); //make string to send to CS
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); // debug to PC
 }
@@ -275,7 +300,7 @@ void CS_Disp_Contact(int Pair, int Elecs) //display text for singlefreqmode
 void CS_Disp_multi(long Amp, long Freq, int Fnum, int Ftot, int Pnum, int Ptot, int Rep, int Repeats)
 {
 	//sprintf(CS_outputBuffer, "DISP:WIND2:TEXT \"%duA:%dHz:Fr %d/%d:Pr %d/%d:Rp %d/%d\"", Amp, Freq, Fnum,Ftot,Pnum,Ptot, Rep, Repeats); //make string to send to CS
-	
+
 	if (LongDispWind) // if any of them are bigger than 3 characters long then shorten
 	{
 		sprintf(CS_outputBuffer, "DISP:WIND2:TEXT \"F %d/%d:P %d/%d:R %d/%d\"", Amp, Freq, Fnum, Ftot, Pnum, Ptot, Rep, Repeats); //make string to send to CS
@@ -379,12 +404,12 @@ void CS_getresponse(String Str_send)
 	/*
 	if (timeout) // moan if it had timed out
 	{
-		Serial.print(CS_commerrmsg);
+	Serial.print(CS_commerrmsg);
 	}
 	else
 	{
-		Serial.print("CS Response: "); // print output
-		Serial.println(CS_inputBuffer);
+	Serial.print("CS Response: "); // print output
+	Serial.println(CS_inputBuffer);
 	}
 	*/
 	CS_inputFinished = 0; // reset input finished flag
@@ -397,11 +422,11 @@ int CS_checkresponse(String Str_exp) {
 	//compare intput string and string in input buffer
 	int respflag = 0;
 	/*
-		Serial.print("This just in ... ");
-		Serial.println(CS_inputBuffer);
-		Serial.print("expected ");
-		Serial.println(Str_exp);
-		*/
+	  Serial.print("This just in ... ");
+	  Serial.println(CS_inputBuffer);
+	  Serial.print("expected ");
+	  Serial.println(Str_exp);
+	  */
 	if (Str_exp == CS_inputBuffer)
 	{
 		// Serial.println("they match");

@@ -30,8 +30,11 @@ void init_pins()
 	pinMode(LED, OUTPUT);
 	//pinMode(fakepmarkpin, OUTPUT);
 
-	//set default values
+	//set default values on every pin
+	
 	reset_pins();
+	reset_pins_pwr();
+	reset_ind();
 
 }
 
@@ -39,25 +42,35 @@ void reset_pins()
 {
 	//set all pins to default value - this is called by init but also when stopping injection
 
-	digitalWrite(DINp, LOW);
-	digitalWrite(DINn, LOW);
-	digitalWrite(SCLK, LOW);
-	digitalWrite(SYNC, HIGH);
-	digitalWrite(RESET, HIGH);
-
-	digitalWrite(IND_SWITCH, LOW);
-	digitalWrite(IND_STIM, LOW);
-	digitalWrite(IND_FREQ, LOW);
-	digitalWrite(IND_START, LOW);
-	digitalWrite(IND_STOP, LOW);
-
-	digitalWrite(PWR_STIM, LOW);
-	digitalWrite(PWR_SWITCH, LOW);
+	digitalWriteDirect(DINp, LOW);
+	digitalWriteDirect(DINn, LOW);
+	digitalWriteDirect(SCLK, LOW);
+	digitalWriteDirect(SYNC, HIGH);
+	digitalWriteDirect(RESET, HIGH);
 
 
+}
 
-	digitalWrite(LED, LOW);
+void reset_ind()
+{
+	//reset all indicator pins 
+	digitalWriteDirect(IND_SWITCH, LOW);
+	digitalWriteDirect(IND_STIM, LOW);
+	digitalWriteDirect(IND_FREQ, LOW);
+	digitalWriteDirect(IND_START, LOW);
+	digitalWriteDirect(IND_STOP, LOW);
+
+	digitalWriteDirect(LED, LOW);
 	//digitalWrite(fakepmarkpin, LOW);
+}
+
+
+
+void reset_pins_pwr()
+{
+	//reset all power pins
+	digitalWriteDirect(PWR_STIM, LOW);
+	digitalWriteDirect(PWR_SWITCH, LOW);
 }
 
 
@@ -86,7 +99,7 @@ void indpins_check() //this checks if there are any pulses left on any of the in
 
 }
 
-void indpinds_pulse(int StartChn, int StopChn, int SwitchChn, int FreqChn) // this adds pulses to the buffer on each indicator channel 
+void indpins_pulse(int StartChn, int StopChn, int SwitchChn, int FreqChn) // this adds pulses to the buffer on each indicator channel 
 {
 	indpulseson = 1; // set pins on flag
 
