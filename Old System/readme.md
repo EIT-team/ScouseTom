@@ -4,7 +4,7 @@ This is the scousetom system as it was before april 2015 when a new switching bo
 
 ## system overview
 
-![sysoverview](https://cdn.rawgit.com/EIT-team/ScouseTom/master/Old%20System/figures/STOverview.svg "System Overview")
+![sysoverview](figures/STOverview.png "System Overview")
 
 ## Keithley settings
 Set on the front panel under `comm`, change `BAUD` to `19.2k` and `Terminator` to `<cr>` (or whatever the one on the far left is)
