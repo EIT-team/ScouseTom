@@ -27,7 +27,7 @@ void init_pins()
 	pinMode(PWR_SWITCH, OUTPUT);
 
 
-	pinMode(LED, OUTPUT);
+	//pinMode(LED, OUTPUT);
 	//pinMode(fakepmarkpin, OUTPUT);
 
 	//set default values on every pin
@@ -60,7 +60,7 @@ void reset_ind()
 	digitalWriteDirect(IND_START, LOW);
 	digitalWriteDirect(IND_STOP, LOW);
 
-	digitalWriteDirect(LED, LOW);
+	//digitalWriteDirect(LED, LOW);
 	//digitalWrite(fakepmarkpin, LOW);
 }
 
