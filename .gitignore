@@ -2,3 +2,4 @@
 **/*.suo
 **/*.vcxproj
 **/*.vcxproj.filters
+**/Visual*
