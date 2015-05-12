@@ -43,8 +43,8 @@ void reset_pins()
 	digitalWriteDirect(DINp, LOW);
 	digitalWriteDirect(DINn, LOW);
 	digitalWriteDirect(SCLK, LOW);
-	digitalWriteDirect(SYNC, HIGH);
-	digitalWriteDirect(RESET, HIGH);
+	digitalWriteDirect(SYNC, LOW);
+	digitalWriteDirect(RESET, LOW);
 
 
 }

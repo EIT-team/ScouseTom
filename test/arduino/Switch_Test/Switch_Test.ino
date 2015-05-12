@@ -2,7 +2,7 @@
 
 Code to test switch network only - connected to PCB
 
-User enters the channel they want to connect to the sink pin (default 2) 
+User enters the channel they want to connect to the sink pin (default 2)
 
 Useful to just check switch network is working ok with a multimeter
 
@@ -19,7 +19,7 @@ Jimmy 2014/2015
 
 int sinkpin = 2; // pin that the sink is always connected to
 
-int chnmax=40; // maximum number of channels
+int chnmax = 40; // maximum number of channels
 
 
 // this writes the digital pin faster for due - only 2 clock cycles!
@@ -36,14 +36,35 @@ void setup() {
 
   Serial.begin(115200);
 
-  Serial.println("hello there!");
-  Serial.println("ScouseTom Switch Test");
+  Serial.println("Hello There! This is a ScouseTom Switch Test");
   Serial.print("The sink pin is : ");
   Serial.println(sinkpin);
   Serial.println("Make sure you have changed terminator to newline :)");
+  
+ Serial.println("The switches will be powered on, 4 and 2 opened, then turned off");
+ Serial.println("This is repeated before allowing the user to select a pin");
 
   init_pins();
   SwitchesPwrOn();
+  Serial.println("on");
+  delay(500);
+  programswitches(4, sinkpin);
+  digitalWriteDirect(SYNC, HIGH); // switch dat!
+  delay(500);
+  Serial.println("off");
+  SwitchesPwrOff();
+  delay(500);
+  SwitchesPwrOn();
+  Serial.println("on");
+  delay(500);
+  programswitches(4,sinkpin);
+  digitalWriteDirect(SYNC, HIGH); // switch dat!
+  delay(500);
+  Serial.println("off");
+  SwitchesPwrOff();
+  SwitchesPwrOn();
+  Serial.println("waiting for input");
+
 
 }
 
@@ -61,18 +82,20 @@ void loop() {
 
         Serial.print("Setting switches to source chn: ");
         Serial.print(c);
-		Serial.print(" sink chn: ");
-		Serial.println(sinkpin);
+        Serial.print(" sink chn: ");
+        Serial.println(sinkpin);
         programswitches(c, sinkpin); //program dem switches
-		digitalWriteDirect(SYNC, HIGH); // switch dat!
+        digitalWriteDirect(SYNC, HIGH); // switch dat!
+
+
 
 
       }
       else
       {
-      Serial.println("too high channel number");
+        Serial.println("too high channel number");
       }
-      
+
     }
   }
 

@@ -25,21 +25,18 @@ void programswitches(int sourcechn, int sinkchn)
 void SwitchesPwrOn()
 {
 	//turn on power to switch network and reset
-	digitalWriteDirect(PWR_SWITCH, HIGH); //turn on power
-	reset_pins(); // set all pins to starting state
-	digitalWrite(RESET, LOW); // reset everything as some mysterious bullshit was happening
-	digitalWrite(RESET, HIGH); // slow digital write used to ensure pin stays high for a bit
-	digitalWrite(SYNC, LOW); // reset everything as some mysterious bullshit was happening
-	digitalWrite(SYNC, HIGH); // slow digital write used to ensure pin stays high for a bit
-	digitalWrite(SYNC, LOW); // reset everything as some mysterious bullshit was happening
-	digitalWrite(SYNC, HIGH); // slow digital write used to ensure pin stays high for a bit
+  digitalWrite(PWR_SWITCH, HIGH); //turn on power
+  digitalWrite(RESET,HIGH);
+  digitalWrite(RESET,LOW);
+  digitalWrite(RESET,HIGH);
+  digitalWrite(SYNC,HIGH);
 
 }
 
 void SwitchesPwrOff()
 {
 	digitalWrite(RESET, LOW); // reset is probably quicker than just turning power off 
-	digitalWriteDirect(RESET, HIGH); // 
+	//digitalWriteDirect(RESET, HIGH); // 
 	digitalWriteDirect(PWR_SWITCH, LOW); //turn off power
 	reset_pins(); // set all pins to starting state
 }
