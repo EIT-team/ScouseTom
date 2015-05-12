@@ -1,0 +1,5 @@
+**/*.sln
+**/*.suo
+**/*.vcxproj
+**/*.vcxproj.filters
+**/Visual*
