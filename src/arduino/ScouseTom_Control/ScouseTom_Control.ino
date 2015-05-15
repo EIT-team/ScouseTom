@@ -38,8 +38,8 @@ Jimmy wrote this so blame him
 
 #include <Wire.h> //i2c for digipot
 
-#include "BreadboardPins.h" // Pins for breadboard version - used by kirill and me (testing)
-//#include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
+//#include "BreadboardPins.h" // Pins for breadboard version - used by kirill and me (testing)
+#include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
 
 
 //#####################################
@@ -90,7 +90,7 @@ long ContactTime = 0; // contact impedance measurement time in ms
 
 int FreqOrder[maxFreqs] = { 0 }; // order of the frequencies - initilised
 
-long StartDelay_CS = 53 * 1000; //number of microseconds taken for CS to actually start injecting after being told to - this need verification 
+long StartDelay_CS = 53 * 1000; //number of microseconds taken for CS to actually start injecting after being told to - this need verification
 long StartElapsed_CS = 0;// time since CS_Start was called
 long StartTime_CS = 0; //time when CS_Start() was called
 
@@ -106,13 +106,8 @@ int ContactEndofSeq = 0; // flag for whether contact check is finished
 //############################
 // Pins stuff
 
-//now set by choosing include PCB or Breadboard Pins.h above 
-
-
-
-// extra pins
-const int LED = 13; // led indicator
-//const int fakepmarkpin = 10; //fake pmark pin for use with TC6 - debugging only 
+//now set by choosing include PCB or Breadboard Pins.h above
+//const int fakepmarkpin = 10; //fake pmark pin for use with TC6 - debugging only
 
 //##########################
 // Inidicator pin stuff
@@ -120,13 +115,13 @@ const int LED = 13; // led indicator
 const int NumInd = 4; // number of indicator pins
 int pulses[NumInd] = { 0, 0, 0, 0 }; //pulses left to do on the indicator channels
 int indpinstate[NumInd] = { 0, 0, 0, 0 }; //current state of the indicator pins
-const int indpins[NumInd] = { IND_START, IND_STOP, IND_SWITCH, IND_FREQ }; // pin numbers for the indicators 
+const int indpins[NumInd] = { IND_START, IND_STOP, IND_SWITCH, IND_FREQ }; // pin numbers for the indicators
 int iInd = 0; // counter for for loop in ind pins ISR (save defining all the time)
 int IndinterruptCtr[NumInd] = { 0, 0, 0, 0 }; // iterations of the interrupt routine for each pin channel
 
 int pulsesleft = 0; // number of pulses left to do - used in indpins_check
 int pulseleftptr = 0; // pointer for for loop in indpins_check, defined here for speed
-int indpulseson = 0; // are pulses active? this flag is used to prevent checking pulses left when we know there are none 
+int indpulseson = 0; // are pulses active? this flag is used to prevent checking pulses left when we know there are none
 
 const int indpulsewidth = 50; //this is in number of 10uS interrupts - 50 gives just above 500uS pulse width
 const int indpulsewidthtotal = 100; //this is the total size of the pulse 100 is 1ms. two variables to save clock cycles in ISR
@@ -136,34 +131,32 @@ const int indpulsewidthtotal = 100; //this is the total size of the pulse 100 is
 
 long StimTriggerTime = 0; //time between stimulation triggers in microseconds
 long StimOffset = 0; // time stimulation occurs after injection pair switch
-long StimOffsetCurrent = 0; // offset for current stimulation - this is set to be either StimOffset or 0 
+long StimOffsetCurrent = 0; // offset for current stimulation - this is set to be either StimOffset or 0
 long StimPulseWidth = 0; // width of stimulation pulse in microseconds - received from PC
 int StimPulseWidthTicks = 0; // width of pulse in 1.5 uS Ticks of TC4 handler
 
 int NumDelay = 0; //the total number of possible delays, as calcluated from the freq and the time gap - set by stim calcdelays
 int Stim_delays[360] = { 0 }; //holds all possible delays up to a maximum of 360 - these are the number of ticks to wait before starting trigger
 int Stim_phases[360] = { 0 }; // phases each of the delays equate too - cast to int because who cares about .5 of a degree of phase?
-
 int Stim_PhaseOrder[360] = { 0 }; //order of the phase delays - shuffled and sent to PC every time it gets to the end
 
 int d1 = 0; //current delay before stimulation trigger - in ticks of TC4 handler
-int d2 = 0;// time to stop stimulation trigger - d1+Stimpulsewidth - in ticks of TC4 handler 
-int StiminterruptCtr = 0; // counter of the number of ticks of the TC4 handler since pmark pulse 
+int d2 = 0;// time to stop stimulation trigger - d1+Stimpulsewidth - in ticks of TC4 handler
+int StiminterruptCtr = 0; // counter of the number of ticks of the TC4 handler since pmark pulse
 int Stim_pinstate = 0; //current state of the stimulator pin IND_STIM
 
 int Stim_goflag = 0; // flag for setting whether we should be stimulating at the moment - this is needed as I had to start the TC4 handler *before* setting the Stim_ready flag, so a few of the TC4 handler would run before stim should start
 int Stim_ready = 0; // are we ready to stimulate again? this is so we ignore phase markers within the stim pulse
 
 int CS_PhaseMarker = 0; // phase in degrees which phase marker occurs on the current source - set so that delay of 0 in stim routine occurs at ~0 phase
-int PMARK_TEST_FLAG = 0; // flag used in PMARK check routines - this is set high by ISR_PMARK_TEST if all working ok 
+int PMARK_TEST_FLAG = 0; // flag used in PMARK check routines - this is set high by ISR_PMARK_TEST if all working ok
 int CS_Pmarkgoodness = 0; // flag to confirm Phasemarker has been checked ok
 
 //##########################
 //Stimulation Voltage stuff
 const int DigiPotAddress = 44; // I2C address of AD5280 - default is 44 up to 48
-const int StimOffValue = 1; // Wiper position when stim is off - this is set to 1 to maximuise the resistance and thus limit the current used when no 
+const int StimOffValue = 1; // Wiper position when stim is off - this is set to 1 to maximuise the resistance and thus limit the current used when no
 int StimWiperValue = 0; // Wiper position for setting voltage of stimulation - must be 0-256 although usable range is between 215 and 250 with 215 approx 10V and 250 ~3V
-
 
 //###########################
 //System Control stuff
@@ -183,7 +176,7 @@ int Stimflag = 0; // should we stimulate?
 long SwitchTimeFix = 300; //microseconds switch programming time is fixed to (cheesy but 220 us time taken to program them - using some digitalwritedirect
 long lastInjSwitch = 0; //time when channels were switched - SingleFreqMode
 long lastFreqSwitch = 0; //time when Freq was last changed - MultipleFreqMode
-long lastStimTrigger = 0; //time when stimulation trigger was last activated 
+long lastStimTrigger = 0; //time when stimulation trigger was last activated
 long currentMicros = 0; // current time in micros
 
 int iFreq = 0; //current frequency
@@ -191,10 +184,29 @@ int iPrt = 0; //current protocol line
 int iRep = 0; //current protocol repetition
 int iStim = 0; // current stimulation number
 
-
+int sinkpin = 2;
 void setup() {
+	// setup PC connection
+	Serial.begin(115200);
 
-	init_pins(); // make sure switches are closed asap
+	init_pins(); // make sure switches are closed asap and set all low
+	reset_pins();
+	reset_pins_pwr();
+	reset_ind();
+
+	/*
+	SwitchesPwrOn();
+	
+	Serial.println("1on");
+	programswitches(4, sinkpin);
+	digitalWriteDirect(SYNC, HIGH); // switch dat!
+	delay(500);
+	Serial.println("1off");
+	SwitchesPwrOff();
+	delay(500);
+
+	*/
+
 	// setup CS connection
 	Serial1.begin(57600); // 57600 fastest baud that worked with AD chip - sparkfun connector may allow 115200 which would be nice
 	CS_commgoodness = CS_init(); // make sure CS is off asap
@@ -203,13 +215,23 @@ void setup() {
 	Wire.begin(); // start I2C
 	Stim_SetDigipot(StimOffValue); // set potentiometer to highest resistance to minimise current draw
 
-	// setup PC connection
-	Serial.begin(115200);
-
 	randomSeed(analogRead(0)); // seed random number generator assumes A0 is floating!
 
 	//Serial.println("hey there you motherfucker");
 	establishContact();
+
+	/*
+	SwitchesPwrOn();
+	
+	Serial.println("2on");
+	programswitches(4, sinkpin);
+	digitalWriteDirect(SYNC, HIGH); // switch dat!
+	delay(500);
+	Serial.println("2off");
+	SwitchesPwrOff();
+	delay(500);
+
+	*/
 
 	/*########################################################
 	SETUP TIMERS FOR STIMULATOR TRIGGER AND FOR INDICATOR PINS
@@ -222,7 +244,7 @@ void setup() {
 	pmc_enable_periph_clk(ID_TC8); // enable TC8 or instance T8 on timer TC2 channel 2 - this is the timer for indicator pins
 	//pmc_enable_periph_clk(ID_TC6); // enable TC6 or instance T6 on timer TC2 channel 0 - this is the timer for the fake pmark
 
-	// set up timers and interupts - set channel on timers, set to "wave mode" meaning an output rather than "capture" to read ticks 
+	// set up timers and interupts - set channel on timers, set to "wave mode" meaning an output rather than "capture" to read ticks
 	TC_Configure(TC1, 1, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK1); // use TC1 channel 1 in "count up mode" using MCLK /2 clock1 to give 42MHz
 	TC_Configure(TC2, 2, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK3); // use TC2 channel 2 in "count up mode" using MCLK /8 clock1 to give 10.5MHz
 	//TC_Configure(TC2, 0, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK4); // use TC2 channel 0 in "count up mode" using MCLK /128 clock1 to give 656.25 kHz
@@ -231,8 +253,8 @@ void setup() {
 	TC_SetRC(TC2, 2, 105); // count 105 ticks on the 10.5MHz clock before calling the overflow routine - this gives an interupt every 10 uS
 	//TC_SetRC(TC2, 0, 110); // count 110 ticks on the 656.25 kHz clock before calling the overflow routine - this gives an interupt every 167uS (equal to pmark at 6khz - kirills target freq)
 	//TC_Start(TC1, 1); //start stim trig timer
-	//TC_Start(TC2, 2); //start ind timer 
-	//TC_Start(TC2, 0); //start pmark fake timer 
+	//TC_Start(TC2, 2); //start ind timer
+	//TC_Start(TC2, 0); //start pmark fake timer
 
 	// enable timer interrupts on the timer for stim tigger output
 	TC1->TC_CHANNEL[1].TC_IER = TC_IER_CPCS;   // IER = interrupt enable register
@@ -245,12 +267,12 @@ void setup() {
 	//TC2->TC_CHANNEL[0].TC_IDR = ~TC_IER_CPCS;  // IDR = interrupt disable register
 
 
-	//Enable the interrupt in the nested vector interrupt controller 
-	// TC4_IRQn where 4 is the timer number * timer channels (3) + the channel number (=(1*3)+1) for timer1 channel1 
+	//Enable the interrupt in the nested vector interrupt controller
+	// TC4_IRQn where 4 is the timer number * timer channels (3) + the channel number (=(1*3)+1) for timer1 channel1
 	NVIC_EnableIRQ(TC4_IRQn);
-	// TC8_IRQn where 8 is the timer number * timer channels (3) + the channel number (=(2*3)+2) for timer2 channel2 
+	// TC8_IRQn where 8 is the timer number * timer channels (3) + the channel number (=(2*3)+2) for timer2 channel2
 	NVIC_EnableIRQ(TC8_IRQn);
-	// TC6_IRQn where 6 is the timer number * timer channels (3) + the channel number (=(2*3)+0) for timer2 channel0 
+	// TC6_IRQn where 6 is the timer number * timer channels (3) + the channel number (=(2*3)+0) for timer2 channel0
 	//NVIC_EnableIRQ(TC6_IRQn);
 
 	/*#######################################################
@@ -379,7 +401,7 @@ void dostuff()
 
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
-			//pulse pins different amounts so we can find them in the EEG loading 
+			//pulse pins different amounts so we can find them in the EEG loading
 			indpins_pulse(2, 3, 4, 5);
 
 			//reset all counters
@@ -412,12 +434,15 @@ void dostuff()
 				}
 				else
 				{
-					// everything is ok - lets inject! 
+					// everything is ok - lets inject!
 					Serial.print(CS_commokmsg);
 					CS_Disp("CS SET OK");
 					CS_Disp_Wind2("SingleFreqMode");
 					// turn on switches ready for injecting and that
 					SwitchesPwrOn();
+
+					//Serial.println("Switches POWERED ON");
+					delay(50);
 
 
 				}
@@ -481,7 +506,7 @@ void dostuff()
 				}
 
 
-				///* debug trig */indpins_pulse(0, 0, 0, 1); 
+				///* debug trig */indpins_pulse(0, 0, 0, 1);
 
 
 				//start current source
@@ -494,7 +519,7 @@ void dostuff()
 				CS_Disp("EIT is happening...");
 				CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, NumRep);
 
-				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators 
+				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
 
 				lastInjSwitch = micros(); //start timer
 
@@ -513,7 +538,7 @@ void dostuff()
 				}
 
 
-				// delay the start of injection to give the current source time to get ready 
+				// delay the start of injection to give the current source time to get ready
 				StartElapsed_CS = micros() - StartTime_CS;
 
 				if (StartElapsed_CS < (StartDelay_CS - 10))
@@ -551,8 +576,8 @@ void dostuff()
 				//sprintf(PC_outputBuffer, "Stim: %d", currentMicros - lastInjSwitch);
 				//Serial.println(PC_outputBuffer);
 
-				stim_nextphase(); // do the next one 
-				Stimflag = 0; // reset stimulation flag 
+				stim_nextphase(); // do the next one
+				Stimflag = 0; // reset stimulation flag
 				StimOffsetCurrent = 0; // set offset to 0 as its not the first stimulation for this protocol line anymore
 			}
 
@@ -592,7 +617,7 @@ void dostuff()
 				CS_Disp("EIT IS GO");
 				Switchflag = 1;
 
-				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators 
+				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
 
 				if (StimMode) Stimflag = 1;
 
@@ -611,7 +636,7 @@ void dostuff()
 				currentMicros = micros();
 				if ((currentMicros - lastFreqSwitch) > (MeasTime /*- SwitchTimeFix*/)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
 				{
-					Switchflag = 1; //set that we should switch now 
+					Switchflag = 1; //set that we should switch now
 				}
 				else if ((currentMicros - lastStimTrigger) > (StimTriggerTime + StimOffsetCurrent) && StimMode) // if enough time has elapsed AND we are in stim mode then
 				{
@@ -623,8 +648,8 @@ void dostuff()
 			{
 				if (Stimflag && (currentMicros - lastInjSwitch) > StimOffset) // if we have been told to switch and offset has passed
 				{
-					Stimflag = 0; // reset stimulation flag 
-					stim_nextphase(); // do the next one 
+					Stimflag = 0; // reset stimulation flag
+					stim_nextphase(); // do the next one
 					StimOffsetCurrent = 0; // set offset to 0 as its not the first stimulation for this protocol line anymore
 				}
 			}
@@ -636,7 +661,7 @@ void dostuff()
 				{
 					state = 3;
 				}
-				else // if it is business as usual then change freq 
+				else // if it is business as usual then change freq
 				{
 					if (iFreq == NumFreq) //if we have done all the frequencies then change injection channels
 					{
@@ -692,7 +717,7 @@ void dostuff()
 
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
-			//pulse pins different amounts so we can find them in the EEG loading 
+			//pulse pins different amounts so we can find them in the EEG loading
 			indpins_pulse(2, 3, 4, 5);
 
 			//reset all counters
@@ -821,7 +846,7 @@ void dostuff()
 
 	}
 	break;
-	case 6: //contact check 
+	case 6: //contact check
 	{
 
 		if (!SwitchesProgrammed)
@@ -899,9 +924,9 @@ void dostuff()
 
 
 
-void getCMD(char c) // function to read command from PC and then put system in "state"
+void getCMD(char CMDIN) // function to read command from PC and then put system in "state"
 {
-	switch (c)
+	switch (CMDIN)
 	{
 	case 'X': //set to idle "do nothing" state (I dont know why you would need this)
 		state = 0;
@@ -934,7 +959,7 @@ void getCMD(char c) // function to read command from PC and then put system in "
 void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - this is as fast as I could reliably get it as worst case code takes 1.357 uS to run
 {
 	// We need to get the status to clear it and allow the interrupt to fire again
-	TC_GetStatus(TC1, 1); //here TC2,1 means TIMER 2 channel 1 
+	TC_GetStatus(TC1, 1); //here TC2,1 means TIMER 2 channel 1
 
 	if (Stim_goflag) //if we should go
 	{
@@ -964,10 +989,10 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 	}
 }
 
-void TC8_Handler() // this is the ISR for the indicator pins - cycles through all of the pins if they should change their state - this runs every 10uS 
+void TC8_Handler() // this is the ISR for the indicator pins - cycles through all of the pins if they should change their state - this runs every 10uS
 {
 	// We need to get the status to clear it and allow the interrupt to fire again
-	TC_GetStatus(TC2, 2); //here TC2,2 means TIMER 2 channel 2 
+	TC_GetStatus(TC2, 2); //here TC2,2 means TIMER 2 channel 2
 
 	for (iInd = 0; iInd < NumInd; iInd++) // cycle through the indicator pins
 	{
@@ -983,7 +1008,7 @@ void TC8_Handler() // this is the ISR for the indicator pins - cycles through al
 				digitalWriteDirect(indpins[iInd], 0);
 				indpinstate[iInd] = 0;
 			}
-			IndinterruptCtr[iInd]++; //increment tick counter 
+			IndinterruptCtr[iInd]++; //increment tick counter
 			if (IndinterruptCtr[iInd] == indpulsewidthtotal) // if total pulse length (HIGH and LOW) happened then decrement pulses left
 			{
 				pulses[iInd]--;
@@ -1007,7 +1032,7 @@ digitalWriteDirect(fakepmarkpin, 0);
 
 
 //taken from http://forum.arduino.cc/index.php?topic=129868.15
-inline void digitalWriteDirect(int pin, int val){
+inline void digitalWriteDirect(int pin, int val) {
 	if (val) g_APinDescription[pin].pPort->PIO_SODR = g_APinDescription[pin].ulPin;
 	else    g_APinDescription[pin].pPort->PIO_CODR = g_APinDescription[pin].ulPin;
 }

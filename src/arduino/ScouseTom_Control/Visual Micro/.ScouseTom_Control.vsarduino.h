@@ -16,7 +16,7 @@
 #define USB_PID 0x8041
 #define USB_MANUFACTURER "\"Unknown\""
 #define USB_PRODUCT "\"Arduino Yun\""
-#define ARDUINO 163
+#define ARDUINO 164
 #define ARDUINO_MAIN
 #define __AVR__
 #define __avr__

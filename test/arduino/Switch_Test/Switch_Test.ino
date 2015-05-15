@@ -43,20 +43,24 @@ void setup() {
   
  Serial.println("The switches will be powered on, 4 and 2 opened, then turned off");
  Serial.println("This is repeated before allowing the user to select a pin");
+ 
+ delay(1000);
 
   init_pins();
-  SwitchesPwrOn();
+  
   Serial.println("on");
-  delay(500);
+  SwitchesPwrOn();
+  delay(100);
   programswitches(4, sinkpin);
   digitalWriteDirect(SYNC, HIGH); // switch dat!
   delay(500);
   Serial.println("off");
   SwitchesPwrOff();
   delay(500);
-  SwitchesPwrOn();
   Serial.println("on");
-  delay(500);
+  SwitchesPwrOn();
+  
+  delay(100);
   programswitches(4,sinkpin);
   digitalWriteDirect(SYNC, HIGH); // switch dat!
   delay(500);

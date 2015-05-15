@@ -1,4 +1,4 @@
-/*Stuff for communication with the current source, as well as incrementing channel and frequency during injections  */
+/*Stuff for communication with the current source(CS), as well as incrementing channel and frequency during injections  */
 
 long curFreq = 0; // index of frequency vector current being injected
 
@@ -426,7 +426,7 @@ int CS_checkresponse(String Str_exp) {
 	  Serial.println(CS_inputBuffer);
 	  Serial.print("expected ");
 	  Serial.println(Str_exp);
-	  */
+	 */
 	if (Str_exp == CS_inputBuffer)
 	{
 		// Serial.println("they match");

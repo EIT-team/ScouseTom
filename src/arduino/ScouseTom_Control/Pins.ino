@@ -19,6 +19,13 @@ void init_pins()
 	pinMode(IND_START, OUTPUT);
 	pinMode(IND_STOP, OUTPUT);
 
+	  pinMode(IND_EX_1, OUTPUT);
+  pinMode(IND_EX_2, OUTPUT);
+  pinMode(IND_EX_3, OUTPUT);
+
+
+
+
 	//interupt channels
 	pinMode(INTR_PMARK, INPUT);
 
@@ -31,10 +38,6 @@ void init_pins()
 	//pinMode(fakepmarkpin, OUTPUT);
 
 	//set default values on every pin
-	
-	reset_pins();
-	reset_pins_pwr();
-	reset_ind();
 
 }
 
@@ -45,8 +48,8 @@ void reset_pins()
 	digitalWriteDirect(DINp, LOW);
 	digitalWriteDirect(DINn, LOW);
 	digitalWriteDirect(SCLK, LOW);
-	digitalWriteDirect(SYNC, HIGH);
-	digitalWriteDirect(RESET, HIGH);
+	digitalWriteDirect(SYNC, LOW);
+	digitalWriteDirect(RESET, LOW);
 
 
 }
@@ -69,8 +72,8 @@ void reset_ind()
 void reset_pins_pwr()
 {
 	//reset all power pins
-	digitalWriteDirect(PWR_STIM, LOW);
-	digitalWriteDirect(PWR_SWITCH, LOW);
+	digitalWrite(PWR_STIM, LOW);
+	digitalWrite(PWR_SWITCH, LOW);
 }
 
 
