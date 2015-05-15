@@ -50,14 +50,14 @@ int CS_inputFinished = 0; //flag for complete response from current source
 String CS_vers = "1999.0"; //Current source version number - used to check communication with current source
 int LongDispWind = 0; // flag for if we have more than 3 digit length of repeats/freqs/prt so that we use the shorter text on the bottom window
 
-char CS_settingserrmsg[] = "<!S>";
-char CS_commerrmsg[] = "<!E>";
-char CS_pmarkerrmsg[] = "<!P>";
+const char CS_settingserrmsg[] = "<!S>";
+const char CS_commerrmsg[] = "<!E>";
+const char CS_pmarkerrmsg[] = "<!P>";
 
-char CS_commokmsg[] = "<+OK>";
-char CS_finishedmsg[] = "<+Fin>";
+const char CS_commokmsg[] = "<+OK>";
+const char CS_finishedmsg[] = "<+Fin>";
 
-int CS_timeoutlimit = 1000; // timeout in milliseconds for response from current source
+const int CS_timeoutlimit = 1000; // timeout in milliseconds for response from current source
 const long sc_micro = 1000000; // scale for micro
 char CS_outputBuffer[50]; // char array buffer for output strings to CS
 int CS_commgoodness = 1; // flag for current communication goodness
@@ -66,7 +66,7 @@ int CS_commgoodness = 1; // flag for current communication goodness
 // PC Communication Stuff
 
 char PC_outputBuffer[50]; // char array buffer for output strings to PC
-int PC_timeoutlimit = 2000; // timeout in milliseconds for response from PC
+const int PC_timeoutlimit = 2000; // timeout in milliseconds for response from PC
 int PC_commgoodness = 1;
 int PC_inputgoodness = 0;
 
@@ -89,8 +89,9 @@ long MeasTime = 0; //injection time in microseconds - set by user (USER SELECTS 
 long ContactTime = 0; // contact impedance measurement time in ms
 
 int FreqOrder[maxFreqs] = { 0 }; // order of the frequencies - initilised
+long curFreq = 0; // index of frequency vector current being injected
 
-long StartDelay_CS = 53 * 1000; //number of microseconds taken for CS to actually start injecting after being told to - this need verification
+const long StartDelay_CS = 53 * 1000; //number of microseconds taken for CS to actually start injecting after being told to - this need verification
 long StartElapsed_CS = 0;// time since CS_Start was called
 long StartTime_CS = 0; //time when CS_Start() was called
 
@@ -98,8 +99,8 @@ long StartTime_CS = 0; //time when CS_Start() was called
 //Contact Check Stuff
 
 //Ampltude and Frequency of contact check
-long ContactAmp = 141;
-long ContactFreq = 1000;
+const long ContactAmp = 141;
+const long ContactFreq = 1000;
 int iContact = 0; // counter for contact check loop
 int ContactEndofSeq = 0; // flag for whether contact check is finished
 
@@ -165,7 +166,7 @@ int StimMode = 0; // flag for Stimulation mode - only stimulation stuff if neede
 int state = 0; // what the system should be doing each iteration
 
 long lastidle = 0; // timing for idle mode - if been idle for a few seconds then change display (maybe send heartbeat message to pc)
-long idlewait = 10000; //idle time in milliseconds till change
+const long idlewait = 10000; //idle time in milliseconds till change
 int checkidle = 1; //should we check idle?
 
 int FirstInj = 0; // flag for doing the first injection - so we dont wait to switch at start
@@ -173,7 +174,7 @@ int SwitchesProgrammed = 0; // flag for whether the switches are programmed or n
 int Switchflag = 0; // do we need to switch?
 int Stimflag = 0; // should we stimulate?
 
-long SwitchTimeFix = 300; //microseconds switch programming time is fixed to (cheesy but 220 us time taken to program them - using some digitalwritedirect
+const long SwitchTimeFix = 300; //microseconds switch programming time is fixed to (cheesy but 220 us time taken to program them - using some digitalwritedirect
 long lastInjSwitch = 0; //time when channels were switched - SingleFreqMode
 long lastFreqSwitch = 0; //time when Freq was last changed - MultipleFreqMode
 long lastStimTrigger = 0; //time when stimulation trigger was last activated
@@ -184,7 +185,6 @@ int iPrt = 0; //current protocol line
 int iRep = 0; //current protocol repetition
 int iStim = 0; // current stimulation number
 
-int sinkpin = 2;
 void setup() {
 	// setup PC connection
 	Serial.begin(115200);

@@ -1,7 +1,5 @@
 /*Stuff for communication with the current source(CS), as well as incrementing channel and frequency during injections  */
 
-long curFreq = 0; // index of frequency vector current being injected
-
 void CS_next_chn() // setup next channel for multi frequency injection
 {
 	//Serial.println("Changing channel, iPrt is CURRENTLY"); //debug info
