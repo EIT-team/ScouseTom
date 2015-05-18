@@ -4,3 +4,4 @@
 **/*.vcxproj.filters
 **/Visual*
 **/~$*.sld*
+**/*.asv
