@@ -66,9 +66,9 @@ end
 fprintf('Controller will use : %s\n',injmodestr);
 
 if Stimmode
-    fprintf('Stimulation in ON at %.2f V with %dms repeat and %d us pulsewidth\n',ExpSetup.StimulatorVoltage, ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorPulseWidth);
+    fprintf('Stimulation in ON at %.2f V with %dms repeat and %d us pulsewidth\n',ExpSetup.Info.StimulatorVoltage, ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorPulseWidth);
 else
-    fprintf('Stimulation is OFF\n');
+    %fprintf('Stimulation is OFF\n');
 end
 
 %% flush serial buffer - dont care what has happened before
@@ -256,7 +256,7 @@ if (~cscommok)
     error('Didnt get message from Arduino....');
 end
 if strcmp(resp,CSsettingserrmsg)
-    warning('INPUT CHECK FAILED!? OMGWTFBBQ');
+    warning('INPUT CHECK FAILED!? OMGWTFBBQ CHECK CS CONNECTION');
 end
 
 if strcmp(resp, CScommOKmsg)

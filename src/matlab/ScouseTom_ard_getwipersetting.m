@@ -3,7 +3,7 @@ function [ out,varargout ] = ScouseTom_ard_getwipersetting( in )
 %voltrage
 %   if input is ExpSetup then target voltage taken from
 %   ExpSetup.StimulatorVoltage, and value saved in
-%   ExpSetup.StimulatorWiperSetting 
+%   ExpSetup.StimulatorWiperSetting
 % Otherwise input is Voltage and out is setting and varargout is actual
 % voltage
 %
@@ -11,14 +11,19 @@ function [ out,varargout ] = ScouseTom_ard_getwipersetting( in )
 
 %% get Vtarget either from intput number or from field in ExpSetup
 if isstruct(in)
-    if isfield(in,'StimulatorVoltage');
-        Vtarget=in.StimulatorVoltage;
+    
+    if isfield(in,'Info');
+        if isfield(in.Info,'StimulatorVoltage');
+            Vtarget=in.Info.StimulatorVoltage;
+        else
+            error('No Stimulator Voltage given');
+        end
     else
         error('No Stimulator Voltage given');
     end
 else
     if isnumeric(in)
-    
+        
         Vtarget=in;
     else
         error('wierd input');
@@ -44,7 +49,7 @@ Rset=R(I);
 Vset=Vp(I);
 
 if isstruct(in)
-    in.StimulatorVoltage=Vset;
+    in.Info.StimulatorVoltage=Vset;
     in.StimulatorWiperSetting=Rset;
     out=in;
 else
@@ -57,41 +62,44 @@ end
 
 
 function [Vdef,Rdef]=VStimCalHardcode()
+% this is the hardcoded results from when I tested the breadboard version -
+% good place to start but likely off by a bit
+
 
 tmp=[215	10.90
-216	10.67
-217	10.43
-218	10.20
-219	9.97
-220	9.73
-221	9.50
-222	9.27
-223	9.03
-224	8.88
-225	8.64
-226	8.41
-227	8.17
-228	7.94
-229	7.71
-230	7.47
-231	7.24
-232	7.01
-233	6.78
-234	6.54
-235	6.31
-236	6.08
-237	5.84
-238	5.61
-239	5.38
-240	5.22
-241	4.99
-242	4.76
-243	4.52
-244	4.29
-245	4.06
-246	3.83
-247	3.59
-248	2.59];
+    216	10.67
+    217	10.43
+    218	10.20
+    219	9.97
+    220	9.73
+    221	9.50
+    222	9.27
+    223	9.03
+    224	8.88
+    225	8.64
+    226	8.41
+    227	8.17
+    228	7.94
+    229	7.71
+    230	7.47
+    231	7.24
+    232	7.01
+    233	6.78
+    234	6.54
+    235	6.31
+    236	6.08
+    237	5.84
+    238	5.61
+    239	5.38
+    240	5.22
+    241	4.99
+    242	4.76
+    243	4.52
+    244	4.29
+    245	4.06
+    246	3.83
+    247	3.59
+    248	2.59];
 
 Vdef=tmp(:,2);
 Rdef=tmp(:,1);

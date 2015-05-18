@@ -27,10 +27,14 @@ end
 
 %% check if the fields are actually there
 
+%legit_fields={'Amp', 'Freq', 'Protocol','Elec_num', 'MeasurementTime',...
+%    'Repeats','StimulatorTriggerTime','StimulatorTriggerOffset',...
+%    'StimulatorPulseWidth','ContactCheckInjectTime','ProtocolName',...
+%    'StimulatorVoltage','StimulatorWiperSetting'};
+
 legit_fields={'Amp', 'Freq', 'Protocol','Elec_num', 'MeasurementTime',...
     'Repeats','StimulatorTriggerTime','StimulatorTriggerOffset',...
-    'StimulatorPulseWidth','ContactCheckInjectTime','ProtocolName',...
-    'StimulatorVoltage','StimulatorWiperSetting'};
+    'StimulatorPulseWidth','ContactCheckInjectTime','StimulatorWiperSetting'};
 
 fieldsok=isfield(ExpSetup,legit_fields);
 
@@ -84,8 +88,6 @@ elseif ExpSetup.Repeats < 0
     warning('Weird Number of Repeats must be positive integer');
     return
 end
-
-
 
 if isnumeric(ExpSetup.MeasurementTime) ~= 1
     warning('Weird measurement time must be positive integer');
@@ -215,8 +217,18 @@ if ampok
     goodnessflag=1;
 else
     warning('AMP AND FREQ TOO HIGH FOR HUMAN STUDIES! CARRYING ON ANYWAY...')
+    msgbox('Exceeding IEC60601. Are you sure? Will carry on for now','Too high current?','warn');
 end
 
+%% update Info
+
+%user can edit ExpSetup on the Fly, so make sure ExpSetup.Info relates to
+%the ExpSetup as it ACTUALLY IS
+
+ExpSetup.Info.ProtocolLength=N_prt;
+ExpSetup.Info.FreqNum=N_freq;
+ExpSetup.Info.ProtocolTime=N_prt*(ExpSetup.MeasurementTime/1000); %time in seconds for one complete protocol
+ExpSetup.Info.TotalTime=ExpSetup.Repeats*ExpSetup.Info.ProtocolTime*N_freq;
 
 
 
@@ -251,7 +263,7 @@ else
     fprintf('%d \n',ExpSetup.Freq(N_freq));
 end
 
-fprintf('Protocol loaded was %s with %d lines \n',ExpSetup.ProtocolName,N_prt);
+fprintf('Protocol loaded was %s with %d lines \n',ExpSetup.Info.ProtocolName,N_prt);
 fprintf('Sources\tSinks\n');
 fprintf('%d\t%d\n',ExpSetup.Protocol(:,1),ExpSetup.Protocol(:,2));
 
@@ -268,18 +280,20 @@ end
 
 fprintf('Estimated time to complete measurements :');
 
-if ExpSetup.TotalTime < 60
-    fprintf(' %.2f sec \n',ExpSetup.TotalTime);
+if ExpSetup.Info.TotalTime < 60
+    fprintf(' %.2f sec \n',ExpSetup.Info.TotalTime);
 else if ExpSetup.TotalTime < 3600
-        fprintf(' %.2f min \n',ExpSetup.TotalTime/60);
+        fprintf(' %.2f min \n',ExpSetup.Info.TotalTime/60);
     else
-        fprintf(' %.2f hours \n',ExpSetup.TotalTime/3600);
+        fprintf(' %.2f hours \n',ExpSetup.Info.TotalTime/3600);
     end
 end
-fprintf('--------------\n');
+
 
 
 if StimMode
+    fprintf('--------------\n');
+    
     fprintf('Stimulation Mode is ON! - Randomised phase delay triggered by phase marker on Keithley\n');
     fprintf('%d uS pulse triggered every %d ms with offset %d ms from channel switch\n',ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset);
     fprintf('Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));

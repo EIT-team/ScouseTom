@@ -6,7 +6,7 @@ function [ ExpSetup ] = ScouseTom_GetExpSetup(varargin )
 % amplitude/freq/date/timings etc. This is stored in ExperimentalInfo.mat
 % for future use
 
-% 
+%
 
 % Constructed by Jimmys own fair hand.
 
@@ -162,21 +162,26 @@ fprintf('Approx time for all repeats and frequencies is: %.1f\r',TotalTime)
 
 %stick into a structure, there must be a better way of doing this
 
+%settings to send
 ExpSetup.Amp=Amp;
 ExpSetup.Freq=Freq;
 ExpSetup.Protocol=Protocol;
 ExpSetup.Elec_num=Elec_num;
+ExpSetup.ContactCheckInjectTime=ContactCheckInjectTime;
 ExpSetup.MeasurementTime=MeasurementTime;
-ExpSetup.TotalTime=TotalTime;
 ExpSetup.StimulatorTriggerTime=StimulatorTriggerTime;
 ExpSetup.StimulatorTriggerOffset=StimulatorTriggerOffset;
 ExpSetup.StimulatorPulseWidth=StimulatorPulseWidth;
-ExpSetup.ProtocolLength=ProtocolLength;
-ExpSetup.ProtocolTime=ProtocolTime;
-ExpSetup.ProtocolName=ProtocolName;
 ExpSetup.Repeats=Repeats;
-ExpSetup.ContactCheckInjectTime=ContactCheckInjectTime;
-ExpSetup.StimulatorVoltage=StimulatorVoltage;
+
+%info/reference
+ExpSetup.Info.ProtocolLength=ProtocolLength;
+ExpSetup.Info.ProtocolTime=ProtocolTime;
+ExpSetup.Info.ProtocolName=ProtocolName;
+ExpSetup.Info.TotalTime=TotalTime;
+ExpSetup.Info.OriginalProtocol=Protocol;
+ExpSetup.Info.StimulatorVoltage=StimulatorVoltage;
+ExpSetup.Info.FreqNum=Freq_num;
 
 %get Stimulator potentiometer wiper setting
 ExpSetup=ScouseTom_ard_getwipersetting(ExpSetup);
@@ -251,6 +256,12 @@ else
     error('Bad input settings, nothing saved as I dont think its sensible to save fucked inputs :)');
 end
 
+%% write debug string
+
+%string corresponding to these settings - to allow for manual control over
+%arduino serial monitor
+
+ExpSetup.Info.DebugString=getdebugstring(ExpSetup);
 
 
 
@@ -268,10 +279,50 @@ end
 
 %% save ExpSetup;
 
-%add save original directoy - in case this gets mvoed about
+%add save original directoy - in case this gets moved about
 ExpSetup.Info.dname=newp;
 ExpSetup.Info.fname=newf;
 save(newfname,'ExpSetup');
 
 end
+
+function [dbstring]=getdebugstring(ExpSetup)
+% function to create the string sent to arduino for these settings
+%useful for debuging in the Serial montior of Arduino or Termite
+% Send command 'I' followed by 'A' followed by these lines
+
+dbstring='';
+
+dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.ProtocolLength)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.Elec_num)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.FreqNum)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.Repeats)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.MeasurementTime)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.ContactCheckInjectTime)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerTime)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerTime)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerOffset)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorPulseWidth)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorWiperSetting)];
+
+for nn=1:ExpSetup.Info.FreqNum
+    dbstring=[dbstring sprintf('<%d>',ExpSetup.Freq(nn))];
+end
+for nn=1:ExpSetup.Info.FreqNum
+    dbstring=[dbstring sprintf('<%d>',ExpSetup.Amp(nn))];
+end
+
+
+
+
+
+
+
+
+
+
+end
+
+
+
 

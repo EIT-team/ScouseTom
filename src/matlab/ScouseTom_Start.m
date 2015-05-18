@@ -57,6 +57,11 @@ inbyte='X'; %set to this as empty string confuses ~=
 instr='';
 Finished=0; %flag for injection finished - set to 1 when ard sends CSfinishmsg
 
+%% file name defaults
+logstrdef='Testing';
+eegnamedef='Null- user was testing';
+logpathdef=pwd;
+
 
 %% prompt user to point at eeg/bdf file that they are saving
 
@@ -88,10 +93,11 @@ if findeegfile_flag % if we are saving then look for the eeg file to save everyt
     %get the previous mat file
     [eegfilename, eegpathname] = uigetfile({'*.bdf;*.eeg','EEG files';'*.*','All files'}, 'Which BioSemi or Actiview file does this belong too?');
     if isequal(eegfilename,0) || isequal(eegpathname,0)
-        warning('User pressed cancel on file load - will save in working directory instead')
-        logpath=pwd; %this will likely annoy people by clogging everything up
-        logstr='Testing';
-        eegfname='Null- user was testing';
+        warning('User pressed cancel on file load - ASSUMING TESTING')
+        logpath=logpathdef; %this will likely annoy people by clogging everything up
+        logstr=logstrdef;
+        eegfname=eegnamedef;
+        findeegfile_flag=0;
     else
         eegfname=fullfile(eegpathname, eegfilename);
         disp(['User selected ' eegfname ' as corresponding EEG file'])
@@ -100,23 +106,18 @@ if findeegfile_flag % if we are saving then look for the eeg file to save everyt
     [~, logstr]=fileparts(eegfilename);
     end
     
-
-    
-    
 else %set some defaults
-    eegfname='Null- user was testing';
-    logstr='Testing';
-    logpath=pwd;
+    eegfname=eegnamedef;
+    logstr=logstrdef;
+    logpath=logpathdef;
     
 end
 
-
-
 %% create log file for this injection
-
-
 log_suffix='_log.txt';
 logfname=fullfile(logpath,[logstr log_suffix]);
+
+if findeegfile_flag % icnrement log file name for non testing ones only
 
 if (exist(logfname,'file') ==2) %incrememnt it incase one already exisits - you might inject a bunch of times and use the same EEG file
     incr=1;
@@ -125,6 +126,8 @@ if (exist(logfname,'file') ==2) %incrememnt it incase one already exisits - you 
         log_suffix=sprintf('_log_%d.txt',incr);
         logfname=fullfile(logpath,[logstr log_suffix]);
     end
+end
+
 end
 
 %open log file and make header
@@ -375,8 +378,8 @@ function CancelInj(Ard,logfid,tstart,fname,matname)
 HaltInj(Ard,logfid,tstart);
 
 fclose(logfid);
-
 delete(fname);
+
 delete(matname);
 
 end
@@ -490,7 +493,7 @@ else %badly coded for multiinject
     fprintf(logfid,'%d \n',ExpSetup.Freq(N_freq));
 end
 
-fprintf(logfid,'Protocol loaded was %s with %d lines \n',ExpSetup.ProtocolName,N_prt);
+fprintf(logfid,'Protocol loaded was %s with %d lines \n',ExpSetup.Info.ProtocolName,N_prt);
 fprintf(logfid,'Sources\tSinks\n');
 fprintf(logfid,'%d\t%d\n',ExpSetup.Protocol(:,1),ExpSetup.Protocol(:,2));
 fprintf(logfid,'--------------\n');
@@ -504,12 +507,12 @@ end
 
 fprintf(logfid,'Estimated time to complete measurements :');
 
-if ExpSetup.TotalTime < 60
-    fprintf(logfid,' %.2f sec \n',ExpSetup.TotalTime);
-else if ExpSetup.TotalTime < 3600
-        fprintf(logfid,' %.2f min \n',ExpSetup.TotalTime/60);
+if ExpSetup.Info.TotalTime < 60
+    fprintf(logfid,' %.2f sec \n',ExpSetup.Info.TotalTime);
+else if ExpSetup.Info.TotalTime < 3600
+        fprintf(logfid,' %.2f min \n',ExpSetup.Info.TotalTime/60);
     else
-        fprintf(logfid,' %.2f hours \n',ExpSetup.TotalTime/3600);
+        fprintf(logfid,' %.2f hours \n',ExpSetup.Info.TotalTime/3600);
     end
 end
 fprintf(logfid,'--------------\n');
@@ -518,7 +521,7 @@ if StimMode
     fprintf(logfid,'Stimulation Mode is ON! - Randomised phase delay triggered by phase marker on Keithley\n');
     fprintf(logfid,'%d uS pulse triggered every %d ms with offset %d ms from channel switch\n',ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset);
     fprintf(logfid,'Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));
-    fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.StimulatorVoltage,ExpSetup.StimulatorWiperSetting);
+    fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.Info.StimulatorVoltage,ExpSetup.StimulatorWiperSetting);
 end
 
 fprintf(logfid,'##################################\n');
@@ -529,10 +532,6 @@ fprintf(logfid,'S\tStart\nH\tStop\nI\tInitialise\n');
 
 fprintf(logfid,'##\n');
 fprintf(logfid,'Time\tArduino Message\tPC Message\n');
-
-
-
-
 end
 
 
