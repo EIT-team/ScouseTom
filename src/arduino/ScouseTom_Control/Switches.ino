@@ -121,33 +121,33 @@ void programswitches(int sourcechn, int sinkchn)
 	//1st command sent is for switch 40, last is for switch 1.
 	//Switches correspond directly to pins on DSUB - switch 1 goes to pin 1 etc.
 	for (int j = 40; j > 0; j--) {
-		digitalWriteDirect(DINp, LOW);
-		digitalWriteDirect(DINn, LOW);
+		digitalWrite(DINp, LOW);
+		digitalWrite(DINn, LOW);
 		if (sourcechn == j)  digitalWrite(DINp, HIGH);
 		if (sinkchn == j)  digitalWrite(DINn, HIGH);
 		//Generate clock pulse to clock in switch values to DIN pins.
 		digitalWrite(SCLK, HIGH);
 		digitalWrite(SCLK, LOW);
 		//Set low again
-		digitalWriteDirect(DINp, LOW);
-		digitalWriteDirect(DINn, LOW);
+		digitalWrite(DINp, LOW);
+		digitalWrite(DINn, LOW);
 	}
 }
 
 void SwitchesPwrOn()
 {
-	digitalWrite(PWR_SWITCH, HIGH); //turn on power
-	digitalWrite(RESET, HIGH);
-	digitalWrite(RESET, LOW);
-	digitalWrite(RESET, HIGH);
-	digitalWrite(SYNC, HIGH);
-	delayMicroseconds(500); // this is to ensure the pins are held at correct levels long enough *before* being changed when programming - this fixes all pins connected bug
-
+	  digitalWrite(PWR_SWITCH, HIGH); //turn on power
+  digitalWrite(RESET,LOW); 
+  digitalWrite(SYNC,HIGH);
+  digitalWrite(SYNC,LOW);
+  digitalWrite(SYNC,HIGH);
+      programswitches(0, 0); //program dem switches
+        digitalWriteDirect(SYNC, HIGH); // switch dat!
 }
 
 void SwitchesPwrOff()
 {
-	digitalWrite(RESET, LOW); // reset is probably quicker than just turning power off 
+	digitalWrite(RESET, HIGH); // reset is probably quicker than just turning power off 
 	//digitalWriteDirect(RESET, HIGH); // 
 	digitalWriteDirect(PWR_SWITCH, LOW); //turn off power
 	reset_pins(); // set all pins to starting state
