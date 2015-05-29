@@ -1,0 +1,105 @@
+AutoECO Report
+FILE-A: C:\ORCAD\ORCAD_10.5\TOOLS\LAYOUT\DATA\DEFAULT.TCH
+FILE-B: D:\DOCUMENTS\CIRCUIT LAYOUTS, SCHEMATICS AND MISC TECHNICAL\SWTICH NETWORK\NEW DESIGN MARCH 2015\SWITCH NETWORK.MNL
+If "*EOF*" immediately follows, no changes were made
+Adding footprint AX/RC05
+Adding package 8_HEADER
+Adding package R
+Adding package ADG714BRU
+Adding package CONN_DSUB_37-R
+Adding package CON1
+Adding component ARDUINO_IN
+Found footprint BLKCON.100/RH/TM1SQ/W.425/8 from PRT file for part 8_HEADER, comp ARDUINO_IN
+Adding component R7
+Adding component N5
+Found footprint DIP.100B/24/W.600/L1.300 from PRT file for part ADG714BRU, comp N5
+Adding component J1
+Found footprint DSUB/RS.584/TM/37 from PRT file for part CONN_DSUB_37-R, comp J1
+Adding component R8
+Adding component P1
+Adding component R1
+Adding component DAISY_OUT
+Adding component R6
+Adding component P3
+Adding component J4
+Adding component IN-
+Found footprint BLKCON.100/VH/TM1SQ/W.100/1 from PRT file for part CON1, comp IN-
+Adding component R2
+Adding component N1
+Adding component IN+
+Adding component P4
+Adding component R10
+Adding component P2
+Adding component R3
+Adding component N4
+Adding component R9
+Adding component N3
+Adding component P5
+Adding component R5
+Adding component R4
+Adding component N2
+Adding net O13
+Adding net N00947
+Adding net O36
+Adding net IN+
+Adding net O5
+Adding net O28
+Adding net O3
+Adding net O12
+Adding net VDD
+Adding net O10
+Adding net GND
+Adding net O27
+Adding net O29
+Adding net RESET*
+Adding net O18
+Adding net O1
+Adding net SYNC*
+Adding net O31
+Adding net DIN-
+Adding net N00927
+Adding net O17
+Adding net O21
+Adding net O25
+Adding net N00967
+Adding net O30
+Adding net O16
+Adding net IN-
+Adding net O37
+Adding net O35
+Adding net O11
+Adding net O24
+Adding net O6
+Adding net O34
+Adding net O33
+Adding net O15
+Adding net O23
+Adding net SCLK
+Adding net O32
+Adding net N00937
+Adding net O20
+Adding net O22
+Adding net DIN+
+Adding net O9
+Adding net N00917
+Adding net O2
+Adding net O8
+Adding net O26
+Adding net O7
+Adding net O19
+Adding net O14
+Adding net N00957
+Adding net O4
+Adding net N06058
+Adding net N09690
+Adding net DOUT+
+Adding net DOUT-
+Adding net N06110
+Adding net N06116
+Adding net N06104
+Adding net N09742
+Adding net N09736
+Adding net N09748
+Deleting net DEFAULT
+*EOF*
+No errors found

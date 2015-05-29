@@ -1,0 +1,46 @@
+(ExpressProject ""
+  (ProjectVersion "19981106")
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library")
+    (File ".\switch network.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (NoModify)
+    (Netlist_TAB "2")
+    (LAYOUT_Netlist_File "SWITCH NETWORK.MNL")
+    (LAYOUT_PCB_Footprint "{PCB Footprint}")
+    (TRUE)
+    (LAYOUT_Units "0")
+    (TRUE)
+    (VST_Part_Value "{Value}")
+    (VST_Netlist_File "SWITCH NETWORK.INF")
+    (VST_View_Output "FALSE"))
+  (Folder "Outputs"
+    (File ".\switch network.mnl"
+      (Type "LAYOUT Netlist File"))
+    (File ".\switch network.inf"
+      (Type "Report")))
+  (Folder "Referenced Projects")
+  (PartMRUSelector)
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources"
+         "D:\Documents\Circuit layouts, schematics and misc technical\Swtich Network\New Design March 2015\switch network.dsn")
+      (Path "Design Resources"
+         "D:\Documents\Circuit layouts, schematics and misc technical\Swtich Network\New Design March 2015\switch network.dsn"
+         "SCHEMATIC1")
+      (Path "Design Resources"
+         "D:\Documents\Circuit layouts, schematics and misc technical\Swtich Network\New Design March 2015\switch network.dsn"
+         "Design Cache")
+      (Path "Outputs")
+      (Select "Design Resources"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 2 3 -1 -1 -8 -30 20 220 -1 602"))
+      (Tab 0)))
+  (MPSSessionName "Cachaca"))
