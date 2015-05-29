@@ -1,0 +1,7 @@
+**/*.sln
+**/*.suo
+**/*.vcxproj
+**/*.vcxproj.filters
+**/Visual*
+**/~$*.sld*
+**/*.asv
