@@ -1,0 +1,167 @@
+Post Processor Report
+OrCAD FILE: D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.MAX
+Fri Nov 01 12:25:49 2013
+
+*********************************************************
+
+Output file: D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.TOP
+
+Aperture totals for D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.TOP:
+---------------------------------------------------------
+D10:  0.0900 x 0.0160 OBLONG    -----     230 Flashes
+D11:  0.0900 x 0.0160 RECTANGLE -----      10 Flashes
+D12:  0.0620 ROUND  --       0 Draws,       6 Flashes
+D13:  0.0620 SQUARE --       0 Draws,       2 Flashes
+D14:  0.0580 SQUARE --       0 Draws,       2 Flashes
+D15:  0.1200 ROUND  --       0 Draws,       2 Flashes
+D16:  0.0630 ROUND  --       0 Draws,      33 Flashes
+D17:  0.0630 SQUARE --       0 Draws,       4 Flashes
+D18:  0.0500 SQUARE --       0 Draws,      16 Flashes
+D19:  0.0300 ROUND  --       0 Draws,       1 Flashes
+D20:  0.0300 ROUND  --       0 Draws,       1 Flashes
+D21:  0.0100 ROUND  --    1685 Draws,       0 Flashes
+D22:  0.0300 ROUND  --       0 Draws,     187 Flashes
+---------------------------------------------------------
+ 13 D-Codes      -----    1685 Draws,     494 Flashes
+
+*********************************************************
+
+Output file: D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.BOT
+
+Aperture totals for D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.BOT:
+---------------------------------------------------------
+D12:  0.0620 ROUND  --       0 Draws,       6 Flashes
+D13:  0.0620 SQUARE --       0 Draws,       2 Flashes
+D14:  0.0580 SQUARE --       0 Draws,       2 Flashes
+D15:  0.1200 ROUND  --       0 Draws,       2 Flashes
+D16:  0.0630 ROUND  --       0 Draws,      33 Flashes
+D17:  0.0630 SQUARE --       0 Draws,       4 Flashes
+D19:  0.0300 ROUND  --       0 Draws,       1 Flashes
+D20:  0.0300 ROUND  --       0 Draws,       1 Flashes
+D21:  0.0100 ROUND  --     552 Draws,       0 Flashes
+D22:  0.0300 ROUND  --       0 Draws,     187 Flashes
+---------------------------------------------------------
+ 10 D-Codes      -----     552 Draws,     238 Flashes
+
+*********************************************************
+
+Output file: D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.SMT
+
+Aperture totals for D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.SMT:
+---------------------------------------------------------
+D10:  0.0900 x 0.0160 OBLONG    -----     230 Flashes
+D11:  0.0900 x 0.0160 RECTANGLE -----      10 Flashes
+D12:  0.0620 ROUND  --       0 Draws,       6 Flashes
+D13:  0.0620 SQUARE --       0 Draws,       2 Flashes
+D14:  0.0580 SQUARE --       0 Draws,       2 Flashes
+D15:  0.1200 ROUND  --       0 Draws,       2 Flashes
+D16:  0.0630 ROUND  --       0 Draws,      33 Flashes
+D17:  0.0630 SQUARE --       0 Draws,       4 Flashes
+D18:  0.0500 SQUARE --       0 Draws,      16 Flashes
+D19:  0.0300 ROUND  --       0 Draws,       1 Flashes
+D20:  0.0300 ROUND  --       0 Draws,     188 Flashes
+---------------------------------------------------------
+ 11 D-Codes      -----       0 Draws,     494 Flashes
+
+*********************************************************
+
+Output file: D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.SMB
+
+Aperture totals for D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.SMB:
+---------------------------------------------------------
+D12:  0.0620 ROUND  --       0 Draws,       6 Flashes
+D13:  0.0620 SQUARE --       0 Draws,       2 Flashes
+D14:  0.0580 SQUARE --       0 Draws,       2 Flashes
+D15:  0.1200 ROUND  --       0 Draws,       2 Flashes
+D16:  0.0630 ROUND  --       0 Draws,      33 Flashes
+D17:  0.0630 SQUARE --       0 Draws,       4 Flashes
+D19:  0.0300 ROUND  --       0 Draws,       1 Flashes
+D20:  0.0300 ROUND  --       0 Draws,     188 Flashes
+---------------------------------------------------------
+  8 D-Codes      -----       0 Draws,     238 Flashes
+
+*********************************************************
+
+Output file: D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.SST
+
+Aperture totals for D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.SST:
+---------------------------------------------------------
+D23:  0.0080 ROUND  --     162 Draws,       0 Flashes
+D24:  0.0060 ROUND  --      32 Draws,       0 Flashes
+D25:  0.0010 ROUND  --     220 Draws,       0 Flashes
+---------------------------------------------------------
+  3 D-Codes      -----     414 Draws,       0 Flashes
+
+*********************************************************
+
+Output file: D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.AST
+
+Aperture totals for D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.AST:
+---------------------------------------------------------
+D10:  0.0900 x 0.0160 OBLONG    -----     230 Flashes
+D11:  0.0900 x 0.0160 RECTANGLE -----      10 Flashes
+D12:  0.0620 ROUND  --       0 Draws,       6 Flashes
+D13:  0.0620 SQUARE --       0 Draws,       2 Flashes
+D14:  0.0580 SQUARE --       0 Draws,       2 Flashes
+D15:  0.1200 ROUND  --       0 Draws,       2 Flashes
+D16:  0.0630 ROUND  --       0 Draws,      33 Flashes
+D17:  0.0630 SQUARE --       0 Draws,       4 Flashes
+D18:  0.0500 SQUARE --       0 Draws,      16 Flashes
+D23:  0.0080 ROUND  --     196 Draws,       0 Flashes
+D24:  0.0060 ROUND  --      32 Draws,       0 Flashes
+D26:  0.0500 ROUND  --       5 Draws,       0 Flashes
+---------------------------------------------------------
+ 12 D-Codes      -----     233 Draws,     305 Flashes
+
+*********************************************************
+
+Output file: D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.DRD
+
+Aperture totals for D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.DRD:
+---------------------------------------------------------
+D21:  0.0100 ROUND  --    1144 Draws,       0 Flashes
+D26:  0.0500 ROUND  --       5 Draws,       0 Flashes
+---------------------------------------------------------
+  2 D-Codes      -----    1149 Draws,       0 Flashes
+
+*********************************************************
+
+Output file: D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.FAB
+
+Aperture totals for D:\DOCUMENTS\CIRCUIT LAYOUTS AND SCHEMATICS\SWTICH NETWORK\FINAL\SWITCH NETWORK.FAB:
+---------------------------------------------------------
+D26:  0.0500 ROUND  --       5 Draws,       0 Flashes
+D27:  0.0280 ROUND  --       0 Draws,       1 Flashes
+D28:  0.0280 ROUND  --       0 Draws,     188 Flashes
+---------------------------------------------------------
+  3 D-Codes      -----       5 Draws,     189 Flashes
+
+
+*********************************************************
+
+Aperture totals for entire project:
+---------------------------------------------------------
+D10:  0.0900 x 0.0160 OBLONG    -----     690 Flashes
+D11:  0.0900 x 0.0160 RECTANGLE -----      30 Flashes
+D12:  0.0620 ROUND  --       0 Draws,      30 Flashes
+D13:  0.0620 SQUARE --       0 Draws,      10 Flashes
+D14:  0.0580 SQUARE --       0 Draws,      10 Flashes
+D15:  0.1200 ROUND  --       0 Draws,      10 Flashes
+D16:  0.0630 ROUND  --       0 Draws,     165 Flashes
+D17:  0.0630 SQUARE --       0 Draws,      20 Flashes
+D18:  0.0500 SQUARE --       0 Draws,      48 Flashes
+D19:  0.0300 ROUND  --       0 Draws,       4 Flashes
+D20:  0.0300 ROUND  --       0 Draws,     378 Flashes
+D21:  0.0100 ROUND  --    3381 Draws,       0 Flashes
+D22:  0.0300 ROUND  --       0 Draws,     374 Flashes
+D23:  0.0080 ROUND  --     358 Draws,       0 Flashes
+D24:  0.0060 ROUND  --      64 Draws,       0 Flashes
+D25:  0.0010 ROUND  --     220 Draws,       0 Flashes
+D26:  0.0500 ROUND  --      15 Draws,       0 Flashes
+D27:  0.0280 ROUND  --       0 Draws,       1 Flashes
+D28:  0.0280 ROUND  --       0 Draws,     188 Flashes
+---------------------------------------------------------
+ 19 D-Codes      -----    4038 Draws,    1958 Flashes
+
+
+No warnings or errors.

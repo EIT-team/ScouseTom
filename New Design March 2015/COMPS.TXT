@@ -1,0 +1,37 @@
+*******************************************************************************************************************************
+*                                                                                                                             *
+* Component List (Generic)                                                                                                    *
+*                                                                                                                             *
+* D:\DOCUMENTS\CIRCUIT LAYOUTS, SCHEMATICS AND MISC TECHNICAL\SWTICH NETWORK\NEW DESIGN MARCH 2015\SWITCH-NETWORK-ROUTED.MAX  *
+* Wed Mar 25 17:42:25 2015                                                                                                    *
+*                                                                                                                             *
+*******************************************************************************************************************************
+
+ REF DES    VALUE            PACKAGE          FOOTPRINT                      X LOC      Y LOC      ROTATION SIDE            
+-----------------------------------------------------------------------------------------------------------------------------
+ARDUINO_IN 8 HEADER         8_HEADER         DSUB/RP.318/TM/9                -6200.0..  900.00 m  90       TOP             
+DAISY_OUT  8 HEADER         8_HEADER         DSUB/RP.318/TM/9                800.00 m   1200.00 m 270      TOP             
+IN+        CON1             CON1             BLKCON.100/VH/TM1SQ/W.100/1     -5600.0..  200.00 m  90       TOP             
+IN-        CON1             CON1             BLKCON.100/VH/TM1SQ/W.100/1     -5500.0..  2100.00 m 90       TOP             
+J1         CONN DSUB 37-R   CONN_DSUB_37-R   DSUB/RS.584/TM/37               -1800.0..  3400.00 m 180      TOP             
+J4         CONN DSUB 37-R   CONN_DSUB_37-R   DSUB/RS.584/TM/37               -1800.0..  -1100.0.. 0        BOTTOM          
+N1         ADG714BRU        ADG714BRU        SOG.65M/24/WG8.20/L8.25         -718.40 m  -909.20 m 0        BOTTOM          
+N2         ADG714BRU        ADG714BRU        SOG.65M/24/WG8.20/L8.25         -4890.8..  9.20 m    180      BOTTOM          
+N3         ADG714BRU        ADG714BRU        SOG.65M/24/WG8.20/L8.25         -759.20 m  559.20 m  0        BOTTOM          
+N4         ADG714BRU        ADG714BRU        SOG.65M/24/WG8.20/L8.25         -779.00 m  2079.00 m 0        BOTTOM          
+N5         ADG714BRU        ADG714BRU        SOG.65M/24/WG8.20/L8.25         -4748.8..  3109.20 m 180      BOTTOM          
+P1         ADG714BRU        ADG714BRU        SOG.65M/24/WG8.20/L8.25         -718.40 m  -9.20 m   180      TOP             
+P2         ADG714BRU        ADG714BRU        SOG.65M/24/WG8.20/L8.25         -4890.8..  -890.80 m 0        TOP             
+P3         ADG714BRU        ADG714BRU        SOG.65M/24/WG8.20/L8.25         -759.20 m  1459.20 m 180      TOP             
+P4         ADG714BRU        ADG714BRU        SOG.65M/24/WG8.20/L8.25         -779.00 m  2979.00 m 180      TOP             
+P5         ADG714BRU        ADG714BRU        SOG.65M/24/WG8.20/L8.25         -4748.8..  2209.20 m 0        TOP             
+R1         10k              R                SM/R_0805                       -300.00 m  0.00 m    180      TOP             
+R2         10k              R                SM/R_0805                       -5300.0..  -900.00 m 0        TOP             
+R3         10k              R                SM/R_0805                       -400.00 m  1600.00 m 0        TOP             
+R4         10k              R                SM/R_0805                       -500.00 m  2900.00 m 180      TOP             
+R5         10k              R                SM/R_0805                       -5000.0..  2200.00 m 0        TOP             
+R6         10k              R                SM/R_0805                       -400.00 m  -900.00 m 180      BOTTOM          
+R7         10k              R                SM/R_0805                       -5200.0..  0.00 m    0        BOTTOM          
+R8         10k              R                SM/R_0805                       -416.00 m  400.00 m  0        BOTTOM          
+R9         10k              R                SM/R_0805                       -400.00 m  2300.00 m 180      BOTTOM          
+R10        10k              R                SM/R_0805                       -5100.0..  3400.00 m 180      BOTTOM          
