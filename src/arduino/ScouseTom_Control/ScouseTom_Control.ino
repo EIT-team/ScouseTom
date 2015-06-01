@@ -40,7 +40,11 @@ Jimmy wrote this so blame him
 
 //#include "BreadboardPins.h" // Pins for breadboard version - used by kirill and me (testing)
 #include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
-
+#include "Stim.h"
+#include "Switches.h"
+#include "CS_comm.h"
+#include "PC_comm.h"
+#include "Pins.h"
 
 //#####################################
 // Current Source Interface Stuff
@@ -923,8 +927,8 @@ void dostuff()
 
 
 
-
-void getCMD(char CMDIN) // function to read command from PC and then put system in "state"
+//function to read command from PC and then put system in "state"
+void getCMD(char CMDIN) 
 {
 	switch (CMDIN)
 	{
