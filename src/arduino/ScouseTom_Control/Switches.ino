@@ -1,11 +1,4 @@
-/*
-stuff to switch the injection channels*/
 
-long tswprogstart = 0; //vars for programing swtiching timing
-long tswprogend = 0;
-
-long indtimerstart = 0; //vars for timing of indicator pin
-long indtimerend = 0;	//
 
 void SwitchChn() //switch channels - switches are programmed by SetSwitchesFixed and not changed until SYNC brought HIGH
 {

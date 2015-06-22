@@ -1,11 +1,3 @@
-/*
-stuff for the stimulator trigger only */
-
-float mintime = 1.5; //this is the time taken for the stimulator ISR - current set to 1.5 uS
-float startdelay = 7; //min delay in microseconds from pmark to starting pulse - measured to be 7uS. can be reduced by editing Winterrupts.c but thats a bugger to change for a single sketch only 
-float stimdelay = 2.4; //THIS VALUE UNUSED BUT REFERENCE ONLY - this is the propogation delay in us from IND_STIM going high and the output of the neurolog stimulator rising as measured on scope
-
-
 void stim_nextphase()
 {
 	//digitalWriteDirect(PWR_STIM, HIGH); //turn on stimulator power supply
