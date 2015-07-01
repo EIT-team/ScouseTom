@@ -9577,7 +9577,7 @@ at 08/10/2012 14:57:29</description>
 <part name="C41" library="resistor" deviceset="C-EU" device="C0805" value="1uF"/>
 <part name="GND14" library="supply1" deviceset="GND" device=""/>
 <part name="P+2" library="supply1" deviceset="+5V" device=""/>
-<part name="JP5" library="pinhead" deviceset="PINHD-1X5" device="" value="BONUS_PINOUT"/>
+<part name="JP5" library="pinhead" deviceset="PINHD-1X5" device=""/>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="C11" library="resistor" deviceset="C-EU" device="C0805" value="10uF"/>
 <part name="C12" library="resistor" deviceset="C-EU" device="C0805" value="10uF"/>
