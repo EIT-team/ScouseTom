@@ -10144,11 +10144,6 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 </net>
 <net name="IND_SWITCH" class="0">
 <segment>
-<pinref part="DUE" gate="G$1" pin="5"/>
-<wire x1="195.58" y1="53.34" x2="195.58" y2="81.28" width="0.1524" layer="91"/>
-<label x="195.58" y="81.28" size="1.778" layer="95" rot="R90" xref="yes"/>
-</segment>
-<segment>
 <pinref part="U4" gate="A" pin="VIA"/>
 <wire x1="144.78" y1="-157.48" x2="139.7" y2="-157.48" width="0.1524" layer="91"/>
 <label x="139.7" y="-157.48" size="1.778" layer="95" rot="R180" xref="yes"/>
@@ -10166,14 +10161,14 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <label x="287.02" y="132.08" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
-<pinref part="DUE" gate="G$1" pin="6"/>
-<wire x1="198.12" y1="53.34" x2="198.12" y2="60.96" width="0.1524" layer="91"/>
-<label x="198.12" y="60.96" size="1.778" layer="95" rot="R90" xref="yes"/>
-</segment>
-<segment>
 <pinref part="U4" gate="A" pin="VIB"/>
 <wire x1="144.78" y1="-160.02" x2="139.7" y2="-160.02" width="0.1524" layer="91"/>
 <label x="139.7" y="-160.02" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="DUE" gate="G$1" pin="4"/>
+<wire x1="193.04" y1="53.34" x2="193.04" y2="58.42" width="0.1524" layer="91"/>
+<label x="193.04" y="58.42" size="1.778" layer="95" rot="R90" xref="yes"/>
 </segment>
 </net>
 <net name="IND_FREQ" class="0">
@@ -10190,21 +10185,21 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 </net>
 <net name="IND_START" class="0">
 <segment>
-<pinref part="DUE" gate="G$1" pin="7"/>
-<wire x1="200.66" y1="53.34" x2="200.66" y2="81.28" width="0.1524" layer="91"/>
-<label x="200.66" y="81.28" size="1.778" layer="95" rot="R90" xref="yes"/>
-</segment>
-<segment>
 <pinref part="U4" gate="A" pin="VIC"/>
 <wire x1="144.78" y1="-162.56" x2="139.7" y2="-162.56" width="0.1524" layer="91"/>
 <label x="139.7" y="-162.56" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
+<segment>
+<pinref part="DUE" gate="G$1" pin="5"/>
+<wire x1="195.58" y1="53.34" x2="195.58" y2="58.42" width="0.1524" layer="91"/>
+<label x="195.58" y="58.42" size="1.778" layer="95" rot="R90" xref="yes"/>
+</segment>
 </net>
 <net name="IND_STOP" class="0">
 <segment>
-<pinref part="DUE" gate="G$1" pin="8"/>
-<wire x1="203.2" y1="53.34" x2="203.2" y2="60.96" width="0.1524" layer="91"/>
-<label x="203.2" y="60.96" size="1.778" layer="95" rot="R90" xref="yes"/>
+<label x="198.12" y="71.12" size="1.778" layer="95" rot="R90" xref="yes"/>
+<pinref part="DUE" gate="G$1" pin="6"/>
+<wire x1="198.12" y1="53.34" x2="198.12" y2="71.12" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U4" gate="A" pin="VID"/>
@@ -10218,7 +10213,11 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <wire x1="177.8" y1="60.96" x2="177.8" y2="66.04" width="0.1524" layer="91"/>
 <pinref part="DUE" gate="G$1" pin="5V_B"/>
 <wire x1="182.88" y1="53.34" x2="182.88" y2="60.96" width="0.1524" layer="91"/>
-<wire x1="182.88" y1="60.96" x2="177.8" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="182.88" y1="60.96" x2="180.34" y2="60.96" width="0.1524" layer="91"/>
+<pinref part="DUE" gate="G$1" pin="5V_A"/>
+<wire x1="180.34" y1="60.96" x2="177.8" y2="60.96" width="0.1524" layer="91"/>
+<wire x1="180.34" y1="53.34" x2="180.34" y2="60.96" width="0.1524" layer="91"/>
+<junction x="180.34" y="60.96"/>
 </segment>
 <segment>
 <pinref part="U5" gate="A" pin="VDD1_2"/>
@@ -10962,16 +10961,9 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <label x="185.42" y="-144.78" size="1.778" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U7" gate="A" pin="DISABLE"/>
-<wire x1="182.88" y1="-210.82" x2="187.96" y2="-210.82" width="0.1524" layer="91"/>
-<wire x1="187.96" y1="-210.82" x2="187.96" y2="-205.74" width="0.1524" layer="91"/>
-<wire x1="187.96" y1="-205.74" x2="193.04" y2="-205.74" width="0.1524" layer="91"/>
-<label x="193.04" y="-205.74" size="1.778" layer="95" xref="yes"/>
-</segment>
-<segment>
-<label x="193.04" y="60.96" size="1.778" layer="95" rot="R90" xref="yes"/>
-<pinref part="DUE" gate="G$1" pin="4"/>
-<wire x1="193.04" y1="53.34" x2="193.04" y2="60.96" width="0.1524" layer="91"/>
+<pinref part="DUE" gate="G$1" pin="7"/>
+<wire x1="200.66" y1="53.34" x2="200.66" y2="58.42" width="0.1524" layer="91"/>
+<label x="200.66" y="58.42" size="1.778" layer="95" rot="R90" xref="yes"/>
 </segment>
 </net>
 <net name="IND_STOP_ISO" class="0">
@@ -11157,6 +11149,33 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <pinref part="DUE" gate="G$1" pin="47"/>
 <wire x1="226.06" y1="-15.24" x2="236.22" y2="-15.24" width="0.1524" layer="91"/>
 <label x="236.22" y="-15.24" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="TRIG_DISABLE_2" class="0">
+<segment>
+<pinref part="DUE" gate="G$1" pin="13"/>
+<wire x1="215.9" y1="53.34" x2="215.9" y2="60.96" width="0.1524" layer="91"/>
+<label x="215.9" y="60.96" size="1.778" layer="95" rot="R90" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U7" gate="A" pin="DISABLE"/>
+<wire x1="182.88" y1="-210.82" x2="185.42" y2="-210.82" width="0.1524" layer="91"/>
+<wire x1="185.42" y1="-210.82" x2="185.42" y2="-208.28" width="0.1524" layer="91"/>
+<wire x1="185.42" y1="-208.28" x2="193.04" y2="-208.28" width="0.1524" layer="91"/>
+<label x="193.04" y="-208.28" size="1.778" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="N$11" class="0">
+<segment>
+<pinref part="DUE" gate="G$1" pin="3"/>
+<wire x1="190.5" y1="53.34" x2="190.5" y2="58.42" width="0.1524" layer="91"/>
+<label x="190.5" y="58.42" size="1.778" layer="95" rot="R90" xref="yes"/>
+</segment>
+</net>
+<net name="N$12" class="0">
+<segment>
+<pinref part="DUE" gate="G$1" pin="2"/>
+<wire x1="187.96" y1="53.34" x2="187.96" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

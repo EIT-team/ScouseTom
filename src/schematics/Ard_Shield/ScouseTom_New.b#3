@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
+<grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="yes"/>
@@ -4482,7 +4482,7 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="VALUE" x="-0.965" y="40.64" size="1.27" layer="27" rot="R270"/>
 </element>
 <element name="JP2" library="pinhead" package="1X02" value="Ext Stim" x="87.53" y="33.39" smashed="yes">
-<attribute name="NAME" x="92.2812" y="31.8138" size="1.27" layer="25" ratio="10" rot="R90"/>
+<attribute name="NAME" x="91.6462" y="31.9408" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="84.99" y="30.215" size="1.27" layer="27"/>
 </element>
 <element name="X1" library="DSUBJAMES" package="DSUB9" value="IND DSUB" x="0.26" y="58.445" smashed="yes" rot="R180">
@@ -4617,13 +4617,13 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="NAME" x="61.27" y="62.63" size="1.27" layer="25" rot="R180"/>
 <attribute name="VALUE" x="60.97" y="62.54" size="1.27" layer="27" rot="R180"/>
 </element>
-<element name="J1" library="con-molex" package="7395-02" value="STIM OUT" x="99.9" y="17.1" smashed="yes">
-<attribute name="OC_NEWARK" value="unknown" x="99.9" y="17.1" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
-<attribute name="MPN" value="" x="99.9" y="17.1" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
-<attribute name="MF" value="" x="99.9" y="17.1" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
-<attribute name="OC_FARNELL" value="9731601" x="99.9" y="17.1" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
-<attribute name="NAME" x="96.8401" y="15.5479" size="1.016" layer="25" ratio="10" rot="R180"/>
-<attribute name="VALUE" x="103.3021" y="14.6601" size="0.8128" layer="27" ratio="10" rot="R270"/>
+<element name="J1" library="con-molex" package="7395-02" value="STIM OUT" x="99.9" y="16.6" smashed="yes">
+<attribute name="OC_NEWARK" value="unknown" x="99.9" y="16.6" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
+<attribute name="MPN" value="" x="99.9" y="16.6" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
+<attribute name="MF" value="" x="99.9" y="16.6" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
+<attribute name="OC_FARNELL" value="9731601" x="99.9" y="16.6" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
+<attribute name="NAME" x="96.8401" y="15.0479" size="1.016" layer="25" ratio="10" rot="R180"/>
+<attribute name="VALUE" x="103.3021" y="14.1601" size="0.8128" layer="27" ratio="10" rot="R270"/>
 </element>
 </elements>
 <signals>
@@ -5354,11 +5354,11 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <wire x1="85.46" y1="22.76" x2="86.26" y2="21.96" width="0.4064" layer="1"/>
 <wire x1="83.315" y1="22.76" x2="81.01" y2="22.76" width="0.4064" layer="1"/>
 <contactref element="J1" pad="1"/>
-<wire x1="99.035" y1="19.235" x2="101.17" y2="17.1" width="0.4064" layer="16"/>
 <wire x1="86.26" y1="21.96" x2="86.26" y2="20.24" width="0.4064" layer="16"/>
 <wire x1="86.26" y1="20.24" x2="87" y2="19.5" width="0.4064" layer="16"/>
 <wire x1="87" y1="19.5" x2="98.77" y2="19.5" width="0.4064" layer="16"/>
-<wire x1="98.77" y1="19.5" x2="99.035" y2="19.235" width="0.4064" layer="16"/>
+<wire x1="101.17" y1="16.6" x2="101.17" y2="17.1" width="0.4064" layer="16"/>
+<wire x1="101.17" y1="17.1" x2="98.77" y2="19.5" width="0.4064" layer="16"/>
 </signal>
 <signal name="N$1">
 <contactref element="R7" pad="2"/>
@@ -5631,6 +5631,17 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <wire x1="3.6" y1="26.9" x2="5.6" y2="26.9" width="0.4064" layer="16"/>
 <wire x1="5.6" y1="26.9" x2="6.3" y2="26.2" width="0.4064" layer="16"/>
 <wire x1="6.3" y1="26.2" x2="6.3" y2="24.6464" width="0.4064" layer="16"/>
+<via x="-9" y="46.5" extent="1-16" drill="0.508"/>
+<via x="-5.5" y="46.5" extent="1-16" drill="0.508"/>
+<via x="-14" y="43" extent="1-16" drill="0.508"/>
+<via x="-14" y="36.5" extent="1-16" drill="0.508"/>
+<via x="-14" y="30.5" extent="1-16" drill="0.508"/>
+<via x="-14" y="24" extent="1-16" drill="0.508"/>
+<via x="-13.5" y="15" extent="1-16" drill="0.508"/>
+<via x="-6" y="15" extent="1-16" drill="0.508"/>
+<via x="11" y="15" extent="1-16" drill="0.508"/>
+<via x="17.5" y="15" extent="1-16" drill="0.508"/>
+<via x="17.5" y="18" extent="1-16" drill="0.508"/>
 </signal>
 <signal name="TTL_TX_ISO">
 <contactref element="U3" pad="14"/>

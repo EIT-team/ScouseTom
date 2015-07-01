@@ -9583,6 +9583,7 @@ at 08/10/2012 14:57:29</description>
 <part name="C12" library="resistor" deviceset="C-EU" device="C0805" value="10uF"/>
 <part name="J1" library="con-molex" deviceset="22-?-02" device="05-7028" value="STIM OUT"/>
 <part name="GND11" library="supply1" deviceset="GND" device=""/>
+<part name="GND16" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -9712,6 +9713,7 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <instance part="J1" gate="-1" x="449.58" y="-200.66"/>
 <instance part="J1" gate="-2" x="449.58" y="-205.74"/>
 <instance part="GND11" gate="1" x="441.96" y="-208.28"/>
+<instance part="GND16" gate="1" x="454.66" y="43.18"/>
 </instances>
 <busses>
 </busses>
@@ -9951,6 +9953,13 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <pinref part="J1" gate="-2" pin="S"/>
 <pinref part="GND11" gate="1" pin="GND"/>
 <wire x1="447.04" y1="-205.74" x2="441.96" y2="-205.74" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U5" gate="A" pin="NC_2"/>
+<wire x1="439.42" y1="48.26" x2="444.5" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="444.5" y1="48.26" x2="444.5" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="444.5" y1="45.72" x2="454.66" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="GND16" gate="1" pin="GND"/>
 </segment>
 </net>
 <net name="DIN-" class="0">
@@ -10716,7 +10725,8 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <label x="495.3" y="48.26" size="1.778" layer="95" xref="yes"/>
 <pinref part="C32" gate="G$1" pin="2"/>
 <wire x1="454.66" y1="48.26" x2="462.28" y2="48.26" width="0.1524" layer="91"/>
-<wire x1="462.28" y1="48.26" x2="485.14" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="462.28" y1="48.26" x2="467.36" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="467.36" y1="48.26" x2="485.14" y2="48.26" width="0.1524" layer="91"/>
 <wire x1="485.14" y1="48.26" x2="495.3" y2="48.26" width="0.1524" layer="91"/>
 <wire x1="454.66" y1="50.8" x2="454.66" y2="48.26" width="0.1524" layer="91"/>
 <pinref part="C33" gate="G$1" pin="2"/>
@@ -10726,6 +10736,11 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <pinref part="C11" gate="G$1" pin="2"/>
 <wire x1="485.14" y1="50.8" x2="485.14" y2="48.26" width="0.1524" layer="91"/>
 <junction x="485.14" y="48.26"/>
+<pinref part="U5" gate="A" pin="NC"/>
+<wire x1="439.42" y1="40.64" x2="439.42" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="439.42" y1="38.1" x2="467.36" y2="38.1" width="0.1524" layer="91"/>
+<wire x1="467.36" y1="38.1" x2="467.36" y2="48.26" width="0.1524" layer="91"/>
+<junction x="467.36" y="48.26"/>
 </segment>
 <segment>
 <pinref part="JP4" gate="A" pin="1"/>

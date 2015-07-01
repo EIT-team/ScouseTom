@@ -9559,7 +9559,7 @@ at 08/10/2012 14:57:29</description>
 <part name="C31" library="resistor" deviceset="C-EU" device="C0805" value="10uF"/>
 <part name="C32" library="resistor" deviceset="C-EU" device="C0805" value=".1uF"/>
 <part name="C33" library="resistor" deviceset="C-EU" device="C0805" value="10nF"/>
-<part name="JP4" library="pinhead" deviceset="PINHD-1X3" device=""/>
+<part name="JP4" library="pinhead" deviceset="PINHD-1X3" device="" value="V_TRIG_SELECT"/>
 <part name="P+3" library="supply1" deviceset="+5V" device=""/>
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
 <part name="C34" library="resistor" deviceset="C-EU" device="C0805" value=".1uF"/>
@@ -9901,7 +9901,6 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <wire x1="406.4" y1="-20.32" x2="403.86" y2="-20.32" width="0.1524" layer="91"/>
 <wire x1="403.86" y1="-20.32" x2="403.86" y2="-17.78" width="0.1524" layer="91"/>
 <wire x1="403.86" y1="-17.78" x2="391.16" y2="-17.78" width="0.1524" layer="91"/>
-<wire x1="408.94" y1="-17.78" x2="406.4" y2="-17.78" width="0.1524" layer="91"/>
 <junction x="403.86" y="-17.78"/>
 <pinref part="GND6" gate="1" pin="GND"/>
 <pinref part="U4" gate="A" pin="GND1_2"/>
@@ -10129,6 +10128,11 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <pinref part="U4" gate="A" pin="VIA"/>
 <wire x1="406.4" y1="-5.08" x2="401.32" y2="-5.08" width="0.1524" layer="91"/>
 <label x="401.32" y="-5.08" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="DUE" gate="G$1" pin="3"/>
+<wire x1="190.5" y1="53.34" x2="190.5" y2="58.42" width="0.1524" layer="91"/>
+<label x="190.5" y="58.42" size="1.778" layer="95" rot="R90" xref="yes"/>
 </segment>
 </net>
 <net name="IND_STIM" class="0">
@@ -11162,42 +11166,32 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <label x="599.44" y="5.08" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$11" class="0">
-<segment>
-<pinref part="DUE" gate="G$1" pin="3"/>
-<wire x1="190.5" y1="53.34" x2="190.5" y2="58.42" width="0.1524" layer="91"/>
-<label x="190.5" y="58.42" size="1.778" layer="95" rot="R90" xref="yes"/>
-</segment>
-</net>
-<net name="N$12" class="0">
-<segment>
-<pinref part="DUE" gate="G$1" pin="2"/>
-<wire x1="187.96" y1="53.34" x2="187.96" y2="58.42" width="0.1524" layer="91"/>
-</segment>
-</net>
 </nets>
 </sheet>
 </sheets>
 <errors>
-<approved hash="104,1,414.02,106.68,OK1,VCC,5VA,,,"/>
-<approved hash="104,1,414.02,101.6,OK1,GND,AGND,,,"/>
-<approved hash="104,1,68.58,101.6,U1,VCC,+3V3,,,"/>
-<approved hash="104,1,68.58,96.52,U1,V+,N$26,,,"/>
-<approved hash="202,1,68.58,86.36,U1,T2IN,,,,"/>
-<approved hash="202,1,68.58,83.82,U1,R2IN,,,,"/>
-<approved hash="104,1,68.58,66.04,U1,V-,N$27,,,"/>
-<approved hash="104,1,414.02,73.66,OK2,VCC,5VA,,,"/>
-<approved hash="104,1,414.02,68.58,OK2,GND,AGND,,,"/>
-<approved hash="104,1,414.02,38.1,OK3,VCC,5VA,,,"/>
-<approved hash="104,1,414.02,33.02,OK3,GND,AGND,,,"/>
-<approved hash="104,1,414.02,2.54,OK4,VCC,5VA,,,"/>
-<approved hash="104,1,414.02,-2.54,OK4,GND,AGND,,,"/>
-<approved hash="104,1,414.02,-35.56,OK5,VCC,5VA,,,"/>
-<approved hash="104,1,414.02,-40.64,OK5,GND,AGND,,,"/>
-<approved hash="104,1,-38.1,149.86,IC2,VDD,V_STIM_REF,,,"/>
-<approved hash="104,1,-38.1,147.32,IC2,VL,+3V3,,,"/>
-<approved hash="104,1,-38.1,144.78,IC2,VSS,GND,,,"/>
-<approved hash="104,1,299.72,45.72,U5,VCC,+5V,,,"/>
+<approved hash="104,1,55.88,35.56,U1,VCC,V_ISO_RS232,,,"/>
+<approved hash="104,1,55.88,30.48,U1,V+,N$26,,,"/>
+<approved hash="202,1,55.88,20.32,U1,T2IN,,,,"/>
+<approved hash="202,1,55.88,17.78,U1,R2IN,,,,"/>
+<approved hash="104,1,55.88,0,U1,V-,N$27,,,"/>
+<approved hash="104,1,558.8,-104.14,IC2,VDD,V_STIM_REF,,,"/>
+<approved hash="104,1,558.8,-106.68,IC2,VL,+3V3,,,"/>
+<approved hash="104,1,558.8,-109.22,IC2,VSS,GND,,,"/>
+<approved hash="104,1,-71.12,30.48,U3,VDD1,+3V3,,,"/>
+<approved hash="104,1,-71.12,22.86,U3,VISO,V_ISO_RS232,,,"/>
+<approved hash="104,1,406.4,2.54,U4,VDD1,+5V,,,"/>
+<approved hash="104,1,406.4,0,U4,VDD2,V_ISO_TRIG,,,"/>
+<approved hash="104,1,403.86,60.96,U5,VDD1_2,+5V,,,"/>
+<approved hash="104,1,403.86,58.42,U5,VDD1,+5V,,,"/>
+<approved hash="103,1,439.42,48.26,U5,NC_2,GND,,,"/>
+<approved hash="103,1,439.42,45.72,U5,NC_3,GND_ISO_TRIG,,,"/>
+<approved hash="103,1,439.42,43.18,U5,NC_4,GND_ISO_TRIG,,,"/>
+<approved hash="103,1,439.42,40.64,U5,NC,GND_ISO_TRIG,,,"/>
+<approved hash="104,1,553.72,2.54,U7,VDD1,+5V,,,"/>
+<approved hash="104,1,553.72,0,U7,VDD2,V_ISO_TRIG,,,"/>
+<approved hash="206,1,439.42,60.96,V_ISO_TRIG,,,,,"/>
+<approved hash="206,1,439.42,58.42,V_ISO_TRIG,,,,,"/>
 </errors>
 </schematic>
 </drawing>

@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="mm" altunit="mm"/>
+<grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="yes"/>
@@ -32,8 +32,8 @@
 <layer number="22" name="bPlace" color="14" fill="1" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
@@ -46,7 +46,7 @@
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
 <layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
 <layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
-<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="yes"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="yes"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="yes"/>
 <layer number="42" name="bRestrict" color="1" fill="10" visible="no" active="yes"/>
@@ -148,52 +148,54 @@
 <wire x1="-15.315" y1="67.31" x2="-15.315" y2="13.645" width="0.2032" layer="20"/>
 <wire x1="-15.315" y1="13.645" x2="114.38" y2="13.645" width="0.2032" layer="20"/>
 <wire x1="114.38" y1="13.645" x2="114.38" y2="67.31" width="0.2032" layer="20"/>
-<text x="-53.3" y="67.1" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">GND</text>
-<text x="-55.9" y="67.1" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Switch</text>
-<text x="-58.5" y="67.1" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Stim</text>
-<text x="-60.9" y="67.1" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Start</text>
-<text x="-63.5" y="67.1" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Stop</text>
-<text x="-66.1" y="67.1" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Freq</text>
-<text x="-68.7" y="67.1" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Ex_1</text>
-<text x="-71.1" y="67.1" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Ex_2</text>
-<text x="-73.7" y="67.1" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Ex_3</text>
-<text x="-77.7" y="69.7" size="1.778" layer="21" font="vector" ratio="20" rot="R90" align="center">IND</text>
-<text x="3.8" y="39.4" size="1.27" layer="21" font="vector" ratio="20" rot="R180" align="center-right">GND</text>
-<text x="3.8" y="36.6" size="1.27" layer="21" font="vector" ratio="20" rot="R180" align="center-right">PMARK</text>
-<text x="-50.05" y="51.45" size="1.778" layer="21" font="vector" ratio="20" rot="R180" align="center-right">ActiChamp
+<text x="23.1" y="45.6" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">GND</text>
+<text x="20.5" y="51.6" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-left">Switch</text>
+<text x="20.5" y="45.6" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Stim</text>
+<text x="18" y="51.6" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-left">Start</text>
+<text x="18" y="45.6" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Stop</text>
+<text x="15.3" y="51.6" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-left">Freq</text>
+<text x="15.4" y="45.6" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Ex_1</text>
+<text x="12.8" y="51.6" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-left">Ex_2</text>
+<text x="12.8" y="45.6" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Ex_3</text>
+<text x="25.9" y="48.6" size="1.778" layer="21" font="vector" ratio="20" rot="R90" align="center">IND</text>
+<text x="-2.5" y="40.7" size="1.016" layer="21" font="vector" ratio="20" rot="R180" align="center-right">GND</text>
+<text x="-3.4" y="38.2" size="1.016" layer="21" font="vector" ratio="20" rot="R180" align="center-right">PMRK</text>
+<text x="-5.85" y="53.45" size="1.778" layer="21" font="vector" ratio="20" rot="R180" align="center-right">ActiChamp
 Triggers</text>
-<text x="-35.75" y="7.4" size="1.778" layer="21" font="vector" ratio="20" align="center">Keithley CS COMM</text>
-<text x="-44.4" y="39" size="1.778" layer="21" font="vector" ratio="20" align="center">Phase MK
+<text x="-1.95" y="27.5" size="1.778" layer="21" font="vector" ratio="20" align="center">Keithley
+CS COMM</text>
+<text x="0.8" y="44" size="1.27" layer="21" font="vector" ratio="20" align="center">Phase MK
 for stim</text>
-<text x="78.1" y="8.5" size="1.778" layer="21" font="vector" ratio="20" align="center">STIM OUT</text>
-<text x="89" y="26.1" size="0.6096" layer="21" font="vector" ratio="12" align="center">Gnd</text>
-<text x="86.2" y="26.1" size="0.6096" layer="21" font="vector" ratio="14" align="center">STIM</text>
-<text x="82.9" y="36.3" size="0.6096" layer="21" font="vector" ratio="14" align="center">STIM
+<text x="88" y="27.3" size="1.4224" layer="21" font="vector" ratio="20" align="center">STIM
+OUT</text>
+<text x="89.1" y="18.5" size="0.6096" layer="21" font="vector" ratio="12" align="center">Gnd</text>
+<text x="86.3" y="18.5" size="0.6096" layer="21" font="vector" ratio="14" align="center">STIM</text>
+<text x="86.4" y="35.9" size="0.6096" layer="21" font="vector" ratio="14" align="center">STIM
 (3.3V)</text>
-<text x="89.2" y="35.9" size="0.6096" layer="21" font="vector" ratio="14" align="center">Gnd</text>
-<text x="144.2" y="23.4" size="1.778" layer="21" font="vector" ratio="20" align="center">SWITCH
+<text x="88.9" y="35.9" size="0.6096" layer="21" font="vector" ratio="14" align="center">Gnd</text>
+<text x="107.5" y="60.1" size="1.778" layer="21" font="vector" ratio="20" align="center">SWITCH
 NETWORK</text>
-<text x="75" y="68.6" size="1.016" layer="21" font="vector" ratio="20" align="center-left">I2C</text>
-<text x="68" y="68.3" size="1.016" layer="21" font="vector" ratio="20" align="center-left">SERIAL</text>
-<text x="82.5" y="72" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">SCL</text>
-<text x="79.9" y="72" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">SDA</text>
-<text x="77.5" y="72" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Rx</text>
-<text x="74.9" y="72" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Tx</text>
-<text x="88" y="7.3" size="0.8128" layer="21" font="vector" ratio="20" align="center-right">GND</text>
-<text x="93" y="6.1" size="0.8128" layer="21" font="vector" ratio="20" align="center-right">GND</text>
-<text x="40.6" y="12.1" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">GND</text>
-<text x="43.2" y="12.1" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">GND</text>
-<text x="38" y="62.1" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">GND</text>
-<text x="93.7" y="69" size="0.8128" layer="21" font="vector" ratio="20" rot="R180" align="center-right">5V</text>
-<text x="38.2" y="12.1" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">5V</text>
-<text x="35.6" y="12.1" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">3v3</text>
-<text x="88.8" y="57.6" size="0.8128" layer="21" font="vector" ratio="20" rot="SR270" align="center-right">Pmark
+<text x="83.8" y="66.7" size="1.016" layer="21" font="vector" ratio="20" align="center-left">I2C</text>
+<text x="77.4" y="66.7" size="1.016" layer="21" font="vector" ratio="20" align="center-left">SERIAL</text>
+<text x="86.1" y="62.6" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">SCL</text>
+<text x="83.55" y="62.6" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">SDA</text>
+<text x="81.1" y="62.6" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Rx</text>
+<text x="78.5" y="62.6" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">Tx</text>
+<text x="94.9" y="19.6" size="0.8128" layer="21" font="vector" ratio="20" align="center-right">GND</text>
+<text x="97.5" y="19.6" size="0.8128" layer="21" font="vector" ratio="20" align="center-right">GND</text>
+<text x="40.3" y="18.6" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-left">GND</text>
+<text x="42.9" y="18.6" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-left">GND</text>
+<text x="26.4" y="62.6" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">GND</text>
+<text x="98.7" y="64.7" size="0.8128" layer="21" font="vector" ratio="20" rot="R180" align="center-right">5V</text>
+<text x="37.9" y="18.6" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-left">5V</text>
+<text x="35.3" y="18.6" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-left">3v3</text>
+<text x="99" y="59.6" size="0.8128" layer="21" font="vector" ratio="20" rot="SR270" align="center">Pmark
 in</text>
-<text x="88.2" y="45.8" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">Sync</text>
-<text x="88.2" y="43.2" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">Reset</text>
-<text x="92.4" y="38.5" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">DIN+</text>
-<text x="92.4" y="35.9" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">DIN-</text>
-<text x="92.4" y="33.5" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">SCLK</text>
+<text x="98.3" y="46.9" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">Sync</text>
+<text x="98.3" y="44.4" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">Reset</text>
+<text x="98.3" y="41.85" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">DIN+</text>
+<text x="98.3" y="39.3" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">DIN-</text>
+<text x="98.3" y="36.75" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">SCLK</text>
 <rectangle x1="108.810425" y1="16.168275" x2="108.867575" y2="16.187325" layer="16"/>
 <rectangle x1="108.810425" y1="16.187325" x2="108.867575" y2="16.206375" layer="16"/>
 <rectangle x1="108.829475" y1="16.206375" x2="108.867575" y2="16.225425" layer="16"/>
@@ -1264,8 +1266,9 @@ in</text>
 <rectangle x1="104.105075" y1="22.302375" x2="108.867575" y2="22.321425" layer="16"/>
 <rectangle x1="104.105075" y1="22.321425" x2="108.867575" y2="22.340475" layer="16"/>
 <rectangle x1="104.105075" y1="22.340475" x2="108.867575" y2="22.359525" layer="16"/>
-<text x="182.02665" y="73.25325" size="3.556" layer="21" font="vector" ratio="21" align="center">UCL EIT
-SCOUSETOM V2</text>
+<text x="81.31865" y="50.03725" size="2.54" layer="21" font="vector" ratio="21" align="center">UCL EIT
+SCOUSETOM
+V2.5</text>
 <text x="-14.0928" y="18.9045" size="1.778" layer="21" font="vector" ratio="21" rot="R90" align="center">BYLAD</text>
 <text x="2.55" y="16.8" size="1.77" layer="16" font="vector" ratio="17" rot="MR0" align="center">JIMMY 2015</text>
 <dimension x1="-24.8" y1="67.2" x2="-24.765" y2="10.795" x3="-32.116565625" y3="38.992946875" textsize="1.77" textratio="17" layer="47"/>
@@ -1375,15 +1378,15 @@ SCOUSETOM V2</text>
 <vertex x="-2.29289375" y="42.79289375" curve="45"/>
 <vertex x="-1.5857875" y="42.5"/>
 <vertex x="2.0857875" y="42.5" curve="-45"/>
-<vertex x="2.79289375" y="42.20710625"/>
-<vertex x="4.20710625" y="40.49289375" curve="45"/>
-<vertex x="4.9142125" y="40.2"/>
-<vertex x="12.7857875" y="40.2" curve="-45"/>
-<vertex x="13.49289375" y="39.90710625"/>
-<vertex x="16.5645625" y="37.07583125" curve="45"/>
+<vertex x="3.79289375" y="42.30710625"/>
+<vertex x="4.80710625" y="40.89289375" curve="45"/>
+<vertex x="5.7142125" y="40.3"/>
+<vertex x="12.8857875" y="40.2" curve="-45"/>
+<vertex x="13.59289375" y="39.90710625"/>
+<vertex x="16.6645625" y="37.17583125" curve="45"/>
 <vertex x="16.97166875" y="37.0829375"/>
-<vertex x="25.0857875" y="37" curve="-45"/>
-<vertex x="25.79289375" y="36.70710625"/>
+<vertex x="25.1857875" y="37.1" curve="-45"/>
+<vertex x="25.89289375" y="36.80710625"/>
 <vertex x="26.20710625" y="36.29289375" curve="-45"/>
 <vertex x="26.5" y="35.5857875"/>
 <vertex x="26.5" y="24.3607125" curve="-74.521434"/>
@@ -1502,14 +1505,14 @@ SCOUSETOM V2</text>
 <vertex x="-2.29289375" y="42.79289375" curve="45"/>
 <vertex x="-1.5857875" y="42.5"/>
 <vertex x="2.0857875" y="42.5" curve="-45"/>
-<vertex x="2.79289375" y="42.20710625"/>
-<vertex x="4.5" y="40.2"/>
+<vertex x="3.69289375" y="42.30710625"/>
+<vertex x="5.4" y="40.3"/>
 <vertex x="12.94788125" y="40.2" curve="-28.300744"/>
 <vertex x="13.42198125" y="40.080471875"/>
-<vertex x="16.17801875" y="37.119528125" curve="28.300744"/>
-<vertex x="17.25211875" y="37"/>
-<vertex x="25.0857875" y="37" curve="-45"/>
-<vertex x="25.79289375" y="36.70710625"/>
+<vertex x="16.57801875" y="37.219528125" curve="28.300744"/>
+<vertex x="17.45211875" y="37.1"/>
+<vertex x="25.0857875" y="37.1" curve="-45"/>
+<vertex x="25.79289375" y="36.90710625"/>
 <vertex x="26.20710625" y="36.29289375" curve="-45"/>
 <vertex x="26.5" y="35.5857875"/>
 <vertex x="26.5" y="24.3607125" curve="-74.521434"/>
@@ -1522,6 +1525,20 @@ SCOUSETOM V2</text>
 <vertex x="20" y="11"/>
 <vertex x="25" y="11"/>
 </polygon>
+<text x="90.4" y="64.7" size="0.8128" layer="21" font="vector" ratio="20" rot="R180" align="center-right">5V</text>
+<text x="91.1" y="59.3" size="0.8128" layer="21" font="vector" ratio="20" rot="SR270" align="center">CS 
+Extra</text>
+<text x="-2.7" y="35.6" size="1.016" layer="21" font="vector" ratio="20" rot="R180" align="center-right">???</text>
+<text x="106.6" y="20" size="1.778" layer="21" font="vector" ratio="20" align="center">STIM
+OUT</text>
+<text x="23.1" y="51.6" size="1.27" layer="21" font="vector" ratio="20" rot="R90" align="center-left">GND</text>
+<text x="96.6" y="17.1" size="0.6096" layer="21" font="vector" ratio="12" align="center">Gnd</text>
+<text x="103.6" y="17" size="0.6096" layer="21" font="vector" ratio="14" align="center">STIM</text>
+<text x="98.3" y="49.6" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">Tst1</text>
+<text x="98.3" y="49.6" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">Tst1</text>
+<text x="98.3" y="34.3" size="0.6096" layer="21" font="vector" ratio="10" rot="R90" align="center">Tst2</text>
+<text x="102.5" y="22.5" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">GND</text>
+<text x="102.5" y="31.2" size="0.8128" layer="21" font="vector" ratio="20" rot="R90" align="center-right">BONUS PINS</text>
 </plain>
 <libraries>
 <library name="resistor">
@@ -4333,7 +4350,7 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 </autorouter>
 <elements>
 <element name="C1" library="resistor" package="C0805" value="0.1uF" x="11.845" y="36.11" smashed="yes">
-<attribute name="NAME" x="10.575" y="37.38" size="1.27" layer="25"/>
+<attribute name="NAME" x="10.875" y="37.38" size="1.27" layer="25"/>
 <attribute name="VALUE" x="10.575" y="33.57" size="1.27" layer="27"/>
 </element>
 <element name="DUE" library="DUElib130425_JAMES" package="DUE(NOMID)" value="DUE(NOMID)" x="63.24" y="39.3"/>
@@ -4343,7 +4360,7 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="MPN" value="ADM3202ARUZ" x="8.67" y="31.03" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="SUPPLIER" value="Analog Devices" x="8.67" y="31.03" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_FARNELL" value="9425586" x="8.67" y="31.03" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="NAME" x="5.555" y="29.7156" size="2.0828" layer="25" ratio="10" rot="SR90"/>
+<attribute name="NAME" x="8.4156" y="25.345" size="2.0828" layer="25" ratio="10" rot="SR0"/>
 <attribute name="VALUE" x="3.59" y="34.4844" size="2.0828" layer="27" ratio="10" rot="SR270"/>
 </element>
 <element name="V2" library="traco-electronic" package="TME" value="TME1205S" x="59.38" y="24.5" smashed="yes" rot="R90">
@@ -4355,15 +4372,21 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="VALUE" x="57.475" y="19.42" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="C2" library="resistor" package="C0805" value="0.1uF" x="7.4" y="37.38" smashed="yes">
-<attribute name="NAME" x="6.13" y="34.75" size="1.27" layer="25"/>
+<attribute name="NAME" x="6.43" y="38.65" size="1.27" layer="25"/>
 <attribute name="VALUE" x="6.13" y="34.84" size="1.27" layer="27"/>
 </element>
 <element name="C3" library="resistor" package="C0805" value="0.1uF" x="12.48" y="30.73" smashed="yes" rot="R90">
-<attribute name="NAME" x="13.01" y="26.16" size="1.27" layer="25" rot="R90"/>
+<attribute name="NAME" x="14.81" y="32.16" size="1.27" layer="25" rot="R90"/>
 <attribute name="VALUE" x="15.02" y="29.46" size="1.27" layer="27" rot="R90"/>
 </element>
-<element name="C4" library="resistor" package="C0805" value="0.1uF" x="4.775" y="32.555" rot="R270"/>
-<element name="C5" library="resistor" package="C0805" value="0.1uF" x="14.88" y="28.87" rot="R270"/>
+<element name="C4" library="resistor" package="C0805" value="0.1uF" x="4.775" y="32.555" smashed="yes" rot="R270">
+<attribute name="NAME" x="2.445" y="33.525" size="1.27" layer="25" rot="R270"/>
+<attribute name="VALUE" x="2.235" y="33.825" size="1.27" layer="27" rot="R270"/>
+</element>
+<element name="C5" library="resistor" package="C0805" value="0.1uF" x="14.88" y="28.87" smashed="yes" rot="R270">
+<attribute name="NAME" x="16.55" y="31.06" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="12.34" y="30.14" size="1.27" layer="27" rot="R270"/>
+</element>
 <element name="J4" library="con-molex" package="6410-02" value="Stim out Brd" x="87.53" y="21.96" smashed="yes" rot="R180">
 <attribute name="OC_NEWARK" value="unknown" x="87.53" y="21.96" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MPN" value="" x="87.53" y="21.96" size="1.778" layer="27" rot="R180" display="off"/>
@@ -4385,7 +4408,7 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <element name="R8" library="resistor" package="R0805" value="5K1" x="76.735" y="22.76" rot="R90"/>
 <element name="Q2" library="SparkFun-DiscreteSemi" package="SOT23-3" value="FDN304P" x="79.91" y="22.76" smashed="yes" rot="R270">
 <attribute name="PROD_ID" value="TRANS-08285" x="79.91" y="22.76" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="NAME" x="79.6145" y="20.488" size="0.4064" layer="25"/>
+<attribute name="NAME" x="79.3145" y="20.188" size="0.8128" layer="25"/>
 <attribute name="VALUE" x="79.7195" y="23.776" size="0.4064" layer="27" rot="R270"/>
 </element>
 <element name="T1" library="transistor-npn" package="SOT23-BEC" value="BC817" x="79.275" y="27.04" smashed="yes" rot="R180">
@@ -4397,7 +4420,7 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="VALUE" x="80.775" y="24.345" size="1.27" layer="27" rot="R270"/>
 </element>
 <element name="R10" library="resistor" package="R0805" value="10k" x="83.19" y="28.31" smashed="yes" rot="R180">
-<attribute name="NAME" x="89.56" y="28.84" size="1.27" layer="25" rot="R180"/>
+<attribute name="NAME" x="87.16" y="30.94" size="1.27" layer="25" rot="R180"/>
 <attribute name="VALUE" x="84.46" y="30.85" size="1.27" layer="27" rot="R180"/>
 </element>
 <element name="IC2" library="analog-devices" package="TSSOP14" value="AD5280" x="52.305" y="33.425" smashed="yes" rot="R180">
@@ -4408,11 +4431,13 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="NAME" x="53.68" y="37.75" size="1.27" layer="25" rot="R180"/>
 <attribute name="VALUE" x="55.48" y="37.87" size="1.27" layer="27" rot="R180"/>
 </element>
-<element name="Q3" library="SparkFun-DiscreteSemi" package="SOT323" value="FDV303N" x="66.645" y="20.69" rot="R90">
+<element name="Q3" library="SparkFun-DiscreteSemi" package="SOT323" value="FDV303N" x="66.645" y="20.69" smashed="yes" rot="R90">
 <attribute name="PROD_ID" value="TRANS-11151" x="66.645" y="20.69" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="NAME" x="65.367" y="18.9645" size="0.8128" layer="25" rot="R90"/>
+<attribute name="VALUE" x="65.3355" y="19.574" size="0.4064" layer="27" rot="R90"/>
 </element>
 <element name="R13" library="resistor" package="R0805" value="330" x="70.455" y="19.42" smashed="yes">
-<attribute name="NAME" x="68.92" y="16.49" size="1.27" layer="25"/>
+<attribute name="NAME" x="72.82" y="18.59" size="1.27" layer="25"/>
 <attribute name="VALUE" x="69.82" y="16.88" size="1.27" layer="27"/>
 </element>
 <element name="R14" library="resistor" package="R0805" value="10k" x="70.455" y="21.96" smashed="yes" rot="R180">
@@ -4420,7 +4445,7 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="VALUE" x="71.09" y="24.5" size="1.27" layer="27" rot="R180"/>
 </element>
 <element name="C18" library="resistor" package="C0805" value="0.1uF" x="60.41" y="33.225" smashed="yes" rot="R90">
-<attribute name="NAME" x="63.04" y="31.655" size="1.27" layer="25" rot="R90"/>
+<attribute name="NAME" x="63.445" y="36.94" size="1.27" layer="25" rot="R180"/>
 <attribute name="VALUE" x="62.95" y="31.955" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="C19" library="resistor" package="C0805" value="10uF" x="58.17" y="33.225" smashed="yes" rot="R270">
@@ -4428,33 +4453,33 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="VALUE" x="55.63" y="34.495" size="1.27" layer="27" rot="R270"/>
 </element>
 <element name="X2" library="DSUBJAMES" package="DSUB9" value="SW DSUB" x="105.5" y="41.89" smashed="yes" rot="R90">
-<attribute name="NAME" x="110.45" y="60.025" size="1.778" layer="25" ratio="10" rot="R180"/>
+<attribute name="NAME" x="113.75" y="25.825" size="1.778" layer="25" ratio="10" rot="R180"/>
 <attribute name="VALUE" x="103.087" y="41.89" size="1.778" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="X3" library="DSUBJAMES" package="DSUB9" value="CS DSUB" x="2.75" y="22.71" smashed="yes">
-<attribute name="NAME" x="17.5096" y="28.06295" size="1.778" layer="25" ratio="10" rot="R180"/>
+<attribute name="NAME" x="18.73705" y="17.8096" size="1.778" layer="25" ratio="10" rot="R270"/>
 <attribute name="VALUE" x="2.75" y="25.123" size="1.778" layer="27" ratio="10"/>
 </element>
 <element name="C15" library="resistor" package="C0805" value="10uF" x="51.125" y="27.04" smashed="yes" rot="R270">
-<attribute name="NAME" x="50.595" y="32.81" size="1.27" layer="25" rot="R270"/>
+<attribute name="NAME" x="46.99" y="29.295" size="1.27" layer="25"/>
 <attribute name="VALUE" x="48.585" y="28.31" size="1.27" layer="27" rot="R270"/>
 </element>
 <element name="C16" library="resistor" package="C0805" value="0.1uF" x="53.665" y="27.04" smashed="yes" rot="R90">
-<attribute name="NAME" x="53.895" y="29.37" size="1.27" layer="25" rot="R90"/>
+<attribute name="NAME" x="54.63" y="30.495" size="1.27" layer="25" rot="R180"/>
 <attribute name="VALUE" x="56.205" y="25.77" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="C20" library="resistor" package="C0805" value="0.1uF" x="53.665" y="21.96" smashed="yes" rot="R90">
-<attribute name="NAME" x="54.195" y="16.49" size="1.27" layer="25" rot="R90"/>
+<attribute name="NAME" x="54.91" y="19.395" size="1.27" layer="25" rot="R180"/>
 <attribute name="VALUE" x="56.205" y="20.69" size="1.27" layer="27" rot="R90"/>
 </element>
 <element name="C23" library="resistor" package="C0805" value="10uF" x="51.125" y="21.96" smashed="yes" rot="R270">
-<attribute name="NAME" x="50.595" y="19.93" size="1.27" layer="25" rot="R270"/>
+<attribute name="NAME" x="47.27" y="18.195" size="1.27" layer="25"/>
 <attribute name="VALUE" x="48.585" y="23.23" size="1.27" layer="27" rot="R270"/>
 </element>
 <element name="DIN8" library="mini din 8 james" package="DIN8" value="CS_TRIGGERLINK" x="-13.14" y="39.37" rot="R90"/>
-<element name="JP1" library="pinhead" package="1X03" value="PMARK" x="0.71" y="38.1" smashed="yes" rot="R270">
-<attribute name="NAME" x="-2.4523" y="39.9161" size="1.27" layer="25" ratio="10" rot="R270"/>
-<attribute name="VALUE" x="-2.465" y="40.64" size="1.27" layer="27" rot="R270"/>
+<element name="JP1" library="pinhead" package="1X03" value="PMARK" x="2.21" y="38.1" smashed="yes" rot="R270">
+<attribute name="NAME" x="-2.1161" y="32.9477" size="1.27" layer="25" ratio="10"/>
+<attribute name="VALUE" x="-0.965" y="40.64" size="1.27" layer="27" rot="R270"/>
 </element>
 <element name="JP2" library="pinhead" package="1X02" value="Ext Stim" x="87.53" y="33.39" smashed="yes">
 <attribute name="NAME" x="92.2812" y="31.8138" size="1.27" layer="25" ratio="10" rot="R90"/>
@@ -4466,7 +4491,7 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 </element>
 <element name="IC1" library="v-reg" package="DPACK" value="LM317MBDT" x="67.845" y="28.31" rot="R270"/>
 <element name="JP3" library="pinhead" package="2X05" value="IND_BK" x="17.96" y="48.515" smashed="yes">
-<attribute name="NAME" x="31.8562" y="46.6538" size="1.27" layer="25" ratio="10" rot="R90"/>
+<attribute name="NAME" x="11.1562" y="47.2538" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="6.53" y="45.34" size="1.27" layer="27"/>
 </element>
 <element name="U3" library="Analog Devices_By_element14_Batch_1" package="SOIC127P1032X265-16N" value="ADUM5402ARWZ" x="29.55" y="30.9" rot="R180">
@@ -4476,55 +4501,129 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="SUPPLIER" value="Analog Devices" x="29.55" y="30.9" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="OC_FARNELL" value="1838922" x="29.55" y="30.9" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="U4" library="ADI-Phase-2" package="SOIC127P1032X265-16N" value="ADUM1410ARWZ" x="50.7" y="51.9" rot="R270">
+<element name="U4" library="ADI-Phase-2" package="SOIC127P1032X265-16N" value="ADUM1410ARWZ" x="50.7" y="51.9" smashed="yes" rot="R270">
 <attribute name="PACKAGE" value="16-Lead SOIC_W" x="50.7" y="51.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_NEWARK" value="73T8174" x="50.7" y="51.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="ADUM1410ARWZ" x="50.7" y="51.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="SUPPLIER" value="Analog Devices" x="50.7" y="51.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_FARNELL" value="2067770" x="50.7" y="51.9" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="NAME" x="47.185" y="60.7544" size="2.0828" layer="25" ratio="10" rot="SR270"/>
+<attribute name="VALUE" x="42.445" y="55.3544" size="2.0828" layer="27" ratio="10" rot="SR270"/>
 </element>
-<element name="U5" library="Analog Devices_By_element14_Batch_1" package="SOIC127P1032X265-16N" value="ADUM5000ARWZ" x="63.3" y="51.9" rot="R270">
+<element name="U5" library="Analog Devices_By_element14_Batch_1" package="SOIC127P1032X265-16N" value="ADUM5000ARWZ" x="63.3" y="51.9" smashed="yes" rot="R270">
 <attribute name="PACKAGE" value="SOIC-16" x="63.3" y="51.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_NEWARK" value="19P8235" x="63.3" y="51.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="ADUM5000ARWZ" x="63.3" y="51.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="SUPPLIER" value="Analog Devices" x="63.3" y="51.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_FARNELL" value="1701256" x="63.3" y="51.9" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="NAME" x="69.085" y="55.6544" size="2.0828" layer="25" ratio="10" rot="SR270"/>
+<attribute name="VALUE" x="55.045" y="55.3544" size="2.0828" layer="27" ratio="10" rot="SR270"/>
 </element>
-<element name="C7" library="resistor" package="C0805" value="10nF" x="40.95" y="26.55" rot="R90"/>
-<element name="C8" library="resistor" package="C0805" value="10uF" x="36.45" y="26.55" rot="R90"/>
-<element name="C10" library="resistor" package="C0805" value=".1uF" x="20.4" y="27" rot="R90"/>
-<element name="C24" library="resistor" package="C0805" value="10uF" x="22.65" y="27" rot="R90"/>
-<element name="C25" library="resistor" package="C0805" value="10nF" x="18.15" y="27" rot="R90"/>
-<element name="C26" library="resistor" package="C0805" value=".1uF" x="38.7" y="26.55" rot="R90"/>
-<element name="C29" library="resistor" package="C0805" value=".1uF" x="66.9" y="61.2" rot="R180"/>
-<element name="C30" library="resistor" package="C0805" value="10uF" x="66.9" y="58.8" rot="R180"/>
-<element name="C31" library="resistor" package="C0805" value="10uF" x="66.9" y="44.7" rot="R180"/>
-<element name="C32" library="resistor" package="C0805" value=".1uF" x="66.9" y="42.3" rot="R180"/>
-<element name="C33" library="resistor" package="C0805" value="10nF" x="66.9" y="39.9" rot="R180"/>
+<element name="C7" library="resistor" package="C0805" value="10nF" x="40.95" y="26.55" smashed="yes" rot="R90">
+<attribute name="NAME" x="41.78" y="21.98" size="1.27" layer="25" rot="R90"/>
+<attribute name="VALUE" x="43.49" y="25.28" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="C8" library="resistor" package="C0805" value="10uF" x="36.45" y="26.55" smashed="yes" rot="R90">
+<attribute name="NAME" x="36.02" y="24.27" size="1.27" layer="25" rot="R270"/>
+<attribute name="VALUE" x="38.99" y="25.28" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="C10" library="resistor" package="C0805" value=".1uF" x="20.4" y="27" smashed="yes" rot="R90">
+<attribute name="NAME" x="20.77" y="24.67" size="1.27" layer="25" rot="R270"/>
+<attribute name="VALUE" x="22.94" y="25.73" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="C24" library="resistor" package="C0805" value="10uF" x="22.65" y="27" smashed="yes" rot="R90">
+<attribute name="NAME" x="22.72" y="24.67" size="1.27" layer="25" rot="R270"/>
+<attribute name="VALUE" x="25.19" y="25.73" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="C25" library="resistor" package="C0805" value="10nF" x="18.15" y="27" smashed="yes" rot="R90">
+<attribute name="NAME" x="18.52" y="24.67" size="1.27" layer="25" rot="R270"/>
+<attribute name="VALUE" x="20.69" y="25.73" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="C26" library="resistor" package="C0805" value=".1uF" x="38.7" y="26.55" smashed="yes" rot="R90">
+<attribute name="NAME" x="38.42" y="24.27" size="1.27" layer="25" rot="R270"/>
+<attribute name="VALUE" x="41.24" y="25.28" size="1.27" layer="27" rot="R90"/>
+</element>
+<element name="C29" library="resistor" package="C0805" value=".1uF" x="66.9" y="61.2" smashed="yes" rot="R180">
+<attribute name="NAME" x="66.37" y="63.23" size="0.8128" layer="25" rot="R180"/>
+<attribute name="VALUE" x="68.17" y="63.74" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C30" library="resistor" package="C0805" value="10uF" x="66.9" y="58.8" smashed="yes" rot="R180">
+<attribute name="NAME" x="64.87" y="60.53" size="0.8128" layer="25" rot="R180"/>
+<attribute name="VALUE" x="68.17" y="61.34" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C31" library="resistor" package="C0805" value="10uF" x="66.9" y="44.7" smashed="yes" rot="R180">
+<attribute name="NAME" x="62.93" y="45.07" size="0.8128" layer="25"/>
+<attribute name="VALUE" x="68.17" y="47.24" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C32" library="resistor" package="C0805" value=".1uF" x="66.9" y="42.3" smashed="yes" rot="R180">
+<attribute name="NAME" x="64.87" y="42.53" size="0.8128" layer="25" rot="R180"/>
+<attribute name="VALUE" x="68.17" y="44.84" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C33" library="resistor" package="C0805" value="10nF" x="66.9" y="39.9" smashed="yes" rot="R180">
+<attribute name="NAME" x="64.87" y="40.13" size="0.8128" layer="25" rot="R180"/>
+<attribute name="VALUE" x="68.17" y="42.44" size="1.27" layer="27" rot="R180"/>
+</element>
 <element name="JP4" library="pinhead" package="1X03" value="V_TRIG_SELECT" x="73.5" y="42.9" rot="R270"/>
-<element name="C34" library="resistor" package="C0805" value=".1uF" x="54.9" y="44.85" rot="R180"/>
-<element name="C35" library="resistor" package="C0805" value="1uF" x="54.9" y="42.6" rot="R180"/>
-<element name="C36" library="resistor" package="C0805" value=".1uF" x="55.27" y="61.2" rot="R180"/>
-<element name="C37" library="resistor" package="C0805" value="1uF" x="55.12" y="58.8" rot="R180"/>
-<element name="U7" library="ADI-Phase-2" package="SOIC127P1032X265-16N" value="ADUM1410ARWZ" x="39" y="51.9" rot="R270">
+<element name="C34" library="resistor" package="C0805" value=".1uF" x="54.9" y="44.85" smashed="yes" rot="R180">
+<attribute name="NAME" x="52.87" y="45.38" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="56.17" y="47.39" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C35" library="resistor" package="C0805" value="1uF" x="54.9" y="42.6" smashed="yes" rot="R180">
+<attribute name="NAME" x="56.47" y="41.33" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="56.17" y="45.14" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C36" library="resistor" package="C0805" value=".1uF" x="55.27" y="61.2" smashed="yes" rot="R180">
+<attribute name="NAME" x="52.94" y="61.73" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="56.54" y="63.74" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C37" library="resistor" package="C0805" value="1uF" x="55.12" y="58.8" smashed="yes" rot="R180">
+<attribute name="NAME" x="53.09" y="59.33" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="56.39" y="61.34" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="U7" library="ADI-Phase-2" package="SOIC127P1032X265-16N" value="ADUM1410ARWZ" x="39" y="51.9" smashed="yes" rot="R270">
 <attribute name="PACKAGE" value="16-Lead SOIC_W" x="57.9" y="66.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_NEWARK" value="73T8174" x="57.9" y="66.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="ADUM1410ARWZ" x="57.9" y="66.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="SUPPLIER" value="Analog Devices" x="57.9" y="66.9" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_FARNELL" value="2067770" x="57.9" y="66.9" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="NAME" x="30.985" y="53.5544" size="2.0828" layer="25" ratio="10" rot="SR270"/>
+<attribute name="VALUE" x="30.745" y="55.3544" size="2.0828" layer="27" ratio="10" rot="SR270"/>
 </element>
-<element name="C38" library="resistor" package="C0805" value=".1uF" x="43.35" y="44.85" rot="R180"/>
-<element name="C39" library="resistor" package="C0805" value="1uF" x="43.35" y="42.6" rot="R180"/>
-<element name="C40" library="resistor" package="C0805" value=".1uF" x="42.9" y="59.1" rot="R180"/>
-<element name="C41" library="resistor" package="C0805" value="1uF" x="42.9" y="61.5" rot="R180"/>
-<element name="JP5" library="pinhead" package="1X05" value="BONUS_PINOUT" x="100.05" y="26.55" rot="R270"/>
-<element name="C11" library="resistor" package="C0805" value="10uF" x="59.7" y="44.7" rot="R180"/>
-<element name="C12" library="resistor" package="C0805" value="10uF" x="59.7" y="60" rot="R180"/>
-<element name="J1" library="con-molex" package="7395-02" value="STIM OUT" x="99.9" y="17.1">
+<element name="C38" library="resistor" package="C0805" value=".1uF" x="43.35" y="44.85" smashed="yes" rot="R180">
+<attribute name="NAME" x="41.02" y="45.38" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="44.62" y="47.39" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C39" library="resistor" package="C0805" value="1uF" x="43.35" y="42.6" smashed="yes" rot="R180">
+<attribute name="NAME" x="41.02" y="43.13" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="44.62" y="45.14" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C40" library="resistor" package="C0805" value=".1uF" x="42.9" y="59.1" smashed="yes" rot="R180">
+<attribute name="NAME" x="40.87" y="59.63" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="44.17" y="61.64" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C41" library="resistor" package="C0805" value="1uF" x="42.9" y="61.5" smashed="yes" rot="R180">
+<attribute name="NAME" x="40.87" y="62.03" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="44.17" y="64.04" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="JP5" library="pinhead" package="1X05" value="BONUS_PINOUT" x="100.05" y="26.55" smashed="yes" rot="R270">
+<attribute name="NAME" x="99.9238" y="33.1788" size="1.27" layer="25" ratio="10"/>
+<attribute name="VALUE" x="96.875" y="32.9" size="1.27" layer="27" rot="R270"/>
+</element>
+<element name="C11" library="resistor" package="C0805" value="10uF" x="59.7" y="44.7" smashed="yes" rot="R180">
+<attribute name="NAME" x="61.27" y="43.43" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="60.97" y="47.24" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="C12" library="resistor" package="C0805" value="10uF" x="59.7" y="60" smashed="yes" rot="R180">
+<attribute name="NAME" x="61.27" y="62.63" size="1.27" layer="25" rot="R180"/>
+<attribute name="VALUE" x="60.97" y="62.54" size="1.27" layer="27" rot="R180"/>
+</element>
+<element name="J1" library="con-molex" package="7395-02" value="STIM OUT" x="99.9" y="17.1" smashed="yes">
 <attribute name="OC_NEWARK" value="unknown" x="99.9" y="17.1" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
 <attribute name="MPN" value="" x="99.9" y="17.1" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
 <attribute name="MF" value="" x="99.9" y="17.1" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
 <attribute name="OC_FARNELL" value="9731601" x="99.9" y="17.1" size="1.778" layer="27" font="vector" ratio="15" display="off"/>
+<attribute name="NAME" x="96.8401" y="15.5479" size="1.016" layer="25" ratio="10" rot="R180"/>
+<attribute name="VALUE" x="103.3021" y="14.6601" size="0.8128" layer="27" ratio="10" rot="R270"/>
 </element>
 </elements>
 <signals>
@@ -5450,16 +5549,15 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <contactref element="DIN8" pad="7"/>
 <wire x1="24.851" y1="35.345" x2="24.851" y2="34.075" width="0.4064" layer="1"/>
 <wire x1="-6.84" y1="42.77" x2="-6.84" y2="40.27" width="0.4064" layer="1"/>
-<wire x1="-6.84" y1="40.27" x2="-6.32" y2="40.64" width="0.4064" layer="1"/>
-<wire x1="-6.32" y1="40.64" x2="0.71" y2="40.64" width="0.4064" layer="1"/>
+<wire x1="-6.84" y1="40.27" x2="-6.92" y2="41.04" width="0.4064" layer="1"/>
+<wire x1="-6.92" y1="41.04" x2="2.21" y2="40.64" width="0.4064" layer="1"/>
 <wire x1="18.15" y1="27.95" x2="17.82" y2="27.92" width="0.4064" layer="1"/>
 <wire x1="17.82" y1="27.92" x2="14.88" y2="27.92" width="0.4064" layer="1"/>
-<wire x1="0.71" y1="40.64" x2="-0.01" y2="40.64" width="0.4064" layer="16"/>
-<wire x1="-0.01" y1="40.64" x2="-1.65" y2="39" width="0.4064" layer="16"/>
-<wire x1="-1.65" y1="39" x2="-1.65" y2="34.8" width="0.4064" layer="16"/>
-<wire x1="-1.65" y1="34.8" x2="-0.45" y2="33.6" width="0.4064" layer="16"/>
-<wire x1="-0.45" y1="33.6" x2="-0.45" y2="25.95" width="0.4064" layer="16"/>
-<wire x1="6.4964" y1="24.45" x2="8.2364" y2="22.71" width="0.4064" layer="16"/>
+<wire x1="2.21" y1="40.64" x2="1.49" y2="40.64" width="0.4064" layer="16"/>
+<wire x1="1.49" y1="40.64" x2="-0.15" y2="39" width="0.4064" layer="16"/>
+<wire x1="-0.15" y1="39" x2="-0.15" y2="34.8" width="0.4064" layer="16"/>
+<wire x1="-0.15" y1="34.8" x2="1.05" y2="33.6" width="0.4064" layer="16"/>
+<wire x1="6.3" y1="24.6464" x2="8.2364" y2="22.71" width="0.4064" layer="16"/>
 <wire x1="10.2956" y1="28.2106" x2="10.2956" y2="24.7692" width="0.4064" layer="1"/>
 <wire x1="10.2956" y1="24.7692" x2="8.2364" y2="22.71" width="0.4064" layer="1"/>
 <wire x1="14.88" y1="27.92" x2="13.37" y2="27.92" width="0.4064" layer="1"/>
@@ -5473,16 +5571,10 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <wire x1="10.2" y1="30.15" x2="10.2956" y2="30.0544" width="0.4064" layer="1"/>
 <wire x1="12.75" y1="27.3" x2="12.75" y2="25.35" width="0.4064" layer="16"/>
 <wire x1="12.75" y1="25.35" x2="11.85" y2="24.45" width="0.4064" layer="16"/>
-<wire x1="1.05" y1="24.45" x2="-0.45" y2="25.95" width="0.4064" layer="16"/>
-<wire x1="1.05" y1="24.45" x2="6.4964" y2="24.45" width="0.4064" layer="16"/>
 <wire x1="24.851" y1="34.075" x2="16.025" y2="34.075" width="0.4064" layer="1"/>
 <wire x1="16.025" y1="34.075" x2="15.6" y2="34.5" width="0.4064" layer="1"/>
 <wire x1="15.6" y1="34.5" x2="15.6" y2="37.2" width="0.4064" layer="1"/>
 <wire x1="15.6" y1="37.2" x2="13.2" y2="39.6" width="0.4064" layer="1"/>
-<wire x1="13.2" y1="39.6" x2="3.6" y2="39.6" width="0.4064" layer="1"/>
-<wire x1="3.6" y1="39.6" x2="2.4" y2="40.8" width="0.4064" layer="1"/>
-<wire x1="2.4" y1="40.8" x2="0.87" y2="40.8" width="0.4064" layer="1"/>
-<wire x1="0.87" y1="40.8" x2="0.71" y2="40.64" width="0.4064" layer="1"/>
 <polygon width="0.254" layer="1" isolate="0.4064">
 <vertex x="19.2" y="13.2"/>
 <vertex x="22.2" y="18.6"/>
@@ -5493,7 +5585,7 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <vertex x="18" y="36.6"/>
 <vertex x="13.99289375" y="40.40710625" curve="45"/>
 <vertex x="13.2857875" y="40.7"/>
-<vertex x="5.4" y="40.8"/>
+<vertex x="5.6" y="41.1"/>
 <vertex x="3.6" y="43.8"/>
 <vertex x="-2.4" y="46.8"/>
 <vertex x="-3.3" y="46.8"/>
@@ -5531,6 +5623,25 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <via x="16.5" y="27.3" extent="1-16" drill="0.508"/>
 <via x="18" y="34.5" extent="1-16" drill="0.508"/>
 <via x="4.5" y="29.4" extent="1-16" drill="0.508"/>
+<wire x1="13.2" y1="39.6" x2="5.1" y2="39.6" width="0.4064" layer="1"/>
+<wire x1="2.21" y1="40.64" x2="4.06" y2="40.64" width="0.4064" layer="1"/>
+<wire x1="4.06" y1="40.64" x2="5.1" y2="39.6" width="0.4064" layer="1"/>
+<wire x1="1.05" y1="33.6" x2="1.05" y2="29.45" width="0.4064" layer="16"/>
+<wire x1="1.05" y1="29.45" x2="3.6" y2="26.9" width="0.4064" layer="16"/>
+<wire x1="3.6" y1="26.9" x2="5.6" y2="26.9" width="0.4064" layer="16"/>
+<wire x1="5.6" y1="26.9" x2="6.3" y2="26.2" width="0.4064" layer="16"/>
+<wire x1="6.3" y1="26.2" x2="6.3" y2="24.6464" width="0.4064" layer="16"/>
+<via x="-9" y="46.5" extent="1-16" drill="0.508"/>
+<via x="-5.5" y="46.5" extent="1-16" drill="0.508"/>
+<via x="-14" y="43" extent="1-16" drill="0.508"/>
+<via x="-14" y="36.5" extent="1-16" drill="0.508"/>
+<via x="-14" y="30.5" extent="1-16" drill="0.508"/>
+<via x="-14" y="24" extent="1-16" drill="0.508"/>
+<via x="-13.5" y="15" extent="1-16" drill="0.508"/>
+<via x="-6" y="15" extent="1-16" drill="0.508"/>
+<via x="11" y="15" extent="1-16" drill="0.508"/>
+<via x="17.5" y="15" extent="1-16" drill="0.508"/>
+<via x="17.5" y="18" extent="1-16" drill="0.508"/>
 </signal>
 <signal name="TTL_TX_ISO">
 <contactref element="U3" pad="14"/>
@@ -5559,16 +5670,16 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <contactref element="DIN8" pad="3"/>
 <contactref element="JP1" pad="2"/>
 <wire x1="-9.34" y1="35.97" x2="-8.02" y2="34.8" width="0.4064" layer="1"/>
-<wire x1="-8.02" y1="34.8" x2="-5.85" y2="34.8" width="0.4064" layer="1"/>
-<wire x1="-5.85" y1="34.8" x2="-2.55" y2="38.1" width="0.4064" layer="1"/>
-<wire x1="-2.55" y1="38.1" x2="0.71" y2="38.1" width="0.4064" layer="1"/>
+<wire x1="-8.02" y1="34.8" x2="-4.35" y2="34.8" width="0.4064" layer="1"/>
+<wire x1="-1.05" y1="38.1" x2="2.21" y2="38.1" width="0.4064" layer="1"/>
 <wire x1="24.851" y1="32.805" x2="15.645" y2="32.805" width="0.4064" layer="1"/>
 <wire x1="15.645" y1="32.805" x2="14.4" y2="34.05" width="0.4064" layer="1"/>
 <wire x1="14.4" y1="34.05" x2="14.4" y2="37.05" width="0.4064" layer="1"/>
 <wire x1="4.65" y1="38.1" x2="5.25" y2="38.7" width="0.4064" layer="1"/>
 <wire x1="5.25" y1="38.7" x2="12.75" y2="38.7" width="0.4064" layer="1"/>
 <wire x1="12.75" y1="38.7" x2="14.4" y2="37.05" width="0.4064" layer="1"/>
-<wire x1="0.71" y1="38.1" x2="4.65" y2="38.1" width="0.4064" layer="1"/>
+<wire x1="4.65" y1="38.1" x2="2.21" y2="38.1" width="0.4064" layer="1"/>
+<wire x1="-4.35" y1="34.8" x2="-1.05" y2="38.1" width="0.4064" layer="1"/>
 </signal>
 <signal name="TTL_RX_ISO">
 <contactref element="U1" pad="12"/>
@@ -6073,17 +6184,17 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <signal name="CS_EXTRA_ISO">
 <contactref element="U3" pad="13"/>
 <contactref element="JP1" pad="3"/>
-<wire x1="0.71" y1="35.56" x2="0.71" y2="29.59" width="0.4064" layer="16"/>
+<wire x1="2.21" y1="35.56" x2="2.21" y2="29.59" width="0.4064" layer="16"/>
 <wire x1="10.35" y1="27.75" x2="12.75" y2="30.15" width="0.4064" layer="16"/>
 <wire x1="12.75" y1="30.15" x2="13.95" y2="30.15" width="0.4064" layer="16"/>
 <via x="20.1" y="30.45" extent="1-16" drill="0.6"/>
 <wire x1="20.1" y1="30.45" x2="24.666" y2="30.45" width="0.4064" layer="1"/>
 <wire x1="24.666" y1="30.45" x2="24.851" y2="30.265" width="0.4064" layer="1"/>
-<wire x1="0.71" y1="29.59" x2="2.55" y2="27.75" width="0.4064" layer="16"/>
-<wire x1="2.55" y1="27.75" x2="10.35" y2="27.75" width="0.4064" layer="16"/>
 <wire x1="13.95" y1="30.15" x2="15.2" y2="31.4" width="0.4064" layer="16"/>
 <wire x1="15.2" y1="31.4" x2="19.15" y2="31.4" width="0.4064" layer="16"/>
 <wire x1="19.15" y1="31.4" x2="20.1" y2="30.45" width="0.4064" layer="16"/>
+<wire x1="10.35" y1="27.75" x2="4.05" y2="27.75" width="0.4064" layer="16"/>
+<wire x1="4.05" y1="27.75" x2="2.21" y2="29.59" width="0.4064" layer="16"/>
 </signal>
 <signal name="BONUS_4">
 <contactref element="JP5" pad="4"/>
