@@ -193,10 +193,8 @@ void setup() {
 	// setup PC connection
 	Serial.begin(115200);
 
-	init_pins(); // make sure switches are closed asap and set all low
-	reset_pins();
-	reset_pins_pwr();
-	reset_ind();
+	//Initialize and reset pins
+	setup_pins();
 
 	/*
 	SwitchesPwrOn();
@@ -926,6 +924,16 @@ void dostuff()
 
 
 
+
+void setup_pins()
+{
+	init_pins(); // make sure switches are closed asap and set all low
+	
+	reset_pins();
+	reset_pins_pwr();
+	reset_ind();
+
+}
 
 //function to read command from PC and then put system in "state"
 void getCMD(char CMDIN) 
