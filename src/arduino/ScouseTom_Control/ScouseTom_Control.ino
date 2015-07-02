@@ -189,6 +189,11 @@ int iPrt = 0; //current protocol line
 int iRep = 0; //current protocol repetition
 int iStim = 0; // current stimulation number
 
+
+/**
+* Arduino's setup function
+*
+*/
 void setup() {
 	// setup PC connection
 	Serial.begin(115200);
