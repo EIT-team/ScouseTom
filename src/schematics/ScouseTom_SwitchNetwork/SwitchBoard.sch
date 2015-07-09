@@ -6,36 +6,36 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
-<layer number="2" name="Route2" color="1" fill="3" visible="yes" active="no"/>
-<layer number="3" name="Route3" color="4" fill="3" visible="yes" active="no"/>
-<layer number="4" name="Route4" color="1" fill="4" visible="yes" active="no"/>
-<layer number="5" name="Route5" color="4" fill="4" visible="yes" active="no"/>
-<layer number="6" name="Route6" color="1" fill="8" visible="yes" active="no"/>
-<layer number="7" name="Route7" color="4" fill="8" visible="yes" active="no"/>
-<layer number="8" name="Route8" color="1" fill="2" visible="yes" active="no"/>
-<layer number="9" name="Route9" color="4" fill="2" visible="yes" active="no"/>
-<layer number="10" name="Route10" color="1" fill="7" visible="yes" active="no"/>
-<layer number="11" name="Route11" color="4" fill="7" visible="yes" active="no"/>
-<layer number="12" name="Route12" color="1" fill="5" visible="yes" active="no"/>
-<layer number="13" name="Route13" color="4" fill="5" visible="yes" active="no"/>
-<layer number="14" name="Route14" color="1" fill="6" visible="yes" active="no"/>
-<layer number="15" name="Route15" color="4" fill="6" visible="yes" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
-<layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="no"/>
-<layer number="22" name="bPlace" color="14" fill="1" visible="yes" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
+<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
+<layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
+<layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
+<layer number="6" name="Route6" color="1" fill="8" visible="no" active="no"/>
+<layer number="7" name="Route7" color="4" fill="8" visible="no" active="no"/>
+<layer number="8" name="Route8" color="1" fill="2" visible="no" active="no"/>
+<layer number="9" name="Route9" color="4" fill="2" visible="no" active="no"/>
+<layer number="10" name="Route10" color="1" fill="7" visible="no" active="no"/>
+<layer number="11" name="Route11" color="4" fill="7" visible="no" active="no"/>
+<layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
+<layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
+<layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
+<layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="16" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="14" fill="1" visible="no" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -44,8 +44,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -53,17 +53,17 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
-<layer number="51" name="tDocu" color="6" fill="1" visible="yes" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="yes" active="no"/>
-<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="yes" active="no"/>
-<layer number="56" name="wert" color="7" fill="1" visible="yes" active="no"/>
-<layer number="57" name="tCAD" color="7" fill="1" visible="yes" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="6" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
+<layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
@@ -12599,11 +12599,6 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <label x="40.64" y="187.96" size="1.778" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="DSUB1" gate="G$1" pin="3"/>
-<wire x1="147.32" y1="104.14" x2="152.4" y2="104.14" width="0.1524" layer="91"/>
-<label x="152.4" y="104.14" size="1.778" layer="95" xref="yes"/>
-</segment>
-<segment>
 <pinref part="JP5" gate="A" pin="9"/>
 <wire x1="347.98" y1="116.84" x2="340.36" y2="116.84" width="0.1524" layer="91"/>
 <label x="340.36" y="116.84" size="1.778" layer="95" rot="R180" xref="yes"/>
@@ -13562,6 +13557,16 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <label x="157.48" y="182.88" size="1.778" layer="95" xref="yes"/>
 <pinref part="U$1" gate="G$1" pin="VOA"/>
 </segment>
+<segment>
+<pinref part="JP5" gate="A" pin="11"/>
+<wire x1="347.98" y1="114.3" x2="327.66" y2="114.3" width="0.1524" layer="91"/>
+<label x="327.66" y="114.3" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="DSUB1" gate="G$1" pin="8"/>
+<wire x1="132.08" y1="104.14" x2="127" y2="104.14" width="0.1524" layer="91"/>
+<label x="127" y="104.14" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
 </net>
 <net name="~SYNC" class="0">
 <segment>
@@ -13619,8 +13624,18 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <wire x1="27.94" y1="190.5" x2="30.48" y2="190.5" width="0.1524" layer="91"/>
 <label x="30.48" y="190.5" size="1.778" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="DSUB1" gate="G$1" pin="4"/>
+<wire x1="147.32" y1="101.6" x2="165.1" y2="101.6" width="0.1524" layer="91"/>
+<label x="165.1" y="101.6" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="JP5" gate="A" pin="13"/>
+<wire x1="347.98" y1="111.76" x2="340.36" y2="111.76" width="0.1524" layer="91"/>
+<label x="340.36" y="111.76" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
 </net>
-<net name="N$1" class="0">
+<net name="DIN+2" class="0">
 <segment>
 <pinref part="PSW1" gate="A" pin="DOUT"/>
 <wire x1="-314.96" y1="121.92" x2="-307.34" y2="121.92" width="0.1524" layer="91"/>
@@ -13631,9 +13646,10 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <pinref part="PSW2" gate="A" pin="DIN"/>
 <wire x1="-261.62" y1="109.22" x2="-299.72" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="-299.72" y1="109.22" x2="-299.72" y2="121.92" width="0.1524" layer="91"/>
+<label x="-299.72" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$3" class="0">
+<net name="DIN+3" class="0">
 <segment>
 <pinref part="PSW3" gate="A" pin="DIN"/>
 <wire x1="-172.72" y1="109.22" x2="-210.82" y2="109.22" width="0.1524" layer="91"/>
@@ -13644,9 +13660,10 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <wire x1="-218.44" y1="121.92" x2="-210.82" y2="121.92" width="0.1524" layer="91"/>
 <junction x="-218.44" y="121.92"/>
 <wire x1="-210.82" y1="109.22" x2="-210.82" y2="121.92" width="0.1524" layer="91"/>
+<label x="-210.82" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$2" class="0">
+<net name="DIN+4" class="0">
 <segment>
 <pinref part="PSW4" gate="A" pin="DIN"/>
 <wire x1="-83.82" y1="109.22" x2="-121.92" y2="109.22" width="0.1524" layer="91"/>
@@ -13657,9 +13674,10 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <wire x1="-129.54" y1="121.92" x2="-121.92" y2="121.92" width="0.1524" layer="91"/>
 <junction x="-129.54" y="121.92"/>
 <wire x1="-121.92" y1="109.22" x2="-121.92" y2="121.92" width="0.1524" layer="91"/>
+<label x="-121.92" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$5" class="0">
+<net name="DIN+5" class="0">
 <segment>
 <pinref part="PSW4" gate="A" pin="DOUT"/>
 <wire x1="-48.26" y1="121.92" x2="-40.64" y2="121.92" width="0.1524" layer="91"/>
@@ -13670,6 +13688,7 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <pinref part="PSW5" gate="A" pin="DIN"/>
 <wire x1="5.08" y1="109.22" x2="-33.02" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="-33.02" y1="121.92" x2="-33.02" y2="109.22" width="0.1524" layer="91"/>
+<label x="-33.02" y="121.92" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DOUT+" class="0">
@@ -13681,6 +13700,11 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <wire x1="48.26" y1="121.92" x2="60.96" y2="121.92" width="0.1524" layer="91"/>
 <junction x="48.26" y="121.92"/>
 <label x="60.96" y="121.92" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="DSUB1" gate="G$1" pin="3"/>
+<wire x1="147.32" y1="104.14" x2="152.4" y2="104.14" width="0.1524" layer="91"/>
+<label x="152.4" y="104.14" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="EX+_1S" class="0">
@@ -13711,7 +13735,7 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <label x="45.72" y="99.06" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$4" class="0">
+<net name="DIN-2" class="0">
 <segment>
 <pinref part="NSW1" gate="A" pin="DOUT"/>
 <wire x1="-312.42" y1="38.1" x2="-304.8" y2="38.1" width="0.1524" layer="91"/>
@@ -13722,9 +13746,10 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <pinref part="NSW2" gate="A" pin="DIN"/>
 <wire x1="-259.08" y1="25.4" x2="-297.18" y2="25.4" width="0.1524" layer="91"/>
 <wire x1="-297.18" y1="25.4" x2="-297.18" y2="38.1" width="0.1524" layer="91"/>
+<label x="-297.18" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$6" class="0">
+<net name="DIN-3" class="0">
 <segment>
 <pinref part="NSW3" gate="A" pin="DIN"/>
 <wire x1="-170.18" y1="25.4" x2="-208.28" y2="25.4" width="0.1524" layer="91"/>
@@ -13735,9 +13760,10 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <wire x1="-215.9" y1="38.1" x2="-208.28" y2="38.1" width="0.1524" layer="91"/>
 <junction x="-215.9" y="38.1"/>
 <wire x1="-208.28" y1="25.4" x2="-208.28" y2="38.1" width="0.1524" layer="91"/>
+<label x="-208.28" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$7" class="0">
+<net name="DIN-4" class="0">
 <segment>
 <pinref part="NSW4" gate="A" pin="DIN"/>
 <wire x1="-81.28" y1="25.4" x2="-119.38" y2="25.4" width="0.1524" layer="91"/>
@@ -13748,9 +13774,10 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <wire x1="-127" y1="38.1" x2="-119.38" y2="38.1" width="0.1524" layer="91"/>
 <junction x="-127" y="38.1"/>
 <wire x1="-119.38" y1="25.4" x2="-119.38" y2="38.1" width="0.1524" layer="91"/>
+<label x="-119.38" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$8" class="0">
+<net name="DIN-5" class="0">
 <segment>
 <pinref part="NSW4" gate="A" pin="DOUT"/>
 <wire x1="-45.72" y1="38.1" x2="-38.1" y2="38.1" width="0.1524" layer="91"/>
@@ -13761,6 +13788,7 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <pinref part="NSW5" gate="A" pin="DIN"/>
 <wire x1="7.62" y1="25.4" x2="-30.48" y2="25.4" width="0.1524" layer="91"/>
 <wire x1="-30.48" y1="38.1" x2="-30.48" y2="25.4" width="0.1524" layer="91"/>
+<label x="-30.48" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DIN-" class="0">
@@ -13773,11 +13801,6 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <pinref part="U1" gate="A" pin="VOC"/>
 <wire x1="27.94" y1="185.42" x2="30.48" y2="185.42" width="0.1524" layer="91"/>
 <label x="30.48" y="185.42" size="1.778" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="DSUB1" gate="G$1" pin="7"/>
-<wire x1="132.08" y1="106.68" x2="116.84" y2="106.68" width="0.1524" layer="91"/>
-<label x="116.84" y="106.68" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
 <pinref part="JP5" gate="A" pin="7"/>
@@ -13808,6 +13831,11 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <wire x1="50.8" y1="38.1" x2="63.5" y2="38.1" width="0.1524" layer="91"/>
 <junction x="50.8" y="38.1"/>
 <label x="63.5" y="38.1" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="DSUB1" gate="G$1" pin="7"/>
+<wire x1="132.08" y1="106.68" x2="116.84" y2="106.68" width="0.1524" layer="91"/>
+<label x="116.84" y="106.68" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="EX-_1D" class="0">
@@ -13959,30 +13987,6 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <wire x1="-233.68" y1="259.08" x2="-233.68" y2="251.46" width="0.1524" layer="91"/>
 <pinref part="JP2" gate="G$1" pin="1"/>
 <pinref part="JP12" gate="G$1" pin="2"/>
-</segment>
-</net>
-<net name="SYNC" class="0">
-<segment>
-<pinref part="DSUB1" gate="G$1" pin="4"/>
-<wire x1="147.32" y1="101.6" x2="165.1" y2="101.6" width="0.1524" layer="91"/>
-<label x="165.1" y="101.6" size="1.778" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="JP5" gate="A" pin="13"/>
-<wire x1="347.98" y1="111.76" x2="340.36" y2="111.76" width="0.1524" layer="91"/>
-<label x="340.36" y="111.76" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="RESET" class="0">
-<segment>
-<pinref part="DSUB1" gate="G$1" pin="8"/>
-<wire x1="132.08" y1="104.14" x2="127" y2="104.14" width="0.1524" layer="91"/>
-<label x="127" y="104.14" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-<segment>
-<pinref part="JP5" gate="A" pin="11"/>
-<wire x1="347.98" y1="114.3" x2="327.66" y2="114.3" width="0.1524" layer="91"/>
-<label x="327.66" y="114.3" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="N$10" class="0">
