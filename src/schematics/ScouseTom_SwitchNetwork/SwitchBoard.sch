@@ -11451,6 +11451,8 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <text x="251.46" y="231.14" size="1.778" layer="91">CHECK IF + AND - SWITCHING IS WORKING BY SWITCHING 39 for both + and _ </text>
 <text x="91.44" y="88.9" size="1.778" layer="91">Jumper to connect shield to AGND</text>
 <text x="139.7" y="116.84" size="1.778" layer="91">DSUB TO NEXT SWITCH FOR DAISY CHAIN</text>
+<text x="43.18" y="83.82" size="1.778" layer="91">Unused pins tied to GND</text>
+<text x="43.18" y="0" size="1.778" layer="91">Unused pins tied to GND</text>
 </plain>
 <instances>
 <instance part="PSW1" gate="A" x="-332.74" y="104.14"/>
@@ -13204,6 +13206,46 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <wire x1="347.98" y1="124.46" x2="325.12" y2="124.46" width="0.1524" layer="91"/>
 <pinref part="AGND37" gate="VR1" pin="AGND"/>
 </segment>
+<segment>
+<pinref part="PSW5" gate="A" pin="D6"/>
+<wire x1="40.64" y1="104.14" x2="45.72" y2="104.14" width="0.1524" layer="91"/>
+<label x="45.72" y="104.14" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="PSW5" gate="A" pin="D8"/>
+<wire x1="40.64" y1="99.06" x2="45.72" y2="99.06" width="0.1524" layer="91"/>
+<label x="45.72" y="99.06" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="PSW5" gate="A" pin="S6"/>
+<wire x1="5.08" y1="91.44" x2="-15.24" y2="91.44" width="0.1524" layer="91"/>
+<label x="-15.24" y="91.44" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="PSW5" gate="A" pin="S8"/>
+<wire x1="5.08" y1="86.36" x2="-15.24" y2="86.36" width="0.1524" layer="91"/>
+<label x="-15.24" y="86.36" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="NSW5" gate="A" pin="D6"/>
+<wire x1="43.18" y1="20.32" x2="48.26" y2="20.32" width="0.1524" layer="91"/>
+<label x="48.26" y="20.32" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="NSW5" gate="A" pin="D8"/>
+<wire x1="43.18" y1="15.24" x2="48.26" y2="15.24" width="0.1524" layer="91"/>
+<label x="48.26" y="15.24" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="NSW5" gate="A" pin="S6"/>
+<wire x1="7.62" y1="7.62" x2="-12.7" y2="7.62" width="0.1524" layer="91"/>
+<label x="-12.7" y="7.62" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="NSW5" gate="A" pin="S8"/>
+<wire x1="7.62" y1="2.54" x2="-12.7" y2="2.54" width="0.1524" layer="91"/>
+<label x="-12.7" y="2.54" size="1.778" layer="95" rot="R180" xref="yes"/>
+</segment>
 </net>
 <net name="VDD" class="0">
 <segment>
@@ -13707,34 +13749,6 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <label x="152.4" y="104.14" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="EX+_1S" class="0">
-<segment>
-<pinref part="PSW5" gate="A" pin="S6"/>
-<wire x1="5.08" y1="91.44" x2="-15.24" y2="91.44" width="0.1524" layer="91"/>
-<label x="-15.24" y="91.44" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="EX+_3S" class="0">
-<segment>
-<pinref part="PSW5" gate="A" pin="S8"/>
-<wire x1="5.08" y1="86.36" x2="-15.24" y2="86.36" width="0.1524" layer="91"/>
-<label x="-15.24" y="86.36" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="EX+_1D" class="0">
-<segment>
-<pinref part="PSW5" gate="A" pin="D6"/>
-<wire x1="40.64" y1="104.14" x2="45.72" y2="104.14" width="0.1524" layer="91"/>
-<label x="45.72" y="104.14" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="EX+_3D" class="0">
-<segment>
-<pinref part="PSW5" gate="A" pin="D8"/>
-<wire x1="40.64" y1="99.06" x2="45.72" y2="99.06" width="0.1524" layer="91"/>
-<label x="45.72" y="99.06" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
 <net name="DIN-2" class="0">
 <segment>
 <pinref part="NSW1" gate="A" pin="DOUT"/>
@@ -13808,20 +13822,6 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <label x="327.66" y="119.38" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="EX-_1S" class="0">
-<segment>
-<pinref part="NSW5" gate="A" pin="S6"/>
-<wire x1="7.62" y1="7.62" x2="-12.7" y2="7.62" width="0.1524" layer="91"/>
-<label x="-12.7" y="7.62" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="EX-_3S" class="0">
-<segment>
-<pinref part="NSW5" gate="A" pin="S8"/>
-<wire x1="7.62" y1="2.54" x2="-12.7" y2="2.54" width="0.1524" layer="91"/>
-<label x="-12.7" y="2.54" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
 <net name="DOUT-" class="0">
 <segment>
 <pinref part="NSW5" gate="A" pin="DOUT"/>
@@ -13836,20 +13836,6 @@ http://ww1.microchip.com/downloads/en/DeviceDoc/21984a.pdf</description>
 <pinref part="DSUB1" gate="G$1" pin="7"/>
 <wire x1="132.08" y1="106.68" x2="116.84" y2="106.68" width="0.1524" layer="91"/>
 <label x="116.84" y="106.68" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="EX-_1D" class="0">
-<segment>
-<pinref part="NSW5" gate="A" pin="D6"/>
-<wire x1="43.18" y1="20.32" x2="48.26" y2="20.32" width="0.1524" layer="91"/>
-<label x="48.26" y="20.32" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="EX-_3D" class="0">
-<segment>
-<pinref part="NSW5" gate="A" pin="D8"/>
-<wire x1="43.18" y1="15.24" x2="48.26" y2="15.24" width="0.1524" layer="91"/>
-<label x="48.26" y="15.24" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="TEST_1" class="0">
