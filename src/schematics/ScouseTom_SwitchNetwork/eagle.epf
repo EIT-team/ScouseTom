@@ -392,7 +392,7 @@ UsedLibrary="C:/SPB_Data/external_lbrs/WE-PD@E/WE-PD.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="-1326 55 -283 974"
+Loc="579 22 1622 941"
 State=2
 Number=0
 
