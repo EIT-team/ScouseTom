@@ -25,6 +25,24 @@ else
 end
 
 
+%% check if too many freqs or too long protocol 
+%current set manually in arduino code to 200 and 40 as variables
+%maxInjections and maxFreqs
+
+maxInjections = 200;
+maxFreqs = 40;
+
+if N_prt > maxInjections
+    error(['Protocol is too long - max is ', num2str(maxInjections)]);
+end
+
+if N_freq > maxFreqs
+   error(['Too many freqs - max is ', num2str(maxFreqs)]);
+end
+
+
+
+
 %% check if the fields are actually there
 
 %legit_fields={'Amp', 'Freq', 'Protocol','Elec_num', 'MeasurementTime',...
@@ -158,16 +176,15 @@ if StimMode % only check stim stuff if we are in stimmode
         return
     end
     
-    %then see if they match - setting new value for wiper if they dont 
-    
+    %then see if they match - setting new value for wiper if they dont
     [Rnew,Vnew]=ScouseTom_ard_getwipersetting(ExpSetup.StimulatorVoltage);
     
     if Rnew ~= ExpSetup.StimulatorWiperSetting
-       stimwarn= sprintf('Voltage settings DO NOT MATCH! \n Recalculated Vstim is %.3f and Rpot is %d',Vnew,Rnew);
+        stimwarn= sprintf('Voltage settings DO NOT MATCH! \n Recalculated Vstim is %.3f and Rpot is %d',Vnew,Rnew);
         warning(stimwarn);
         ExpSetup.StimulatorVoltage=Vnew;
         ExpSetup.StimulatorWiperSetting=Rnew;
-    end  
+    end
     
     if ExpSetup.StimulatorTriggerTime > ExpSetup.MeasurementTime
         warning('StimulationTime is greater than measurement time');
@@ -227,15 +244,27 @@ end
 
 ExpSetup.Info.ProtocolLength=N_prt;
 ExpSetup.Info.FreqNum=N_freq;
-ExpSetup.Info.ProtocolTime=N_prt*(ExpSetup.MeasurementTime/1000); %time in seconds for one complete protocol
-ExpSetup.Info.TotalTime=ExpSetup.Repeats*ExpSetup.Info.ProtocolTime*N_freq;
+ExpSetup.Info.ProtocolTime=sum(N_prt*(ExpSetup.MeasurementTime/1000)); %time in seconds for one complete protocol
+ExpSetup.Info.TotalTime=ExpSetup.Repeats*ExpSetup.Info.ProtocolTime;
 
+
+%check if measurement time and cycles matches - measurement takes
+%precidence
+
+meas_temp=ScouseTom_cycles2ms(ExpSetup.Freq,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset);
+
+if ~all(meas_temp == ExpSetup.MeasurementTime)
+    warning('Measurement time and Cycles variables dont match - keeping Measurement time!!!');
+    ExpSetup.Info.Inj_Cycles_Offset=0;
+    ExpSetup.Info.Inj_Cycles=ScouseTom_ms2cycles(ExpSetup.Freq,ExpSetup.MeasurementTime);
+    ExpSetup.Info.Inj_Define_ms=1;
+end
 
 
 %% print the expsetup
-fprintf('##################################\n');
-fprintf('ExpSetup - Settings File for ScouseTom System!\n');
-
+fprintf('########');
+fprintf('Validating Settings File for ScouseTom System!');
+fprintf('########\n');
 
 fprintf('Description of this file : %s\n',ExpSetup.Info.Desc');
 fprintf('Created at the auspicious time of : %s\n',ExpSetup.Info.DateStr);
@@ -265,7 +294,7 @@ end
 
 fprintf('Protocol loaded was %s with %d lines \n',ExpSetup.Info.ProtocolName,N_prt);
 fprintf('Sources\tSinks\n');
-fprintf('%d\t%d\n',ExpSetup.Protocol(:,1),ExpSetup.Protocol(:,2));
+fprintf('%d\t\t%d\n',ExpSetup.Protocol(:,1),ExpSetup.Protocol(:,2));
 
 fprintf('--------------\n');
 fprintf('Number of repeats : %d \n',ExpSetup.Repeats);
@@ -275,14 +304,18 @@ if SingleFreqMode
     fprintf('Injection time per protocol line : %d ms or %.2f s\n',ExpSetup.MeasurementTime, ExpSetup.MeasurementTime/1000);
     
 else
-    fprintf('Injection time per frequency per protocol line : %d ms or %.2f s\n',ExpSetup.MeasurementTime, ExpSetup.MeasurementTime/1000);
+    for i=1:N_amp
+        fprintf('Injection time for Freq %d: %d Hz: %d ms or %d cycles\n',i,ExpSetup.Freq(i),ExpSetup.MeasurementTime(i), ExpSetup.Info.Inj_Cycles(i));
+    end
 end
+
+
 
 fprintf('Estimated time to complete measurements :');
 
 if ExpSetup.Info.TotalTime < 60
     fprintf(' %.2f sec \n',ExpSetup.Info.TotalTime);
-else if ExpSetup.TotalTime < 3600
+else if ExpSetup.Info.TotalTime < 3600
         fprintf(' %.2f min \n',ExpSetup.Info.TotalTime/60);
     else
         fprintf(' %.2f hours \n',ExpSetup.Info.TotalTime/3600);
@@ -296,11 +329,11 @@ if StimMode
     
     fprintf('Stimulation Mode is ON! - Randomised phase delay triggered by phase marker on Keithley\n');
     fprintf('%d uS pulse triggered every %d ms with offset %d ms from channel switch\n',ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset);
-    fprintf('Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));
+    fprintf('Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime(1)-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));
     fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.StimulatorVoltage,ExpSetup.StimulatorWiperSetting);
 end
 
-fprintf('##################################\n');
+fprintf('########EVERYTHING IS OK!!##########\n');
 
 
 
