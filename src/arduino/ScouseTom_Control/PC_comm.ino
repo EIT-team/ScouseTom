@@ -18,7 +18,7 @@ int PC_getsettings()
 	number of electrodes - int
 	number of frequencies - int
 	number of repeated protcols - int
-	Measurement time uS - long - user sends ms
+	
 	ContactTime  uS - long - user sends ms
 	Stimulator trigger time - us - user sends ms
 	Stimulator trigger offset - us - - user sends ms
@@ -28,6 +28,7 @@ int PC_getsettings()
 	Sink channels[NumInj] - int
 	Freq[NumFreq] - long
 	Amp[NumFreq] - long
+	Measurementtime[NumFreq] - long - user sends ms
 	check if comm fucked up after each one
 	*/
 	int commgoodness = 0; // flag for good communication
@@ -124,15 +125,7 @@ int PC_getsettings()
 				LongDispWind = 1;
 			}
 			
-			//get injection time
-			MeasTime = getasciinum_long();
-			sendasciinum_long(MeasTime);
-			if (MeasTime == -1)
-			{
-				commgoodness = 0;
-				break;
-			}
-			MeasTime = MeasTime * 1000; //for compatibility user picks milliseconds, but microseconds used for more accuracy
+
 
 			//get contact impedance measurement time
 			ContactTime = getasciinum_long();
@@ -142,6 +135,8 @@ int PC_getsettings()
 				commgoodness = 0;
 				break;
 			}
+
+			ContactTime = ContactTime * 1000; //CONVERT INTO MICROSECONDS
 
 			/*#####################################################
 			Stimulation stuff
@@ -198,7 +193,7 @@ int PC_getsettings()
 			}
 
 			/*#####################################################
-			ARRAY STUFF - PROTOCOL & FREQS & AMPS
+			ARRAY STUFF - PROTOCOL & FREQS & AMPS & MEASTIMES
 			#######################################################*/		
 
 			int tmp_in = 0;
@@ -281,7 +276,27 @@ int PC_getsettings()
 				commgoodness = 0;
 				break;
 			}
-			//Serial.println("ampsok");
+
+			//get measurement times
+			for (int n = 0; n < NumFreq; n++)
+			{
+				tmp_in = getasciinum_long();
+				sendasciinum_long(tmp_in);
+				if (tmp_in == -1)
+				{
+					commgoodness = 0;
+					break;
+				}
+				MeasTime[n] = tmp_in * 1000; // CONVERTED FROM MS TO US HERE
+			}
+			if (tmp_in == -1)
+			{
+				commgoodness = 0;
+				break;
+			}
+
+			//Serial.println("timessok");
+
 			finished = 1;
 		}
 
@@ -310,7 +325,7 @@ int checkinputs()
 
 		if (StimMode) //is we are stimulating then check timings
 		{
-			if (StimOffset > MeasTime || StimPulseWidth > StimTriggerTime) // stim offset must be less than measurement time and pulsewidth must be less than stimulation time 
+			if (StimOffset > MeasTime[0] || StimPulseWidth > StimTriggerTime) // stim offset must be less than measurement time and pulsewidth must be less than stimulation time 
 			{
 				inputok = 0;
 				break;

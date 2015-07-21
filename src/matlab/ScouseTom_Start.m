@@ -237,7 +237,7 @@ if (SingleFreqMode ==1);
     
     disp('Starting Single Frequency Inject Mode');
     fprintf('Injecting at %dHz and %duA, for %d repeats\n',ExpSetup.Freq(1),ExpSetup.Amp(1),N_rep);
-    fprintf('This should take about %.1f minutes\n',ExpSetup.TotalTime/60);
+    fprintf('This should take about %.1f minutes\n',ExpSetup.Info.TotalTime/60);
     
     %if single freq mode then arduino sends a further OK message
     
@@ -267,7 +267,7 @@ if (SingleFreqMode ==1);
     end
 else
     disp('Starting Multi Frequency Inject Mode!');
-    fprintf('This should take about %.1f minutes\n',ExpSetup.TotalTime/60);
+    fprintf('This should take about %.1f minutes\n',ExpSetup.Info.TotalTime/60);
 end
 
 
@@ -502,7 +502,9 @@ fprintf(logfid,'Number of repeats : %d \n',ExpSetup.Repeats);
 if SingleFreqMode
     fprintf(logfid,'Injection time per protocol line : %d ms or %.2f s\n',ExpSetup.MeasurementTime, ExpSetup.MeasurementTime/1000);
 else
-    fprintf(logfid,'Injection time per frequency per protocol line : %d ms or %.2f s\n',ExpSetup.MeasurementTime, ExpSetup.MeasurementTime/1000);
+     for i=1:N_amp
+        fprintf('Injection time for Freq %d: %d Hz: %d ms or %d cycles\n',i,ExpSetup.Freq(i),ExpSetup.MeasurementTime(i), ExpSetup.Info.Inj_Cycles(i));
+    end
 end
 
 fprintf(logfid,'Estimated time to complete measurements :');
@@ -520,7 +522,7 @@ fprintf(logfid,'--------------\n');
 if StimMode
     fprintf(logfid,'Stimulation Mode is ON! - Randomised phase delay triggered by phase marker on Keithley\n');
     fprintf(logfid,'%d uS pulse triggered every %d ms with offset %d ms from channel switch\n',ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset);
-    fprintf(logfid,'Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));
+    fprintf(logfid,'Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime(1)-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));
     fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.Info.StimulatorVoltage,ExpSetup.StimulatorWiperSetting);
 end
 

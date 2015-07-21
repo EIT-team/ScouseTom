@@ -31,12 +31,12 @@ OKFLAG=0;
 
 %this is badly coded and incomplete....
 
-disp('Checking your ExpSetup...');
+%disp('Checking your ExpSetup...');
 
 [settingsgood,ExpSetup]=ScouseTom_ValidateExpSetup(ExpSetup);
 
 if settingsgood
-    disp('Validated ok! :)');
+    %disp('Validated ok! :)');
 else
     warning('Bad input settings, not doing anything!');
     return
@@ -113,7 +113,7 @@ end
 
 fprintf(Ard,'A'); % send byte telling arduino to await settings
 fprintf('##################################\n');
-disp('Sending settings to arduino...');
+fprintf('Sending settings to arduino...');
 finished_sending=0;
 %send all of the data, stop if something fucks up - there is a better way
 %to do this
@@ -142,17 +142,13 @@ while (finished_sending ==0)
         finished_sending=1;
         break
     end
-    
-    okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.MeasurementTime,'Injection Time');
-    if (~okflag)
-        finished_sending=1;
-        break
-    end
+        
     okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.ContactCheckInjectTime,'Contact Z Time');
     if (~okflag)
         finished_sending=1;
         break
     end
+    
     okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.StimulatorTriggerTime,'Stimulator Trigger Time');
     if (~okflag)
         finished_sending=1;
@@ -178,7 +174,7 @@ while (finished_sending ==0)
     
     
     
-    disp('Timing Info sent OK');
+    fprintf('Timing OK, ');
     
     %% Send protocol
     
@@ -199,7 +195,7 @@ while (finished_sending ==0)
             break
         end
     end
-    disp('Protocol Lines sent OK');
+    fprintf('Protocol OK, ');
     
     %% send amplitudes and freqs
     
@@ -222,7 +218,16 @@ while (finished_sending ==0)
         end
     end
     
-    disp('Amps and Freqs sent OK');
+        %send measurement times
+    for n=1:N_freq
+        okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.MeasurementTime(n),['MeasTime ' num2str(ExpSetup.MeasurementTime(n,1))]);
+        if (~okflag)
+            finished_sending=1;
+            break
+        end
+    end
+    
+    fprintf('AmpsFreqsTimes sent OK \n');
     
     
     finished_sending=1;

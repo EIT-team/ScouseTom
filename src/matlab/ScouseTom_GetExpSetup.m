@@ -137,9 +137,36 @@ end
 %% prompt user for new stuff
 
 
+% ask if they want to define it by measurement time or number of cycles
+  % ask if user wants to change protocol
+    msresp='Number of ms';
+    cycresp='Number of cycles';
+    titlestr='Define injection length';
+    promptstr=('How to do want to define the injection time? Milliseconds or number of cycles?');
+    resp=questdlg(promptstr,titlestr,msresp,cycresp,msresp);
+    
+    if isempty(resp)
+        warning('User hit cancel, doing milliseconds');
+        define_ms_flag=1;
+    end
+    
+    
+    if strcmp(resp,msresp) == 1
+        disp('User selected define injections by ms');
+        define_ms_flag=1; %ask for new protocol
+    else
+        disp('User selected define injections by cycles');
+        %run prompt bit
+        define_ms_flag=0;
+    end
+
+
+
+
+
 %Define CS parameters and get protocol if necessary - this is also a bad
 %way of doing this
-[Amp, Freq, Protocol,ProtocolName,Elec_num, MeasurementTime,Repeats,StimulatorTriggerTime,StimulatorTriggerOffset,StimulatorPulseWidth,StimulatorVoltage] = ScouseTom_SettingsDialog(newprot_flag,inpts{:});
+[Amp, Freq, Protocol,ProtocolName,Elec_num, MeasurementTime,Repeats,StimulatorTriggerTime,StimulatorTriggerOffset,StimulatorPulseWidth,StimulatorVoltage,Cycles,Offset] = ScouseTom_SettingsDialog(newprot_flag,define_ms_flag,inpts{:});
 
 if ~newprot_flag % if we havent asked for new protocol then output from above line is empty - so replace it with expsetup THIS IS A KLUDGE
     Protocol=ExpSetup.Protocol;
@@ -155,8 +182,8 @@ end
 
 ProtocolLength = size(Protocol,1);
 Freq_num=size(Freq,1);
-ProtocolTime=ProtocolLength*(MeasurementTime/1000); %time in seconds for one complete protocol
-TotalTime=Repeats*ProtocolTime*Freq_num;
+ProtocolTime=sum(ProtocolLength*(MeasurementTime/1000)); %time in seconds for one complete protocol
+TotalTime=Repeats*ProtocolTime;
 
 fprintf('Approx time for all repeats and frequencies is: %.1f\r',TotalTime)
 
@@ -182,6 +209,9 @@ ExpSetup.Info.TotalTime=TotalTime;
 ExpSetup.Info.OriginalProtocol=Protocol;
 ExpSetup.Info.StimulatorVoltage=StimulatorVoltage;
 ExpSetup.Info.FreqNum=Freq_num;
+ExpSetup.Info.Inj_Cycles=Cycles;
+ExpSetup.Info.Inj_Cycles_Offset=Offset;
+ExpSetup.Info.Inj_Define_ms=define_ms_flag;
 
 %get Stimulator potentiometer wiper setting
 ExpSetup=ScouseTom_ard_getwipersetting(ExpSetup);
@@ -227,7 +257,7 @@ ExpSetup.Info.Desc=Desc;
 ExpSetup.Info.TimeStamp=now;
 ExpSetup.Info.DateStr=datestr(now);
 
-tmpdesc=Desc(~isspace(Desc)); %rmove whitespace form desc string
+tmpdesc=Desc(isstrprop(Desc,'alphanum')); %only take alpha numerica characters
 
 abrvlen=10; %only use abreviated name
 

@@ -88,8 +88,8 @@ int NumRep = 0; // number of time whole protocol is repeated - total recording t
 
 long  Amp[maxFreqs] = { 0 }; //amplitude in uA - container for max 20
 long  Freq[maxFreqs] = { 0 }; //freq in Hz - contaier for max 20 set in
+long MeasTime[maxFreqs] = { 0 }; //injection time in microseconds - set by user (USER SELECTS MILLISECONDS BUT SCALED IN MICROSECONDS AS DUE IS FASTER)
 
-long MeasTime = 0; //injection time in microseconds - set by user (USER SELECTS MILLISECONDS BUT SCALED IN MICROSECONDS AS DUE IS FASTER)
 long ContactTime = 0; // contact impedance measurement time in ms
 
 int FreqOrder[maxFreqs] = { 0 }; // order of the frequencies - initilised
@@ -557,7 +557,7 @@ void dostuff()
 			{
 				currentMicros = micros();
 				//Serial.println(currentMicros);
-				if ((currentMicros - lastInjSwitch) > (MeasTime /*- SwitchTimeFix */)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
+				if ((currentMicros - lastInjSwitch) > (MeasTime[0] /*- SwitchTimeFix */)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
 				{
 					Switchflag = 1; // if it is time to switch then set it to do that!
 					/*sprintf(PC_outputBuffer, "Switch: %d", currentMicros - lastInjSwitch);
@@ -638,7 +638,7 @@ void dostuff()
 			else // if this is NOT the first time called, then check if time has elapsed before changing frequency
 			{
 				currentMicros = micros();
-				if ((currentMicros - lastFreqSwitch) > (MeasTime /*- SwitchTimeFix*/)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
+				if ((currentMicros - lastFreqSwitch) > (MeasTime[curFreq] /*- SwitchTimeFix*/)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
 				{
 					Switchflag = 1; //set that we should switch now
 				}
@@ -888,7 +888,7 @@ void dostuff()
 		{
 			currentMicros = micros();
 			//Serial.println(currentMicros);
-			if ((currentMicros - lastInjSwitch) > (MeasTime /*- SwitchTimeFix */)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
+			if ((currentMicros - lastInjSwitch) > (ContactTime /*- SwitchTimeFix */)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
 			{
 				Switchflag = 1; // if it is time to switch then set it to do that!
 				/*sprintf(PC_outputBuffer, "Switch: %d", currentMicros - lastInjSwitch);
