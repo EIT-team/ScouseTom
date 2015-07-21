@@ -1,4 +1,4 @@
-function [ out ] = ScouseTom_cycles2ms( in,Cycles,OffsetStartandEnd )
+function [ out,Cycles ] = ScouseTom_cycles2ms( in,Cycles,OffsetStartandEnd )
 %ScouseTom_cycles2ms Converts number of cycles for each Frequency to
 %injection time in ms, given stand and end delays. Cycles can be single or
 %vector

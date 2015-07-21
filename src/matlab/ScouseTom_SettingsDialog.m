@@ -83,7 +83,7 @@ if define_ms_flag ==1 %normal way of doing things with measurement
     StimulatorPulseWidth = sscanf(cell2mat(a(8)),'%f',1);%ignore multiple inputs
     StimulatorVoltage = sscanf(cell2mat(a(9)),'%f',1);%ignore multiple inputs
     
-    Cycles=ScouseTom_ms2cycles(Freq,Meas); % give equivalent cycles
+    [Cycles,Meas]=ScouseTom_ms2cycles(Freq,Meas); % give equivalent cycles - this also makes Meas a vector
     Offset=zeros(size(Cycles)); %no offset given
     
     
@@ -95,7 +95,7 @@ else % user entering cycles and offset
     Cycles = sscanf(cell2mat(a(4)),'%f');
     Offset = sscanf(cell2mat(a(5)),'%f',1);%ignore multiple inputs
     
-    Meas=ScouseTom_cycles2ms(Freq,Cycles,Offset); % convert cycles to ms as this is what needs sending to ard
+    [Meas,Cycles]=ScouseTom_cycles2ms(Freq,Cycles,Offset); % convert cycles to ms as this is what needs sending to ard
     
     Repeats = sscanf(cell2mat(a(6)),'%f',1);%ignore multiple inputs
     StimulatorTriggerTime = sscanf(cell2mat(a(7)),'%f',1);%ignore multiple inputs

@@ -1,4 +1,4 @@
-function [ Cycles ] = ScouseTom_ms2cycles( Freqs,Meas)
+function [ Cycles,Meas ] = ScouseTom_ms2cycles( Freqs,Meas)
 %ScouseTom_ms2cycles Converts injection time in ms, for each Frequency to
 %number of cyclesv can be single or
 %vector
