@@ -19,9 +19,9 @@ void init_pins()
 	pinMode(IND_START, OUTPUT);
 	pinMode(IND_STOP, OUTPUT);
 
-	  pinMode(IND_EX_1, OUTPUT);
-  pinMode(IND_EX_2, OUTPUT);
-  pinMode(IND_EX_3, OUTPUT);
+	pinMode(IND_EX_1, OUTPUT);
+	pinMode(IND_EX_2, OUTPUT);
+	pinMode(IND_EX_3, OUTPUT);
 
 
 
@@ -96,7 +96,7 @@ void indpins_check() //this checks if there are any pulses left on any of the in
 		{
 			TC_Stop(TC2, 2);
 			indpulseson = 0;
-		//	Serial.println("stopped ind tc");
+			//	Serial.println("stopped ind tc");
 		}
 	}
 
@@ -111,7 +111,7 @@ void indpins_pulse(int StartChn, int StopChn, int SwitchChn, int FreqChn) // thi
 	pulses[1] += StopChn;
 	pulses[2] += SwitchChn;
 	pulses[3] += FreqChn;
-//	Serial.println("pulsin");
+	//	Serial.println("pulsin");
 	//start ind pulse timer
 	TC_Start(TC2, 2);
 }

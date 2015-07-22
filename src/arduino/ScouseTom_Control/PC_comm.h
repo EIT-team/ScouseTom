@@ -7,6 +7,8 @@
  */
 
 
+const int PC_timeoutlimit = 2000; // timeout in milliseconds for response from PC
+
 //variables used in getasciinum
 const char startOfNumberDelimiter = '<';
 const char endOfNumberDelimiter = '>';

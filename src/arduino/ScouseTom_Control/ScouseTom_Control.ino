@@ -40,45 +40,31 @@ Jimmy wrote this so blame him
 
 //#include "BreadboardPins.h" // Pins for breadboard version - used by kirill and me (testing)
 #include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
-#include "Stim.h"
-#include "Switches.h"
-#include "CS_comm.h"
-#include "PC_comm.h"
-#include "Pins.h"
+#include "Stim.h" //Constants for stimulator things, with definitions of functions
+#include "Switches.h" // Constants for switching channels
+#include "CS_comm.h" // Constants used in serial communication with Current Source
+#include "PC_comm.h" // Constants used in communicaltion with PC
+#include "Pins.h" // constants used in indicator pins and reseting ALL pins to defaults etc.
+#include "Errors.h" // error codes and warning messages
+#include "Messages.h" // OK messages and other misc. things
+#include "System_Control.h" //control constants - idle time definition etc.
+#include "Injection.h" // injection defaults - max number of protocol lines etc.
 
-//#####################################
-// Current Source Interface Stuff
-const byte CS_buffSize = 40; //size of char buffer to recieve from current source
+/*############ CS Communications stuff - consts in CS_Comm.h ############*/
+
 char CS_inputBuffer[CS_buffSize]; //char buffer to store output from current source
 int CS_inputFinished = 0; //flag for complete response from current source
-String CS_vers = "1999.0"; //Current source version number - used to check communication with current source
 int LongDispWind = 0; // flag for if we have more than 3 digit length of repeats/freqs/prt so that we use the shorter text on the bottom window
-
-const char CS_settingserrmsg[] = "<!S>";
-const char CS_commerrmsg[] = "<!E>";
-const char CS_pmarkerrmsg[] = "<!P>";
-
-const char CS_commokmsg[] = "<+OK>";
-const char CS_finishedmsg[] = "<+Fin>";
-
-const int CS_timeoutlimit = 1000; // timeout in milliseconds for response from current source
-const long sc_micro = 1000000; // scale for micro
 char CS_outputBuffer[50]; // char array buffer for output strings to CS
 int CS_commgoodness = 1; // flag for current communication goodness
 
-//############################
-// PC Communication Stuff
+/*############ PC Communications stuff - consts in PC_Comm.h ############*/
 
 char PC_outputBuffer[50]; // char array buffer for output strings to PC
-const int PC_timeoutlimit = 2000; // timeout in milliseconds for response from PC
 int PC_commgoodness = 1;
 int PC_inputgoodness = 0;
 
-//############################
-//Injection stuff
-
-const int maxInjections = 200;// number of injections in protocol - max 200 to avoid dynamic memory allocation
-const int maxFreqs = 40; // max number of frequencies
+/*############ Injection Stuff  - consts in Injection.h ############*/
 
 int Injection[maxInjections][2] = { 0 }; //number of injections in protocol - max 200 to avoid dynamic memory allocation
 int NumInj = 0; //number of injection pairs in protocol - set from PC comm
@@ -90,49 +76,28 @@ long  Amp[maxFreqs] = { 0 }; //amplitude in uA - container for max 20
 long  Freq[maxFreqs] = { 0 }; //freq in Hz - contaier for max 20 set in
 long MeasTime[maxFreqs] = { 0 }; //injection time in microseconds - set by user (USER SELECTS MILLISECONDS BUT SCALED IN MICROSECONDS AS DUE IS FASTER)
 
-long ContactTime = 0; // contact impedance measurement time in ms
-
 int FreqOrder[maxFreqs] = { 0 }; // order of the frequencies - initilised
 long curFreq = 0; // index of frequency vector current being injected
 
-const long StartDelay_CS = 53 * 1000; //number of microseconds taken for CS to actually start injecting after being told to - this need verification
 long StartElapsed_CS = 0;// time since CS_Start was called
 long StartTime_CS = 0; //time when CS_Start() was called
 
-//############################
-//Contact Check Stuff
-
-//Ampltude and Frequency of contact check
-const long ContactAmp = 141;
-const long ContactFreq = 1000;
 int iContact = 0; // counter for contact check loop
 int ContactEndofSeq = 0; // flag for whether contact check is finished
+long ContactTime = 0; // contact impedance measurement time in us
 
-//############################
-// Pins stuff
+/*############ Indicator Pin things - consts in Pins.h and PCBPins.h ############*/
 
-//now set by choosing include PCB or Breadboard Pins.h above
-//const int fakepmarkpin = 10; //fake pmark pin for use with TC6 - debugging only
-
-//##########################
-// Inidicator pin stuff
-
-const int NumInd = 4; // number of indicator pins
-int pulses[NumInd] = { 0, 0, 0, 0 }; //pulses left to do on the indicator channels
-int indpinstate[NumInd] = { 0, 0, 0, 0 }; //current state of the indicator pins
-const int indpins[NumInd] = { IND_START, IND_STOP, IND_SWITCH, IND_FREQ }; // pin numbers for the indicators
+int pulses[NumInd] = { 0 }; //pulses left to do on the indicator channels
+int indpinstate[NumInd] = { 0 }; //current state of the indicator pins
 int iInd = 0; // counter for for loop in ind pins ISR (save defining all the time)
-int IndinterruptCtr[NumInd] = { 0, 0, 0, 0 }; // iterations of the interrupt routine for each pin channel
+int IndinterruptCtr[NumInd] = { 0 }; // iterations of the interrupt routine for each pin channel
 
 int pulsesleft = 0; // number of pulses left to do - used in indpins_check
 int pulseleftptr = 0; // pointer for for loop in indpins_check, defined here for speed
 int indpulseson = 0; // are pulses active? this flag is used to prevent checking pulses left when we know there are none
 
-const int indpulsewidth = 50; //this is in number of 10uS interrupts - 50 gives just above 500uS pulse width
-const int indpulsewidthtotal = 100; //this is the total size of the pulse 100 is 1ms. two variables to save clock cycles in ISR
-
-//##########################
-//Stimulation trigger stuff
+/*############ Stimulation Trigger stuff - consts in Stim.h ############*/
 
 long StimTriggerTime = 0; //time between stimulation triggers in microseconds
 long StimOffset = 0; // time stimulation occurs after injection pair switch
@@ -157,20 +122,17 @@ int CS_PhaseMarker = 0; // phase in degrees which phase marker occurs on the cur
 int PMARK_TEST_FLAG = 0; // flag used in PMARK check routines - this is set high by ISR_PMARK_TEST if all working ok
 int CS_Pmarkgoodness = 0; // flag to confirm Phasemarker has been checked ok
 
-//##########################
-//Stimulation Voltage stuff
-const int DigiPotAddress = 44; // I2C address of AD5280 - default is 44 up to 48
-const int StimOffValue = 1; // Wiper position when stim is off - this is set to 1 to maximuise the resistance and thus limit the current used when no
+/*########### Stimulation Voltage stuff - consts in Stim.h ############*/
+
 int StimWiperValue = 0; // Wiper position for setting voltage of stimulation - must be 0-256 although usable range is between 215 and 250 with 215 approx 10V and 250 ~3V
 
-//###########################
-//System Control stuff
+/*########### System Control stuff - consts in System_Control.h ############*/
+
 int SingleFreqMode = 0; // flag for single frequency mode
 int StimMode = 0; // flag for Stimulation mode - only stimulation stuff if needed
 int state = 0; // what the system should be doing each iteration
 
 long lastidle = 0; // timing for idle mode - if been idle for a few seconds then change display (maybe send heartbeat message to pc)
-const long idlewait = 10000; //idle time in milliseconds till change
 int checkidle = 1; //should we check idle?
 
 int FirstInj = 0; // flag for doing the first injection - so we dont wait to switch at start
@@ -178,7 +140,6 @@ int SwitchesProgrammed = 0; // flag for whether the switches are programmed or n
 int Switchflag = 0; // do we need to switch?
 int Stimflag = 0; // should we stimulate?
 
-const long SwitchTimeFix = 300; //microseconds switch programming time is fixed to (cheesy but 220 us time taken to program them - using some digitalwritedirect
 long lastInjSwitch = 0; //time when channels were switched - SingleFreqMode
 long lastFreqSwitch = 0; //time when Freq was last changed - MultipleFreqMode
 long lastStimTrigger = 0; //time when stimulation trigger was last activated
@@ -188,6 +149,8 @@ int iFreq = 0; //current frequency
 int iPrt = 0; //current protocol line
 int iRep = 0; //current protocol repetition
 int iStim = 0; // current stimulation number
+
+/*ALL DEFINITIONS DONE FINIALLY!*/
 
 void setup() {
 	// setup PC connection
@@ -200,7 +163,7 @@ void setup() {
 
 	/*
 	SwitchesPwrOn();
-	
+
 	Serial.println("1on");
 	programswitches(4, sinkpin);
 	digitalWriteDirect(SYNC, HIGH); // switch dat!
@@ -208,7 +171,6 @@ void setup() {
 	Serial.println("1off");
 	SwitchesPwrOff();
 	delay(500);
-
 	*/
 
 	// setup CS connection
@@ -226,7 +188,6 @@ void setup() {
 
 	/*
 	SwitchesPwrOn();
-	
 	Serial.println("2on");
 	programswitches(4, sinkpin);
 	digitalWriteDirect(SYNC, HIGH); // switch dat!
@@ -234,13 +195,11 @@ void setup() {
 	Serial.println("2off");
 	SwitchesPwrOff();
 	delay(500);
-
 	*/
 
 	/*########################################################
 	SETUP TIMERS FOR STIMULATOR TRIGGER AND FOR INDICATOR PINS
 	##########################################################*/
-
 
 	//set timer interupts - this might possible conflict with servo library as I didnt check.....
 	pmc_set_writeprotect(false);		 // disable write protection for pmc registers
@@ -270,7 +229,6 @@ void setup() {
 	//TC2->TC_CHANNEL[0].TC_IER = TC_IER_CPCS;   // IER = interrupt enable register
 	//TC2->TC_CHANNEL[0].TC_IDR = ~TC_IER_CPCS;  // IDR = interrupt disable register
 
-
 	//Enable the interrupt in the nested vector interrupt controller
 	// TC4_IRQn where 4 is the timer number * timer channels (3) + the channel number (=(1*3)+1) for timer1 channel1
 	NVIC_EnableIRQ(TC4_IRQn);
@@ -281,7 +239,7 @@ void setup() {
 
 	/*#######################################################
 	Finished with timer stuff
-	#######################################################*/
+	#########################################################*/
 
 	//Serial.println("timer set ok");
 	//Serial.println("initialising");
@@ -331,7 +289,6 @@ void loop() {
 	{
 
 		c = Serial.read();
-
 		//Serial.print(c);
 	}
 
@@ -447,8 +404,6 @@ void dostuff()
 
 					//Serial.println("Switches POWERED ON");
 					delay(50);
-
-
 				}
 			}
 			else // we are in multifrequency mode and thus we need to set more stuff before we start injection
@@ -928,7 +883,7 @@ void dostuff()
 
 
 //function to read command from PC and then put system in "state"
-void getCMD(char CMDIN) 
+void getCMD(char CMDIN)
 {
 	switch (CMDIN)
 	{
