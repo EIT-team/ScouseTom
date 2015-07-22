@@ -285,8 +285,7 @@ void loop() {
 
 	indpins_check(); // get rid of ind pins
 
-
-	char c = '#';
+	char c = '#'; //placeholder value 
 
 	//read serial byte if one is available
 	if (Serial.available() > 0)
@@ -898,17 +897,37 @@ void getCMD(char CMDIN)
 		state = 3;
 		break;
 	case 'S': //start injection
-		state = 1;
+	{
+		if (state == 0) // if the system is idle ONLY
+		{
+			state = 1;
+		}
 		break;
+	}
 	case 'I': // Initialise settings - read from PC and set CS defaults
-		state = 4;
+	{
+		if (state == 0) // if the system is idle ONLY
+		{
+			state = 4;
+		}
 		break;
+	}
 	case 'C': //start contact impedance check
-		state = 5;
+	{
+		if (state == 0) // if the system is idle ONLY
+		{
+			state = 5;
+		}
 		break;
+	}
 	case 'T': // check trigger state
-		state = 7;
+	{
+		if (state == 0) // if the system is idle ONLY
+		{
+			state = 7;
+		}
 		break;
+	}
 
 	default: // if not one of these commands then keep state the same
 		state = state; //a bit didactic but hey
