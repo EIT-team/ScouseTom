@@ -217,7 +217,7 @@ int PC_getsettings()
 				break;
 			}
 
-			// Serial.println("sourcesok");
+			 //Serial.println("sourcesok");
 
 			//get sinks
 			for (int n = 0; n < NumInj; n++)
@@ -237,7 +237,7 @@ int PC_getsettings()
 				break;
 			}
 
-			// Serial.println("sinksok");
+			 //Serial.println("sinksok");
 
 			//get frequencies
 			for (int n = 0; n < NumFreq; n++)
@@ -277,6 +277,8 @@ int PC_getsettings()
 				break;
 			}
 
+			//Serial.println("ampsok");
+
 			//get measurement times
 			for (int n = 0; n < NumFreq; n++)
 			{
@@ -296,6 +298,40 @@ int PC_getsettings()
 			}
 
 			//Serial.println("timessok");
+
+			//get number of bad electrodes if any 
+
+			NumBadElec = getasciinum();
+			sendasciinum(NumBadElec);
+			if (NumBadElec == -1)
+			{
+				commgoodness = 0;
+				break;
+			}
+
+			//Serial.println("numbadok");
+
+			// if there are bad electrodes then read array
+		
+			if (NumBadElec > 0)
+			{
+				for (int n = 0; n < NumBadElec; n++)
+				{
+					tmp_in = getasciinum();
+					sendasciinum(tmp_in);
+					if (tmp_in == -1)
+					{
+						commgoodness = 0;
+						break;
+					}
+					BadElecs[n] = tmp_in;
+				}
+				if (tmp_in == -1)
+				{
+					commgoodness = 0;
+					break;
+				}
+			}
 
 			finished = 1;
 		}

@@ -86,6 +86,10 @@ int iContact = 0; // counter for contact check loop
 int ContactEndofSeq = 0; // flag for whether contact check is finished
 long ContactTime = 0; // contact impedance measurement time in us
 
+long BadElecs[maxBadElecs] = { 0 }; // bad electrodes
+int NumBadElec = 0; // number of bad electrodes 
+
+
 /*############ Indicator Pin things - consts in Pins.h and PCBPins.h ############*/
 
 int pulses[NumInd] = { 0 }; //pulses left to do on the indicator channels

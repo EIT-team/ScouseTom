@@ -25,7 +25,7 @@ else
 end
 
 
-%% check if too many freqs or too long protocol 
+%% check if too many freqs or too long protocol
 %current set manually in arduino code to 200 and 40 as variables
 %maxInjections and maxFreqs
 
@@ -37,11 +37,8 @@ if N_prt > maxInjections
 end
 
 if N_freq > maxFreqs
-   error(['Too many freqs - max is ', num2str(maxFreqs)]);
+    error(['Too many freqs - max is ', num2str(maxFreqs)]);
 end
-
-
-
 
 %% check if the fields are actually there
 
@@ -226,6 +223,61 @@ elseif ExpSetup.ContactCheckInjectTime < 5
 end
 
 
+%remove Bad electrodes from Protocol if any are set - create variable of
+%"full" protocol first
+
+if (isfield(ExpSetup,'Bad_Elec')) %if the field exists
+    if ~isempty(ExpSetup.Bad_Elec) % and some bad ones have been enterred
+        
+        if isfield(ExpSetup.Info,'Protocol_Full') %if this is not the first time elecs have been removed from this protocol
+            ExpSetup.Protocol=ExpSetup.Info.Protocol_Full; % retreve the unedited version
+        else
+            ExpSetup.Info.Protocol_Full=ExpSetup.Protocol; % store the un edited version
+        end
+        
+        %find any proctol lines which include the bad elecs
+        rem_idx=any(ismember(ExpSetup.Protocol,ExpSetup.Bad_Elec),2);
+        rem_idx=find(rem_idx);
+        
+        %store rem idx and update size of prt
+        ExpSetup.Protocol(rem_idx,:)=[];
+        ExpSetup.Info.rem_idx=rem_idx;
+        N_prt = size(ExpSetup.Protocol,1);
+        
+        warning([ num2str(length(rem_idx))  ' LINES REMOVED DUE TO BAD ELECS']);
+    else
+        % if we have run the bad elec removal before, but now there are
+        % none to remove, so take the full protocol again
+        if isfield(ExpSetup.Info,'Protocol_Full')
+            ExpSetup.Protocol=ExpSetup.Info.Protocol_Full;
+            ExpSetup.Info=rmfield(ExpSetup.Info,{'rem_idx','Protocol_Full'}); %remove references to bad elecs
+            
+        else
+            %ExpSetup.Info.Protocol_Full=ExpSetup.Protocol;
+            %otherwise save the full protocol variable
+        end
+        
+    end
+    
+else
+    
+    % if user deleted the variable Bad_Elec then retreive the old procool
+    
+    % if we have run the bad elec removal before, but now there are
+    % none to remove, so take the full protocol again
+    if isfield(ExpSetup.Info,'Protocol_Full')
+        ExpSetup.Protocol=ExpSetup.Info.Protocol_Full;
+        ExpSetup.Info=rmfield(ExpSetup.Info,{'rem_idx','Protocol_Full'}); %remove references to bad elecs
+    else
+        %ExpSetup.Info.Protocol_Full=ExpSetup.Protocol;
+        %otherwise save the full protocol variable
+    end
+    
+end
+
+
+
+
 %% check amp and freqs for 60601
 
 ampok=checkIEC60601(ExpSetup.Amp,ExpSetup.Freq);
@@ -259,6 +311,13 @@ if ~all(meas_temp == ExpSetup.MeasurementTime)
     ExpSetup.Info.Inj_Cycles=ScouseTom_ms2cycles(ExpSetup.Freq,ExpSetup.MeasurementTime);
     ExpSetup.Info.Inj_Define_ms=1;
 end
+
+
+%write debug string
+ExpSetup.Info.DebugString=ScouseTom_debugstring(ExpSetup);
+
+
+
 
 
 %% print the expsetup

@@ -12,10 +12,18 @@ dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.FreqNum)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.Repeats)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.ContactCheckInjectTime)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerTime)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerTime)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerOffset)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorPulseWidth)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorWiperSetting)];
+
+
+
+for nn=1:ExpSetup.Info.ProtocolLength
+    dbstring=[dbstring sprintf('<%d>',ExpSetup.Protocol(nn,1))];
+end
+for nn=1:ExpSetup.Info.ProtocolLength
+    dbstring=[dbstring sprintf('<%d>',ExpSetup.Protocol(nn,2))];
+end
 
 for nn=1:ExpSetup.Info.FreqNum
     dbstring=[dbstring sprintf('<%d>',ExpSetup.Freq(nn))];

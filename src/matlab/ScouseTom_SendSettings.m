@@ -42,6 +42,23 @@ else
     return
 end
 
+%if no bad electrodes were flagged or missed
+
+if ~(isfield(ExpSetup,'Bad_Elec')) %if the field exists
+    N_badelec=0;
+    BadElectrodes=[];
+else
+    if isempty(ExpSetup.Bad_Elec) % and some bad ones have been enterred
+        N_badelec=0;
+        BadElectrodes=[];
+    else
+        N_badelec=length(ExpSetup.Bad_Elec);
+        BadElectrodes=ExpSetup.Bad_Elec;
+    end
+end
+
+
+
 
 %% get some of the settings in this
 
@@ -142,7 +159,7 @@ while (finished_sending ==0)
         finished_sending=1;
         break
     end
-        
+    
     okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.ContactCheckInjectTime,'Contact Z Time');
     if (~okflag)
         finished_sending=1;
@@ -170,8 +187,6 @@ while (finished_sending ==0)
         finished_sending=1;
         break
     end
-    
-    
     
     
     fprintf('Timing OK, ');
@@ -218,7 +233,7 @@ while (finished_sending ==0)
         end
     end
     
-        %send measurement times
+    %send measurement times
     for n=1:N_freq
         okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.MeasurementTime(n),['MeasTime ' num2str(ExpSetup.MeasurementTime(n,1))]);
         if (~okflag)
@@ -230,9 +245,33 @@ while (finished_sending ==0)
     fprintf('AmpsFreqsTimes sent OK \n');
     
     
+    
+    %% send bad electrodes
+    
+    if N_badelec == 0
+        okflag=ScouseTom_ard_sendnumconfim(Ard,0,['No Bad Elec Flag']);
+        if (~okflag)
+            finished_sending=1;
+            break
+        end
+    else
+        okflag=ScouseTom_ard_sendnumconfim(Ard,N_badelec,['Bad Elec Num']);
+        if (~okflag)
+            finished_sending=1;
+            break
+        end
+        
+        for n=1:N_badelec
+            okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Bad_Elec(n),['Bad Elec ' num2str(ExpSetup.Bad_Elec(n))]);
+            if (~okflag)
+                finished_sending=1;
+                break
+            end
+        end
+    end
+    
     finished_sending=1;
     okflag=1;
-    
 end
 
 %% read ok message from arduino that settings all sent ok

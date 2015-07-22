@@ -200,6 +200,7 @@ ExpSetup.StimulatorTriggerTime=StimulatorTriggerTime;
 ExpSetup.StimulatorTriggerOffset=StimulatorTriggerOffset;
 ExpSetup.StimulatorPulseWidth=StimulatorPulseWidth;
 ExpSetup.Repeats=Repeats;
+ExpSetup.BadElec=[];
 
 %info/reference
 ExpSetup.Info.ProtocolLength=ProtocolLength;
@@ -291,7 +292,7 @@ end
 %string corresponding to these settings - to allow for manual control over
 %arduino serial monitor
 
-ExpSetup.Info.DebugString=getdebugstring(ExpSetup);
+
 
 
 
@@ -313,43 +314,6 @@ end
 ExpSetup.Info.dname=newp;
 ExpSetup.Info.fname=newf;
 save(newfname,'ExpSetup');
-
-end
-
-function [dbstring]=getdebugstring(ExpSetup)
-% function to create the string sent to arduino for these settings
-%useful for debuging in the Serial montior of Arduino or Termite
-% Send command 'I' followed by 'A' followed by these lines
-
-dbstring='';
-
-dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.ProtocolLength)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.Elec_num)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.FreqNum)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.Repeats)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.MeasurementTime)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.ContactCheckInjectTime)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerTime)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerTime)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerOffset)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorPulseWidth)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorWiperSetting)];
-
-for nn=1:ExpSetup.Info.FreqNum
-    dbstring=[dbstring sprintf('<%d>',ExpSetup.Freq(nn))];
-end
-for nn=1:ExpSetup.Info.FreqNum
-    dbstring=[dbstring sprintf('<%d>',ExpSetup.Amp(nn))];
-end
-
-
-
-
-
-
-
-
-
 
 end
 
