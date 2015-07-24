@@ -205,6 +205,7 @@ void setup() {
 	SETUP TIMERS FOR STIMULATOR TRIGGER AND FOR INDICATOR PINS
 	##########################################################*/
 
+	//number comes from here https://github.com/ivanseidel/DueTimer/blob/master/TimerCounter.md
 	//set timer interupts - this might possible conflict with servo library as I didnt check.....
 	pmc_set_writeprotect(false);		 // disable write protection for pmc registers
 	pmc_enable_periph_clk(ID_TC4);	 // enable peripheral clock TC7 this means isntance T7 on TC2 channel 1  - this is the timer for the stim trigger output
@@ -213,7 +214,7 @@ void setup() {
 
 	// set up timers and interupts - set channel on timers, set to "wave mode" meaning an output rather than "capture" to read ticks
 	TC_Configure(TC1, 1, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK1); // use TC1 channel 1 in "count up mode" using MCLK /2 clock1 to give 42MHz
-	TC_Configure(TC2, 2, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK3); // use TC2 channel 2 in "count up mode" using MCLK /8 clock1 to give 10.5MHz
+	TC_Configure(TC2, 2, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK2); // use TC2 channel 2 in "count up mode" using MCLK /8 clock1 to give 10.5MHz
 	//TC_Configure(TC2, 0, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK4); // use TC2 channel 0 in "count up mode" using MCLK /128 clock1 to give 656.25 kHz
 
 	TC_SetRC(TC1, 1, 63); // count 63 ticks on the 42MHz clock before calling the overflow routine - this gives an interupt every 1.5 uS
@@ -366,8 +367,9 @@ void dostuff()
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
 			//pulse pins different amounts so we can find them in the EEG loading
-			indpins_pulse(2, 3, 4, 5);
+			indChnIdent();
 
+			
 			//reset all counters
 			iFreq = 0;
 			iPrt = 0;
@@ -680,7 +682,7 @@ void dostuff()
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
 			//pulse pins different amounts so we can find them in the EEG loading
-			indpins_pulse(2, 3, 4, 5);
+			indChnIdent();
 
 			//reset all counters
 			iFreq = 0;

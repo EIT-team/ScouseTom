@@ -21,3 +21,4 @@ void reset_pins_pwr();
 void indpins_check();
 void indpins_pulse(int StartChn, int StopChn, int SwitchChn, int FreqChn);
 void indpins_init();
+void indChnIdent();
