@@ -199,6 +199,7 @@ ExpSetup.MeasurementTime=MeasurementTime;
 ExpSetup.StimulatorTriggerTime=StimulatorTriggerTime;
 ExpSetup.StimulatorTriggerOffset=StimulatorTriggerOffset;
 ExpSetup.StimulatorPulseWidth=StimulatorPulseWidth;
+ExpSetup.StimulatorVoltage=StimulatorVoltage;
 ExpSetup.Repeats=Repeats;
 ExpSetup.BadElec=[];
 
@@ -208,7 +209,6 @@ ExpSetup.Info.ProtocolTime=ProtocolTime;
 ExpSetup.Info.ProtocolName=ProtocolName;
 ExpSetup.Info.TotalTime=TotalTime;
 ExpSetup.Info.OriginalProtocol=Protocol;
-ExpSetup.Info.StimulatorVoltage=StimulatorVoltage;
 ExpSetup.Info.FreqNum=Freq_num;
 ExpSetup.Info.Inj_Cycles=Cycles;
 ExpSetup.Info.Inj_Cycles_Offset=Offset;

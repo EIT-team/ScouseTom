@@ -14,7 +14,7 @@ dbstring=[dbstring sprintf('<%d>',ExpSetup.ContactCheckInjectTime)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerTime)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerOffset)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorPulseWidth)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorWiperSetting)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.StimulatorWiperSetting)];
 
 
 

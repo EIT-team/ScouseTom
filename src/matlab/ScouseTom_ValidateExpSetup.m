@@ -49,7 +49,7 @@ end
 
 legit_fields={'Amp', 'Freq', 'Protocol','Elec_num', 'MeasurementTime',...
     'Repeats','StimulatorTriggerTime','StimulatorTriggerOffset',...
-    'StimulatorPulseWidth','ContactCheckInjectTime','StimulatorWiperSetting'};
+    'StimulatorPulseWidth','ContactCheckInjectTime','StimulatorVoltage'};
 
 fieldsok=isfield(ExpSetup,legit_fields);
 
@@ -152,20 +152,25 @@ if StimMode % only check stim stuff if we are in stimmode
         return
     end
     
-    
     % voltage bits - check inputs are legit
-    if isnumeric(ExpSetup.StimulatorWiperSetting) ~= 1
-        warning('Weird StimulatorWiperSetting must be positive integer');
-        return
-    elseif ceil(ExpSetup.StimulatorWiperSetting) ~= fix(ExpSetup.StimulatorWiperSetting)
-        warning('Weird StimulatorWiperSetting must be positive integer');
-        return
-    elseif ExpSetup.StimulatorWiperSetting < 0
-        warning('Weird StimulatorWiperSetting must be positive integer');
-        return
+    
+    if  isfield(ExpSetup.Info,'StimulatorWiperSetting'); %if wiper setting is given
+        
+        if isnumeric(ExpSetup.Info.StimulatorWiperSetting) ~= 1
+            warning('Weird StimulatorWiperSetting must be positive integer');
+            return
+        elseif ceil(ExpSetup.Info.StimulatorWiperSetting) ~= fix(ExpSetup.Info.StimulatorWiperSetting)
+            warning('Weird StimulatorWiperSetting must be positive integer');
+            return
+        elseif ExpSetup.Info.StimulatorWiperSetting < 0
+            warning('Weird StimulatorWiperSetting must be positive integer');
+            return
+        end
+        
     end
     
-    if isnumeric(ExpSetup.StimulatorVoltage) ~= 1
+    
+    if isnumeric(ExpSetup.StimulatorVoltage) ~= 1 %if check target voltage is ok 
         warning('Weird StimulatorWiperSetting must be positive integer');
         return
     elseif ExpSetup.StimulatorVoltage < 0
@@ -176,11 +181,11 @@ if StimMode % only check stim stuff if we are in stimmode
     %then see if they match - setting new value for wiper if they dont
     [Rnew,Vnew]=ScouseTom_ard_getwipersetting(ExpSetup.StimulatorVoltage);
     
-    if Rnew ~= ExpSetup.StimulatorWiperSetting
+    if Rnew ~= ExpSetup.Info.StimulatorWiperSetting
         stimwarn= sprintf('Voltage settings DO NOT MATCH! \n Recalculated Vstim is %.3f and Rpot is %d',Vnew,Rnew);
         warning(stimwarn);
         ExpSetup.StimulatorVoltage=Vnew;
-        ExpSetup.StimulatorWiperSetting=Rnew;
+        ExpSetup.Info.StimulatorWiperSetting=Rnew;
     end
     
     if ExpSetup.StimulatorTriggerTime > ExpSetup.MeasurementTime
@@ -192,6 +197,8 @@ if StimMode % only check stim stuff if we are in stimmode
         warning('Trigger offset is greater than measurement time');
         return
     end
+    
+    
     
     
 end
@@ -389,7 +396,7 @@ if StimMode
     fprintf('Stimulation Mode is ON! - Randomised phase delay triggered by phase marker on Keithley\n');
     fprintf('%d uS pulse triggered every %d ms with offset %d ms from channel switch\n',ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset);
     fprintf('Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime(1)-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));
-    fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.StimulatorVoltage,ExpSetup.StimulatorWiperSetting);
+    fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.StimulatorVoltage,ExpSetup.Info.StimulatorWiperSetting);
 end
 
 fprintf('########EVERYTHING IS OK!!##########\n');

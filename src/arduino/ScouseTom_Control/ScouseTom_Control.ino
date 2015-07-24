@@ -881,10 +881,6 @@ void dostuff()
 }
 
 
-
-
-
-
 //function to read command from PC and then put system in "state"
 void getCMD(char CMDIN)
 {

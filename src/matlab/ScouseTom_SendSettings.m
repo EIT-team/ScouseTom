@@ -83,7 +83,7 @@ end
 fprintf('Controller will use : %s\n',injmodestr);
 
 if Stimmode
-    fprintf('Stimulation in ON at %.2f V with %dms repeat and %d us pulsewidth\n',ExpSetup.Info.StimulatorVoltage, ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorPulseWidth);
+    fprintf('Stimulation in ON at %.2f V with %dms repeat and %d us pulsewidth\n',ExpSetup.StimulatorVoltage, ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorPulseWidth);
 else
     %fprintf('Stimulation is OFF\n');
 end
@@ -182,7 +182,7 @@ while (finished_sending ==0)
         break
     end
     
-    okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.StimulatorWiperSetting,'Stimulator Wiper Setting');
+    okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Info.StimulatorWiperSetting,'Stimulator Wiper Setting');
     if (~okflag)
         finished_sending=1;
         break
