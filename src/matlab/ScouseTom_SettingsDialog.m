@@ -19,7 +19,7 @@ prompt_in = {'Enter Amplitude (uA). Use spaces to define multiple - NOTE THIS IS
     'Number of repeats',...
     'Stim. Trig. Time (ms) 0 turns stim off',...
     'Stim. Trig. Offset (ms) 0 turns stim off',...
-    'Stim. Pulse Width (us) 0 turns stim off - NOTE THIS IS IN MICROS',...
+    'Stim. Pulse Width (us) 0 turns stim off - NOTE THIS IS IN MICROS - CONSIDER EEG SAMPLE RATE > 62uS for BioSemi, >20 for ActiChamp',...
     'Stim Voltage (V) - closest match within 0.125V'};
 
 dlg_title = 'Input Values - VERY LITTLE ERROR CHECKING!';
@@ -173,7 +173,7 @@ end
 
 if isnumeric(StimulatorVoltage) ~= 1
     error('Weird StimulatorVoltage must be positive number');
-elseif StimulatorPulseWidth < 0
+elseif StimulatorVoltage < 0
     error('Weird StimulatorVoltage must be positive number');
 end
 
