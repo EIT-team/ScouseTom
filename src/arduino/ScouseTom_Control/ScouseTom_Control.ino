@@ -892,8 +892,13 @@ void getCMD(char CMDIN)
 		state = 0;
 		break;
 	case 'H': // Halt injection state
-		state = 3;
-		break;
+	{
+		if (state != 0) // if system is NOT idle
+		{
+			state = 3;
+			break;
+		}
+	}
 	case 'S': //start injection
 	{
 		if (state == 0) // if the system is idle ONLY
