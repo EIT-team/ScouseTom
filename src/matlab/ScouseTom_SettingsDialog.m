@@ -25,7 +25,7 @@ prompt_in = {'Enter Amplitude (uA). Use spaces to define multiple - NOTE THIS IS
 dlg_title = 'Input Values - VERY LITTLE ERROR CHECKING!';
 num_lines = 1;
 %set defaults
-def_in = {'141','1000','32','500','20','2','2','0','10'};
+def_in = {'141','1000','32','500','20','50','2','0','10'};
 
 
 if define_ms_flag == 0 %add extra line for offset
