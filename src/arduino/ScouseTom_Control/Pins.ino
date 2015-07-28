@@ -140,7 +140,7 @@ void indChnIdent() //pulses to send at start of injections to indicate which ind
 	//pulses indicator pins
 	indpins_pulse(3, 5, 4, 6); //number of pulses is a bit odd as 4 was used previously on switch chn, so dont want kirill to shout at me for making him change one line of code
 	
-	int del = 450;
+	int del = 430;
 	//pulses stimuator pin - harcoded at the moment
 	digitalWriteDirect(IND_STIM, HIGH);
 	delayMicroseconds(del);
