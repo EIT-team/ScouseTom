@@ -1,0 +1,36 @@
+[Eagle]
+Version="07 02 00"
+Platform="Windows"
+Serial="62191E841E-LSR-WLM-1EL"
+Globals="Globals"
+Desktop="Desktop"
+
+[Globals]
+AutoSaveProject=1
+UsedLibrary="C:/EAGLE-7.2.0/lbr/eagle-ltspice.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/Comparators.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/Digital.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/FilterProducts.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/Misc.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/Opamps.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/Optos.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/PAsystem.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/PowerProducts.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/References.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/SpecialFunctions.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/capmeter.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/diode.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/lt-spice-simulation.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/lt-supply.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/rload.lbr"
+UsedLibrary="C:/EAGLE-7.2.0/lbr/ltspice/sym.lbr"
+
+[Win_1]
+Type="Control Panel"
+Loc="652 321 1251 720"
+State=2
+Number=0
+
+[Desktop]
+Screen="4920 1920"
+Window="Win_1"
