@@ -123,7 +123,7 @@ void SwitchChn_Contact() //switch channels - switches are programmed by SetSwitc
 	indpins_pulse(0, 0, 1, 0); // only pulse if single freq mode as prt is repeated for multi
 	// increment protocol line 
 	iContact++;
-	if (iContact == NumElec + 1) // if complete protocol done then reset and increment repetiton counter
+	if (iContact == NumElec) // if complete protocol done then reset and increment repetiton counter
 	{
 		iContact = 0;
 		ContactEndofSeq = 1;

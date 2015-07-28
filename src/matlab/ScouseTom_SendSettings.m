@@ -1,4 +1,4 @@
-function [ Ard,OKFLAG ] = ScouseTom_SendSettings( Ard,ExpSetup)
+function [ Ard,ExpSetup,OKFLAG ] = ScouseTom_SendSettings( Ard,ExpSetup)
 %ScouseTom_SendSettings Sends the information of the protocol, time to inject
 %per protocol line etc. to the arduino in the agreed fashion
 

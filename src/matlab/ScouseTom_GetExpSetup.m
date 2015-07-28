@@ -201,7 +201,7 @@ ExpSetup.StimulatorTriggerOffset=StimulatorTriggerOffset;
 ExpSetup.StimulatorPulseWidth=StimulatorPulseWidth;
 ExpSetup.StimulatorVoltage=StimulatorVoltage;
 ExpSetup.Repeats=Repeats;
-ExpSetup.BadElec=[];
+ExpSetup.Bad_Elec=[];
 
 %info/reference
 ExpSetup.Info.ProtocolLength=ProtocolLength;
