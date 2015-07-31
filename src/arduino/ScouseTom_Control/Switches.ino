@@ -164,12 +164,12 @@ void programswitches(int sourcechn, int sinkchn)
 void SwitchesPwrOn()
 {
 	digitalWrite(PWR_SWITCH, HIGH); //turn on power
-	digitalWrite(RESET, HIGH);
 	digitalWrite(RESET, LOW);
-	digitalWrite(RESET, HIGH);
 	digitalWrite(SYNC, HIGH);
-	delayMicroseconds(500); // this is to ensure the pins are held at correct levels long enough *before* being changed when programming - this fixes all pins connected bug
-
+	digitalWrite(SYNC, LOW);
+	digitalWrite(SYNC, HIGH);
+	programswitches(0, 0); //program dem switches
+	digitalWriteDirect(SYNC, HIGH); // switch dat!
 }
 
 void SwitchesPwrOff()

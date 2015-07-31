@@ -28,7 +28,7 @@ void SwitchesPwrOn()
 	digitalWriteDirect(PWR_SWITCH, HIGH); //turn on power
 	reset_pins(); // set all pins to starting state
 	digitalWrite(RESET, LOW); // reset everything as some mysterious bullshit was happening
-	digitalWrite(RESET, HIGH); // slow digital write used to ensure pin stays high for a bit
+	//digitalWrite(RESET, HIGH); // slow digital write used to ensure pin stays high for a bit
 	digitalWrite(SYNC, LOW); // reset everything as some mysterious bullshit was happening
 	digitalWrite(SYNC, HIGH); // slow digital write used to ensure pin stays high for a bit
 	digitalWrite(SYNC, LOW); // reset everything as some mysterious bullshit was happening

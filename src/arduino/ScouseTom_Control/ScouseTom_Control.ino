@@ -719,6 +719,8 @@ void dostuff()
 				CS_Disp("CS SET OK");
 				CS_Disp_Wind2("Contact Check");
 
+				SwitchesPwrOn(); //turn on switches
+				delay(50); // cant remember what this delay is for!
 			}
 		}
 		else // if settings are not ok then dont do anything
@@ -826,16 +828,13 @@ void dostuff()
 		if (FirstInj == 1) // if its the first time then switch straight away, otherwise check if the switch time has been met
 			//if this is the first time we are injecting we need to send settings to the current source
 		{
-			//turn on power to switches
-			digitalWriteDirect(PWR_SWITCH, HIGH);
-
 			//start current source
 			CS_start();
 			//display some stuff on the front
 			CS_Disp("Checking Contact");
 			CS_Disp_Contact(iContact, NumElec);
 
-			indpins_pulse(1, 0, 0, 0);
+			indpins_pulse(2, 0, 0, 0); //two pulses for indicating contact check
 			//indpins_pulse(0, 0, 3, 0); // compatible with OLD CODE ONLY
 
 
