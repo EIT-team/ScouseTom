@@ -170,7 +170,7 @@ if StimMode % only check stim stuff if we are in stimmode
     end
     
     
-    if isnumeric(ExpSetup.StimulatorVoltage) ~= 1 %if check target voltage is ok 
+    if isnumeric(ExpSetup.StimulatorVoltage) ~= 1 %if check target voltage is ok
         warning('Weird StimulatorWiperSetting must be positive integer');
         return
     elseif ExpSetup.StimulatorVoltage < 0
@@ -296,7 +296,64 @@ else
     msgbox('Exceeding IEC60601. Are you sure? Will carry on for now','Too high current?','warn');
 end
 
-%% update Info
+%% Check if we need to calculate more measurement times
+
+if ExpSetup.Info.Inj_Define_ms ==1
+    
+    disp('Injection time defined by milliseconds');
+    
+    %if we are defining measurement time by milliseonds then check correct
+    %number is there and calc new cycles eq
+    
+    if N_freq == size(ExpSetup.MeasurementTime,1)
+        %if one given for each one then use those
+        ExpSetup.Info.Inj_Cycles=ScouseTom_ms2cycles(ExpSetup.Freq,ExpSetup.MeasurementTime);
+        ExpSetup.Info.Inj_Cycles_Offset=0;
+    elseif size(ExpSetup.MeasurementTime,1) ==1
+        %if user has only given 1 then duplicate this for all of them
+        [Cycles,Meas]=ScouseTom_ms2cycles(ExpSetup.Freq,ExpSetup.MeasurementTime); % give equivalent cycles - this also makes Meas a vector
+        ExpSetup.MeasurementTime=Meas;
+        ExpSetup.Info.Inj_Cycles=Cycles;
+        ExpSetup.Info.Inj_Cycles_Offset=0;
+    else
+        %otherwise its ambigusou so fuck off
+        error('Number of Measurement Times does not match number of frequencies: please put 1 or NFreq');
+    end
+    
+else
+    % we are using number of cycles to calculate the measurement time
+    disp('Injection time defined by Number of Cycles');
+    
+    if (N_freq == size(ExpSetup.Info.Inj_Cycles,1)) || (size(ExpSetup.Info.Inj_Cycles,1) == 1)
+        
+        [Meas,Cycles]=ScouseTom_cycles2ms(ExpSetup.Freq,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset);
+        ExpSetup.MeasurementTime=Meas;
+        ExpSetup.Info.Inj_Cycles=Cycles;
+    else
+        error('Number of Inj Cycles does not match number of frequencies: please put 1 or NFreq');
+        
+    end
+    
+    
+end
+
+
+
+
+meas_temp=ScouseTom_cycles2ms(ExpSetup.Freq,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset);
+
+if ~all(meas_temp == ExpSetup.MeasurementTime)
+    warning('Measurement time and Cycles variables dont match - keeping Measurement time!!!');
+    ExpSetup.Info.Inj_Cycles_Offset=0;
+    ExpSetup.Info.Inj_Cycles=ScouseTom_ms2cycles(ExpSetup.Freq,ExpSetup.MeasurementTime);
+    ExpSetup.Info.Inj_Define_ms=1;
+end
+
+
+
+
+
+%% Update Info Struct
 
 %user can edit ExpSetup on the Fly, so make sure ExpSetup.Info relates to
 %the ExpSetup as it ACTUALLY IS
@@ -307,17 +364,6 @@ ExpSetup.Info.ProtocolTime=sum(N_prt*(ExpSetup.MeasurementTime/1000)); %time in 
 ExpSetup.Info.TotalTime=ExpSetup.Repeats*ExpSetup.Info.ProtocolTime;
 
 
-%check if measurement time and cycles matches - measurement takes
-%precidence
-
-meas_temp=ScouseTom_cycles2ms(ExpSetup.Freq,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset);
-
-if ~all(meas_temp == ExpSetup.MeasurementTime)
-    warning('Measurement time and Cycles variables dont match - keeping Measurement time!!!');
-    ExpSetup.Info.Inj_Cycles_Offset=0;
-    ExpSetup.Info.Inj_Cycles=ScouseTom_ms2cycles(ExpSetup.Freq,ExpSetup.MeasurementTime);
-    ExpSetup.Info.Inj_Define_ms=1;
-end
 
 
 %write debug string

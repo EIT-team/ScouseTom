@@ -12,7 +12,8 @@ function [ Amp, Freq, Prot,Prot_name,Elec_num, Meas,Repeats,StimulatorTriggerTim
 %% set up user prompt
 
 %default prompts for defining in milliseconds
-prompt_in = {'Enter Amplitude (uA). Use spaces to define multiple - NOTE THIS IS IN MICROS ONLY NOW',...
+prompt_in = {
+    'Enter Amplitude (uA). Use spaces to define multiple - NOTE THIS IS IN MICROS ONLY NOW',...
     'Enter Frequency (Hz). Use spaces to define multiple values',...
     'Number of Elec.',...
     'Meas. TIME for each inj. pair (ms). Use spaces to define multiple values or use one',...
@@ -20,12 +21,26 @@ prompt_in = {'Enter Amplitude (uA). Use spaces to define multiple - NOTE THIS IS
     'Stim. Trig. Time (ms) 0 turns stim off',...
     'Stim. Trig. Offset (ms) 0 turns stim off',...
     'Stim. Pulse Width (us) 0 turns stim off - NOTE THIS IS IN MICROS - CONSIDER EEG SAMPLE RATE > 62uS for BioSemi, >20 for ActiChamp',...
-    'Stim Voltage (V) - closest match within 0.125V'};
+    'Stim Voltage (V) - closest match within 0.125V'
+    };
 
 dlg_title = 'Input Values - VERY LITTLE ERROR CHECKING!';
 num_lines = 1;
 %set defaults
-def_in = {'141','1000','32','500','20','50','2','0','10'};
+def_in = {'141','1000','32','500','20','50','2','0','10','64','5'};
+
+
+
+%replace defaults with input varargin
+if ~isempty(varargin)
+    
+    for ii = 1:length(varargin)
+        def_in(ii)={num2str(varargin{ii}')}; %have to transpose inside to make arrays convert to space delimited strings
+    end
+    
+end
+
+
 
 
 if define_ms_flag == 0 %add extra line for offset
@@ -35,8 +50,9 @@ if define_ms_flag == 0 %add extra line for offset
     
     prompt{4}='Number of CYCLES to inject each pair each freq. Use spaces to define multiple values or use one';
     prompt{5}='Offset to add before and after each injection (ms)';
-    def{4}='64';
-    def{5}='5';
+  
+    def{4}=def_in{10};
+    def{5}=def_in{11};
     
     prompt(6:10)=prompt_in(5:9); %last 5 are the same
     def(6:10)=def_in(5:9);
@@ -50,14 +66,7 @@ end
 
 
 
-%replace defaults with input varargin
-if ~isempty(varargin)
-    
-    for ii = 1:length(varargin)
-        def(ii)={num2str(varargin{ii}')}; %have to transpose inside to make arrays convert to space delimited strings
-    end
-    
-end
+
 
 %% prompt user
 
@@ -164,11 +173,11 @@ elseif StimulatorTriggerOffset < 0
 end
 
 if isnumeric(StimulatorPulseWidth) ~= 1
-    error('Weird StimulatorTriggerOffset must be positive integer');
+    error('Weird StimulatorPulseWidth must be positive integer');
 elseif ceil(StimulatorPulseWidth) ~= fix(StimulatorPulseWidth)
-    error('Weird StimulatorTriggerOffset must be positive integer');
+    error('Weird StimulatorPulseWidth must be positive integer');
 elseif StimulatorPulseWidth < 0
-    error('Weird StimulatorTriggerOffset must be positive integer');
+    error('Weird StimulatorPulseWidth must be positive integer');
 end
 
 if isnumeric(StimulatorVoltage) ~= 1

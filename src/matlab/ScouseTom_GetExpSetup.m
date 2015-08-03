@@ -84,7 +84,7 @@ if load_flag
     end
     
     %compare any called variables - this is a stupid way of doing it
-    previous_vars={ ExpSetup.Amp, ExpSetup.Freq,ExpSetup.Elec_num, ExpSetup.MeasurementTime,ExpSetup.Repeats,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset,ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorVoltage,ExpSetup.StimulatorWiperSetting};
+    previous_vars={ ExpSetup.Amp, ExpSetup.Freq,ExpSetup.Elec_num, ExpSetup.MeasurementTime,ExpSetup.Repeats,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset,ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorVoltage,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset};
     
     warn_flag=0;
     if ~isempty(varargin)
@@ -113,7 +113,7 @@ if load_flag
     yesresp='Yes please - new protocol please!';
     noresp='Keep the old one';
     titlestr='Want a new protocol?';
-    promptstr=sprintf('Do you want to load a new protocol, previous one was %s',ExpSetup.ProtocolName);
+    promptstr=sprintf('Do you want to load a new protocol, previous one was %s',ExpSetup.Info.ProtocolName);
     resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
     
     if isempty(resp)
@@ -170,7 +170,7 @@ end
 
 if ~newprot_flag % if we havent asked for new protocol then output from above line is empty - so replace it with expsetup THIS IS A KLUDGE
     Protocol=ExpSetup.Protocol;
-    ProtocolName=ExpSetup.ProtocolName;
+    ProtocolName=ExpSetup.Info.ProtocolName;
 end
 
 if exist('ExpSetup','var') ==1 %if we have an expsetup in workspace then clear it now as we want to start afresh
