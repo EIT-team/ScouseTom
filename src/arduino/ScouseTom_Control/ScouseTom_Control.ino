@@ -2,18 +2,8 @@
 Arduino Control Code for breadboard and PCB version - controlled by Matlab code (for now) ScouseTom_Init ScouseTom_Start etc.
 
 Overview of commands is SOMEWHERE
-
-
-########
-23/04/15 - Fixed bug where first switch after turning on power to switches was not working - caused by setting pins too fast after power, fixed by reseting switches after pwr on
-- added delay to start time as Current source takes some time to actually turn on
-
-Last Major Update - set stim voltage programmatically, power to stim and switches turned off when not in use, PCB and breadboard pin numbering in separate header files
-
 ########
 To do:
-
-Set number of cycles to inject rather than time - best done in matlab though will need to get array of injection times too
 
 Check that sources and sinks arent the same for a line in the protocol
 
@@ -88,7 +78,6 @@ long ContactTime = 0; // contact impedance measurement time in us
 
 long BadElecs[maxBadElecs] = { 0 }; // bad electrodes
 int NumBadElec = 0; // number of bad electrodes 
-
 
 /*############ Indicator Pin things - consts in Pins.h and PCBPins.h ############*/
 
@@ -167,7 +156,6 @@ void setup() {
 
 	/*
 	SwitchesPwrOn();
-
 	Serial.println("1on");
 	programswitches(4, sinkpin);
 	digitalWriteDirect(SYNC, HIGH); // switch dat!
@@ -555,7 +543,7 @@ void dostuff()
 				else // otherwise carry on with switching etc.
 				{
 
-					/* debug trig */indpins_pulse(0, 0, 0, 1);
+					///* debug trig */indpins_pulse(0, 0, 0, 1);
 
 					SwitchChn(); // switch channel
 					StimOffsetCurrent = StimOffset; //reset the stimoffset as we are switching again
@@ -581,8 +569,6 @@ void dostuff()
 				CS_Disp("EIT IS GO");
 				Switchflag = 1;
 
-				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
-
 				if (StimMode) Stimflag = 1;
 
 				FirstInj = 0;
@@ -591,8 +577,13 @@ void dostuff()
 				//send info to PC
 				PC_sendupdate();
 
+				delayMicroseconds(5000);//added delay here as startpulse below was happening so quickly after indChnIdent() at start, the start pulse was merging with the ID pulses! This took *way* too long to debug
+				
 				//turn on power to switches
 				SwitchesPwrOn();
+
+				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
+
 
 			}
 			else // if this is NOT the first time called, then check if time has elapsed before changing frequency
