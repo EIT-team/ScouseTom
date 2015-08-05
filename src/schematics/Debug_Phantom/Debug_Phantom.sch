@@ -8,34 +8,34 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
-<layer number="2" name="Route2" color="1" fill="3" visible="yes" active="no"/>
-<layer number="3" name="Route3" color="4" fill="3" visible="yes" active="no"/>
-<layer number="4" name="Route4" color="1" fill="4" visible="yes" active="no"/>
-<layer number="5" name="Route5" color="4" fill="4" visible="yes" active="no"/>
-<layer number="6" name="Route6" color="1" fill="8" visible="yes" active="no"/>
-<layer number="7" name="Route7" color="4" fill="8" visible="yes" active="no"/>
-<layer number="8" name="Route8" color="1" fill="2" visible="yes" active="no"/>
-<layer number="9" name="Route9" color="4" fill="2" visible="yes" active="no"/>
-<layer number="10" name="Route10" color="1" fill="7" visible="yes" active="no"/>
-<layer number="11" name="Route11" color="4" fill="7" visible="yes" active="no"/>
-<layer number="12" name="Route12" color="1" fill="5" visible="yes" active="no"/>
-<layer number="13" name="Route13" color="4" fill="5" visible="yes" active="no"/>
-<layer number="14" name="Route14" color="1" fill="6" visible="yes" active="no"/>
-<layer number="15" name="Route15" color="4" fill="6" visible="yes" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
+<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
+<layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
+<layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
+<layer number="6" name="Route6" color="1" fill="8" visible="no" active="no"/>
+<layer number="7" name="Route7" color="4" fill="8" visible="no" active="no"/>
+<layer number="8" name="Route8" color="1" fill="2" visible="no" active="no"/>
+<layer number="9" name="Route9" color="4" fill="2" visible="no" active="no"/>
+<layer number="10" name="Route10" color="1" fill="7" visible="no" active="no"/>
+<layer number="11" name="Route11" color="4" fill="7" visible="no" active="no"/>
+<layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
+<layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
+<layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
+<layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -44,8 +44,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -53,12 +53,12 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
@@ -3904,121 +3904,123 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 </class>
 </classes>
 <parts>
-<part name="X1" library="con-subd" deviceset="F37VP" device=""/>
-<part name="R1" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R3" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R4" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R6" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R7" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R9" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R10" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R12" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R13" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R15" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R16" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R18" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R19" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R21" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R22" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R24" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R25" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R27" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R28" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R30" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R31" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R33" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R34" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R36" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R37" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R39" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R40" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R42" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R43" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R45" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R46" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R48" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R49" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R51" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R52" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R54" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R55" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R57" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R58" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R60" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R61" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R63" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R64" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R66" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R67" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R69" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R70" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R72" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R73" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R75" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R76" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R78" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R79" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R81" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R82" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R84" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R85" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R87" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R88" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R90" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R91" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R93" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R94" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R96" library="rcl" deviceset="R-EU_" device="R0402"/>
+<part name="X1" library="con-subd" deviceset="F37VP" device="" value="DSUBIN"/>
+<part name="R1" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R3" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R4" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R6" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R7" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R9" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R10" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R12" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R13" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R15" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R16" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R18" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R19" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R21" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R22" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R24" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R25" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R27" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R28" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R30" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R31" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R33" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R34" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R36" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R37" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R39" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R40" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R42" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R43" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R45" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R46" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R48" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R49" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R51" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R52" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R54" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R55" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R57" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R58" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R60" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R61" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R63" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R64" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R66" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R67" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R69" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R70" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R72" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R73" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R75" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R76" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R78" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R79" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R81" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R82" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R84" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R85" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R87" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R88" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R90" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R91" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R93" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R94" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R96" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
-<part name="R97" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R99" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R100" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R102" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R103" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R105" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R106" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R108" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R109" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R111" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="JP1" library="pinhead" deviceset="PINHD-1X1" device=""/>
-<part name="R2" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R5" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R8" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R11" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R14" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R17" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R20" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R23" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R26" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R29" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R32" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R35" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R38" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R41" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R44" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R47" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R50" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R53" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R56" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R59" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R62" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R65" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R68" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R71" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R74" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R77" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R80" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R83" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R86" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R89" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R92" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R95" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R98" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R101" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R104" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R107" library="rcl" deviceset="R-EU_" device="R0402"/>
-<part name="R110" library="rcl" deviceset="R-EU_" device="R0402"/>
+<part name="R97" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R99" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R100" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R102" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R103" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R105" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R106" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R108" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R109" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R111" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="JP1" library="pinhead" deviceset="PINHD-1X1" device="" value="GNDHDR"/>
+<part name="R2" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R5" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R8" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R11" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R14" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R17" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R20" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R23" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R26" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R29" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R32" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R35" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R38" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R41" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R44" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R47" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R50" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R53" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R56" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R59" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R62" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R65" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R68" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R71" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R74" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R77" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R80" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R83" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R86" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R89" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R92" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R95" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R98" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R101" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R104" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R107" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
+<part name="R110" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
+<part name="GND3" library="supply1" deviceset="GND" device=""/>
+<part name="GND4" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4140,6 +4142,8 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <instance part="R107" gate="G$1" x="523.24" y="81.28" rot="R270"/>
 <instance part="R110" gate="G$1" x="538.48" y="81.28" rot="R270"/>
 <instance part="GND1" gate="1" x="193.04" y="40.64"/>
+<instance part="GND3" gate="1" x="121.92" y="139.7"/>
+<instance part="GND4" gate="1" x="121.92" y="198.12" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -4692,6 +4696,17 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 <pinref part="GND1" gate="1" pin="GND"/>
 <wire x1="193.04" y1="43.18" x2="193.04" y2="45.72" width="0.1524" layer="91"/>
 <junction x="193.04" y="45.72"/>
+</segment>
+<segment>
+<pinref part="X1" gate="G$1" pin="G2"/>
+<pinref part="GND3" gate="1" pin="GND"/>
+<wire x1="116.84" y1="142.24" x2="121.92" y2="142.24" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="X1" gate="G$1" pin="G1"/>
+<wire x1="116.84" y1="193.04" x2="121.92" y2="193.04" width="0.1524" layer="91"/>
+<pinref part="GND4" gate="1" pin="GND"/>
+<wire x1="121.92" y1="193.04" x2="121.92" y2="195.58" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="E33" class="0">
