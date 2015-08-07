@@ -579,10 +579,11 @@ void dostuff()
 
 				delayMicroseconds(5000);//added delay here as startpulse below was happening so quickly after indChnIdent() at start, the start pulse was merging with the ID pulses! This took *way* too long to debug
 				
+				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
 				//turn on power to switches
 				SwitchesPwrOn();
 
-				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
+				indpins_pulse(0, 0, 1, 0); // send switch pulse as processing code is expecting it 
 
 
 			}
