@@ -1,11 +1,20 @@
 /*Pin Numbering for PCB version - changed to reduce trace length */
-
-// switch network pin definitions
+/*
+// switch network pin definitions - old connected to optos
 const int DINp = 39;
 const int DINn = 41;
 const int SCLK = 43;
 const int SYNC = 35;
 const int RESET = 37;
+*/
+
+// switch network pin definitions - new connected to AD isolator
+const int DINp = 38;
+const int DINn = 40;
+const int SCLK = 42;
+const int SYNC = 34;
+const int RESET = 36;
+
 
 // indicator pins
 const int IND_SWITCH = 5;

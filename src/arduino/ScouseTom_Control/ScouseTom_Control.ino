@@ -2,18 +2,8 @@
 Arduino Control Code for breadboard and PCB version - controlled by Matlab code (for now) ScouseTom_Init ScouseTom_Start etc.
 
 Overview of commands is SOMEWHERE
-
-
-########
-23/04/15 - Fixed bug where first switch after turning on power to switches was not working - caused by setting pins too fast after power, fixed by reseting switches after pwr on
-- added delay to start time as Current source takes some time to actually turn on
-
-Last Major Update - set stim voltage programmatically, power to stim and switches turned off when not in use, PCB and breadboard pin numbering in separate header files
-
 ########
 To do:
-
-Set number of cycles to inject rather than time - best done in matlab though will need to get array of injection times too
 
 Check that sources and sinks arent the same for a line in the protocol
 
@@ -40,45 +30,31 @@ Jimmy wrote this so blame him
 
 //#include "BreadboardPins.h" // Pins for breadboard version - used by kirill and me (testing)
 #include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
-#include "Stim.h"
-#include "Switches.h"
-#include "CS_comm.h"
-#include "PC_comm.h"
-#include "Pins.h"
+#include "Stim.h" //Constants for stimulator things, with definitions of functions
+#include "Switches.h" // Constants for switching channels
+#include "CS_comm.h" // Constants used in serial communication with Current Source
+#include "PC_comm.h" // Constants used in communicaltion with PC
+#include "Pins.h" // constants used in indicator pins and reseting ALL pins to defaults etc.
+#include "Errors.h" // error codes and warning messages
+#include "Messages.h" // OK messages and other misc. things
+#include "System_Control.h" //control constants - idle time definition etc.
+#include "Injection.h" // injection defaults - max number of protocol lines etc.
 
-//#####################################
-// Current Source Interface Stuff
-const byte CS_buffSize = 40; //size of char buffer to recieve from current source
+/*############ CS Communications stuff - consts in CS_Comm.h ############*/
+
 char CS_inputBuffer[CS_buffSize]; //char buffer to store output from current source
 int CS_inputFinished = 0; //flag for complete response from current source
-String CS_vers = "1999.0"; //Current source version number - used to check communication with current source
 int LongDispWind = 0; // flag for if we have more than 3 digit length of repeats/freqs/prt so that we use the shorter text on the bottom window
-
-const char CS_settingserrmsg[] = "<!S>";
-const char CS_commerrmsg[] = "<!E>";
-const char CS_pmarkerrmsg[] = "<!P>";
-
-const char CS_commokmsg[] = "<+OK>";
-const char CS_finishedmsg[] = "<+Fin>";
-
-const int CS_timeoutlimit = 1000; // timeout in milliseconds for response from current source
-const long sc_micro = 1000000; // scale for micro
 char CS_outputBuffer[50]; // char array buffer for output strings to CS
 int CS_commgoodness = 1; // flag for current communication goodness
 
-//############################
-// PC Communication Stuff
+/*############ PC Communications stuff - consts in PC_Comm.h ############*/
 
 char PC_outputBuffer[50]; // char array buffer for output strings to PC
-const int PC_timeoutlimit = 2000; // timeout in milliseconds for response from PC
 int PC_commgoodness = 1;
 int PC_inputgoodness = 0;
 
-//############################
-//Injection stuff
-
-const int maxInjections = 200;// number of injections in protocol - max 200 to avoid dynamic memory allocation
-const int maxFreqs = 40; // max number of frequencies
+/*############ Injection Stuff  - consts in Injection.h ############*/
 
 int Injection[maxInjections][2] = { 0 }; //number of injections in protocol - max 200 to avoid dynamic memory allocation
 int NumInj = 0; //number of injection pairs in protocol - set from PC comm
@@ -88,51 +64,33 @@ int NumRep = 0; // number of time whole protocol is repeated - total recording t
 
 long  Amp[maxFreqs] = { 0 }; //amplitude in uA - container for max 20
 long  Freq[maxFreqs] = { 0 }; //freq in Hz - contaier for max 20 set in
-
-long MeasTime = 0; //injection time in microseconds - set by user (USER SELECTS MILLISECONDS BUT SCALED IN MICROSECONDS AS DUE IS FASTER)
-long ContactTime = 0; // contact impedance measurement time in ms
+long MeasTime[maxFreqs] = { 0 }; //injection time in microseconds - set by user (USER SELECTS MILLISECONDS BUT SCALED IN MICROSECONDS AS DUE IS FASTER)
 
 int FreqOrder[maxFreqs] = { 0 }; // order of the frequencies - initilised
 long curFreq = 0; // index of frequency vector current being injected
 
-const long StartDelay_CS = 53 * 1000; //number of microseconds taken for CS to actually start injecting after being told to - this need verification
 long StartElapsed_CS = 0;// time since CS_Start was called
 long StartTime_CS = 0; //time when CS_Start() was called
 
-//############################
-//Contact Check Stuff
-
-//Ampltude and Frequency of contact check
-const long ContactAmp = 141;
-const long ContactFreq = 1000;
 int iContact = 0; // counter for contact check loop
 int ContactEndofSeq = 0; // flag for whether contact check is finished
+long ContactTime = 0; // contact impedance measurement time in us
 
-//############################
-// Pins stuff
+long BadElecs[maxBadElecs] = { 0 }; // bad electrodes
+int NumBadElec = 0; // number of bad electrodes 
 
-//now set by choosing include PCB or Breadboard Pins.h above
-//const int fakepmarkpin = 10; //fake pmark pin for use with TC6 - debugging only
+/*############ Indicator Pin things - consts in Pins.h and PCBPins.h ############*/
 
-//##########################
-// Inidicator pin stuff
-
-const int NumInd = 4; // number of indicator pins
-int pulses[NumInd] = { 0, 0, 0, 0 }; //pulses left to do on the indicator channels
-int indpinstate[NumInd] = { 0, 0, 0, 0 }; //current state of the indicator pins
-const int indpins[NumInd] = { IND_START, IND_STOP, IND_SWITCH, IND_FREQ }; // pin numbers for the indicators
+int pulses[NumInd] = { 0 }; //pulses left to do on the indicator channels
+int indpinstate[NumInd] = { 0 }; //current state of the indicator pins
 int iInd = 0; // counter for for loop in ind pins ISR (save defining all the time)
-int IndinterruptCtr[NumInd] = { 0, 0, 0, 0 }; // iterations of the interrupt routine for each pin channel
+int IndinterruptCtr[NumInd] = { 0 }; // iterations of the interrupt routine for each pin channel
 
 int pulsesleft = 0; // number of pulses left to do - used in indpins_check
 int pulseleftptr = 0; // pointer for for loop in indpins_check, defined here for speed
 int indpulseson = 0; // are pulses active? this flag is used to prevent checking pulses left when we know there are none
 
-const int indpulsewidth = 50; //this is in number of 10uS interrupts - 50 gives just above 500uS pulse width
-const int indpulsewidthtotal = 100; //this is the total size of the pulse 100 is 1ms. two variables to save clock cycles in ISR
-
-//##########################
-//Stimulation trigger stuff
+/*############ Stimulation Trigger stuff - consts in Stim.h ############*/
 
 long StimTriggerTime = 0; //time between stimulation triggers in microseconds
 long StimOffset = 0; // time stimulation occurs after injection pair switch
@@ -157,20 +115,17 @@ int CS_PhaseMarker = 0; // phase in degrees which phase marker occurs on the cur
 int PMARK_TEST_FLAG = 0; // flag used in PMARK check routines - this is set high by ISR_PMARK_TEST if all working ok
 int CS_Pmarkgoodness = 0; // flag to confirm Phasemarker has been checked ok
 
-//##########################
-//Stimulation Voltage stuff
-const int DigiPotAddress = 44; // I2C address of AD5280 - default is 44 up to 48
-const int StimOffValue = 1; // Wiper position when stim is off - this is set to 1 to maximuise the resistance and thus limit the current used when no
+/*########### Stimulation Voltage stuff - consts in Stim.h ############*/
+
 int StimWiperValue = 0; // Wiper position for setting voltage of stimulation - must be 0-256 although usable range is between 215 and 250 with 215 approx 10V and 250 ~3V
 
-//###########################
-//System Control stuff
+/*########### System Control stuff - consts in System_Control.h ############*/
+
 int SingleFreqMode = 0; // flag for single frequency mode
 int StimMode = 0; // flag for Stimulation mode - only stimulation stuff if needed
 int state = 0; // what the system should be doing each iteration
 
 long lastidle = 0; // timing for idle mode - if been idle for a few seconds then change display (maybe send heartbeat message to pc)
-const long idlewait = 10000; //idle time in milliseconds till change
 int checkidle = 1; //should we check idle?
 
 int FirstInj = 0; // flag for doing the first injection - so we dont wait to switch at start
@@ -178,7 +133,6 @@ int SwitchesProgrammed = 0; // flag for whether the switches are programmed or n
 int Switchflag = 0; // do we need to switch?
 int Stimflag = 0; // should we stimulate?
 
-const long SwitchTimeFix = 300; //microseconds switch programming time is fixed to (cheesy but 220 us time taken to program them - using some digitalwritedirect
 long lastInjSwitch = 0; //time when channels were switched - SingleFreqMode
 long lastFreqSwitch = 0; //time when Freq was last changed - MultipleFreqMode
 long lastStimTrigger = 0; //time when stimulation trigger was last activated
@@ -189,21 +143,19 @@ int iPrt = 0; //current protocol line
 int iRep = 0; //current protocol repetition
 int iStim = 0; // current stimulation number
 
+/*ALL DEFINITIONS DONE FINIALLY!*/
 
-/**
-* Arduino's setup function
-*
-*/
 void setup() {
 	// setup PC connection
 	Serial.begin(115200);
 
-	//Initialize and reset pins
-	setup_pins();
+	init_pins(); // make sure switches are closed asap and set all low
+	reset_pins();
+	reset_pins_pwr();
+	reset_ind();
 
 	/*
 	SwitchesPwrOn();
-	
 	Serial.println("1on");
 	programswitches(4, sinkpin);
 	digitalWriteDirect(SYNC, HIGH); // switch dat!
@@ -211,7 +163,6 @@ void setup() {
 	Serial.println("1off");
 	SwitchesPwrOff();
 	delay(500);
-
 	*/
 
 	// setup CS connection
@@ -229,7 +180,6 @@ void setup() {
 
 	/*
 	SwitchesPwrOn();
-	
 	Serial.println("2on");
 	programswitches(4, sinkpin);
 	digitalWriteDirect(SYNC, HIGH); // switch dat!
@@ -237,14 +187,13 @@ void setup() {
 	Serial.println("2off");
 	SwitchesPwrOff();
 	delay(500);
-
 	*/
 
 	/*########################################################
 	SETUP TIMERS FOR STIMULATOR TRIGGER AND FOR INDICATOR PINS
 	##########################################################*/
 
-
+	//number comes from here https://github.com/ivanseidel/DueTimer/blob/master/TimerCounter.md
 	//set timer interupts - this might possible conflict with servo library as I didnt check.....
 	pmc_set_writeprotect(false);		 // disable write protection for pmc registers
 	pmc_enable_periph_clk(ID_TC4);	 // enable peripheral clock TC7 this means isntance T7 on TC2 channel 1  - this is the timer for the stim trigger output
@@ -253,7 +202,7 @@ void setup() {
 
 	// set up timers and interupts - set channel on timers, set to "wave mode" meaning an output rather than "capture" to read ticks
 	TC_Configure(TC1, 1, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK1); // use TC1 channel 1 in "count up mode" using MCLK /2 clock1 to give 42MHz
-	TC_Configure(TC2, 2, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK3); // use TC2 channel 2 in "count up mode" using MCLK /8 clock1 to give 10.5MHz
+	TC_Configure(TC2, 2, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK2); // use TC2 channel 2 in "count up mode" using MCLK /8 clock1 to give 10.5MHz
 	//TC_Configure(TC2, 0, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK4); // use TC2 channel 0 in "count up mode" using MCLK /128 clock1 to give 656.25 kHz
 
 	TC_SetRC(TC1, 1, 63); // count 63 ticks on the 42MHz clock before calling the overflow routine - this gives an interupt every 1.5 uS
@@ -273,7 +222,6 @@ void setup() {
 	//TC2->TC_CHANNEL[0].TC_IER = TC_IER_CPCS;   // IER = interrupt enable register
 	//TC2->TC_CHANNEL[0].TC_IDR = ~TC_IER_CPCS;  // IDR = interrupt disable register
 
-
 	//Enable the interrupt in the nested vector interrupt controller
 	// TC4_IRQn where 4 is the timer number * timer channels (3) + the channel number (=(1*3)+1) for timer1 channel1
 	NVIC_EnableIRQ(TC4_IRQn);
@@ -284,7 +232,7 @@ void setup() {
 
 	/*#######################################################
 	Finished with timer stuff
-	#######################################################*/
+	#########################################################*/
 
 	//Serial.println("timer set ok");
 	//Serial.println("initialising");
@@ -326,15 +274,13 @@ void loop() {
 
 	indpins_check(); // get rid of ind pins
 
-
-	char c = '#';
+	char c = '#'; //placeholder value 
 
 	//read serial byte if one is available
 	if (Serial.available() > 0)
 	{
 
 		c = Serial.read();
-
 		//Serial.print(c);
 	}
 
@@ -409,8 +355,9 @@ void dostuff()
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
 			//pulse pins different amounts so we can find them in the EEG loading
-			indpins_pulse(2, 3, 4, 5);
+			indChnIdent();
 
+			
 			//reset all counters
 			iFreq = 0;
 			iPrt = 0;
@@ -450,8 +397,6 @@ void dostuff()
 
 					//Serial.println("Switches POWERED ON");
 					delay(50);
-
-
 				}
 			}
 			else // we are in multifrequency mode and thus we need to set more stuff before we start injection
@@ -560,7 +505,7 @@ void dostuff()
 			{
 				currentMicros = micros();
 				//Serial.println(currentMicros);
-				if ((currentMicros - lastInjSwitch) > (MeasTime /*- SwitchTimeFix */)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
+				if ((currentMicros - lastInjSwitch) > (MeasTime[0] /*- SwitchTimeFix */)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
 				{
 					Switchflag = 1; // if it is time to switch then set it to do that!
 					/*sprintf(PC_outputBuffer, "Switch: %d", currentMicros - lastInjSwitch);
@@ -598,7 +543,7 @@ void dostuff()
 				else // otherwise carry on with switching etc.
 				{
 
-					/* debug trig */indpins_pulse(0, 0, 0, 1);
+					///* debug trig */indpins_pulse(0, 0, 0, 1);
 
 					SwitchChn(); // switch channel
 					StimOffsetCurrent = StimOffset; //reset the stimoffset as we are switching again
@@ -624,8 +569,6 @@ void dostuff()
 				CS_Disp("EIT IS GO");
 				Switchflag = 1;
 
-				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
-
 				if (StimMode) Stimflag = 1;
 
 				FirstInj = 0;
@@ -634,14 +577,20 @@ void dostuff()
 				//send info to PC
 				PC_sendupdate();
 
+				delayMicroseconds(5000);//added delay here as startpulse below was happening so quickly after indChnIdent() at start, the start pulse was merging with the ID pulses! This took *way* too long to debug
+				
+				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
 				//turn on power to switches
 				SwitchesPwrOn();
+
+				indpins_pulse(0, 0, 1, 0); // send switch pulse as processing code is expecting it 
+
 
 			}
 			else // if this is NOT the first time called, then check if time has elapsed before changing frequency
 			{
 				currentMicros = micros();
-				if ((currentMicros - lastFreqSwitch) > (MeasTime /*- SwitchTimeFix*/)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
+				if ((currentMicros - lastFreqSwitch) > (MeasTime[curFreq] /*- SwitchTimeFix*/)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
 				{
 					Switchflag = 1; //set that we should switch now
 				}
@@ -725,7 +674,7 @@ void dostuff()
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
 			//pulse pins different amounts so we can find them in the EEG loading
-			indpins_pulse(2, 3, 4, 5);
+			indChnIdent();
 
 			//reset all counters
 			iFreq = 0;
@@ -762,6 +711,8 @@ void dostuff()
 				CS_Disp("CS SET OK");
 				CS_Disp_Wind2("Contact Check");
 
+				SwitchesPwrOn(); //turn on switches
+				delay(50); // cant remember what this delay is for!
 			}
 		}
 		else // if settings are not ok then dont do anything
@@ -869,16 +820,13 @@ void dostuff()
 		if (FirstInj == 1) // if its the first time then switch straight away, otherwise check if the switch time has been met
 			//if this is the first time we are injecting we need to send settings to the current source
 		{
-			//turn on power to switches
-			digitalWriteDirect(PWR_SWITCH, HIGH);
-
 			//start current source
 			CS_start();
 			//display some stuff on the front
 			CS_Disp("Checking Contact");
 			CS_Disp_Contact(iContact, NumElec);
 
-			indpins_pulse(1, 0, 0, 0);
+			indpins_pulse(2, 0, 0, 0); //two pulses for indicating contact check
 			//indpins_pulse(0, 0, 3, 0); // compatible with OLD CODE ONLY
 
 
@@ -891,7 +839,7 @@ void dostuff()
 		{
 			currentMicros = micros();
 			//Serial.println(currentMicros);
-			if ((currentMicros - lastInjSwitch) > (MeasTime /*- SwitchTimeFix */)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
+			if ((currentMicros - lastInjSwitch) > (ContactTime /*- SwitchTimeFix */)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
 			{
 				Switchflag = 1; // if it is time to switch then set it to do that!
 				/*sprintf(PC_outputBuffer, "Switch: %d", currentMicros - lastInjSwitch);
@@ -926,22 +874,8 @@ void dostuff()
 }
 
 
-
-
-
-
-void setup_pins()
-{
-	init_pins(); // make sure switches are closed asap and set all low
-	
-	reset_pins();
-	reset_pins_pwr();
-	reset_ind();
-
-}
-
 //function to read command from PC and then put system in "state"
-void getCMD(char CMDIN) 
+void getCMD(char CMDIN)
 {
 	switch (CMDIN)
 	{
@@ -949,20 +883,45 @@ void getCMD(char CMDIN)
 		state = 0;
 		break;
 	case 'H': // Halt injection state
-		state = 3;
+	{
+		if (state != 0) // if system is NOT idle
+		{
+			state = 3;
+		}
 		break;
+	}
 	case 'S': //start injection
-		state = 1;
+	{
+		if (state == 0) // if the system is idle ONLY
+		{
+			state = 1;
+		}
 		break;
+	}
 	case 'I': // Initialise settings - read from PC and set CS defaults
-		state = 4;
+	{
+		if (state == 0) // if the system is idle ONLY
+		{
+			state = 4;
+		}
 		break;
+	}
 	case 'C': //start contact impedance check
-		state = 5;
+	{
+		if (state == 0) // if the system is idle ONLY
+		{
+			state = 5;
+		}
 		break;
+	}
 	case 'T': // check trigger state
-		state = 7;
+	{
+		if (state == 0) // if the system is idle ONLY
+		{
+			state = 7;
+		}
 		break;
+	}
 
 	default: // if not one of these commands then keep state the same
 		state = state; //a bit didactic but hey

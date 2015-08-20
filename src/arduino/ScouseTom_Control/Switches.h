@@ -22,3 +22,5 @@ void programswitches(int sourcechn, int sinkchn);
 void SwitchesPwrOn();
 void SwitchesPwrOff();
 void shuffle(int *array, int n);
+int BadElecCheck(int Chn);
+

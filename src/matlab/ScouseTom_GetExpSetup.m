@@ -84,7 +84,7 @@ if load_flag
     end
     
     %compare any called variables - this is a stupid way of doing it
-    previous_vars={ ExpSetup.Amp, ExpSetup.Freq,ExpSetup.Elec_num, ExpSetup.MeasurementTime,ExpSetup.Repeats,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset,ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorVoltage,ExpSetup.StimulatorWiperSetting};
+    previous_vars={ ExpSetup.Amp, ExpSetup.Freq,ExpSetup.Elec_num, ExpSetup.MeasurementTime,ExpSetup.Repeats,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset,ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorVoltage,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset};
     
     warn_flag=0;
     if ~isempty(varargin)
@@ -113,7 +113,7 @@ if load_flag
     yesresp='Yes please - new protocol please!';
     noresp='Keep the old one';
     titlestr='Want a new protocol?';
-    promptstr=sprintf('Do you want to load a new protocol, previous one was %s',ExpSetup.ProtocolName);
+    promptstr=sprintf('Do you want to load a new protocol, previous one was %s',ExpSetup.Info.ProtocolName);
     resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
     
     if isempty(resp)
@@ -137,13 +137,40 @@ end
 %% prompt user for new stuff
 
 
+% ask if they want to define it by measurement time or number of cycles
+  % ask if user wants to change protocol
+    msresp='Number of ms';
+    cycresp='Number of cycles';
+    titlestr='Define injection length';
+    promptstr=('How to do want to define the injection time? Milliseconds or number of cycles?');
+    resp=questdlg(promptstr,titlestr,msresp,cycresp,msresp);
+    
+    if isempty(resp)
+        warning('User hit cancel, doing milliseconds');
+        define_ms_flag=1;
+    end
+    
+    
+    if strcmp(resp,msresp) == 1
+        disp('User selected define injections by ms');
+        define_ms_flag=1; %ask for new protocol
+    else
+        disp('User selected define injections by cycles');
+        %run prompt bit
+        define_ms_flag=0;
+    end
+
+
+
+
+
 %Define CS parameters and get protocol if necessary - this is also a bad
 %way of doing this
-[Amp, Freq, Protocol,ProtocolName,Elec_num, MeasurementTime,Repeats,StimulatorTriggerTime,StimulatorTriggerOffset,StimulatorPulseWidth,StimulatorVoltage] = ScouseTom_SettingsDialog(newprot_flag,inpts{:});
+[Amp, Freq, Protocol,ProtocolName,Elec_num, MeasurementTime,Repeats,StimulatorTriggerTime,StimulatorTriggerOffset,StimulatorPulseWidth,StimulatorVoltage,Cycles,Offset] = ScouseTom_SettingsDialog(newprot_flag,define_ms_flag,inpts{:});
 
 if ~newprot_flag % if we havent asked for new protocol then output from above line is empty - so replace it with expsetup THIS IS A KLUDGE
     Protocol=ExpSetup.Protocol;
-    ProtocolName=ExpSetup.ProtocolName;
+    ProtocolName=ExpSetup.Info.ProtocolName;
 end
 
 if exist('ExpSetup','var') ==1 %if we have an expsetup in workspace then clear it now as we want to start afresh
@@ -155,8 +182,8 @@ end
 
 ProtocolLength = size(Protocol,1);
 Freq_num=size(Freq,1);
-ProtocolTime=ProtocolLength*(MeasurementTime/1000); %time in seconds for one complete protocol
-TotalTime=Repeats*ProtocolTime*Freq_num;
+ProtocolTime=sum(ProtocolLength*(MeasurementTime/1000)); %time in seconds for one complete protocol
+TotalTime=Repeats*ProtocolTime;
 
 fprintf('Approx time for all repeats and frequencies is: %.1f\r',TotalTime)
 
@@ -172,7 +199,9 @@ ExpSetup.MeasurementTime=MeasurementTime;
 ExpSetup.StimulatorTriggerTime=StimulatorTriggerTime;
 ExpSetup.StimulatorTriggerOffset=StimulatorTriggerOffset;
 ExpSetup.StimulatorPulseWidth=StimulatorPulseWidth;
+ExpSetup.StimulatorVoltage=StimulatorVoltage;
 ExpSetup.Repeats=Repeats;
+ExpSetup.Bad_Elec=[];
 
 %info/reference
 ExpSetup.Info.ProtocolLength=ProtocolLength;
@@ -180,8 +209,10 @@ ExpSetup.Info.ProtocolTime=ProtocolTime;
 ExpSetup.Info.ProtocolName=ProtocolName;
 ExpSetup.Info.TotalTime=TotalTime;
 ExpSetup.Info.OriginalProtocol=Protocol;
-ExpSetup.Info.StimulatorVoltage=StimulatorVoltage;
 ExpSetup.Info.FreqNum=Freq_num;
+ExpSetup.Info.Inj_Cycles=Cycles;
+ExpSetup.Info.Inj_Cycles_Offset=Offset;
+ExpSetup.Info.Inj_Define_ms=define_ms_flag;
 
 %get Stimulator potentiometer wiper setting
 ExpSetup=ScouseTom_ard_getwipersetting(ExpSetup);
@@ -227,7 +258,7 @@ ExpSetup.Info.Desc=Desc;
 ExpSetup.Info.TimeStamp=now;
 ExpSetup.Info.DateStr=datestr(now);
 
-tmpdesc=Desc(~isspace(Desc)); %rmove whitespace form desc string
+tmpdesc=Desc(isstrprop(Desc,'alphanum')); %only take alpha numerica characters
 
 abrvlen=10; %only use abreviated name
 
@@ -261,7 +292,7 @@ end
 %string corresponding to these settings - to allow for manual control over
 %arduino serial monitor
 
-ExpSetup.Info.DebugString=getdebugstring(ExpSetup);
+
 
 
 
@@ -283,43 +314,6 @@ end
 ExpSetup.Info.dname=newp;
 ExpSetup.Info.fname=newf;
 save(newfname,'ExpSetup');
-
-end
-
-function [dbstring]=getdebugstring(ExpSetup)
-% function to create the string sent to arduino for these settings
-%useful for debuging in the Serial montior of Arduino or Termite
-% Send command 'I' followed by 'A' followed by these lines
-
-dbstring='';
-
-dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.ProtocolLength)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.Elec_num)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.FreqNum)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.Repeats)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.MeasurementTime)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.ContactCheckInjectTime)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerTime)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerTime)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerOffset)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorPulseWidth)];
-dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorWiperSetting)];
-
-for nn=1:ExpSetup.Info.FreqNum
-    dbstring=[dbstring sprintf('<%d>',ExpSetup.Freq(nn))];
-end
-for nn=1:ExpSetup.Info.FreqNum
-    dbstring=[dbstring sprintf('<%d>',ExpSetup.Amp(nn))];
-end
-
-
-
-
-
-
-
-
-
 
 end
 

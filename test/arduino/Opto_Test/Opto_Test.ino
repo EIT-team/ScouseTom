@@ -48,7 +48,7 @@ void loop() {
 	digitalWriteDirect(DINn, LOW);
 	digitalWriteDirect(SCLK, LOW);
 	digitalWriteDirect(SYNC, LOW);
-	digitalWriteDirect(RESET, LOW);
+	//digitalWriteDirect(RESET, LOW);
 
 delay(100);
 
@@ -56,7 +56,7 @@ delay(100);
 	digitalWriteDirect(DINn, HIGH);
 	digitalWriteDirect(SCLK, HIGH);
 	digitalWriteDirect(SYNC, HIGH);
-	digitalWriteDirect(RESET, HIGH);
+	//digitalWriteDirect(RESET, HIGH);
   
   delay(100);
   

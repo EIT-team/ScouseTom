@@ -1,4 +1,4 @@
-function [ Amp, Freq, Prot,Prot_name, Elec_num,Meas,Repeats,StimulatorTriggerTime, StimulatorTriggerOffset,StimulatorPulseWidth,StimulatorVoltage] = ScouseTom_SettingsDialog(protflag,varargin)
+function [ Amp, Freq, Prot,Prot_name,Elec_num, Meas,Repeats,StimulatorTriggerTime,StimulatorTriggerOffset,StimulatorPulseWidth,StimulatorVoltage,Cycles,Offset] = ScouseTom_SettingsDialog(protflag,define_ms_flag,varargin)
 %GetFreqAmplProt - Prompts user to input amplitude and frequency values,
 %and to select a protocol file.
 %Outputs - Ampl, Freq and arrays of Amplitude and Frequency values.
@@ -9,30 +9,66 @@ function [ Amp, Freq, Prot,Prot_name, Elec_num,Meas,Repeats,StimulatorTriggerTim
 %
 % Adapted from Toms Code by the unctuous yet trustworthy Jimmy
 
-%% prompt user for input
-prompt = {'Enter Amplitude (uA). Uses spaces to define multiple - NOTE THIS IS IN MICROS ONLY NOW',...
-    'Enter Frequency (Hz). Uses spaces to define multiple values',...
+%% set up user prompt
+
+%default prompts for defining in milliseconds
+prompt_in = {
+    'Enter Amplitude (uA). Use spaces to define multiple - NOTE THIS IS IN MICROS ONLY NOW',...
+    'Enter Frequency (Hz). Use spaces to define multiple values',...
     'Number of Elec.',...
-    'Meas. Time for each inj. pair (ms)',...
+    'Meas. TIME for each inj. pair (ms). Use spaces to define multiple values or use one',...
     'Number of repeats',...
     'Stim. Trig. Time (ms) 0 turns stim off',...
     'Stim. Trig. Offset (ms) 0 turns stim off',...
-    'Stim. Pulse Width (us) 0 turns stim off - NOTE THIS IS IN MICROS',...
-    'Stim Voltage (V) - closest match within 0.125V'};
+    'Stim. Pulse Width (us) 0 turns stim off - NOTE THIS IS IN MICROS - CONSIDER EEG SAMPLE RATE > 62uS for BioSemi, >20 for ActiChamp',...
+    'Stim Voltage (V) - closest match within 0.125V'
+    };
 
 dlg_title = 'Input Values - VERY LITTLE ERROR CHECKING!';
 num_lines = 1;
 %set defaults
-def = {'141','1000','32','500','20','100','2','0','10'};
+def_in = {'141','1000','32','500','20','50','2','0','10','64','5'};
+
+
 
 %replace defaults with input varargin
 if ~isempty(varargin)
-  
+    
     for ii = 1:length(varargin)
-        def(ii)={num2str(varargin{ii}')}; %have to transpose inside to make arrays convert to space delimited strings
+        def_in(ii)={num2str(varargin{ii}')}; %have to transpose inside to make arrays convert to space delimited strings
     end
     
 end
+
+
+
+
+if define_ms_flag == 0 %add extra line for offset
+    
+    prompt(1:3)=prompt_in(1:3); %first three are the same
+    def(1:3)=def_in(1:3);
+    
+    prompt{4}='Number of CYCLES to inject each pair each freq. Use spaces to define multiple values or use one';
+    prompt{5}='Offset to add before and after each injection (ms)';
+  
+    def{4}=def_in{10};
+    def{5}=def_in{11};
+    
+    prompt(6:10)=prompt_in(5:9); %last 5 are the same
+    def(6:10)=def_in(5:9);
+    
+    
+    
+else
+    prompt=prompt_in;
+    def=def_in;
+end
+
+
+
+
+
+%% prompt user
 
 %run dialog
 a =inputdlg(prompt,dlg_title,num_lines,def);
@@ -40,18 +76,45 @@ if isempty(a) ==1
     error('user pressed cancel');
 end
 
-%stick into variables 
-Amp = sscanf(cell2mat(a(1)),'%f');
-Freq = sscanf(cell2mat(a(2)),'%f');
-Elec_num = sscanf(cell2mat(a(3)),'%f',1); %ignore multiple inputs
-Meas = sscanf(cell2mat(a(4)),'%f',1); %ignore multiple inputs
-Repeats = sscanf(cell2mat(a(5)),'%f',1);%ignore multiple inputs
-StimulatorTriggerTime = sscanf(cell2mat(a(6)),'%f',1);%ignore multiple inputs
-StimulatorTriggerOffset  = sscanf(cell2mat(a(7)),'%f',1);%ignore multiple inputs
-StimulatorPulseWidth = sscanf(cell2mat(a(8)),'%f',1);%ignore multiple inputs
-StimulatorVoltage = sscanf(cell2mat(a(9)),'%f',1);%ignore multiple inputs
 
-%% error checking - badly coded
+%% process input
+
+if define_ms_flag ==1 %normal way of doing things with measurement
+    
+    %stick into variables
+    Amp = sscanf(cell2mat(a(1)),'%f');
+    Freq = sscanf(cell2mat(a(2)),'%f');
+    Elec_num = sscanf(cell2mat(a(3)),'%f',1); %ignore multiple inputs
+    Meas = sscanf(cell2mat(a(4)),'%f');
+    Repeats = sscanf(cell2mat(a(5)),'%f',1);%ignore multiple inputs
+    StimulatorTriggerTime = sscanf(cell2mat(a(6)),'%f',1);%ignore multiple inputs
+    StimulatorTriggerOffset  = sscanf(cell2mat(a(7)),'%f',1);%ignore multiple inputs
+    StimulatorPulseWidth = sscanf(cell2mat(a(8)),'%f',1);%ignore multiple inputs
+    StimulatorVoltage = sscanf(cell2mat(a(9)),'%f',1);%ignore multiple inputs
+    
+    [Cycles,Meas]=ScouseTom_ms2cycles(Freq,Meas); % give equivalent cycles - this also makes Meas a vector
+    Offset=zeros(size(Cycles)); %no offset given
+    
+    
+else % user entering cycles and offset
+    %stick into variables
+    Amp = sscanf(cell2mat(a(1)),'%f');
+    Freq = sscanf(cell2mat(a(2)),'%f');
+    Elec_num = sscanf(cell2mat(a(3)),'%f',1); %ignore multiple inputs
+    Cycles = sscanf(cell2mat(a(4)),'%f');
+    Offset = sscanf(cell2mat(a(5)),'%f',1);%ignore multiple inputs
+    
+    [Meas,Cycles]=ScouseTom_cycles2ms(Freq,Cycles,Offset); % convert cycles to ms as this is what needs sending to ard
+    
+    Repeats = sscanf(cell2mat(a(6)),'%f',1);%ignore multiple inputs
+    StimulatorTriggerTime = sscanf(cell2mat(a(7)),'%f',1);%ignore multiple inputs
+    StimulatorTriggerOffset  = sscanf(cell2mat(a(8)),'%f',1);%ignore multiple inputs
+    StimulatorPulseWidth = sscanf(cell2mat(a(9)),'%f',1);%ignore multiple inputs
+    StimulatorVoltage = sscanf(cell2mat(a(10)),'%f',1);%ignore multiple inputs
+end
+
+
+%% error checking - badly coded there must be a better way!!!
 
 if isnumeric(Amp) ~= 1
     error('Weird Amplitude');
@@ -110,30 +173,34 @@ elseif StimulatorTriggerOffset < 0
 end
 
 if isnumeric(StimulatorPulseWidth) ~= 1
-    error('Weird StimulatorTriggerOffset must be positive integer');
+    error('Weird StimulatorPulseWidth must be positive integer');
 elseif ceil(StimulatorPulseWidth) ~= fix(StimulatorPulseWidth)
-    error('Weird StimulatorTriggerOffset must be positive integer');
+    error('Weird StimulatorPulseWidth must be positive integer');
 elseif StimulatorPulseWidth < 0
-    error('Weird StimulatorTriggerOffset must be positive integer');
+    error('Weird StimulatorPulseWidth must be positive integer');
 end
 
 if isnumeric(StimulatorVoltage) ~= 1
     error('Weird StimulatorVoltage must be positive number');
-elseif StimulatorPulseWidth < 0
+elseif StimulatorVoltage < 0
     error('Weird StimulatorVoltage must be positive number');
 end
 
 
+%% warn if weird stim times happening ONLY if stim turned on
 
-
-if StimulatorTriggerTime > Meas
-    error('StimulationTime is greater than measurement time');
+if ~(StimulatorPulseWidth ==0 || StimulatorTriggerOffset ==0 || StimulatorTriggerTime ==0)
+    
+    
+    if StimulatorTriggerTime > Meas
+        warning('StimulationTime is greater than measurement time');
+    end
+    
+    if Meas < StimulatorTriggerOffset
+        warning('Trigger offset is greater than measurement time');
+    end
+    
 end
-
-if Meas < StimulatorTriggerOffset
-    error('Trigger offset is greater than measurement time');
-end
-
 
 %% new protocol bit
 
@@ -163,6 +230,15 @@ if any(Amp>2000)
     %     [Ampl, Freq, Prot, Elec_num,Meas, TotalTime] = GetFreqAmplProt;
     %     end
 end
+
+
+
+
+
+
+
+
+
 
 end
 

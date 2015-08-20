@@ -11,16 +11,12 @@ function [ out,varargout ] = ScouseTom_ard_getwipersetting( in )
 
 %% get Vtarget either from intput number or from field in ExpSetup
 if isstruct(in)
-    
-    if isfield(in,'Info');
-        if isfield(in.Info,'StimulatorVoltage');
-            Vtarget=in.Info.StimulatorVoltage;
-        else
-            error('No Stimulator Voltage given');
-        end
+    if isfield(in,'StimulatorVoltage');
+        Vtarget=in.StimulatorVoltage;
     else
         error('No Stimulator Voltage given');
     end
+    
 else
     if isnumeric(in)
         
@@ -49,8 +45,8 @@ Rset=R(I);
 Vset=Vp(I);
 
 if isstruct(in)
-    in.Info.StimulatorVoltage=Vset;
-    in.StimulatorWiperSetting=Rset;
+    in.StimulatorVoltage=Vset;
+    in.Info.StimulatorWiperSetting=Rset;
     out=in;
 else
     out=Rset;

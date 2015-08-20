@@ -53,22 +53,56 @@ void SetSwitchesFixed_Contact() //specifically for contact check
 	//start programming timer
 	tswprogstart = micros();
 
-	int ContactChnA = iContact + 1;
-	int ContactChnB = ContactChnA + 1;
 
-	if (ContactChnB > NumElec)
+	int ChnOK = 0; //flag for whether good channels have been found 
+	int ContactChnA = 0; // neighbouring channels for contact check
+	int ContactChnB = 0;
+
+	// check if channels are OK to use
+	while (ChnOK == 0)
 	{
-		ContactChnB = ContactChnB - NumElec;
+
+		ContactChnA = iContact + 1; // neighbouring channels for contact check
+		if (ContactChnA > NumElec) // if greater than number of electrodes then go back to start
+		{
+			ContactChnA = ContactChnA - NumElec;
+		}
+
+		ContactChnB = ContactChnA + 1;
+
+		if (ContactChnB > NumElec) // if greater than number of electrodes then go back to start
+		{
+			ContactChnB = ContactChnB - NumElec;
+		}
+
+		int ChnAok = BadElecCheck(ContactChnA); //check channel A is ok to use
+		int ChnBok = BadElecCheck(ContactChnB); //check channel B is ok to use
+
+		if (ChnAok && ChnBok) // if both OK then ok to use!
+		{
+			ChnOK == 1;
+			break;
+		}
+		else // otherwise increment the protcol line
+		{
+			ChnOK == 0;
+			iContact++; 
+			if (iContact == NumElec) // if complete protocol done then reset and increment repetiton counter
+			{
+				ContactEndofSeq = 1;
+				break;
+			}
+
+		}
 	}
 
-	/* this broke it for some reason...
-	Serial.print("Programming Switches:iContact ");
+	/*Serial.print("Programming Switches:iContact ");
 	Serial.print(iContact);
 	Serial.print(" : ChnA: ");
 	Serial.print(ContactChnA);
 	Serial.print(" : ChnB: ");
-	Serial.println(ContactChnB);
-	*/
+	Serial.println(ContactChnB);*/
+	
 
 	//set up switches
 	programswitches(ContactChnA, ContactChnB);
@@ -89,15 +123,15 @@ void SwitchChn_Contact() //switch channels - switches are programmed by SetSwitc
 	indpins_pulse(0, 0, 1, 0); // only pulse if single freq mode as prt is repeated for multi
 	// increment protocol line 
 	iContact++;
-	if (iContact == NumElec + 1) // if complete protocol done then reset and increment repetiton counter
+	if (iContact == NumElec) // if complete protocol done then reset and increment repetiton counter
 	{
 		iContact = 0;
 		ContactEndofSeq = 1;
 	}
 
 	SwitchesProgrammed = 0;
-	/*
-	Serial.println("Switching Right now");
+	
+	/*Serial.println("Switching Right now");
 	Serial.print("iContact is now: ");
 	Serial.println(iContact);*/
 }
@@ -130,12 +164,12 @@ void programswitches(int sourcechn, int sinkchn)
 void SwitchesPwrOn()
 {
 	digitalWrite(PWR_SWITCH, HIGH); //turn on power
-	digitalWrite(RESET, HIGH);
 	digitalWrite(RESET, LOW);
-	digitalWrite(RESET, HIGH);
 	digitalWrite(SYNC, HIGH);
-	delayMicroseconds(500); // this is to ensure the pins are held at correct levels long enough *before* being changed when programming - this fixes all pins connected bug
-
+	digitalWrite(SYNC, LOW);
+	digitalWrite(SYNC, HIGH);
+	programswitches(0, 0); //program dem switches
+	digitalWriteDirect(SYNC, HIGH); // switch dat!
 }
 
 void SwitchesPwrOff()
@@ -159,4 +193,28 @@ void shuffle(int *array, int n) {
 			array[i] = t;
 		}
 	}
+}
+
+int BadElecCheck(int Chn)
+// this checks if the given channel is included in the array of bad electrodes
+{
+	int chnok = 1;
+
+	//return ok by default if no bad channels
+	if (NumBadElec == 0)
+	{
+		chnok = 1;
+		return chnok;
+	}
+
+	for (int i = 0; i < NumBadElec; i++)
+	{
+		if (Chn == BadElecs[i])
+		{
+			chnok = 0;
+			break;
+		}
+	}
+	return chnok;
+
 }

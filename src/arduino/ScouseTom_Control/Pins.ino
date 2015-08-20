@@ -19,9 +19,9 @@ void init_pins()
 	pinMode(IND_START, OUTPUT);
 	pinMode(IND_STOP, OUTPUT);
 
-	  pinMode(IND_EX_1, OUTPUT);
-  pinMode(IND_EX_2, OUTPUT);
-  pinMode(IND_EX_3, OUTPUT);
+	pinMode(IND_EX_1, OUTPUT);
+	pinMode(IND_EX_2, OUTPUT);
+	pinMode(IND_EX_3, OUTPUT);
 
 
 
@@ -96,7 +96,7 @@ void indpins_check() //this checks if there are any pulses left on any of the in
 		{
 			TC_Stop(TC2, 2);
 			indpulseson = 0;
-		//	Serial.println("stopped ind tc");
+			//	Serial.println("stopped ind tc");
 		}
 	}
 
@@ -111,7 +111,7 @@ void indpins_pulse(int StartChn, int StopChn, int SwitchChn, int FreqChn) // thi
 	pulses[1] += StopChn;
 	pulses[2] += SwitchChn;
 	pulses[3] += FreqChn;
-//	Serial.println("pulsin");
+	//	Serial.println("pulsin");
 	//start ind pulse timer
 	TC_Start(TC2, 2);
 }
@@ -132,5 +132,25 @@ void indpins_init() //initialise the indicator pins
 	pulsesleft = 0;
 	pulseleftptr = 0;
 	indpulseson = 0;
+}
+
+void indChnIdent() //pulses to send at start of injections to indicate which indicator pins are which
+{
+	
+	//pulses indicator pins
+	indpins_pulse(3, 5, 4, 6); //number of pulses is a bit odd as 4 was used previously on switch chn, so dont want kirill to shout at me for making him change one line of code
+	
+	int del = 430;
+	//pulses stimuator pin - harcoded at the moment
+	digitalWriteDirect(IND_STIM, HIGH);
+	delayMicroseconds(del);
+	digitalWriteDirect(IND_STIM, LOW);
+	delayMicroseconds(del);
+	digitalWriteDirect(IND_STIM, HIGH);
+	delayMicroseconds(del);
+	digitalWriteDirect(IND_STIM, LOW);
+	//delayMicroseconds(500);
+
+
 }
 

@@ -24,13 +24,13 @@ void programswitches(int sourcechn, int sinkchn)
 
 void SwitchesPwrOn()
 {
-	//turn on power to switch network and reset
-  digitalWrite(PWR_SWITCH, HIGH); //turn on power
-  digitalWrite(RESET,HIGH);
-  digitalWrite(RESET,LOW);
-  digitalWrite(RESET,HIGH);
-  digitalWrite(SYNC,HIGH);
-
+	digitalWrite(PWR_SWITCH, HIGH); //turn on power
+	digitalWrite(RESET, LOW);
+	digitalWrite(SYNC, HIGH);
+	digitalWrite(SYNC, LOW);
+	digitalWrite(SYNC, HIGH);
+	programswitches(0, 0); //program dem switches
+	digitalWriteDirect(SYNC, HIGH); // switch dat!
 }
 
 void SwitchesPwrOff()
@@ -40,3 +40,7 @@ void SwitchesPwrOff()
 	digitalWriteDirect(PWR_SWITCH, LOW); //turn off power
 	reset_pins(); // set all pins to starting state
 }
+
+
+
+

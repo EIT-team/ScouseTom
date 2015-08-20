@@ -1,4 +1,4 @@
-function [ Ard,OKFLAG ] = ScouseTom_SendSettings( Ard,ExpSetup)
+function [ Ard,ExpSetup,OKFLAG ] = ScouseTom_SendSettings( Ard,ExpSetup)
 %ScouseTom_SendSettings Sends the information of the protocol, time to inject
 %per protocol line etc. to the arduino in the agreed fashion
 
@@ -31,16 +31,33 @@ OKFLAG=0;
 
 %this is badly coded and incomplete....
 
-disp('Checking your ExpSetup...');
+%disp('Checking your ExpSetup...');
 
 [settingsgood,ExpSetup]=ScouseTom_ValidateExpSetup(ExpSetup);
 
 if settingsgood
-    disp('Validated ok! :)');
+    %disp('Validated ok! :)');
 else
     warning('Bad input settings, not doing anything!');
     return
 end
+
+%if no bad electrodes were flagged or missed
+
+if ~(isfield(ExpSetup,'Bad_Elec')) %if the field exists
+    N_badelec=0;
+    BadElectrodes=[];
+else
+    if isempty(ExpSetup.Bad_Elec) % and some bad ones have been enterred
+        N_badelec=0;
+        BadElectrodes=[];
+    else
+        N_badelec=length(ExpSetup.Bad_Elec);
+        BadElectrodes=ExpSetup.Bad_Elec;
+    end
+end
+
+
 
 
 %% get some of the settings in this
@@ -66,7 +83,7 @@ end
 fprintf('Controller will use : %s\n',injmodestr);
 
 if Stimmode
-    fprintf('Stimulation in ON at %.2f V with %dms repeat and %d us pulsewidth\n',ExpSetup.Info.StimulatorVoltage, ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorPulseWidth);
+    fprintf('Stimulation in ON at %.2f V with %dms repeat and %d us pulsewidth\n',ExpSetup.StimulatorVoltage, ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorPulseWidth);
 else
     %fprintf('Stimulation is OFF\n');
 end
@@ -113,7 +130,7 @@ end
 
 fprintf(Ard,'A'); % send byte telling arduino to await settings
 fprintf('##################################\n');
-disp('Sending settings to arduino...');
+fprintf('Sending settings to arduino...');
 finished_sending=0;
 %send all of the data, stop if something fucks up - there is a better way
 %to do this
@@ -143,16 +160,12 @@ while (finished_sending ==0)
         break
     end
     
-    okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.MeasurementTime,'Injection Time');
-    if (~okflag)
-        finished_sending=1;
-        break
-    end
     okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.ContactCheckInjectTime,'Contact Z Time');
     if (~okflag)
         finished_sending=1;
         break
     end
+    
     okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.StimulatorTriggerTime,'Stimulator Trigger Time');
     if (~okflag)
         finished_sending=1;
@@ -169,16 +182,14 @@ while (finished_sending ==0)
         break
     end
     
-    okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.StimulatorWiperSetting,'Stimulator Wiper Setting');
+    okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Info.StimulatorWiperSetting,'Stimulator Wiper Setting');
     if (~okflag)
         finished_sending=1;
         break
     end
     
     
-    
-    
-    disp('Timing Info sent OK');
+    fprintf('Timing OK, ');
     
     %% Send protocol
     
@@ -199,7 +210,7 @@ while (finished_sending ==0)
             break
         end
     end
-    disp('Protocol Lines sent OK');
+    fprintf('Protocol OK, ');
     
     %% send amplitudes and freqs
     
@@ -222,12 +233,45 @@ while (finished_sending ==0)
         end
     end
     
-    disp('Amps and Freqs sent OK');
+    %send measurement times
+    for n=1:N_freq
+        okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.MeasurementTime(n),['MeasTime ' num2str(ExpSetup.MeasurementTime(n,1))]);
+        if (~okflag)
+            finished_sending=1;
+            break
+        end
+    end
     
+    fprintf('AmpsFreqsTimes sent OK \n');
+    
+    
+    
+    %% send bad electrodes
+    
+    if N_badelec == 0
+        okflag=ScouseTom_ard_sendnumconfim(Ard,0,['No Bad Elec Flag']);
+        if (~okflag)
+            finished_sending=1;
+            break
+        end
+    else
+        okflag=ScouseTom_ard_sendnumconfim(Ard,N_badelec,['Bad Elec Num']);
+        if (~okflag)
+            finished_sending=1;
+            break
+        end
+        
+        for n=1:N_badelec
+            okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Bad_Elec(n),['Bad Elec ' num2str(ExpSetup.Bad_Elec(n))]);
+            if (~okflag)
+                finished_sending=1;
+                break
+            end
+        end
+    end
     
     finished_sending=1;
     okflag=1;
-    
 end
 
 %% read ok message from arduino that settings all sent ok

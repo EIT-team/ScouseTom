@@ -65,7 +65,7 @@ logpathdef=pwd;
 
 %% prompt user to point at eeg/bdf file that they are saving
 
-findeegfile_flag=0; %should we look for a file?
+RecordingData=0; %should we look for a file?
 
 % ask if user wants to change protocol
 yesresp='YES, it is, honest';
@@ -76,19 +76,19 @@ resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
 
 if isempty(resp) %if user quits dialogue then save in default
     warning('User didnt say if testing, taking this to mean they ARE testing and dont want to save');
-    findeegfile_flag=0;
+    RecordingData=0;
 end
 
 
 if strcmp(resp,yesresp) == 1
     disp('User is ready to record - will need confirmation');
-    findeegfile_flag=1; %ask for new protocol
+    RecordingData=1;
 else
     disp('User is testing, will save log in working directory instead');
     %might want to set so that it doesnt save at all...
 end
 
-if findeegfile_flag % if we are saving then look for the eeg file to save everything
+if RecordingData % if we are saving then look for the eeg file to save everything
     
     %get the previous mat file
     [eegfilename, eegpathname] = uigetfile({'*.bdf;*.eeg','EEG files';'*.*','All files'}, 'Which BioSemi or Actiview file does this belong too?');
@@ -97,13 +97,13 @@ if findeegfile_flag % if we are saving then look for the eeg file to save everyt
         logpath=logpathdef; %this will likely annoy people by clogging everything up
         logstr=logstrdef;
         eegfname=eegnamedef;
-        findeegfile_flag=0;
+        RecordingData=0;
     else
         eegfname=fullfile(eegpathname, eegfilename);
         disp(['User selected ' eegfname ' as corresponding EEG file'])
         logpath=eegpathname;
-            % logname=sprintf('%s_log.txt',ExpSetup.Info.fname);
-    [~, logstr]=fileparts(eegfilename);
+        % logname=sprintf('%s_log.txt',ExpSetup.Info.fname);
+        [~, logstr]=fileparts(eegfilename);
     end
     
 else %set some defaults
@@ -117,17 +117,22 @@ end
 log_suffix='_log.txt';
 logfname=fullfile(logpath,[logstr log_suffix]);
 
-if findeegfile_flag % icnrement log file name for non testing ones only
-
-if (exist(logfname,'file') ==2) %incrememnt it incase one already exisits - you might inject a bunch of times and use the same EEG file
-    incr=1;
-    while exist(logfname,'file') ==2
-        incr=incr+1;
-        log_suffix=sprintf('_log_%d.txt',incr);
-        logfname=fullfile(logpath,[logstr log_suffix]);
+if RecordingData % icnrement log file name for non testing ones only
+    
+    if (exist(logfname,'file') ==2) %incrememnt it incase one already exisits - you might inject a bunch of times and use the same EEG file
+        incr=1;
+        while exist(logfname,'file') ==2
+            incr=incr+1;
+            log_suffix=sprintf('_log_%d.txt',incr);
+            logfname=fullfile(logpath,[logstr log_suffix]);
+        end
     end
-end
-
+else
+    %if not recording data then DELETE the testing log before making new
+    %one
+    if exist(logfname,'file') ==2
+        delete(logfname);
+    end
 end
 
 %open log file and make header
@@ -143,6 +148,17 @@ writelogheader(logfid,ExpSetup,eegfname);
 %to limit data loss in the case of matlab crashing
 
 matfilename=fullfile(matlogpath,[matlogname '.mat']);
+
+%delete the existing Testing_log.mat as it does not behave well when
+%charging variable sizes - if you changed from
+
+if ~RecordingData
+    if exist(matfilename,'file') ==2
+        delete(matfilename);
+    end
+end
+
+
 matlog=matfile(matfilename,'Writable',true);
 
 matlog.ExpSetup=ExpSetup;
@@ -224,12 +240,12 @@ else
     CancelInj(Ard,logfid,tstart,logfname,matfilename)
     return
 end
-
-if strcmp(resp, CScommOKmsg) %we are ready to go!
-    disp('Everything is good to go darling...');
-    writelogPC(logfid,tstart,'Comm ok, everything ready to go');
-    
-end
+% 
+% if strcmp(resp, CScommOKmsg) %we are ready to go!
+%     disp('Everything is good to go darling...');
+%     writelogPC(logfid,tstart,'Comm ok, everything ready to go');
+%     
+% end
 
 %% SINGLE FREQUENCY INJECTION
 
@@ -237,7 +253,7 @@ if (SingleFreqMode ==1);
     
     disp('Starting Single Frequency Inject Mode');
     fprintf('Injecting at %dHz and %duA, for %d repeats\n',ExpSetup.Freq(1),ExpSetup.Amp(1),N_rep);
-    fprintf('This should take about %.1f minutes\n',ExpSetup.TotalTime/60);
+    fprintf('This should take about %.1f minutes\n',ExpSetup.Info.TotalTime/60);
     
     %if single freq mode then arduino sends a further OK message
     
@@ -267,7 +283,7 @@ if (SingleFreqMode ==1);
     end
 else
     disp('Starting Multi Frequency Inject Mode!');
-    fprintf('This should take about %.1f minutes\n',ExpSetup.TotalTime/60);
+    fprintf('This should take about %.1f minutes\n',ExpSetup.Info.TotalTime/60);
 end
 
 
@@ -397,6 +413,8 @@ function FlushSerialBuffer(Ard,logfid,tstart)
 %remove anything in the serial buffer - otherwise matters are super
 %confused
 
+disp('Flushing Serial Buffer...');
+
 
 while (Ard.BytesAvailable >0) %whilst there are bytes to read
     
@@ -502,7 +520,9 @@ fprintf(logfid,'Number of repeats : %d \n',ExpSetup.Repeats);
 if SingleFreqMode
     fprintf(logfid,'Injection time per protocol line : %d ms or %.2f s\n',ExpSetup.MeasurementTime, ExpSetup.MeasurementTime/1000);
 else
-    fprintf(logfid,'Injection time per frequency per protocol line : %d ms or %.2f s\n',ExpSetup.MeasurementTime, ExpSetup.MeasurementTime/1000);
+    for i=1:N_amp
+        fprintf('Injection time for Freq %d: %d Hz: %d ms or %d cycles\n',i,ExpSetup.Freq(i),ExpSetup.MeasurementTime(i), ExpSetup.Info.Inj_Cycles(i));
+    end
 end
 
 fprintf(logfid,'Estimated time to complete measurements :');
@@ -520,8 +540,8 @@ fprintf(logfid,'--------------\n');
 if StimMode
     fprintf(logfid,'Stimulation Mode is ON! - Randomised phase delay triggered by phase marker on Keithley\n');
     fprintf(logfid,'%d uS pulse triggered every %d ms with offset %d ms from channel switch\n',ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset);
-    fprintf(logfid,'Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));
-    fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.Info.StimulatorVoltage,ExpSetup.StimulatorWiperSetting);
+    fprintf(logfid,'Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime(1)-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));
+    fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.StimulatorVoltage,ExpSetup.Info.StimulatorWiperSetting);
 end
 
 fprintf(logfid,'##################################\n');

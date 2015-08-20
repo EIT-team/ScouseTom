@@ -38,7 +38,7 @@ if (~numflag || ~comok)
     errout=in;
 end
 
-if (in == Num && numflag)
+if ((in == Num) && numflag)
     flag=1;
 else
     warning(['Unexpected response from ard sending ' numname])
