@@ -16,6 +16,12 @@ void init_pins_ind()
   pinMode(IND_EX_2, OUTPUT);
   pinMode(IND_EX_3, OUTPUT);
 
+  pinMode(TRIG_DISABLE_1, OUTPUT);
+  pinMode(TRIG_DISABLE_2, OUTPUT);
+
+  digitalWriteDirect(TRIG_DISABLE_1, LOW);
+  digitalWriteDirect(TRIG_DISABLE_2, LOW);
+
 
 
   ind_low();

@@ -8,15 +8,19 @@ const int SYNC = 35;
 const int RESET = 37;
 
 // indicator pins
-const int IND_SWITCH = 5;
-const int IND_STIM = 6;
-const int IND_START = 7;
-const int IND_STOP = 8;
+const int IND_SWITCH = 3;
+const int IND_STIM = 4;
+const int IND_START = 5;
+const int IND_STOP = 6;
 const int IND_FREQ = 9;
 
 const int IND_EX_1= 10;
 const int IND_EX_2= 11;
 const int IND_EX_3= 12;
+
+//pins to turn the triggers on and off
+const int TRIG_DISABLE_1 = 7;
+const int TRIG_DISABLE_2 = 13; 
 
 
 //interupt pins
