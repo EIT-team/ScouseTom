@@ -24,8 +24,8 @@ void programswitches(int sourcechn, int sinkchn)
 
 void SwitchesPwrOn()
 {
-	digitalWrite(PWR_SWITCH, HIGH); //turn on power
-	digitalWrite(RESET, LOW);
+	
+	digitalWrite(RESET, HIGH);
 	digitalWrite(SYNC, HIGH);
 	digitalWrite(SYNC, LOW);
 	digitalWrite(SYNC, HIGH);

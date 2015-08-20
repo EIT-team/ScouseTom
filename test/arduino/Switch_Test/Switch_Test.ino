@@ -17,7 +17,7 @@ Jimmy 2014/2015
 #include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
 
 
-int sinkpin = 2; // pin that the sink is always connected to
+int sinkpin = 39; // pin that the sink is always connected to
 
 int chnmax = 40; // maximum number of channels
 
