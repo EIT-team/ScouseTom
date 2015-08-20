@@ -1,4 +1,4 @@
-/*Pin Numbering for PCB version - changed to reduce trace length */
+ /*Pin Numbering for PCB version - changed to reduce trace length */
 
 // switch network pin definitions
 const int DINp = 39;
@@ -22,9 +22,15 @@ const int IND_EX_3= 12;
 const int TRIG_DISABLE_1 = 7;
 const int TRIG_DISABLE_2 = 13; 
 
-
 //interupt pins
 const int INTR_PMARK = 25; // pin to decect pmark - MUST BE AT POSITION 0 OF A DUE PORT 25 is 0 on portD - check http://arduino.cc/en/Hacking/PinMappingSAM3X
+const int CS_EXTRA=24; // bonus output pin on the CS side, not really used but whatever
+
+//bonus pins
+const int BONUS_1 =47;
+const int BONUS_2 =49;
+const int BONUS_3 =51;
+const int BONUS_4 =53;
 
 //Power Pins
 const int PWR_STIM = 52;
