@@ -2,7 +2,7 @@
 
 Code to test switch network only - connected to PCB
 
-User enters the channel they want to connect to the sink pin (default 2)
+User enters the channel they want to connect to the sink pin (default 2) and source pin (def 4)
 
 Useful to just check switch network is working ok with a multimeter
 
