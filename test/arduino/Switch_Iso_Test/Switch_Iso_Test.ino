@@ -10,7 +10,8 @@ void setup() {
 	Serial.print("ScouseTom Switch Pin Check: All Switch pins should go high and low every ");
 	Serial.print(del / 1000);
 	Serial.println("ms");
-	Serial.println("Remeber test pins are floating unless you connect them to something");
+	Serial.println("Remember test pins are floating unless you connect them to something");
+	Serial.println("If you are using daisychained boards the DIN+ and DIN- pins will not transfer across boards, as switches are not being set");
 	init_pins();
 
 }
