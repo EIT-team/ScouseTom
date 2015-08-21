@@ -22363,7 +22363,7 @@ Split into free components</text>
 <instance part="GND3" gate="1" x="35.56" y="203.2" rot="R90"/>
 <instance part="U15" gate="G$1" x="132.08" y="190.5"/>
 <instance part="AGND47" gate="VR1" x="228.6" y="149.86"/>
-<instance part="VDD25" gate="G$1" x="228.6" y="182.88"/>
+<instance part="VDD25" gate="G$1" x="228.6" y="185.42"/>
 <instance part="R23" gate="G$1" x="228.6" y="165.1" rot="R90"/>
 <instance part="AGND48" gate="VR1" x="276.86" y="149.86"/>
 <instance part="VDD26" gate="G$1" x="276.86" y="218.44"/>
@@ -24819,7 +24819,7 @@ Split into free components</text>
 <pinref part="R23" gate="G$1" pin="2"/>
 <pinref part="VDD25" gate="G$1" pin="VDD"/>
 <wire x1="228.6" y1="170.18" x2="228.6" y2="175.26" width="0.1524" layer="91"/>
-<wire x1="228.6" y1="175.26" x2="228.6" y2="180.34" width="0.1524" layer="91"/>
+<wire x1="228.6" y1="175.26" x2="228.6" y2="182.88" width="0.1524" layer="91"/>
 <wire x1="228.6" y1="175.26" x2="218.44" y2="175.26" width="0.1524" layer="91"/>
 <junction x="228.6" y="175.26"/>
 <label x="218.44" y="175.26" size="1.778" layer="95" rot="R180" xref="yes"/>
