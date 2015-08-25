@@ -1,5 +1,7 @@
-
-int CS_start() //start current injection
+/**
+* Start current injection
+*/
+int CS_start() 
 {
 	int goodnessflag = 1; //communication ok flag
 
@@ -33,8 +35,10 @@ int CS_start() //start current injection
 	return goodnessflag;
 }
 
-
-int CS_stop() //start current injection
+/**
+* Stop current injection
+*/
+int CS_stop() 
 {
 	int goodnessflag = 1; //communication ok flag
 	Serial1.println("SOUR:WAVE:ABOR"); //stop current injection!
@@ -49,10 +53,11 @@ int CS_stop() //start current injection
 	return goodnessflag;
 }
 
-
+/**
+* Send amplitude and frequency to the current source NO CHECKING as too slow
+* all potential settings are checked during initialisation to make sure no errors
+*/
 void CS_sendsettings(long Amp, long Freq)
-// send amplitude and frequency to the current source NO CHECKING as too slow
-//- all potential settings are checked during initialisation to make sure no errors
 {
 	sprintf(CS_outputBuffer, "SOUR:WAVE:FREQ %d", Freq); //make string to send to CS
 	Serial1.println(CS_outputBuffer); // send to CS
@@ -65,8 +70,10 @@ void CS_sendsettings(long Amp, long Freq)
 }
 
 
-
-int CS_init() // initialise current source - set sin and compliance and turn on pmark too
+/**
+* Initialise current source - set sin and compliance and turn on pmark too
+*/
+int CS_init() 
 {
 	int goodnessflag = 0; //communication ok flag
 
@@ -225,5 +232,4 @@ void CS_getmsg() {
 		}
 	}
 }
-
 
