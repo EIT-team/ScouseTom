@@ -53,7 +53,6 @@ int CS_commgoodness = 1; // flag for current communication goodness
 char PC_outputBuffer[50]; // char array buffer for output strings to PC
 int PC_commgoodness = 1;
 int PC_inputgoodness = 0;
-
 /*############ Injection Stuff  - consts in Injection.h ############*/
 
 int Injection[maxInjections][2] = { 0 }; //number of injections in protocol - max 200 to avoid dynamic memory allocation
@@ -78,6 +77,8 @@ long ContactTime = 0; // contact impedance measurement time in us
 
 long BadElecs[maxBadElecs] = { 0 }; // bad electrodes
 int NumBadElec = 0; // number of bad electrodes 
+
+int Switch_goodness = 0; //flag for whether switches are behaving themselves
 
 /*############ Indicator Pin things - consts in Pins.h and PCBPins.h ############*/
 
@@ -153,17 +154,7 @@ void setup() {
 	reset_pins();
 	reset_pins_pwr();
 	reset_ind();
-
-	/*
 	SwitchesPwrOn();
-	Serial.println("1on");
-	programswitches(4, sinkpin);
-	digitalWriteDirect(SYNC, HIGH); // switch dat!
-	delay(500);
-	Serial.println("1off");
-	SwitchesPwrOff();
-	delay(500);
-	*/
 
 	// setup CS connection
 	Serial1.begin(57600); // 57600 fastest baud that worked with AD chip - sparkfun connector may allow 115200 which would be nice
@@ -177,17 +168,6 @@ void setup() {
 
 	//Serial.println("hey there you motherfucker");
 	establishContact();
-
-	/*
-	SwitchesPwrOn();
-	Serial.println("2on");
-	programswitches(4, sinkpin);
-	digitalWriteDirect(SYNC, HIGH); // switch dat!
-	delay(500);
-	Serial.println("2off");
-	SwitchesPwrOff();
-	delay(500);
-	*/
 
 	/*########################################################
 	SETUP TIMERS FOR STIMULATOR TRIGGER AND FOR INDICATOR PINS
@@ -235,6 +215,10 @@ void setup() {
 	#########################################################*/
 
 	//Serial.println("timer set ok");
+
+
+	/*#############CS INIT#############*/
+
 	//Serial.println("initialising");
 
 	// initialise current source again and check the phase marker connection
@@ -242,8 +226,6 @@ void setup() {
 	CS_commgoodness = CS_init();
 
 	//Serial.print("init done");
-
-
 
 	if (CS_commgoodness)
 	{
@@ -264,6 +246,12 @@ void setup() {
 	{
 		Serial.print(CS_commerrmsg);
 	}
+
+
+	/*#############Switch INIT#############*/
+
+	Switch_goodness = Switch_init();
+	
 
 
 }
@@ -930,8 +918,6 @@ void getCMD(char CMDIN)
 }
 
 
-
-
 void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - this is as fast as I could reliably get it as worst case code takes 1.357 uS to run
 {
 	// We need to get the status to clear it and allow the interrupt to fire again
@@ -1012,6 +998,7 @@ inline void digitalWriteDirect(int pin, int val) {
 	if (val) g_APinDescription[pin].pPort->PIO_SODR = g_APinDescription[pin].ulPin;
 	else    g_APinDescription[pin].pPort->PIO_CODR = g_APinDescription[pin].ulPin;
 }
+
 
 
 

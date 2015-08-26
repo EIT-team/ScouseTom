@@ -12,6 +12,10 @@ void init_pins()
 	pinMode(SYNC, OUTPUT);
 	pinMode(RESET, OUTPUT);
 
+	// pins for testing switch network
+	pinMode(TEST_1, INPUT);
+	pinMode(TEST_2, INPUT);
+
 	//pins for indicator channels
 	pinMode(IND_SWITCH, OUTPUT);
 	pinMode(IND_STIM, OUTPUT);

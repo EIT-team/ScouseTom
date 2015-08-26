@@ -5,13 +5,18 @@ function [ Ard ] = ScouseTom_Init( ArdComPortStr )
 % Input - ArdComPortStr string for com port i.e. 'COM11'
 % Output - Ard - serial object for arduino
 
-% smashed together by jimmy 2015 
+% smashed together by jimmy 2015
 
-%% Some variables 
+%% Some variables
 
 CScommerrmsg='!E';
 CSpmarkerrmsg='!P';
 CScommOKmsg='+OK';
+
+SwitchPowerErr='!Wp';
+SwitchOpenErr='!Ws';
+SwitchOKmsg='+SW';
+
 
 
 
@@ -21,7 +26,7 @@ if ~isempty(instrfind)
     fclose(instrfind);
 end
 
-%%
+%% Initialise Arduino Serial Object
 
 % in case the arduino communication was opened already
 if exist('Ard','var')
@@ -43,6 +48,7 @@ end
 disp('Arduino Connected Fine');
 pause(0.2);
 
+%% check CS test response
 
 [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
 
@@ -61,28 +67,98 @@ end
 if strcmp(resp, CScommOKmsg)
     disp('Current Source connected OK! yay!');
 end
-FlushSerialBuffer(Ard);
-disp('Initilialisation finished - this only needs to work once, new settings can be sent repeatedly');
+
+%% Check Switching test response
+
+%first is switch power
+
+pwrok=0;
+openok=0;
+numboard=0;
 
 
+[resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
+
+if (~cscommok)
+    warning('Didnt get OK message from Arduino....');
+end
+if strcmp(resp,SwitchPowerErr)
+    warning('Switch Power Error');
+    pwrok=0;
 end
 
-function FlushSerialBuffer(Ard)
-%remove anything in the serial buffer - otherwise matters are super
-%confused
+if strcmp(resp, SwitchOKmsg)
+    %     disp('Switches are powered OK');
+    pwrok=1;
+end
 
+%second is number of boards
 
-while (Ard.BytesAvailable >0) %whilst there are bytes to read
+[resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
+
+if (~cscommok)
+    warning('Didnt get OK message from Arduino....');
+end
+
+if numflg
     
-    jnk=fread(Ard,Ard.BytesAvailable,'uchar'); %read as much as possible from buffer
-    %     jnkstr=sprintf(char(jnk)); %convert to string
-    %     jnkstr=strrep(jnkstr,sprintf('\r\n'),''); %remove newlines
-    %     fprintf(logfid,'%.2fs\t\tSerial Buffer flushed: %s\n',toc(tstart),jnkstr); %write to log
-    pause(0.2); %wait a bit to fill up Serial buffer is necessary - not needed on my PC but added in case related problems to the pause needed at the start
+    numboard=resp;
+else
+    openok=0;
+    numboard=0;
+    warning('didnt receive number of boards from ard');
+end
+
+for iBrd =1:numboard
+    
+    [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
+    if strcmp(resp, SwitchOKmsg)
+        %     disp('Switches are powered OK');
+        brdok(iBrd)=1;
+        fprintf('Board %d is working OK!\n',iBrd);
+    else if strcmp(resp,SwitchOpenErr)
+            warning('Switch Power Error');
+            brdok(iBrd)=0;
+            fprintf('Board %d is NOT working\n',iBrd);
+        end
+    end
+    
+end
+    
+    openok=all(brdok);
+    
+    
+    
+    if (pwrok && openok)
+        disp('Switches Powered and working WOOOOOOOO');
+    end
+    
+    
+    
+    %% Finish init
+    
+    FlushSerialBuffer(Ard);
+    disp('Initilialisation finished - this only needs to work once, new settings can be sent repeatedly');
+    
     
 end
 
-end
+    function FlushSerialBuffer(Ard)
+        %remove anything in the serial buffer - otherwise matters are super
+        %confused
+        
+        
+        while (Ard.BytesAvailable >0) %whilst there are bytes to read
+            
+            jnk=fread(Ard,Ard.BytesAvailable,'uchar'); %read as much as possible from buffer
+            %     jnkstr=sprintf(char(jnk)); %convert to string
+            %     jnkstr=strrep(jnkstr,sprintf('\r\n'),''); %remove newlines
+            %     fprintf(logfid,'%.2fs\t\tSerial Buffer flushed: %s\n',toc(tstart),jnkstr); %write to log
+            pause(0.2); %wait a bit to fill up Serial buffer is necessary - not needed on my PC but added in case related problems to the pause needed at the start
+            
+        end
+        
+    end
 
 
 

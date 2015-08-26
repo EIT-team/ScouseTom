@@ -32,6 +32,11 @@ CSsettingserrmsg='!S';
 CScommOKmsg='+OK';
 CSfinishmsg='+Fin';
 
+SwitchPowerErr='!Wp';
+SwitchOpenErr='!Ws';
+
+SwitchOKmsg='+SW';
+
 %characters srrounding number
 startchar='<';
 endchar='>';

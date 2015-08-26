@@ -38,7 +38,7 @@ void SetSwitchesFixed()
 	//start programming timer
 	tswprogstart = micros();
 	//set up switches
-	programswitches(Injection[iPrt][0], Injection[iPrt][1]);
+	programswitches(Injection[iPrt][0], Injection[iPrt][1],TotalPins);
 
 	SwitchesProgrammed = 1; //set flag to indicate the switches have been programmed
 	tswprogend = micros();
@@ -103,9 +103,8 @@ void SetSwitchesFixed_Contact() //specifically for contact check
 	Serial.print(" : ChnB: ");
 	Serial.println(ContactChnB);*/
 	
-
 	//set up switches
-	programswitches(ContactChnA, ContactChnB);
+	programswitches(ContactChnA, ContactChnB, TotalPins);
 
 	SwitchesProgrammed = 1; //set flag to indicate the switches have been programmed
 	tswprogend = micros();
@@ -118,7 +117,6 @@ void SwitchChn_Contact() //switch channels - switches are programmed by SetSwitc
 {
 	lastInjSwitch = micros();
 	digitalWrite(SYNC, HIGH);
-
 
 	indpins_pulse(0, 0, 1, 0); // only pulse if single freq mode as prt is repeated for multi
 	// increment protocol line 
@@ -139,15 +137,16 @@ void SwitchChn_Contact() //switch channels - switches are programmed by SetSwitc
 
 
 //function to program switches
-void programswitches(int sourcechn, int sinkchn)
+void programswitches(int sourcechn, int sinkchn, int maxpins)
 {
+
 	//current on due this takes 220 us - could be sped up significantly but digitalwritedirect was too fast for optocouplers/switches
 	//Set SYNC low to enable programming of switches
 	digitalWrite(SYNC, LOW);
 	//Iterate 40 times, once for each switch. Turn on switches based on values in Injection[][]
 	//1st command sent is for switch 40, last is for switch 1.
 	//Switches correspond directly to pins on DSUB - switch 1 goes to pin 1 etc.
-	for (int j = 40; j > 0; j--) {
+	for (int j = maxpins; j > 0; j--) {
 		digitalWriteDirect(DINp, LOW);
 		digitalWriteDirect(DINn, LOW);
 		if (sourcechn == j)  digitalWrite(DINp, HIGH);
@@ -163,12 +162,11 @@ void programswitches(int sourcechn, int sinkchn)
 
 void SwitchesPwrOn()
 {
-	digitalWrite(PWR_SWITCH, HIGH); //turn on power
-	digitalWrite(RESET, LOW);
+	digitalWrite(RESET, HIGH);
 	digitalWrite(SYNC, HIGH);
 	digitalWrite(SYNC, LOW);
 	digitalWrite(SYNC, HIGH);
-	programswitches(0, 0); //program dem switches
+	programswitches(0, 0, TotalPins); //program dem switches
 	digitalWriteDirect(SYNC, HIGH); // switch dat!
 }
 
@@ -216,5 +214,134 @@ int BadElecCheck(int Chn)
 		}
 	}
 	return chnok;
+
+}
+
+
+
+int SwitchCheckPWR()
+{
+	// check power to switches is ok - TEST 1 Should be high all the time 
+
+	const int AveNum = 50;
+
+	int OKFlag = 1;
+
+	int PinVal = 0;
+	digitalRead(TEST_1);
+
+	//check the pin value a bunch of times, if it is ever low then the power is not working - this is to check for floating pins
+	for (int i = 0; i < AveNum; i++)
+	{
+		PinVal = digitalRead(TEST_1);
+
+		if (!PinVal)
+		{
+			OKFlag = 0;
+			break;
+		}
+
+	}
+	return OKFlag;
+
+}
+
+int SwitchCheckOpen(int BoardNum)
+{
+	//check the switching on the positive and negative side for a given board
+	// sets opens the 39th channel which is connected to Vdd so should go high
+
+
+	int testchn = 40 * (BoardNum - 1) + 39; // channel we want to open is the 39th of the specific board
+
+
+	int Pos_OK = 0; // flag for positive switching side ok
+	int Neg_OK = 0; // flag for negative 
+
+	int SwitchOK = 0; // overal OK flag
+
+	// check pin is low as expected
+	int initVal = digitalRead(TEST_2);
+	
+	if (initVal)
+	{
+		Serial.println("Wtf!? Switch already high");
+		return SwitchOK;
+	}
+
+	//program the positive side *only*
+	programswitches(testchn, 0, TotalPins); //program dem switches
+	digitalWriteDirect(SYNC, HIGH); // switch dat!
+	delay(1); //ensure it has switched
+
+	Pos_OK = digitalRead(TEST_2);
+
+	//Serial.print("pos val was: ");
+	//Serial.println(Pos_OK);
+
+	//program the positive side *only*
+	programswitches(0, testchn, TotalPins); //program dem switches
+	digitalWriteDirect(SYNC, HIGH); // switch dat!
+	delay(1); //ensure it has switched
+
+	Neg_OK = digitalRead(TEST_2);
+
+	//Serial.print("neg val was: ");
+	//Serial.println(Neg_OK);
+
+	//switces only ok if both pos and neg worked
+	if (Pos_OK && Neg_OK)
+	{
+		SwitchOK = 1;
+	}
+
+	//reset switches ready for next time
+
+	digitalWrite(RESET, LOW);
+	SwitchesPwrOn();
+	delay(10); //esnure switches really reset
+
+	return SwitchOK;
+}
+
+int Switch_init()
+{
+	// check the switching is ok. First by checking power on test1 pin, then by checking switching on each board on test2 pin
+	TotalPins = 40 * NumBoard; // recompute the number of pins
+
+	int SW_PWROK = 0;
+	int SW_SWOK = 0;
+
+	//check switch power
+	SW_PWROK = SwitchCheckPWR();
+
+	if (SW_PWROK)
+	{
+		Serial.print(SW_okmsg);
+	}
+	else
+	{
+		Serial.print(SW_pwrerrmsg);
+	}
+
+	//send the number of boards we have attached, so we know how many ok messages we expect to receive
+	sendasciinum(NumBoard);
+
+	//check the switches are opening ok on each board
+	for (int iBoard = 1; iBoard <= NumBoard; iBoard++)
+	{
+		SW_SWOK = SwitchCheckOpen(iBoard);
+
+		if (SW_SWOK)
+		{
+			Serial.print(SW_okmsg);
+		}
+		else
+		{
+			Serial.print(SW_switcherrmsg);
+		}
+	}
+
+
 
 }
