@@ -1,11 +1,16 @@
 /*
  * PC_comm.h
 
- *
+ * \todo descr
  *  Created on: 29 May 2015
  *      Author: raquel
  */
 
+
+#ifndef PC_comm_h
+#define PC_comm_h
+
+#include "Arduino.h"
 
 const int PC_timeoutlimit = 2000; // timeout in milliseconds for response from PC
 
@@ -29,3 +34,5 @@ void sendasciinum(int num);
 void sendasciinum_long(long num);
 void PC_sendupdate();
 void PC_sendphaseupdate();
+
+#endif

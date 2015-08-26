@@ -36,4 +36,3 @@ const int BONUS_4 =53;
 
 //Power Pins
 const int PWR_STIM = 52;
-const int PWR_SWITCH = 22;

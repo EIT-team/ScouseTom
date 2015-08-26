@@ -42,11 +42,10 @@ Jimmy wrote this so blame him
 
 /*############ CS Communications stuff - consts in CS_Comm.h ############*/
 
-char CS_inputBuffer[CS_buffSize]; //char buffer to store output from current source
-int CS_inputFinished = 0; //flag for complete response from current source
-int LongDispWind = 0; // flag for if we have more than 3 digit length of repeats/freqs/prt so that we use the shorter text on the bottom window
-char CS_outputBuffer[50]; // char array buffer for output strings to CS
+
 int CS_commgoodness = 1; // flag for current communication goodness
+
+int CS_Pmarkgoodness = 0; // flag to confirm Phasemarker has been checked ok
 
 /*############ PC Communications stuff - consts in PC_Comm.h ############*/
 
@@ -56,15 +55,6 @@ int PC_inputgoodness = 0;
 
 /*############ Injection Stuff  - consts in Injection.h ############*/
 
-int Injection[maxInjections][2] = { 0 }; //number of injections in protocol - max 200 to avoid dynamic memory allocation
-int NumInj = 0; //number of injection pairs in protocol - set from PC comm
-int NumFreq = 0; // number of frequencies (and corresponding amplitudes) to use - set from PC comm
-int NumElec = 0; // number of electrodes used - this is used in contact check at the moment, but likely used for dual systems too
-int NumRep = 0; // number of time whole protocol is repeated - total recording time is MeasTime*NumFreq*NumRep
-
-long  Amp[maxFreqs] = { 0 }; //amplitude in uA - container for max 20
-long  Freq[maxFreqs] = { 0 }; //freq in Hz - contaier for max 20 set in
-long MeasTime[maxFreqs] = { 0 }; //injection time in microseconds - set by user (USER SELECTS MILLISECONDS BUT SCALED IN MICROSECONDS AS DUE IS FASTER)
 
 int FreqOrder[maxFreqs] = { 0 }; // order of the frequencies - initilised
 long curFreq = 0; // index of frequency vector current being injected
@@ -72,56 +62,20 @@ long curFreq = 0; // index of frequency vector current being injected
 long StartElapsed_CS = 0;// time since CS_Start was called
 long StartTime_CS = 0; //time when CS_Start() was called
 
-int iContact = 0; // counter for contact check loop
-int ContactEndofSeq = 0; // flag for whether contact check is finished
-long ContactTime = 0; // contact impedance measurement time in us
-
-long BadElecs[maxBadElecs] = { 0 }; // bad electrodes
-int NumBadElec = 0; // number of bad electrodes 
 
 /*############ Indicator Pin things - consts in Pins.h and PCBPins.h ############*/
-
-int pulses[NumInd] = { 0 }; //pulses left to do on the indicator channels
-int indpinstate[NumInd] = { 0 }; //current state of the indicator pins
-int iInd = 0; // counter for for loop in ind pins ISR (save defining all the time)
-int IndinterruptCtr[NumInd] = { 0 }; // iterations of the interrupt routine for each pin channel
-
-int pulsesleft = 0; // number of pulses left to do - used in indpins_check
-int pulseleftptr = 0; // pointer for for loop in indpins_check, defined here for speed
-int indpulseson = 0; // are pulses active? this flag is used to prevent checking pulses left when we know there are none
 
 /*############ Stimulation Trigger stuff - consts in Stim.h ############*/
 
 long StimTriggerTime = 0; //time between stimulation triggers in microseconds
 long StimOffset = 0; // time stimulation occurs after injection pair switch
 long StimOffsetCurrent = 0; // offset for current stimulation - this is set to be either StimOffset or 0
-long StimPulseWidth = 0; // width of stimulation pulse in microseconds - received from PC
-int StimPulseWidthTicks = 0; // width of pulse in 1.5 uS Ticks of TC4 handler
-
-int NumDelay = 0; //the total number of possible delays, as calcluated from the freq and the time gap - set by stim calcdelays
-int Stim_delays[360] = { 0 }; //holds all possible delays up to a maximum of 360 - these are the number of ticks to wait before starting trigger
-int Stim_phases[360] = { 0 }; // phases each of the delays equate too - cast to int because who cares about .5 of a degree of phase?
-int Stim_PhaseOrder[360] = { 0 }; //order of the phase delays - shuffled and sent to PC every time it gets to the end
-
-int d1 = 0; //current delay before stimulation trigger - in ticks of TC4 handler
-int d2 = 0;// time to stop stimulation trigger - d1+Stimpulsewidth - in ticks of TC4 handler
-int StiminterruptCtr = 0; // counter of the number of ticks of the TC4 handler since pmark pulse
-int Stim_pinstate = 0; //current state of the stimulator pin IND_STIM
-
-int Stim_goflag = 0; // flag for setting whether we should be stimulating at the moment - this is needed as I had to start the TC4 handler *before* setting the Stim_ready flag, so a few of the TC4 handler would run before stim should start
-int Stim_ready = 0; // are we ready to stimulate again? this is so we ignore phase markers within the stim pulse
-
-int CS_PhaseMarker = 0; // phase in degrees which phase marker occurs on the current source - set so that delay of 0 in stim routine occurs at ~0 phase
-int PMARK_TEST_FLAG = 0; // flag used in PMARK check routines - this is set high by ISR_PMARK_TEST if all working ok
-int CS_Pmarkgoodness = 0; // flag to confirm Phasemarker has been checked ok
 
 /*########### Stimulation Voltage stuff - consts in Stim.h ############*/
 
-int StimWiperValue = 0; // Wiper position for setting voltage of stimulation - must be 0-256 although usable range is between 215 and 250 with 215 approx 10V and 250 ~3V
-
 /*########### System Control stuff - consts in System_Control.h ############*/
 
-int SingleFreqMode = 0; // flag for single frequency mode
+
 int StimMode = 0; // flag for Stimulation mode - only stimulation stuff if needed
 int state = 0; // what the system should be doing each iteration
 
@@ -129,19 +83,16 @@ long lastidle = 0; // timing for idle mode - if been idle for a few seconds then
 int checkidle = 1; //should we check idle?
 
 int FirstInj = 0; // flag for doing the first injection - so we dont wait to switch at start
-int SwitchesProgrammed = 0; // flag for whether the switches are programmed or not
+
 int Switchflag = 0; // do we need to switch?
 int Stimflag = 0; // should we stimulate?
 
-long lastInjSwitch = 0; //time when channels were switched - SingleFreqMode
+
 long lastFreqSwitch = 0; //time when Freq was last changed - MultipleFreqMode
-long lastStimTrigger = 0; //time when stimulation trigger was last activated
+
 long currentMicros = 0; // current time in micros
 
-int iFreq = 0; //current frequency
-int iPrt = 0; //current protocol line
-int iRep = 0; //current protocol repetition
-int iStim = 0; // current stimulation number
+
 
 /*ALL DEFINITIONS DONE FINIALLY!*/
 
@@ -545,6 +496,12 @@ void dostuff()
 
 					///* debug trig */indpins_pulse(0, 0, 0, 1);
 
+					if (StimMode)
+					{
+						stim_stop();
+					}
+
+
 					SwitchChn(); // switch channel
 					StimOffsetCurrent = StimOffset; //reset the stimoffset as we are switching again
 				}
@@ -932,68 +889,6 @@ void getCMD(char CMDIN)
 
 
 
-void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - this is as fast as I could reliably get it as worst case code takes 1.357 uS to run
-{
-	// We need to get the status to clear it and allow the interrupt to fire again
-	TC_GetStatus(TC1, 1); //here TC2,1 means TIMER 2 channel 1
-
-	if (Stim_goflag) //if we should go
-	{
-		//StiminterruptCtr++; //increment intrctr
-		if (!Stim_pinstate && StiminterruptCtr >= d1) // check if timer is up and pulse still low
-		{
-			digitalWriteDirect(IND_STIM, 1); //write pin high
-			Stim_pinstate = !Stim_pinstate;
-		}
-		else if (Stim_pinstate && StiminterruptCtr >= d2)
-		{
-
-			digitalWriteDirect(IND_STIM, 0); //write pin low
-			Stim_pinstate = !Stim_pinstate;
-
-			Stim_goflag = 0; //stop it from happening again
-			TC_Stop(TC1, 1);
-
-		}
-
-		StiminterruptCtr++; //increment intrctr
-	}
-	else
-	{
-		StiminterruptCtr = 0; //reset intrcntr
-
-	}
-}
-
-void TC8_Handler() // this is the ISR for the indicator pins - cycles through all of the pins if they should change their state - this runs every 10uS
-{
-	// We need to get the status to clear it and allow the interrupt to fire again
-	TC_GetStatus(TC2, 2); //here TC2,2 means TIMER 2 channel 2
-
-	for (iInd = 0; iInd < NumInd; iInd++) // cycle through the indicator pins
-	{
-		if (pulses[iInd] > 0) //if we have some pulses left to do
-		{
-			if (!indpinstate[iInd] && (IndinterruptCtr[iInd] < indpulsewidth)) // set pin high if less than pulse width
-			{
-				digitalWriteDirect(indpins[iInd], 1);
-				indpinstate[iInd] = 1;
-			}
-			else if (indpinstate[iInd] && (IndinterruptCtr[iInd] > indpulsewidth)) //set pin low if greater than pulse wifth
-			{
-				digitalWriteDirect(indpins[iInd], 0);
-				indpinstate[iInd] = 0;
-			}
-			IndinterruptCtr[iInd]++; //increment tick counter
-			if (IndinterruptCtr[iInd] == indpulsewidthtotal) // if total pulse length (HIGH and LOW) happened then decrement pulses left
-			{
-				pulses[iInd]--;
-				IndinterruptCtr[iInd] = 0;
-			}
-
-		}
-	}
-}
 
 /*
 
@@ -1005,13 +900,6 @@ digitalWriteDirect(fakepmarkpin, 1);
 digitalWriteDirect(fakepmarkpin, 0);
 }
 */
-
-
-//taken from http://forum.arduino.cc/index.php?topic=129868.15
-inline void digitalWriteDirect(int pin, int val) {
-	if (val) g_APinDescription[pin].pPort->PIO_SODR = g_APinDescription[pin].ulPin;
-	else    g_APinDescription[pin].pPort->PIO_CODR = g_APinDescription[pin].ulPin;
-}
 
 
 

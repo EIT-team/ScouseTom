@@ -1,3 +1,34 @@
+
+#include "Stim.h"
+
+
+long StimPulseWidth = 0; // width of stimulation pulse in microseconds - received from PC
+int StimPulseWidthTicks = 0; // width of pulse in 1.5 uS Ticks of TC4 handler
+
+int NumDelay = 0; //the total number of possible delays, as calcluated from the freq and the time gap - set by stim calcdelays
+int Stim_delays[360] = { 0 }; //holds all possible delays up to a maximum of 360 - these are the number of ticks to wait before starting trigger
+int Stim_phases[360] = { 0 }; // phases each of the delays equate too - cast to int because who cares about .5 of a degree of phase?
+int Stim_PhaseOrder[360] = { 0 }; //order of the phase delays - shuffled and sent to PC every time it gets to the end
+
+int d1 = 0; //current delay before stimulation trigger - in ticks of TC4 handler
+int d2 = 0;// time to stop stimulation trigger - d1+Stimpulsewidth - in ticks of TC4 handler
+int StiminterruptCtr = 0; // counter of the number of ticks of the TC4 handler since pmark pulse
+int Stim_pinstate = 0; //current state of the stimulator pin IND_STIM
+
+int Stim_goflag = 0; // flag for setting whether we should be stimulating at the moment - this is needed as I had to start the TC4 handler *before* setting the Stim_ready flag, so a few of the TC4 handler would run before stim should start
+int Stim_ready = 0; // are we ready to stimulate again? this is so we ignore phase markers within the stim pulse
+
+int CS_PhaseMarker = 0; // phase in degrees which phase marker occurs on the current source - set so that delay of 0 in stim routine occurs at ~0 phase
+int PMARK_TEST_FLAG = 0; // flag used in PMARK check routines - this is set high by ISR_PMARK_TEST if all working ok
+
+
+
+
+int StimWiperValue = 0; // Wiper position for setting voltage of stimulation - must be 0-256 although usable range is between 215 and 250 with 215 approx 10V and 250 ~3V
+
+
+
+
 void stim_nextphase()
 {
 	//digitalWriteDirect(PWR_STIM, HIGH); //turn on stimulator power supply
@@ -257,3 +288,37 @@ void Stim_SetDigipot(int val)
 	Wire.endTransmission();     // stop transmitting
 }
 
+
+
+void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - this is as fast as I could reliably get it as worst case code takes 1.357 uS to run
+{
+	// We need to get the status to clear it and allow the interrupt to fire again
+	TC_GetStatus(TC1, 1); //here TC2,1 means TIMER 2 channel 1
+
+	if (Stim_goflag) //if we should go
+	{
+		//StiminterruptCtr++; //increment intrctr
+		if (!Stim_pinstate && StiminterruptCtr >= d1) // check if timer is up and pulse still low
+		{
+			digitalWriteDirect(IND_STIM, 1); //write pin high
+			Stim_pinstate = !Stim_pinstate;
+		}
+		else if (Stim_pinstate && StiminterruptCtr >= d2)
+		{
+
+			digitalWriteDirect(IND_STIM, 0); //write pin low
+			Stim_pinstate = !Stim_pinstate;
+
+			Stim_goflag = 0; //stop it from happening again
+			TC_Stop(TC1, 1);
+
+		}
+
+		StiminterruptCtr++; //increment intrctr
+	}
+	else
+	{
+		StiminterruptCtr = 0; //reset intrcntr
+
+	}
+}
