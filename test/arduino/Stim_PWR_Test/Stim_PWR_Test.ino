@@ -1,5 +1,5 @@
 /*
-Code to check turning on PWR to stim and switches is working OK
+Code to check turning on PWR to stim is working OK
 
 Turns on switch pwr, then stim pwr
 
@@ -10,14 +10,14 @@ Turns on switch pwr, then stim pwr
 #include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
 
 #include <Wire.h>
-int del = 1000 * 1000; // time to delay between hgih and low
+int del = 1000 * 1000; // time to delay between high and low
 
 void setup() {
   // put your setup code here, to run once:
 Wire.begin(); // join i2c bus (address optional for master)
   Serial.begin(115200);
   Serial.println("Hello! Testing ScouseTom PWR now");
- DigipotSetR(250);
+ DigipotSetR(50);
   //power pins
   pinMode(PWR_STIM, OUTPUT);
   pinMode(PWR_SWITCH, OUTPUT);
@@ -25,7 +25,7 @@ Wire.begin(); // join i2c bus (address optional for master)
   digitalWriteDirect(PWR_STIM, LOW);
   digitalWriteDirect(PWR_SWITCH, LOW);
   
-  DigipotSetR(250);
+  DigipotSetR(50);
 
 }
 
