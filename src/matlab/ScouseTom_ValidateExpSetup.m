@@ -413,11 +413,11 @@ fprintf('Number of repeats : %d \n',ExpSetup.Repeats);
 
 if SingleFreqMode
     
-    fprintf('Injection time per protocol line : %d ms or %.2f s\n',ExpSetup.MeasurementTime, ExpSetup.MeasurementTime/1000);
+    fprintf('Injection time per protocol line : %d ms/%.2f s or %d cycles +%d ms offset\n',ExpSetup.MeasurementTime, ExpSetup.MeasurementTime/1000,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset);
     
 else
     for i=1:N_amp
-        fprintf('Injection time for Freq %d: %d Hz: %d ms or %d cycles\n',i,ExpSetup.Freq(i),ExpSetup.MeasurementTime(i), ExpSetup.Info.Inj_Cycles(i));
+        fprintf('Injection time for Freq %d: %d Hz: %d ms or %d cycles + %d ms offset\n',i,ExpSetup.Freq(i),ExpSetup.MeasurementTime(i), ExpSetup.Info.Inj_Cycles(i),ExpSetup.Info.Inj_Cycles_Offset);
     end
 end
 

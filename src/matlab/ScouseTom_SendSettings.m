@@ -291,7 +291,7 @@ end
 
 %% check all settings were sent ok to CS
 
-disp('Ardunio is checking settings');
+fprintf('Ardunio is checking settings...');
 pause(1);
 
 [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
@@ -304,7 +304,7 @@ if strcmp(resp,CSsettingserrmsg)
 end
 
 if strcmp(resp, CScommOKmsg)
-    disp('Settings all check out, you are ready to inject!!!');
+    fprintf('Settings all check out, you are ready to inject!!!\n');
 end
 
 
