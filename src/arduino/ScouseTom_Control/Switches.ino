@@ -307,10 +307,11 @@ int SwitchCheckOpen(int BoardNum)
 int Switch_init()
 {
 	// check the switching is ok. First by checking power on test1 pin, then by checking switching on each board on test2 pin
-	TotalPins = 40 * NumBoard; // recompute the number of pins
+	TotalPins = PinsPerBoard * NumBoard; // recompute the number of pins
 
-	int SW_PWROK = 0;
-	int SW_SWOK = 0;
+	int SW_PWROK = 0; //flag for power ok
+	int SW_SWOK = 0; //flag for current board switch ok
+	int SW_SWOK_ALL = 1; //flag for ALL boards ok 
 
 	//check switch power
 	SW_PWROK = SwitchCheckPWR();
@@ -339,9 +340,18 @@ int Switch_init()
 		else
 		{
 			Serial.print(SW_switcherrmsg);
+			SW_SWOK_ALL = 0;
 		}
 	}
 
+	if (SW_SWOK_ALL && SW_PWROK)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 
 
 }

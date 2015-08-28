@@ -858,6 +858,21 @@ void dostuff()
 
 	}
 	break;
+	case	8: //check switches
+	{
+		//this is badly coded because who cares
+
+		//Serial.println("Checking Switches");
+
+		Switch_goodness = Switch_init();
+
+		state = 0;
+		/*Serial.print("ind done");
+		Serial.println(state);
+		*/
+
+	}
+	break;
 	}
 }
 
@@ -907,6 +922,14 @@ void getCMD(char CMDIN)
 		if (state == 0) // if the system is idle ONLY
 		{
 			state = 7;
+		}
+		break;
+	}
+	case 'W': // check switch state
+	{
+		if (state == 0) // if the system is idle ONLY
+		{
+			state = 8;
 		}
 		break;
 	}

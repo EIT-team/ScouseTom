@@ -90,6 +90,18 @@ int PC_getsettings()
 				break;
 			}
 
+			//obtain the number of boards used - if greater than 40 then 2 boards, if greater than 80 3 etc.
+
+			NumBoard = NumElec / PinsPerBoard;
+			if (NumElec % PinsPerBoard)
+			{
+				NumBoard++;
+			}
+
+			TotalPins = PinsPerBoard * NumBoard;
+
+
+
 			//get number of frequencies
 			NumFreq = getasciinum();
 			sendasciinum(NumFreq);
