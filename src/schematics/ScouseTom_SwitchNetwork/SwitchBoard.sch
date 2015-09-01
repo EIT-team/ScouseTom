@@ -22276,7 +22276,8 @@ R1 = 5.5*R2 (3.2V LBO)</text>
 200k must be used so 1.88M needed
 Split into free components</text>
 <text x="-246.38" y="208.28" size="1.778" layer="91">NOT CHANGED THIS YET</text>
-<text x="-490.22" y="203.2" size="1.778" layer="91">2K R programs for 500mA output</text>
+<text x="-490.22" y="203.2" size="1.778" layer="91">2K R programs for 500mA output
+(i think this is most efficient)</text>
 <text x="-416.56" y="220.98" size="1.778" layer="91">DISCONNECT BATTERY FROM REGULATORS TO TURN SHIT OFF</text>
 </plain>
 <instances>
