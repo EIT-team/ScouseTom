@@ -91,6 +91,8 @@ int pulsesleft = 0; // number of pulses left to do - used in indpins_check
 int pulseleftptr = 0; // pointer for for loop in indpins_check, defined here for speed
 int indpulseson = 0; // are pulses active? this flag is used to prevent checking pulses left when we know there are none
 
+int iTrigChk = 0; //iteration of indicator pin check loop
+
 /*############ Stimulation Trigger stuff - consts in Stim.h ############*/
 
 long StimTriggerTime = 0; //time between stimulation triggers in microseconds
@@ -781,14 +783,23 @@ void dostuff()
 	break;
 	case	7: //check triggers
 	{
-		//this is badly coded because who cares
+		//this is badly coded because who cares...
 
-		indpins_pulse(50, 50, 50, 50);
-		delay(50); //make sure this finished before we do other stuff
-		state = 0;
-		/*Serial.print("ind done");
-		Serial.println(state);
-		*/
+		ind_high();
+		delayMicroseconds(TrigCheckHighTime);
+		ind_low();
+		delayMicroseconds(TrigCheckLowTime);
+
+		iTrigChk++;
+
+		if (iTrigChk >= MaxTrigCheckLoops)
+		{
+			iTrigChk = 0;
+			state = 0;
+			/*Serial.print("ind done");
+			Serial.println(state);
+			*/
+		}
 
 	}
 	break;

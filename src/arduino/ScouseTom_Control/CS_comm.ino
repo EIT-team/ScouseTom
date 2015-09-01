@@ -265,15 +265,8 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 
 	// Set compliance as we only need this one time
 
-	Serial1.println("SOUR:CURR:COMP 1.9");
+	goodnessflag = CS_SetCompliance(Compliance);
 
-
-	/*
-	if (goodnessflag == 0) // if bad comm then return and complain
-	{
-	Serial.print(CS_commerrmsg);
-	}
-	*/
 	return goodnessflag;
 }
 
@@ -489,6 +482,56 @@ int CS_checkresponse_num(long exp_num, long scale) {
 	return respflag;
 }
 
+
+int CS_CheckCompliance()
+{
+	/*Check the compliance status
+	Current Source Sends 16 bit register of status - we only want the 4th LSB which relates to compliance
+	This bit is 0 for OK, and 1 for bad
+
+	We want an OK flag (as this make more sense to me), so invert the logic at the end
+
+	*/
+
+
+	//Serial1.println("*CLS");
+
+	//read event register
+	CS_getresponse("STAT:MEAS:COND?");
+
+	// forth bit is complicance status 
+
+	//Serial.print("CS response is : ");
+	//Serial.println(CS_inputBuffer);
+
+	int MeasRegister = atoi(CS_inputBuffer);
+
+	//Serial.print("As an integer that is: ");
+	//Serial.println(MeasRegister);
+
+	int ComplianceFlag = bitRead(MeasRegister, 3);
+
+	//Serial.print("Therefore ComplianceFlag is: ");
+	//Serial.println(ComplianceFlag);
+
+	return !ComplianceFlag; //invert logic to make 1 ok
+
+
+}
+
+int CS_SetCompliance(int Compliance)
+{
+
+	int SetOk = 0;
+
+	sprintf(CS_outputBuffer, "SOUR:CURR:COMP %dE-3", Compliance); //set in mV so have to use E-3
+	Serial1.println(CS_outputBuffer); // send to CS
+	//Serial.println(CS_outputBuffer); //to pc for debug
+
+	CS_getresponse("SOUR:CURR:COMP?"); // check compliance is set ok set ok
+	SetOk = CS_checkresponse_num(Compliance, sc_milli); // Compliance in mV so set scale to sc_milli
+
+}
 
 
 

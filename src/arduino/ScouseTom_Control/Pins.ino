@@ -158,3 +158,31 @@ void indChnIdent() //pulses to send at start of injections to indicate which ind
 
 }
 
+void ind_low()
+{
+	//set all indicator pins low
+	digitalWriteDirect(IND_SWITCH, LOW);
+	digitalWriteDirect(IND_STIM, LOW);
+	digitalWriteDirect(IND_FREQ, LOW);
+	digitalWriteDirect(IND_START, LOW);
+	digitalWriteDirect(IND_STOP, LOW);
+	digitalWriteDirect(IND_EX_1, LOW);
+	digitalWriteDirect(IND_EX_2, LOW);
+	digitalWriteDirect(IND_EX_3, LOW);
+
+}
+
+void ind_high()
+{
+	//set all indicator pins high
+	digitalWriteDirect(IND_SWITCH, HIGH);
+	digitalWriteDirect(IND_STIM, HIGH);
+	digitalWriteDirect(IND_FREQ, HIGH);
+	digitalWriteDirect(IND_START, HIGH);
+	digitalWriteDirect(IND_STOP, HIGH);
+	digitalWriteDirect(IND_EX_1, HIGH);
+	digitalWriteDirect(IND_EX_2, HIGH);
+	digitalWriteDirect(IND_EX_3, HIGH);
+}
+
+

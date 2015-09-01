@@ -55,7 +55,7 @@ void setup() {
 
   int setok = 0;
 
-  setok=CS_SetComplicance(ComplianceSet);
+  setok=CS_SetCompliance(ComplianceSet);
 
   if (setok)
   {
@@ -172,7 +172,7 @@ int CS_CheckCompliance()
 
 }
 
-int CS_SetComplicance(int Compliance)
+int CS_SetCompliance(int Compliance)
 {
 
 	int SetOk = 0;

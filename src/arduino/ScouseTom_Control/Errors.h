@@ -11,6 +11,7 @@ const char CS_commerrmsg[] = "<!E>";
 const char CS_pmarkerrmsg[] = "<!P>";
 const char SW_pwrerrmsg[] = "<!Wp>";
 const char SW_switcherrmsg[] = "<!Ws>";
+const char CS_Complianceerrmsg[] = "<!C>";
 
 
 const char CS_commokmsg[] = "<+OK>";

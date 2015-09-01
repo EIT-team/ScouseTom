@@ -265,7 +265,7 @@ int SwitchCheckOpen(int BoardNum)
 	
 	if (initVal)
 	{
-		Serial.println("Wtf!? Switch already high");
+		//Serial.println("Wtf!? Switch already high");
 		return SwitchOK;
 	}
 

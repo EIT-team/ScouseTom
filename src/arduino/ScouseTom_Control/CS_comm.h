@@ -9,6 +9,9 @@ const byte CS_buffSize = 40; //size of char buffer to recieve from current sourc
 String CS_vers = "1999.0"; //Current source version number - used to check communication with current source
 const int CS_timeoutlimit = 1000; // timeout in milliseconds for response from current source
 const long sc_micro = 1000000; // scale for micro
+const long sc_milli = 1000; // scale for milliseconds
+
+int Compliance = 1900; // mV compliance setting for current source in mV - default is 1.9V for biosemi
 
 
 void CS_next_chn();
@@ -27,3 +30,5 @@ void CS_getmsg();
 void CS_getresponse(String Str_send);
 int CS_checkresponse(String Str_exp);
 int CS_checkresponse_num(long exp_num, long scale);
+int CS_CheckCompliance();
+int CS_SetCompliance(int Compliance);
