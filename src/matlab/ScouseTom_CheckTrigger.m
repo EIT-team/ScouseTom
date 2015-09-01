@@ -1,37 +1,24 @@
-function [ S,CurrentSource,ExpSetup ] = ScouseTom_CheckTrigger( S,CurrentSource,ExpSetup )
-%UNTITLED2 jsut starts the trigger going to make sure all is well
+function [Ard] = ScouseTom_CheckTrigger(Ard)
+%ScouseTom_CheckTrigger All 8 indicator pins go high for 1ms and low for
+%10ms 200 times (defined in pins.h) - use this to check if the connections are ok by looking at
+%biosemi screen
 %   Detailed explanation goes here
 
 
-TotalTime=100;
-
 %% START TRIGGER MOFO
 
+disp('Starting Indicator Pulses - MAKE SURE NOTHING IS ATTACHED TO STIMULATOR');
+pause(1)
+disp('Starting pulses');
  %start arduino going
-        fprintf(S,'S');
-        
-        %start timer
-        tstart=tic;
-        elapsedtime=0;
-        
-        % create box for stopping early
-        FS = stoploop('Trigger Is Running. Hit OK To stop early');
-        
-        
-        
-        while(~FS.Stop() &&  elapsedtime < TotalTime)
-            elapsedtime=toc(tstart);
-                      
-        end
-        
-        FS.Clear();
-        
- 
-    %Stop injecting and pause before changing Frequency/Amplitude
+fprintf(Ard,'T');
 
+%currently no output from arduino when done. so just wait
+pause(5);
 
+disp('Indicator Test finished');
+        
 
-fprintf(S,'H');
 
 
 

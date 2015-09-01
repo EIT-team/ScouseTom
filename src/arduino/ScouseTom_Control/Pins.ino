@@ -56,6 +56,7 @@ void reset_pins()
 	digitalWriteDirect(RESET, LOW);
 
 
+
 }
 
 void reset_ind()
@@ -66,9 +67,9 @@ void reset_ind()
 	digitalWriteDirect(IND_FREQ, LOW);
 	digitalWriteDirect(IND_START, LOW);
 	digitalWriteDirect(IND_STOP, LOW);
-
-	//digitalWriteDirect(LED, LOW);
-	//digitalWrite(fakepmarkpin, LOW);
+	digitalWriteDirect(IND_EX_1, LOW);
+	digitalWriteDirect(IND_EX_2, LOW);
+	digitalWriteDirect(IND_EX_3, LOW);
 }
 
 

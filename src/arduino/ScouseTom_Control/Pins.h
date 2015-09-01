@@ -13,7 +13,7 @@ const int NumInd = 4; // number of indicator pins - CHANGING THIS WOULD MEAN CHA
 const int indpins[NumInd] = { IND_START, IND_STOP, IND_SWITCH, IND_FREQ }; // pin numbers for the indicators
 
 
-const int TrigCheckHighTime = 1000; //us pins are high for in checking trigger
+const int TrigCheckHighTime = 2000; //us pins are high for in checking trigger
 const int TrigCheckLowTime = TrigCheckHighTime * 10; //us pins are LOW in checking trigger
 const int MaxTrigCheckLoops = 200; // number of times to run the trig check loop - i.e. how many times to pulse indicators before stopping
 

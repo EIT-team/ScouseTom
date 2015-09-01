@@ -530,7 +530,7 @@ int CS_SetCompliance(int Compliance)
 
 	CS_getresponse("SOUR:CURR:COMP?"); // check compliance is set ok set ok
 	SetOk = CS_checkresponse_num(Compliance, sc_milli); // Compliance in mV so set scale to sc_milli
-
+	return SetOk;
 }
 
 
