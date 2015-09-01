@@ -1,4 +1,7 @@
-/* Code to check compliance status 
+/* Code to check compliance status of current source
+
+Compliance status is checked every 10ms for 10S
+Connect current source across a resistor and disconnect and reconnect to see compliance status changed 
 
 */
 
@@ -23,6 +26,7 @@ char CS_finishedmsg[] = "<+Fin>";
 
 int CS_timeoutlimit = 1000; // timeout in milliseconds for response from current source
 const long sc_micro = 1000000; // scale for micro
+const long sc_milli = 1000; // scale for milliseconds
 char CS_outputBuffer[50]; // char array buffer for output strings to CS
 int CS_commgoodness = 1; // flag for current communication goodness
 
@@ -32,6 +36,8 @@ long Freq = 1000;
 
 int CompOK = 0;
 
+int ComplianceSet = 1900; // compliance in MV
+
 
 
 void setup() {
@@ -39,6 +45,31 @@ void setup() {
   Serial.begin(115200);
   Serial1.begin(57600);
   Serial.println("ScouseTom, checking compliance status");
+  Serial.println("Connect CS across a resistor and disconnect and reconnect to see compliance status change");
+ 
+
+  Serial.print("Setting Compliance to ");
+  Serial.print(ComplianceSet);
+  Serial.println("mV");
+  
+
+  int setok = 0;
+
+  setok=CS_SetComplicance(ComplianceSet);
+
+  if (setok)
+  {
+
+	  Serial.println("Compliance set ok");
+  }
+
+  else
+  {
+	  Serial.println("Compliance set WRONG");
+  }
+
+
+
   Serial.println("Sending settings ");
 
 
@@ -80,9 +111,15 @@ void setup() {
 
 	  //Serial.print("Complicance Status is now: ");
 	  Serial.print(CompOK);
+
+	  if (i > 1 && !(i % 20))
+	  {
+		  Serial.println("");
+	  }
+
   }
 
-  Serial.println("Stopping CUrrent source. Reset Ard if you wanna try again");
+  Serial.println("Stopping Current source. Reset Ard if you wanna try again");
   CS_stop();
 
   Serial.print("Time in us elapsed on average was: ");
@@ -101,7 +138,13 @@ void loop() {
 
 int CS_CheckCompliance()
 {
-	//check the compliance status 
+	/*Check the compliance status 
+	Current Source Sends 16 bit register of status - we only want the 4th LSB which relates to compliance
+	This bit is 0 for OK, and 1 for bad
+
+	We want an OK flag (as this make more sense to me), so invert the logic at the end
+
+	*/
 
 
 	//Serial1.println("*CLS");
@@ -124,10 +167,25 @@ int CS_CheckCompliance()
 	//Serial.print("Therefore ComplianceFlag is: ");
 	//Serial.println(ComplianceFlag);
 
-	return ComplianceFlag;
+	return !ComplianceFlag; //invert logic to make 1 ok
 
 
 }
+
+int CS_SetComplicance(int Compliance)
+{
+
+	int SetOk = 0;
+
+	sprintf(CS_outputBuffer, "SOUR:CURR:COMP %dE-3", Compliance); //set in mV so have to use E-3
+	Serial1.println(CS_outputBuffer); // send to CS
+	//Serial.println(CS_outputBuffer); //to pc for debug
+
+	CS_getresponse("SOUR:CURR:COMP?"); // check compliance is set ok set ok
+	 SetOk = CS_checkresponse_num(Compliance, sc_milli); // Compliance in mV so set scale to sc_milli
+
+}
+
 
 
 
