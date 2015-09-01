@@ -518,7 +518,10 @@ end
 
 fprintf(logfid,'Protocol loaded was %s with %d lines \n',ExpSetup.Info.ProtocolName,N_prt);
 fprintf(logfid,'Sources\tSinks\n');
-fprintf(logfid,'%d\t%d\n',ExpSetup.Protocol(:,1),ExpSetup.Protocol(:,2));
+
+for i =1:N_prt
+fprintf(logfid,'%d\t%d\n',ExpSetup.Protocol(i,1),ExpSetup.Protocol(i,2));
+end
 fprintf(logfid,'--------------\n');
 fprintf(logfid,'Number of repeats : %d \n',ExpSetup.Repeats);
 

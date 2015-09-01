@@ -1,9 +1,44 @@
-function [ goodnessflag,ExpSetup ] = ScouseTom_ValidateExpSetup( ExpSetup )
+function [ goodnessflag,ExpSetup ] = ScouseTom_ValidateExpSetup( ExpSetup,varargin )
 %ScouseTom_ValidateExpSetup Checks the settings in the ExpSetup structure
 %   Users can now edit the ExpSetup and resend settings without going
 %   through any of the settings dialogs, so need to check everything before
 %   we start
 
+%% check if the fields are actually there
+
+%legit_fields={'Amp', 'Freq', 'Protocol','Elec_num', 'MeasurementTime',...
+%    'Repeats','StimulatorTriggerTime','StimulatorTriggerOffset',...
+%    'StimulatorPulseWidth','ContactCheckInjectTime','ProtocolName',...
+%    'StimulatorVoltage','StimulatorWiperSetting'};
+
+legit_fields={'Amp', 'Freq', 'Protocol','Elec_num', 'MeasurementTime',...
+    'Repeats','StimulatorTriggerTime','StimulatorTriggerOffset',...
+    'StimulatorPulseWidth','ContactCheckInjectTime','StimulatorVoltage'};
+
+fieldsok=isfield(ExpSetup,legit_fields);
+
+if (~all(fieldsok))
+    warning('Ruhro! Missing fields in ExpSetup');
+    return
+end
+
+%% extra inputs
+
+if ~isempty(varargin)
+    
+    
+    if isnumeric(varargin{1})
+        ProtAdjust=varargin{1};
+    end
+else
+    ProtAdjust=[];
+end
+
+
+
+
+
+%% get some info first
 
 goodnessflag=0;
 
@@ -31,6 +66,10 @@ end
 
 maxInjections = 200;
 maxFreqs = 40;
+ChnPerBoard=32; % number of active channels per board - 32 for biosemi and actichamp
+
+
+
 
 if N_prt > maxInjections
     error(['Protocol is too long - max is ', num2str(maxInjections)]);
@@ -40,23 +79,6 @@ if N_freq > maxFreqs
     error(['Too many freqs - max is ', num2str(maxFreqs)]);
 end
 
-%% check if the fields are actually there
-
-%legit_fields={'Amp', 'Freq', 'Protocol','Elec_num', 'MeasurementTime',...
-%    'Repeats','StimulatorTriggerTime','StimulatorTriggerOffset',...
-%    'StimulatorPulseWidth','ContactCheckInjectTime','ProtocolName',...
-%    'StimulatorVoltage','StimulatorWiperSetting'};
-
-legit_fields={'Amp', 'Freq', 'Protocol','Elec_num', 'MeasurementTime',...
-    'Repeats','StimulatorTriggerTime','StimulatorTriggerOffset',...
-    'StimulatorPulseWidth','ContactCheckInjectTime','StimulatorVoltage'};
-
-fieldsok=isfield(ExpSetup,legit_fields);
-
-if (~all(fieldsok))
-    warning('Ruhro! Missing fields in ExpSetup');
-    return
-end
 
 %% check variables make sense - there is DEFINITELY a better way of doing this, like defining a parser or something
 
@@ -229,12 +251,21 @@ elseif ExpSetup.ContactCheckInjectTime < 5
     warning('You might be cutting it a bit fine with the ContactImpedanceTime !');
 end
 
+%% Remove bad electrodes from the protocol
+
+%make column vector
+ExpSetup.Bad_Elec=ExpSetup.Bad_Elec(:);
+
+
 
 %remove Bad electrodes from Protocol if any are set - create variable of
 %"full" protocol first
 
 if (isfield(ExpSetup,'Bad_Elec')) %if the field exists
     if ~isempty(ExpSetup.Bad_Elec) % and some bad ones have been enterred
+        
+        %sort and unique bad Elecs
+        ExpSetup.Bad_Elec=unique(ExpSetup.Bad_Elec);
         
         if isfield(ExpSetup.Info,'Protocol_Full') %if this is not the first time elecs have been removed from this protocol
             ExpSetup.Protocol=ExpSetup.Info.Protocol_Full; % retreve the unedited version
@@ -284,6 +315,117 @@ end
 
 
 
+%% check number of boards
+
+% keep the protocol variable unfucked with, and make Info.Protocol_Sent,
+% which is the one actually sent to Ard
+
+if ExpSetup.Elec_num > ChnPerBoard
+    %if we are using more than one board then check if user wants to adjust
+    %protocol lines when sending?
+    NumBoard=ceil(ExpSetup.Elec_num/ChnPerBoard);
+    
+    %for each board, add the channels which are not connected to Dsub to
+    %Bad Elec
+    
+    if isempty(ProtAdjust) %if user hasnt specified if we do this or not, ask
+        
+        
+        
+        % ask if user wants to change protocol
+        yesresp='YES! Adjust Prot';
+        noresp=({'NO! I have adjusted it myself';'or I want to inject where it cant be measured for some reason'});
+        titlestr='Do you want to adjust protocol?';
+        promptstr=sprintf('Elec_num %d needs %d boards of %d chn, but switchboards have 40 pins each\nDo you want to adjust the protocol before sending? So chn 33 becomes 41 i.e. pin 1 on Board 2?\nOriginal Protocol will be unchanged, but Info.Procotol_Sent adjusted, and chn 33-40 added to Bad_elec',ExpSetup.Elec_num,NumBoard,ChnPerBoard);
+        resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
+        
+        if isempty(resp) %if user quits dialogue then save in default
+            warning('User didnt say to adjust BUT GONNA GO IT ANYWAY');
+            ProtAdjust=1;
+        end
+        
+        
+        if strcmp(resp,yesresp) == 1
+            ProtAdjust=1;
+        else
+            ProtAdjust=0;
+        end
+        
+    end
+    
+    if ProtAdjust
+        
+        disp('User chose to adjust protocol');
+        
+        %Store originial Protocol
+        %       ExpSetup.Info.OriginalProtocol=ExpSetup.Protocol;
+        
+        %find which board each channel belongs to
+        PrtTmp=ExpSetup.Protocol-1;
+        PrtTmp=floor(PrtTmp./ChnPerBoard);
+        %find amount to adjust by - 40 pins per board sp for 32 chn biosemi
+        %this is 8 per board
+        PrtAdj=PrtTmp.*(40-ChnPerBoard);
+        
+        %add adjustment to protocol
+        ExpSetup.Info.Protocol_Sent=ExpSetup.Protocol+PrtAdj;
+        
+        %adjust the bad electrodes
+        tmpbadelec=ExpSetup.Bad_Elec-1;
+        tmpbadelec=floor(tmpbadelec./ChnPerBoard);
+        badelecadj=tmpbadelec.*(40-ChnPerBoard);
+        
+        ExpSetup.Info.Bad_Elec_Sent=ExpSetup.Bad_Elec+badelecadj;
+        
+        %add the non connected channels on the switchboard to the badelec
+        
+        %channels on each board which are bad
+        newbadelec=(33:40)';
+        
+        %this makes board multipler vector for each baord
+        badelecadj=repmat((0:NumBoard-1)*40,[length(newbadelec) 1]);
+        %adds it to the channel number
+        badelectmp = badelecadj+repmat(newbadelec,[1 NumBoard]);
+        %single vector of channels to add
+        badelectmp=badelectmp(:);
+        
+        %add them to the ones the user chose, and take only the unique ones
+        ExpSetup.Info.Bad_Elec_Sent=[ExpSetup.Info.Bad_Elec_Sent; badelectmp];
+        ExpSetup.Info.Bad_Elec_Sent=unique(ExpSetup.Info.Bad_Elec_Sent);
+    else
+        
+        disp('User chose NOT to adjust protocol');
+        
+        %do nothing if user does not want anything adjusted but bad elec
+        %*MUST* include the channels 37-40 as they connected to gnd and +5,
+        %so wierd shitwould happen
+        ExpSetup.Info.Protocol_Sent=ExpSetup.Protocol;
+        
+        
+        ExpSetup.Info.Bad_Elec_Sent=ExpSetup.Bad_Elec;
+        
+        %channels on each board which are
+        newbadelec=(38:40)';
+        
+        %this makes board multipler vector for each baord
+        badelecadj=repmat((0:NumBoard-1)*40,[length(newbadelec) 1]);
+        %adds it to the channel number
+        badelectmp = badelecadj+repmat(newbadelec,[1 NumBoard]);
+        %single vector of channels to add
+        badelectmp=badelectmp(:);
+        
+        %add them to the ones the user chose, and take only the unique ones
+        ExpSetup.Info.Bad_Elec_Sent=[ExpSetup.Info.Bad_Elec_Sent; badelectmp];
+        ExpSetup.Info.Bad_Elec_Sent=unique(ExpSetup.Info.Bad_Elec_Sent);
+        
+    end
+    
+else
+    %nothing is changed for only 1 board
+    ExpSetup.Info.Protocol_Sent=ExpSetup.Protocol;
+    ExpSetup.Info.Bad_Elec_Sent=ExpSetup.Bad_Elec;
+    
+end
 
 %% check amp and freqs for 60601
 
@@ -302,7 +444,7 @@ if ExpSetup.Info.Inj_Define_ms ==1
     
     disp('Injection time defined by milliseconds');
     
-    %if we are defining measurement time by milliseonds then check correct
+    %if we are defining measurement time by milliseconds then check correct
     %number is there and calc new cycles eq
     
     if N_freq == size(ExpSetup.MeasurementTime,1)
@@ -337,9 +479,6 @@ else
     
 end
 
-
-
-
 meas_temp=ScouseTom_cycles2ms(ExpSetup.Freq,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset);
 
 if ~all(meas_temp == ExpSetup.MeasurementTime)
@@ -355,6 +494,12 @@ end
 
 %% Update Info Struct
 
+
+%update the number of lines in protocol - this is different after
+%adjustment for bad elecs
+N_prt = size(ExpSetup.Protocol,1);
+
+
 %user can edit ExpSetup on the Fly, so make sure ExpSetup.Info relates to
 %the ExpSetup as it ACTUALLY IS
 
@@ -362,9 +507,6 @@ ExpSetup.Info.ProtocolLength=N_prt;
 ExpSetup.Info.FreqNum=N_freq;
 ExpSetup.Info.ProtocolTime=sum(N_prt*(ExpSetup.MeasurementTime/1000)); %time in seconds for one complete protocol
 ExpSetup.Info.TotalTime=ExpSetup.Repeats*ExpSetup.Info.ProtocolTime;
-
-
-
 
 %write debug string
 ExpSetup.Info.DebugString=ScouseTom_debugstring(ExpSetup);
@@ -406,8 +548,11 @@ end
 
 fprintf('Protocol loaded was %s with %d lines \n',ExpSetup.Info.ProtocolName,N_prt);
 fprintf('Sources\tSinks\n');
-fprintf('%d\t\t%d\n',ExpSetup.Protocol(:,1),ExpSetup.Protocol(:,2));
 
+for i =1:N_prt
+
+fprintf('%d\t\t%d\n',ExpSetup.Protocol(i,1),ExpSetup.Protocol(i,2));
+end
 fprintf('--------------\n');
 fprintf('Number of repeats : %d \n',ExpSetup.Repeats);
 

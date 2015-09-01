@@ -19,10 +19,10 @@ dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.StimulatorWiperSetting)];
 
 
 for nn=1:ExpSetup.Info.ProtocolLength
-    dbstring=[dbstring sprintf('<%d>',ExpSetup.Protocol(nn,1))];
+    dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.Protocol_Sent(nn,1))];
 end
 for nn=1:ExpSetup.Info.ProtocolLength
-    dbstring=[dbstring sprintf('<%d>',ExpSetup.Protocol(nn,2))];
+    dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.Protocol_Sent(nn,2))];
 end
 
 for nn=1:ExpSetup.Info.FreqNum
@@ -36,15 +36,15 @@ for nn=1:ExpSetup.Info.FreqNum
 end
 
 
-if ~(isfield(ExpSetup,'Bad_Elec')) %if the field does not exist
+if ~(isfield(ExpSetup.Info,'Bad_Elec_Sent')) %if the field does not exist
     dbstring=[dbstring sprintf('<%d>',0)];
 else
-    if isempty(ExpSetup.Bad_Elec) % and some bad ones have been enterred
+    if isempty(ExpSetup.Info.Bad_Elec_Sent) % and some bad ones have been enterred
     dbstring=[dbstring sprintf('<%d>',0)];
     else
-            dbstring=[dbstring sprintf('<%d>',length(ExpSetup.Bad_Elec))];
-    for nn=1:length(ExpSetup.Bad_Elec)
-        dbstring=[dbstring sprintf('<%d>',ExpSetup.Bad_Elec(nn))];
+            dbstring=[dbstring sprintf('<%d>',length(ExpSetup.Info.Bad_Elec_Sent))];
+    for nn=1:length(ExpSetup.Info.Bad_Elec_Sent)
+        dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.Bad_Elec_Sent(nn))];
     end
     end
 end
