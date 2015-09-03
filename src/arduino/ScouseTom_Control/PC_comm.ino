@@ -578,3 +578,20 @@ void PC_sendphaseupdate() //send the array of phases indicating what freq this c
 	sprintf(PC_outputBuffer, "%d%c", Stim_phases[Stim_PhaseOrder[NumDelay-1]], endOfNumberDelimiter); // send last freq order and end delim
 	Serial.print(PC_outputBuffer);
 }
+
+void PC_sendcomplianceupdate() //send the compliance status integers to PC to read 
+{
+	//lazy way of doing it 
+	sprintf(PC_outputBuffer, "%c%c", startOfNumberDelimiter, ComplianceStatusIndicator); //do firsttwo properly
+	Serial.print(PC_outputBuffer);
+
+	//do rest with cheese!
+	for (int i = 0; i < CompMaskNum - 1; i++)
+	{
+		sprintf(PC_outputBuffer, "%u%c", CompBitMask[i], OrderDelimiter); // do each #, at a time...(i did this as i didnt know how to make buffer all at once
+		Serial.print(PC_outputBuffer);
+	}
+	//do last one without comma but end thing
+	sprintf(PC_outputBuffer, "%u%c", CompBitMask[CompMaskNum - 1], endOfNumberDelimiter); // send last freq order and end delim
+	Serial.print(PC_outputBuffer);
+}

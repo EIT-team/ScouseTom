@@ -2,7 +2,7 @@
  * Pins.h
  *
  *  Created on: 29 May 2015
- *      Author: raquel
+ *      Author: James
  */
 
 

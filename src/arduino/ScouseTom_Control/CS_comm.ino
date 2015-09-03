@@ -483,18 +483,13 @@ int CS_checkresponse_num(long exp_num, long scale) {
 }
 
 
-int CS_CheckCompliance()
+boolean CS_CheckCompliance()
 {
 	/*Check the compliance status
 	Current Source Sends 16 bit register of status - we only want the 4th LSB which relates to compliance
-	This bit is 0 for OK, and 1 for bad
-
-	We want an OK flag (as this make more sense to me), so invert the logic at the end
+	This bit is 0 for OK, and 1 for bad which is what we want
 
 	*/
-
-
-	//Serial1.println("*CLS");
 
 	//read event register
 	CS_getresponse("STAT:MEAS:COND?");
@@ -509,18 +504,22 @@ int CS_CheckCompliance()
 	//Serial.print("As an integer that is: ");
 	//Serial.println(MeasRegister);
 
-	int ComplianceFlag = bitRead(MeasRegister, 3);
+	boolean ComplianceFlag = bitRead(MeasRegister, 3);
 
 	//Serial.print("Therefore ComplianceFlag is: ");
 	//Serial.println(ComplianceFlag);
 
-	return !ComplianceFlag; //invert logic to make 1 ok
+	return ComplianceFlag;
 
 
 }
 
 int CS_SetCompliance(int Compliance)
 {
+	/*
+	Set the compliance of the current source to a given mV value, and check it was set ok
+	*/
+
 
 	int SetOk = 0;
 

@@ -30,5 +30,5 @@ void CS_getmsg();
 void CS_getresponse(String Str_send);
 int CS_checkresponse(String Str_exp);
 int CS_checkresponse_num(long exp_num, long scale);
-int CS_CheckCompliance();
+boolean CS_CheckCompliance();
 int CS_SetCompliance(int Compliance);

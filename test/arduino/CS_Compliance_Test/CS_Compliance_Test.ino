@@ -44,7 +44,7 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial1.begin(57600);
-  Serial.println("ScouseTom, checking compliance status");
+  Serial.println("ScouseTom, checking compliance status - 0 is good, 1 is bad");
   Serial.println("Connect CS across a resistor and disconnect and reconnect to see compliance status change");
  
 
@@ -142,8 +142,6 @@ int CS_CheckCompliance()
 	Current Source Sends 16 bit register of status - we only want the 4th LSB which relates to compliance
 	This bit is 0 for OK, and 1 for bad
 
-	We want an OK flag (as this make more sense to me), so invert the logic at the end
-
 	*/
 
 
@@ -167,7 +165,7 @@ int CS_CheckCompliance()
 	//Serial.print("Therefore ComplianceFlag is: ");
 	//Serial.println(ComplianceFlag);
 
-	return !ComplianceFlag; //invert logic to make 1 ok
+	return ComplianceFlag; 
 
 
 }

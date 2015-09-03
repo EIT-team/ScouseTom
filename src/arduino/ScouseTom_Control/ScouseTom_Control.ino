@@ -39,6 +39,7 @@ Jimmy wrote this so blame him
 #include "Messages.h" // OK messages and other misc. things
 #include "System_Control.h" //control constants - idle time definition etc.
 #include "Injection.h" // injection defaults - max number of protocol lines etc.
+#include "Compliance.h" // compliance check defaults and consts
 
 /*############ CS Communications stuff - consts in CS_Comm.h ############*/
 
@@ -61,9 +62,12 @@ int NumFreq = 0; // number of frequencies (and corresponding amplitudes) to use 
 int NumElec = 0; // number of electrodes used - this is used in contact check at the moment, but likely used for dual systems too
 int NumRep = 0; // number of time whole protocol is repeated - total recording time is MeasTime*NumFreq*NumRep
 
+int curNumRep = 0; //current number of repeats - this is either NumRep for normal recording, or set to 1 by compliance check
+
 long  Amp[maxFreqs] = { 0 }; //amplitude in uA - container for max 20
 long  Freq[maxFreqs] = { 0 }; //freq in Hz - contaier for max 20 set in
 long MeasTime[maxFreqs] = { 0 }; //injection time in microseconds - set by user (USER SELECTS MILLISECONDS BUT SCALED IN MICROSECONDS AS DUE IS FASTER)
+long curMeasTime = 0; // current measurement time changed by compliance check, or one of the MeasTime vars 
 
 int FreqOrder[maxFreqs] = { 0 }; // order of the frequencies - initilised
 long curFreq = 0; // index of frequency vector current being injected
@@ -121,6 +125,18 @@ int CS_Pmarkgoodness = 0; // flag to confirm Phasemarker has been checked ok
 /*########### Stimulation Voltage stuff - consts in Stim.h ############*/
 
 int StimWiperValue = 0; // Wiper position for setting voltage of stimulation - must be 0-256 although usable range is between 215 and 250 with 215 approx 10V and 250 ~3V
+
+/*########### Compliance Check stuff  ############*/
+
+
+int curComplianceCheckOffset = 0; // current offset for checking compliance - this is set either by compliance check, or when starting normal injection
+
+int ComplianceCheckMode = 0; // flag for whether we are in compliance check mode - this is used to decide which state to go back to after stopping injection
+int iCompCheck = 0; // counter for compliance value iteration
+int iCompCheckFreq = 0; // counter for frequency used in compliance check
+
+unsigned long CompBitMask[CompMaskNum] = { 0 }; // 8 32 bit masks for the high or low bits for the compliance status of that protocol line. This prevents saving 245 8bit boolean types
+
 
 /*########### System Control stuff - consts in System_Control.h ############*/
 
@@ -256,6 +272,29 @@ void setup() {
 	
 
 
+	// fuckery #################################
+	
+	boolean comtmp = 0;
+
+	comtmp = CompStatusReadAll();
+	Serial.print("comptmp is: ");
+	Serial.println(comtmp);
+
+
+	CS_sendsettings(100, 1000);
+	CS_start();
+	delay(1000);
+	
+	CompProcessSingle(1);
+	//CompStatusWrite(1, 1);
+
+	comtmp = CompStatusReadAll();
+	Serial.print("comptmp is: ");
+	Serial.println(comtmp);
+
+	CS_stop();
+
+
 }
 
 void loop() {
@@ -354,6 +393,11 @@ void dostuff()
 			iRep = 0;
 			iStim = 0;
 
+			//set variables based on values sent by user
+			curMeasTime = MeasTime[0];
+			curNumRep = NumRep;
+			curComplianceCheckOffset = curMeasTime / 2; //check for compliance half way through injection THIS ASSUMES INJECTION TIME IS AT LEAST 6ms AS IT TAKES 3ms TO CHECK COMPLIANCE
+
 			state = 2; //move to injecting state next loop
 			FirstInj = 1; // flag that we are on the first injection
 			SwitchesProgrammed = 0; // show that switches are not set
@@ -362,12 +406,7 @@ void dostuff()
 			{
 				CS_commgoodness = CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
 
-				/* do this in the first iteration of the inject state - so the communication order the is the same!
-				if (StimMode && CS_commgoodness) // initialise stimulator trigger if we are in stim mode
-				{
-				CS_commgoodness = stim_init(Freq[iFreq]);
-				}
-				*/
+
 
 				if (!CS_commgoodness)
 				{
@@ -459,7 +498,7 @@ void dostuff()
 
 				//display some stuff on the front
 				CS_Disp("EIT is happening...");
-				CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, NumRep);
+				CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, curNumRep);
 
 				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
 
@@ -489,26 +528,39 @@ void dostuff()
 				}
 
 
-				//Serial.println("Starting SingleInject");
+				
 			}
 			else //if its not the first time, then see if we need to switch by checking time
 			{
 				currentMicros = micros();
 				//Serial.println(currentMicros);
-				if ((currentMicros - lastInjSwitch) > (MeasTime[0] /*- SwitchTimeFix */)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
+				if ((currentMicros - lastInjSwitch) > (curMeasTime))
 				{
 					Switchflag = 1; // if it is time to switch then set it to do that!
 					/*sprintf(PC_outputBuffer, "Switch: %d", currentMicros - lastInjSwitch);
 					Serial.println(PC_outputBuffer);*/
 				}
-				else if ((currentMicros - lastStimTrigger) > (StimTriggerTime + StimOffsetCurrent) && StimMode) // if after offset aND we are in stim mode then
+				else // if it is not time to switch, then only do one of these with stim taking priority - im sorry for all the nested loops
 				{
-					Stimflag = 1;
-					digitalWriteDirect(PWR_STIM, HIGH); //turn off stimulator power supply
 
-					/*sprintf(PC_outputBuffer, "Stim: %d", currentMicros - lastInjSwitch);
-					Serial.println(PC_outputBuffer);*/
+					if ((currentMicros - lastStimTrigger) > (StimTriggerTime + StimOffsetCurrent) && StimMode) // if after offset aND we are in stim mode then
+					{
+						Stimflag = 1;
+						digitalWriteDirect(PWR_STIM, HIGH); //turn off stimulator power supply
+
+						/*sprintf(PC_outputBuffer, "Stim: %d", currentMicros - lastInjSwitch);
+						Serial.println(PC_outputBuffer);*/
+					}
+					else if ((currentMicros - lastInjSwitch) > (curComplianceCheckOffset))
+					{
+						//check the compliance and do stuff based on the result
+						CompProcessSingle(iPrt);
+
+					}
+
 				}
+
+
 			}
 
 
@@ -526,7 +578,7 @@ void dostuff()
 
 			if (Switchflag) // if we have been told to switch
 			{
-				if (iRep == NumRep) // if we have reached the total number of injections
+				if (iRep == curNumRep) // if we have reached the total number of injections
 				{
 					state = 3; // do stop command
 				}
@@ -541,11 +593,12 @@ void dostuff()
 
 				// indicator and stimulation things here too!!!!!!!
 
-				if (iPrt == 0 && iRep > 0 && iRep < NumRep) // if we have a new thing to display then update
+				if (iPrt == 0 && iRep > 0 && iRep < curNumRep) // if we have a new thing to display then update
 				{
-					CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, NumRep);
+					CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, curNumRep);
 
-					PC_sendupdate();
+					PC_sendupdate(); // send info to PC
+					CompProcessMulti();// send compliance status to PC
 				}
 				Switchflag = 0;
 				Stimflag = 0;
@@ -603,7 +656,7 @@ void dostuff()
 			if (Switchflag) //if we have been told to switch then...
 			{
 				//Serial.println("doing switchflag stuff");
-				if (iRep == NumRep) //if total number of repetitions have been reached then stop this madness
+				if (iRep == curNumRep) //if total number of repetitions have been reached then stop this madness
 				{
 					state = 3;
 				}
@@ -647,8 +700,19 @@ void dostuff()
 
 		reset_pins(); //over the top but reset all of the switches again
 
-		state = 0;
-		checkidle = 1;
+		CompStatusReset(); //put all compliance status back to low
+
+
+		if (!ComplianceCheckMode) //if we are NOT doing a compliance check
+		{
+			//then go back to idle like normal
+			state = 0;
+			checkidle = 1;
+		}
+		else
+		{
+			//HERE IS WHERE WE GO BACK TO COMPLIANCE CHECK STATE!!!
+		}
 
 	}
 
@@ -884,6 +948,22 @@ void dostuff()
 
 	}
 	break;
+	case	9: //start compliance check
+	{
+		/*
+		
+		copy start inject but
+
+		set curMeasTime
+		
+		
+		*/
+
+	}
+	break;
+
+
+
 	}
 }
 
