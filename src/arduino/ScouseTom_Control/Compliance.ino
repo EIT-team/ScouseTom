@@ -15,12 +15,6 @@ bool CompStatusRead(int i)
 void CompStatusWrite(int i, bool valin)
 {
 
-	/*write the bit into the correct bit mask
-
-	The first 32 compliance status go in CompBitMask[0] from 0 to 31 bitwise
-
-	*/
-
 	if (i < maxInjections)
 	{
 		int MaskNum = i / 32;
@@ -99,14 +93,6 @@ void CompProcessSingle(int ProtocolLine)
 
 void CompProcessMulti()
 {
-	/*Checks whole compliance status for whole repetiton of protocol 
-	
-	if there is a bad one then it sends the status to the PC - if in compliance check mode then this does it anyway
-
-	If no bad ones then it puts the indicator pin low
-	
-	*/
-
 	Serial.println("checking all...");
 
 
