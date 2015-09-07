@@ -137,6 +137,13 @@ int iCompCheckFreq = 0; // counter for frequency used in compliance check
 
 unsigned long CompBitMask[CompMaskNum] = { 0 }; // 8 32 bit masks for the high or low bits for the compliance status of that protocol line. This prevents saving 245 8bit boolean types
 
+int CompCheckFlag = 0; //flag in switch loop if we need to check compliance or not - saved checking it a million timmes
+
+int CompFreqModeBackUp = 0; // back up of freq mode - comp check always in single freq mode inject
+int CompStimModeBackup = 0; //back up of stim mode - not needed during compliance hcek
+
+int FirstCompCheck = 0; // flag for whether we have done the first check
+int curCompliance = 0; // the compliance currently in use
 
 /*########### System Control stuff - consts in System_Control.h ############*/
 
@@ -269,11 +276,11 @@ void setup() {
 	/*#############Switch INIT#############*/
 
 	Switch_goodness = Switch_init();
-	
+
 
 
 	// fuckery #################################
-	
+	/*
 	boolean comtmp = 0;
 
 	comtmp = CompStatusReadAll();
@@ -284,7 +291,7 @@ void setup() {
 	CS_sendsettings(100, 1000);
 	CS_start();
 	delay(1000);
-	
+
 	CompProcessSingle(1);
 	//CompStatusWrite(1, 1);
 
@@ -293,7 +300,7 @@ void setup() {
 	Serial.println(comtmp);
 
 	CS_stop();
-
+	*/
 
 }
 
@@ -386,7 +393,7 @@ void dostuff()
 			//pulse pins different amounts so we can find them in the EEG loading
 			indChnIdent();
 
-			
+
 			//reset all counters
 			iFreq = 0;
 			iPrt = 0;
@@ -489,7 +496,6 @@ void dostuff()
 
 				///* debug trig */indpins_pulse(0, 0, 0, 1);
 
-
 				//start current source
 				StartTime_CS = micros();
 				CS_start();
@@ -503,7 +509,6 @@ void dostuff()
 				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
 
 				lastInjSwitch = micros(); //start timer
-
 
 				PC_sendupdate(); //send stuff to PC
 
@@ -528,7 +533,7 @@ void dostuff()
 				}
 
 
-				
+
 			}
 			else //if its not the first time, then see if we need to switch by checking time
 			{
@@ -551,10 +556,16 @@ void dostuff()
 						/*sprintf(PC_outputBuffer, "Stim: %d", currentMicros - lastInjSwitch);
 						Serial.println(PC_outputBuffer);*/
 					}
-					else if ((currentMicros - lastInjSwitch) > (curComplianceCheckOffset))
+					else if ((currentMicros - lastInjSwitch) > (curComplianceCheckOffset) && CompCheckFlag)
 					{
 						//check the compliance and do stuff based on the result
-						CompProcessSingle(iPrt);
+						//The iPrt counter is incremted when switching, thus the result needs to go into iPrt-1
+
+						int CurrentPrt = iPrt - 1;
+						if (CurrentPrt < 0) CurrentPrt = NumInj - 1;
+
+						CompProcessSingle(CurrentPrt);
+						CompCheckFlag = 0;
 
 					}
 
@@ -593,7 +604,7 @@ void dostuff()
 
 				// indicator and stimulation things here too!!!!!!!
 
-				if (iPrt == 0 && iRep > 0 && iRep < curNumRep) // if we have a new thing to display then update
+				if (iPrt == 1 && iRep > 0 && iRep < curNumRep) // if we have a new thing to display then update
 				{
 					CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, curNumRep);
 
@@ -602,6 +613,7 @@ void dostuff()
 				}
 				Switchflag = 0;
 				Stimflag = 0;
+				CompCheckFlag = 1;
 			}
 		}
 		else //MULTIFREQUENCY MODE
@@ -621,7 +633,7 @@ void dostuff()
 				PC_sendupdate();
 
 				delayMicroseconds(5000);//added delay here as startpulse below was happening so quickly after indChnIdent() at start, the start pulse was merging with the ID pulses! This took *way* too long to debug
-				
+
 				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
 				//turn on power to switches
 				SwitchesPwrOn();
@@ -699,19 +711,22 @@ void dostuff()
 		Serial.print(CS_finishedmsg);
 
 		reset_pins(); //over the top but reset all of the switches again
-
-		CompStatusReset(); //put all compliance status back to low
-
-
+		digitalWriteDirect(IND_EX_1, LOW); //put the compliance flag to low
 		if (!ComplianceCheckMode) //if we are NOT doing a compliance check
 		{
 			//then go back to idle like normal
+			CompStatusReset(); //put all compliance status back to low
 			state = 0;
 			checkidle = 1;
 		}
 		else
 		{
 			//HERE IS WHERE WE GO BACK TO COMPLIANCE CHECK STATE!!!
+
+			//Serial.println("finished injecting, back to compliance state");
+			state = 9;
+
+
 		}
 
 	}
@@ -951,13 +966,153 @@ void dostuff()
 	case	9: //start compliance check
 	{
 		/*
-		
+
 		copy start inject but
 
 		set curMeasTime
-		
-		
+
+
 		*/
+		
+		//Serial.println("Comp Check mode!");
+
+		if (FirstCompCheck && PC_inputgoodness && CS_commgoodness) // only do anything if settings are ok
+		{
+			//save the previous variables to not break anything
+
+			//Serial.println("Doing first things");
+
+			CompFreqModeBackUp = SingleFreqMode;
+			CompStimModeBackup = StimMode;
+
+			FirstCompCheck = 0;
+			iCompCheckFreq = 0;
+			iCompCheck = 0;
+
+			Serial.print(Complianceokmsg);
+
+			sendasciinum(CompCheckNum);
+			sendasciinum(NumFreq);
+
+		}
+		else
+		{
+			//Serial.println("Lets see what the compliance was shall we?");
+			PC_sendcomplianceupdate();
+			//send info about that checks
+			sendasciinum(iCompCheck+1);
+			sendasciinum(iCompCheckFreq);
+			sendasciinum(curCompliance);
+		}
+
+		//check if we need to do a comp check and set iComp and icompfreq here, or reset
+
+		if (iCompCheckFreq == NumFreq) // if we have done all the freqs we need then move to next compliance value
+		{
+			iCompCheck++;
+			iCompCheckFreq = 0;
+		}
+
+
+		if (iCompCheck == CompCheckNum) // if we have done all the compliance values we need then stop and reset
+		{
+			
+			//Serial.println("We are done checking compliance");
+			Serial.print(Complianceokmsg);
+			ComplianceCheckMode = 0; 
+			state = 0; // dont start injection if things are fucked
+			ResetAfterCompliance();
+			checkidle=1;	
+
+		}
+		else
+		{
+			ComplianceCheckMode = 1;
+
+			//if we ARE doing something, then do all this:
+
+			/*Serial.print("Checking Compliance Value : ");
+			Serial.println(iCompCheck);
+			Serial.print("For Freq Number :");
+			Serial.println(iCompCheckFreq);
+			*/
+
+			Serial.print(CS_commokmsg); // send ok msg to pc
+
+			//pulse pins different amounts so we can find them in the EEG loading
+			indChnIdent();
+
+
+			//reset all counters
+			iFreq = iCompCheckFreq;
+			iPrt = 0;
+			iRep = 0;
+			iStim = 0;
+
+			//set variables for compliance check only
+			curMeasTime = ComplianceCheckMeasTime;
+			curNumRep = 2;
+			curComplianceCheckOffset = ComplianceCheckOffset; //check for compliance half way through injection THIS ASSUMES INJECTION TIME IS AT LEAST 6ms AS IT TAKES 3ms TO CHECK COMPLIANCE
+
+			state = 2; //move to injecting state next loop
+			FirstInj = 1; // flag that we are on the first injection
+			SwitchesProgrammed = 0; // show that switches are not set
+
+			//force only 1 freq and no stim 
+			SingleFreqMode = 1;
+			StimMode = 0;
+
+			//set the compliance
+
+			curCompliance = Compliance * ComplianceScaleFactors[iCompCheck];
+
+			//Serial.print("Setting Compliance to: ");
+			//Serial.println(curCompliance);
+
+			bool compsetok = 0;
+
+			compsetok = CS_SetCompliance(curCompliance);
+
+			if (!compsetok)
+			{
+				//Serial.println("Comp Set Problem");
+			}
+
+			/*Serial.print("setting Freq to: ");
+			Serial.println(Freq[iFreq]);
+			*/
+			CS_commgoodness = CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
+
+
+
+			if (!CS_commgoodness)
+			{
+				state = 0; // dont start injection if things are fucked
+				checkidle = 1;
+				ResetAfterCompliance();
+				Serial.print(CS_commerrmsg);
+				CS_Disp("CS SET ERROR");
+				CS_Disp_Wind2("NOOOOOOOOOOOO");
+			}
+			else
+			{
+				// everything is ok - lets inject!
+				Serial.print(CS_commokmsg);
+				// turn on switches ready for injecting and that
+				SwitchesPwrOn();
+
+				//Serial.println("Switches POWERED ON");
+				delay(50);
+
+				//update compliance counter
+				iCompCheckFreq++;
+
+
+
+			}
+
+
+		}
 
 	}
 	break;
@@ -981,6 +1136,10 @@ void getCMD(char CMDIN)
 		if (state != 0) // if system is NOT idle
 		{
 			state = 3;
+			if (ComplianceCheckMode)
+			{
+				iCompCheck = CompCheckNum; // this is so the compliance check still ends properly
+			}
 		}
 		break;
 	}
@@ -1021,6 +1180,15 @@ void getCMD(char CMDIN)
 		if (state == 0) // if the system is idle ONLY
 		{
 			state = 8;
+		}
+		break;
+	}
+	case 'L': // check compliance state
+	{
+		if (state == 0) // if the system is idle ONLY
+		{
+			state = 9;
+			FirstCompCheck = 1;
 		}
 		break;
 	}

@@ -291,7 +291,7 @@ else
     fprintf('This should take about %.1f minutes\n',ExpSetup.Info.TotalTime/60);
 end
 
-
+%% Main Loop
 % create box for stopping early
 FS = stoploop('Injection is happening as we speak. Hit button to stop it early if you want...');
 
@@ -310,7 +310,7 @@ while(~FS.Stop() &&  ~Finished)
         
         %disp(['string in was: ', instr]);
         
-        [cmd,dataout,outstr]=parseinput(instr); %read the data from the input string
+        [cmd,dataout,outstr]=ScouseTom_ard_parseinput(instr); %read the data from the input string
         writelogArd(logfid,tstart,outstr);
         
         switch cmd
@@ -355,6 +355,11 @@ while(~FS.Stop() &&  ~Finished)
                 else % different freqs might have different number of potential phases so must be stored in cell
                     matlog.PhaseOrder(CurrentRep,CurrentPrt,CurrentPhase)={PhaseOrder};
                 end
+            case 6 % Compliance Warning
+                [CompBad,CompBadArray]=ScouseTom_ard_complianceprocess(outstr,N_prt);
+                
+                fprintf('RUHRO!!! COMPLIANCE OUT OF RANGE on %d of %d protocol lines!!!WTF\n',CompBad,N_prt);
+                
                 
         end
         
@@ -562,88 +567,88 @@ fprintf(logfid,'##\n');
 fprintf(logfid,'Time\tArduino Message\tPC Message\n');
 end
 
-
-
-function [cmd,dataout,outstr]=parseinput(instr)
-%this parses the inputs from the arduino - sent using the PC_update
-%function on the ard.
-
-
-%expected stuff:
-
-Error_prefix='!';
-Message_prefix='+';
-
-Repeat_prefix='R';
-Prt_prefix='P';
-Freqord_prefix='O';
-Phaseord_prefix='D';
-
-
-CScommerrmsg='!E';
-CSsettingserrmsg='!S';
-CScommOKmsg='+OK';
-CSfinishmsg='+Fin';
-
-%characters srrounding number
-startchar='<';
-endchar='>';
-
-
-start_idx=strfind(instr,startchar);
-end_idx=strfind(instr,endchar);
-outstr=instr(start_idx+1:end_idx-1);
-
-cmd=instr(start_idx+1); %get the first "command" character
-
-%the rest is the data, either a sring for the errors and ok flags, or a
-%single number for repeat and protocol, or comma separated array for freq
-%order and phase order
-datastr=instr(start_idx+2:end_idx-1);
-
-% disp(['cmd is ' cmd]);
-% disp(['datastr is ' datastr]);
-
-
-switch cmd
-    case Error_prefix % error!
-        cmd=-1;
-        dataout=-1;
-    case Message_prefix % ok message
-        if strcmp([cmd datastr],CScommOKmsg) %comm ok
-            cmd=0;
-            dataout=0;
-        else if strcmp([cmd datastr],CSfinishmsg) %finished inj
-                cmd=1;
-                dataout=1;
-            end
-        end
-    case Repeat_prefix % new repeat num
-        cmd=2;
-        dataout=sscanf(datastr,'%d');
-    case Prt_prefix % new prot line num
-        cmd=3;
-        dataout=sscanf(datastr,'%d');
-    case Freqord_prefix % new freq order array
-        cmd=4;
-        tmp=textscan(datastr,'%d','delimiter',',');
-        dataout=double(tmp{1}');
-    case Phaseord_prefix % new phase order array
-        cmd=5;
-        tmp=textscan(datastr,'%d','delimiter',',');
-        dataout=double(tmp{1}');
-    otherwise
-        cmd=-99;
-        dataout=-99;
-        
-end
-
-
-end
-
-
-
-
+% 
+% 
+% function [cmd,dataout,outstr]=parseinput(instr)
+% %this parses the inputs from the arduino - sent using the PC_update
+% %function on the ard.
+% 
+% 
+% %expected stuff:
+% 
+% Error_prefix='!';
+% Message_prefix='+';
+% 
+% Repeat_prefix='R';
+% Prt_prefix='P';
+% Freqord_prefix='O';
+% Phaseord_prefix='D';
+% 
+% 
+% CScommerrmsg='!E';
+% CSsettingserrmsg='!S';
+% CScommOKmsg='+OK';
+% CSfinishmsg='+Fin';
+% 
+% %characters srrounding number
+% startchar='<';
+% endchar='>';
+% 
+% 
+% start_idx=strfind(instr,startchar);
+% end_idx=strfind(instr,endchar);
+% outstr=instr(start_idx+1:end_idx-1);
+% 
+% cmd=instr(start_idx+1); %get the first "command" character
+% 
+% %the rest is the data, either a sring for the errors and ok flags, or a
+% %single number for repeat and protocol, or comma separated array for freq
+% %order and phase order
+% datastr=instr(start_idx+2:end_idx-1);
+% 
+% % disp(['cmd is ' cmd]);
+% % disp(['datastr is ' datastr]);
+% 
+% 
+% switch cmd
+%     case Error_prefix % error!
+%         cmd=-1;
+%         dataout=-1;
+%     case Message_prefix % ok message
+%         if strcmp([cmd datastr],CScommOKmsg) %comm ok
+%             cmd=0;
+%             dataout=0;
+%         else if strcmp([cmd datastr],CSfinishmsg) %finished inj
+%                 cmd=1;
+%                 dataout=1;
+%             end
+%         end
+%     case Repeat_prefix % new repeat num
+%         cmd=2;
+%         dataout=sscanf(datastr,'%d');
+%     case Prt_prefix % new prot line num
+%         cmd=3;
+%         dataout=sscanf(datastr,'%d');
+%     case Freqord_prefix % new freq order array
+%         cmd=4;
+%         tmp=textscan(datastr,'%d','delimiter',',');
+%         dataout=double(tmp{1}');
+%     case Phaseord_prefix % new phase order array
+%         cmd=5;
+%         tmp=textscan(datastr,'%d','delimiter',',');
+%         dataout=double(tmp{1}');
+%     otherwise
+%         cmd=-99;
+%         dataout=-99;
+%         
+% end
+% 
+% 
+% end
+% 
+% 
+% 
+% 
 
 
 

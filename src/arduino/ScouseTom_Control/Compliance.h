@@ -1,8 +1,9 @@
 
 
-const int ComplianceCheckMeasTime = 20 * 1000; //time in us for each compliance check injection
-const int ComplianceCheckOffset = ComplianceCheckMeasTime / 2; //time to wait after switching to check compliance
-const float ComplianceScaleFactors[3] = { 1, 0.75, 0.5 }; // comppliance is scaled by these amounts to check range during compliance check
+const int ComplianceCheckMeasTime = 250 * 1000; //time in us for each compliance check injection
+const int ComplianceCheckOffset = ComplianceCheckMeasTime -(20*1000); //time to wait after switching to check compliance
+const int CompCheckNum = 3;
+const float ComplianceScaleFactors[CompCheckNum] = { 1, 0.75, 0.5 }; // comppliance is scaled by these amounts to check range during compliance check
 
 const int CompMaskNum = 8;
 
@@ -13,3 +14,4 @@ void CompStatusReset();
 boolean CompStatusReadAll();
 void CompProcessSingle(int ProtocolLine);
 void CompProcessMulti();
+void ResetAfterCompliance();

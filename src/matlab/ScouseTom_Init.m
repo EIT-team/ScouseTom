@@ -66,8 +66,6 @@ end
 SwOK=ScouseTom_ard_readswitchcheck(Ard);
 
 
-
-
 %% Finish init
 
 FlushSerialBuffer(Ard);

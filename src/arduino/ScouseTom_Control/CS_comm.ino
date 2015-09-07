@@ -439,7 +439,7 @@ int CS_checkresponse_num(long exp_num, long scale) {
 	/*
 	   Serial.print("This just in ... ");
 	   Serial.println(CS_inputBuffer);
-	   */
+	  */ 
 	char* Epos = strchr(CS_inputBuffer, 'E');
 	char* decstr = strtok(CS_inputBuffer, "E");
 	/*
@@ -518,17 +518,28 @@ int CS_SetCompliance(int Compliance)
 {
 	/*
 	Set the compliance of the current source to a given mV value, and check it was set ok
+
+	Compliance in 10mV increments so round up to nearest 10
+
 	*/
+
+	int CompToSet = Compliance / 10;
+	if (Compliance % 10)
+	{
+		CompToSet++;
+	}
+
+	CompToSet *= 10;
 
 
 	int SetOk = 0;
 
-	sprintf(CS_outputBuffer, "SOUR:CURR:COMP %dE-3", Compliance); //set in mV so have to use E-3
+	sprintf(CS_outputBuffer, "SOUR:CURR:COMP %dE-3", CompToSet); //set in mV so have to use E-3
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); //to pc for debug
 
 	CS_getresponse("SOUR:CURR:COMP?"); // check compliance is set ok set ok
-	SetOk = CS_checkresponse_num(Compliance, sc_milli); // Compliance in mV so set scale to sc_milli
+	SetOk = CS_checkresponse_num(CompToSet, sc_milli); // Compliance in mV so set scale to sc_milli
 	return SetOk;
 }
 

@@ -48,19 +48,20 @@ boolean CompStatusReadAll()
 
 	for (int i = 0; i < CompMaskNum; i++)
 	{
-		Serial.print("This is compmask: ");
+		/*Serial.print("This is compmask: ");
 		Serial.print(i);
 		Serial.print(" : ");
 		Serial.println(CompBitMask[i]);
 		//Serial.println("");
-
+		*/
 
 
 		if (CompBitMask[i])
 		{
-			Serial.print("CompMask");
+			/*Serial.print("CompMask");
 			Serial.print(i);
 			Serial.println("is bad");
+			*/
 			Badness = true;
 			break;
 		}
@@ -76,9 +77,11 @@ void CompProcessSingle(int ProtocolLine)
 	/* This checks for compliance and puts result in approprtiate place in bitmask.
 	Also responds to bad compliance
 	*/
-
-
-	//Serial.println("CheckingCompliance");
+	
+	/*
+	Serial.print("CheckingCompliance On ProtLine ");
+	Serial.println(ProtocolLine);
+	*/
 
 	boolean CompStatus = 0;
 
@@ -91,7 +94,10 @@ void CompProcessSingle(int ProtocolLine)
 		//make indicator pin HIGH
 		digitalWriteDirect(IND_EX_1, 1);
 		//possibly something else
-		//Serial.println("Compbad");
+		/*
+			Serial.print("Compbad in prot line: ");
+		Serial.println(ProtocolLine);
+		*/
 	}
 
 
@@ -107,31 +113,46 @@ void CompProcessMulti()
 	
 	*/
 
-	Serial.println("checking all...");
+	//Serial.println("checking all...");
 
 
 	boolean AnyPrtBad = CompStatusReadAll(); // read status of every bitmask
 
+	/*
 	Serial.print("AnyPrtBad all was : ");
 	Serial.println(AnyPrtBad);
+	*/
 
-
-	if (!AnyPrtBad)
+	if (!AnyPrtBad) //if compliance on all protocol lines was ok
 	{
+		//send the pin to zero
 		digitalWriteDirect(IND_EX_1, 0);
+	}
+	else
+	{
+		//Serial.println("Compbadin hereeee");
 
-		if (ComplianceCheckMode) // this should be in an OR statement below...
+		if (!ComplianceCheckMode) // if we are not in compliance state send update - comlpiance checking sends its own update
 		{
 			PC_sendcomplianceupdate();
 		}
 
-	}
-	else
-	{
-		Serial.println("Compbadin hereeee");
-		PC_sendcomplianceupdate();
+		
 	}
 
 
 
+}
+
+void ResetAfterCompliance()
+{
+	//when compliance is done then put variables back to normal
+	
+	CompStatusReset();
+	SingleFreqMode = CompFreqModeBackUp;
+	StimMode = CompStimModeBackup;
+	ComplianceCheckMode = 0;
+	iCompCheck = 0;
+	iCompCheckFreq = 0;
+	CS_SetCompliance(Compliance);
 }

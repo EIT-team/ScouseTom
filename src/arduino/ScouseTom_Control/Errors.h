@@ -17,5 +17,6 @@ const char CS_Complianceerrmsg[] = "<!C>";
 const char CS_commokmsg[] = "<+OK>";
 const char CS_finishedmsg[] = "<+Fin>";
 const char SW_okmsg[] = "<+SW>";
+const char Complianceokmsg[] = "<+C>";
 
 
