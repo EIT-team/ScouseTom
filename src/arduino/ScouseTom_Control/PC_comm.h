@@ -6,20 +6,25 @@
  *      Author: raquel
  */
 
-
-const int PC_timeoutlimit = 2000; // timeout in milliseconds for response from PC
-
-//variables used in getasciinum
+//! timeout in milliseconds for response from PC
+const int PC_timeoutlimit = 2000;
+//! variables used in getasciinum
 const char startOfNumberDelimiter = '<';
-const char endOfNumberDelimiter = '>';
+//! variables used in getasciinum
+onst char endOfNumberDelimiter = '>';
 
-const char RepNumIndicator = 'R'; // rep numbers sent to PC in format R#
-const char PrtNumIndicator = 'P'; //prt number sent to PC in format P#
-const char PhaseOrderIndicator = 'D'; //phase delay in degrees in format D1,2,3,4,5...
-const char FreqOrderIndicator = 'O'; // freqorder sent like O1,2,3,4,5etc.
-const char ComplianceStatusIndicator = 'C'; // compliance status sent like C0,0,0,0,0,0,....
-
-const char OrderDelimiter = ','; //freq/phase order sent comma delimited
+//! rep numbers sent to PC in format R#
+const char RepNumIndicator = 'R'; 
+//! prt number sent to PC in format P#
+const char PrtNumIndicator = 'P';
+//! phase delay in degrees in format D1,2,3,4,5...
+const char PhaseOrderIndicator = 'D';
+//! freqorder sent like O1,2,3,4,5etc.
+const char FreqOrderIndicator = 'O';
+//! compliance status sent like C0,0,0,0,0,0,....
+const char ComplianceStatusIndicator = 'C'; 
+//! freq/phase order sent comma delimited
+const char OrderDelimiter = ',';
 
 void establishContact();
 int PC_getsettings();

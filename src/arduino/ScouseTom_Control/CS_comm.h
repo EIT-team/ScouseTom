@@ -5,13 +5,19 @@
  *      Author: raquel
  */
 
-const byte CS_buffSize = 40; //size of char buffer to recieve from current source
-String CS_vers = "1999.0"; //Current source version number - used to check communication with current source
-const int CS_timeoutlimit = 1000; // timeout in milliseconds for response from current source
-const long sc_micro = 1000000; // scale for micro
-const long sc_milli = 1000; // scale for milliseconds
+//! size of char buffer to recieve from current source
+const byte CS_buffSize = 40;
+//! Current source version number - used to check communication with current source
+String CS_vers = "1999.0";
+//! timeout in milliseconds for response from current source
+const int CS_timeoutlimit = 1000;
+//! scale for micro
+const long sc_micro = 1000000;  
+//! scale for milliseconds
+const long sc_milli = 1000;
+//! mV compliance setting for current source in mV - default is 1.9V for biosemi
+int Compliance = 1900; 
 
-int Compliance = 1900; // mV compliance setting for current source in mV - default is 1.9V for biosemi
 
 
 void CS_next_chn();
