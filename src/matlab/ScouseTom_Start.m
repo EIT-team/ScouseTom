@@ -245,11 +245,11 @@ else
     CancelInj(Ard,logfid,tstart,logfname,matfilename)
     return
 end
-% 
+%
 % if strcmp(resp, CScommOKmsg) %we are ready to go!
 %     disp('Everything is good to go darling...');
 %     writelogPC(logfid,tstart,'Comm ok, everything ready to go');
-%     
+%
 % end
 
 %% SINGLE FREQUENCY INJECTION
@@ -357,9 +357,23 @@ while(~FS.Stop() &&  ~Finished)
                 end
             case 6 % Compliance Warning
                 [CompBad,CompBadArray]=ScouseTom_ard_complianceprocess(outstr,N_prt);
+                BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,ExpSetup.Protocol);
                 
-                fprintf('RUHRO!!! COMPLIANCE OUT OF RANGE on %d of %d protocol lines!!!WTF\n',CompBad,N_prt);
+                fprintf('WTF! COMPLIANCE OUT OF RANGE on %dof%d prot. lines! ',CompBad,N_prt);
                 
+                if ~isemtpy(BadElecs) % tell user to check electrodes if some are clearly bad
+                    fprintf('Check electrodes: ');
+                    if length(BadElecs) >1
+                        
+                        for iprint=1:length(BadElecs)
+                            fprintf('%d, ',BadElecs(iprint));
+                        end
+                        fprintf('%d \n',BadElecs(end));
+                        
+                    else
+                        fprintf('%d \n',BadElecs);
+                    end
+                end
                 
         end
         
@@ -525,7 +539,7 @@ fprintf(logfid,'Protocol loaded was %s with %d lines \n',ExpSetup.Info.ProtocolN
 fprintf(logfid,'Sources\tSinks\n');
 
 for i =1:N_prt
-fprintf(logfid,'%d\t%d\n',ExpSetup.Protocol(i,1),ExpSetup.Protocol(i,2));
+    fprintf(logfid,'%d\t%d\n',ExpSetup.Protocol(i,1),ExpSetup.Protocol(i,2));
 end
 fprintf(logfid,'--------------\n');
 fprintf(logfid,'Number of repeats : %d \n',ExpSetup.Repeats);
@@ -567,88 +581,6 @@ fprintf(logfid,'##\n');
 fprintf(logfid,'Time\tArduino Message\tPC Message\n');
 end
 
-% 
-% 
-% function [cmd,dataout,outstr]=parseinput(instr)
-% %this parses the inputs from the arduino - sent using the PC_update
-% %function on the ard.
-% 
-% 
-% %expected stuff:
-% 
-% Error_prefix='!';
-% Message_prefix='+';
-% 
-% Repeat_prefix='R';
-% Prt_prefix='P';
-% Freqord_prefix='O';
-% Phaseord_prefix='D';
-% 
-% 
-% CScommerrmsg='!E';
-% CSsettingserrmsg='!S';
-% CScommOKmsg='+OK';
-% CSfinishmsg='+Fin';
-% 
-% %characters srrounding number
-% startchar='<';
-% endchar='>';
-% 
-% 
-% start_idx=strfind(instr,startchar);
-% end_idx=strfind(instr,endchar);
-% outstr=instr(start_idx+1:end_idx-1);
-% 
-% cmd=instr(start_idx+1); %get the first "command" character
-% 
-% %the rest is the data, either a sring for the errors and ok flags, or a
-% %single number for repeat and protocol, or comma separated array for freq
-% %order and phase order
-% datastr=instr(start_idx+2:end_idx-1);
-% 
-% % disp(['cmd is ' cmd]);
-% % disp(['datastr is ' datastr]);
-% 
-% 
-% switch cmd
-%     case Error_prefix % error!
-%         cmd=-1;
-%         dataout=-1;
-%     case Message_prefix % ok message
-%         if strcmp([cmd datastr],CScommOKmsg) %comm ok
-%             cmd=0;
-%             dataout=0;
-%         else if strcmp([cmd datastr],CSfinishmsg) %finished inj
-%                 cmd=1;
-%                 dataout=1;
-%             end
-%         end
-%     case Repeat_prefix % new repeat num
-%         cmd=2;
-%         dataout=sscanf(datastr,'%d');
-%     case Prt_prefix % new prot line num
-%         cmd=3;
-%         dataout=sscanf(datastr,'%d');
-%     case Freqord_prefix % new freq order array
-%         cmd=4;
-%         tmp=textscan(datastr,'%d','delimiter',',');
-%         dataout=double(tmp{1}');
-%     case Phaseord_prefix % new phase order array
-%         cmd=5;
-%         tmp=textscan(datastr,'%d','delimiter',',');
-%         dataout=double(tmp{1}');
-%     otherwise
-%         cmd=-99;
-%         dataout=-99;
-%         
-% end
-% 
-% 
-% end
-% 
-% 
-% 
-% 
 
 
 
