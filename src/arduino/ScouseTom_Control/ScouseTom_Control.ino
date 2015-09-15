@@ -1014,7 +1014,7 @@ void dostuff()
 		}
 
 
-		if (iCompCheck == CompCheckNum) // if we have done all the compliance values we need then stop and reset
+		if (iCompCheck >= CompCheckNum) // if we have done all the compliance values we need then stop and reset
 		{
 			
 			//Serial.println("We are done checking compliance");
@@ -1139,6 +1139,7 @@ void getCMD(char CMDIN)
 			if (ComplianceCheckMode)
 			{
 				iCompCheck = CompCheckNum; // this is so the compliance check still ends properly
+				//Serial.println("Setting compcheck num");
 			}
 		}
 		break;
