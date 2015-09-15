@@ -757,6 +757,8 @@ void dostuff()
 			SwitchesProgrammed = 0; // show that switches are not set
 			ContactEndofSeq = 0; // restart contact seq
 
+			curComplianceCheckOffset = ContactTime / 2; 
+
 
 			CS_commgoodness = CS_sendsettings_check(ContactAmp, ContactFreq); // send settings to current source
 
@@ -923,6 +925,20 @@ void dostuff()
 				/*sprintf(PC_outputBuffer, "Switch: %d", currentMicros - lastInjSwitch);
 				Serial.println(PC_outputBuffer);*/
 			}
+			else if ((currentMicros - lastInjSwitch) > (curComplianceCheckOffset) && CompCheckFlag)
+			{
+				//check the compliance and do stuff based on the result
+				//The iPrt counter is incremted when switching, thus the result needs to go into iPrt-1
+
+				//Serial.println("checking compliance");
+
+				int CurrentPrt = iContact - 1;
+				if (CurrentPrt < 0) CurrentPrt = NumElec - 1;
+
+				CompProcessSingle(CurrentPrt);
+				CompCheckFlag = 0;
+
+			}
 
 
 
@@ -930,6 +946,7 @@ void dostuff()
 			{
 				if (ContactEndofSeq == 1) // if we have reached the total number of injections
 				{
+					CompProcessMulti();
 					state = 3; // do stop command
 					//for OLD CODE COMPATONLY
 					//indpins_pulse(0, 0, 5, 0);
@@ -942,6 +959,7 @@ void dostuff()
 				}
 
 				Switchflag = 0;
+				CompCheckFlag = 1;
 
 			}
 		}

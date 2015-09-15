@@ -11,12 +11,13 @@ void SwitchChn() //switch channels - switches are programmed by SetSwitchesFixed
 	digitalWriteDirect(SYNC, HIGH);
 
 	if (SingleFreqMode)
-	{
+	{ 
 		indpins_pulse(0, 0, 1, 0); // only pulse if single freq mode as prt is repeated for multi
 		// increment protocol line 
 		iPrt++;
 		if (iPrt == NumInj) // if complete protocol done then reset and increment repetiton counter
 		{
+			indpins_pulse(0, 0, 1, 0); // Pulse for complete protocol - this is to make a double pulse to indicate complete protocol during processing 
 			iPrt = 0;
 			iRep++;
 		}

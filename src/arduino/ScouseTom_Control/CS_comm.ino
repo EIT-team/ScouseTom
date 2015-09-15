@@ -12,6 +12,8 @@ void CS_next_chn() // setup next channel for multi frequency injection
 	{
 		iPrt = 0;
 		iRep++;
+		indpins_pulse(0, 0, 1, 0); // Pulse for complete protocol - this is to make a double pulse to indicate complete protocol during processing 
+
 	}
 
 	if (iRep != NumRep) // if we arent finished then shuffle and send new info to pc

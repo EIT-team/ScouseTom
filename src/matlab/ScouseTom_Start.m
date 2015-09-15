@@ -196,18 +196,14 @@ promptstr=sprintf('Ready to start? \nI hope the EEG system is recording now....'
 resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
 
 if isempty(resp) || (strcmp(resp,noresp) == 1)
-    
-    
     %cancel everytjing is they close dialogue
     CancelInj(Ard,logfid,tstart,logfname,matfilename)
     warning('User hit cancel');
     return
-    
 end
 
 
 disp('Lets inject shall we?');
-
 
 %start injection now
 writelogPC(logfid,tstart,'Starting Injection');
@@ -232,8 +228,7 @@ if strcmp(resp, CScommOKmsg) %we are ready to go!
     writelogPC(logfid,tstart,'Comm ok, everything ready to go');
     
 else
-    
-    
+        
     if strcmp(resp,CSsettingserrmsg) %stop if settings are not coo
         warning('Settings error - try resending settings i guess ');
     end
@@ -266,7 +261,6 @@ if (SingleFreqMode ==1);
     [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
     writelogArd(logfid,tstart,resp);
     
-    
     if (~cscommok)
         warning('Didnt get message from Arduino....');
         CancelInj(Ard,logfid,tstart,logfname,matfilename)
@@ -279,7 +273,6 @@ if (SingleFreqMode ==1);
         
         return
     end
-    
     
     if strcmp(resp, CScommOKmsg)
         disp('Stand back. Im going to try science');
@@ -294,8 +287,6 @@ end
 %% Main Loop
 % create box for stopping early
 FS = stoploop('Injection is happening as we speak. Hit button to stop it early if you want...');
-
-
 
 while(~FS.Stop() &&  ~Finished)
     elapsedtime=toc(tstart);
@@ -359,7 +350,7 @@ while(~FS.Stop() &&  ~Finished)
                 [CompBad,CompBadArray]=ScouseTom_ard_complianceprocess(outstr,N_prt);
                 BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,ExpSetup.Protocol);
                 
-                fprintf('WTF! COMPLIANCE OUT OF RANGE on %dof%d prot. lines! ',CompBad,N_prt);
+                fprintf('WTF! COMPLIANCE OUT OF RANGE on %d of %d prot. lines! ',CompBad,N_prt);
                 
                 if ~isempty(BadElecs) % tell user to check electrodes if some are clearly bad
                     fprintf('Check electrodes: ');

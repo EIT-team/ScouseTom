@@ -1,4 +1,4 @@
-function [ Ard,CompOK ] = ScouseTom_CheckCompliance( Ard,ExpSetup )
+function [Ard] = ScouseTom_ContactCheck( Ard,ExpSetup )
 %SCOUSETOM_CHECKCOMPLIANCE Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -43,48 +43,43 @@ endchar='>';
 
 FlushSerialBuffer(Ard);
 
-disp('Checking Compliance - this is preflight check before recording');
-fprintf(Ard,'L');
+disp('Checking Contact - Neighbouring Electrode injections');
+fprintf(Ard,'C');
 
 %% Get starting info
 
-%ard sends Compok message at start
+%ard sends CSOK message at start if Settings and CS ok
 
 [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
 
 if (~cscommok)
-    warning('Didnt get OK message from Arduino....');
+    warning('Didnt get message from Arduino....');
     HaltInj(Ard);
     return
 end
-if strcmp(resp,ComplianceOKmsg)
-    disp('Ard Starting Compliance Check');
+
+if strcmp(resp,CScommOKmsg)
+    disp('Starting Contact Check');
 else
     disp('Arduino not ready to start - do you send the settings OK? Check current source');
-    CompOK=0;
     HaltInj(Ard);
     return;
 end
 
-%then it sends the number of compliances it will check
+%then sends settings and says OK if successful
 
 [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
 
-if (numflg && cscommok)
-    NumComp=resp;
-else
-    CompOK=0;
+if (~cscommok)
+    warning('Didnt get message from Arduino....');
     HaltInj(Ard);
-    return;
+    return
 end
 
-%then number of frequencies
-[resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
-
-if (numflg && cscommok)
-    NumFreq=resp;
+if strcmp(resp,CScommOKmsg)
+    disp('Settings sent OK');
 else
-    CompOK=0;
+    disp('CS Problem :(');
     HaltInj(Ard);
     return;
 end
@@ -96,12 +91,7 @@ inbyte='X'; %set to this as empty string confuses ~=
 instr='';
 
 
-CompBadAll=nan(NumComp,NumFreq);
-CompBadArrayAll=cell(NumComp,NumFreq);
-CompOK=0;
-
-
-
+disp('INJECTING CONTACT CHECK PROTOCOL...');
 
 % create box for stopping early
 FS = stoploop('Compliance Check is happening! Hit button to stop it early if you want...');
@@ -126,57 +116,10 @@ while(~FS.Stop() &&  ~Finished)
                 Finished=1;
                 warning('Ard sent an error - stopping :(');
             case 6 % Compliance Warning
-                
-                %Ard sends compliance status first
                 [CompBad,CompBadArray]=ScouseTom_ard_complianceprocess(outstr,N_prt);
-                
-                %then the number of compliance checking
-                [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
-                
-                if (numflg && cscommok)
-                    CurrentCompCheck=resp;
-                else
-                    CompOK=0;
-                    return;
-                end
-                
-                %then the freq number
-                [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
-                
-                if (numflg && cscommok)
-                    CurrentCompFreq=resp;
-                else
-                    CompOK=0;
-                    return;
-                end
-                
-                %then the actual compliance in mV
-                
-                [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
-                
-                if (numflg && cscommok)
-                    CurrentComp=resp;
-                else
-                    CompOK=0;
-                    return;
-                end
-                
-                
-                if (CompBad)
-                    
-                    fprintf('Check %d|Freq %d|Comp %d mV - COMPLIANCE OUT OF RANGE on %d of %d prot lines\n',CurrentCompCheck,CurrentCompFreq,CurrentComp, CompBad,N_prt);
-                    
-                else
-                    fprintf('Check %d|Freq %d|Comp %d mV - Compliance OK \n',CurrentCompCheck,CurrentCompFreq,CurrentComp);
-                    
-                end
-                
-                
-                CompBadAll(CurrentCompCheck,CurrentCompFreq)=CompBad;
-                CompBadArrayAll(CurrentCompCheck,CurrentCompFreq)={CompBadArray};
-                
                 BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,ExpSetup.Protocol);
                 
+                fprintf('WTF! COMPLIANCE OUT OF RANGE on %d of %d prot. lines! ',CompBad,N_prt);
                 
                 if ~isempty(BadElecs) % tell user to check electrodes if some are clearly bad
                     fprintf('Check electrodes: ');
@@ -191,12 +134,9 @@ while(~FS.Stop() &&  ~Finished)
                         fprintf('%d \n',BadElecs);
                     end
                 end
-                
-                
-            case 7 % compliance finished
+            case 1  % inj finished! yay!
+                disp('Ard is all done!');
                 Finished=1;
-                disp('All compliances checked');
-                
         end
         
         %reset instring and in byte now one completed
@@ -207,7 +147,7 @@ while(~FS.Stop() &&  ~Finished)
 end
 
 if FS.Stop() %if user hit the stop button
-    HaltInj(Ard)
+    HaltInj(Ard);
     disp('User hit stop early! ermergerd!');
     
 end
@@ -217,15 +157,6 @@ FlushSerialBuffer(Ard); % flush the serial buffer
 
 
 %% Process the results of the compliance check
-
-if any(CompBadAll)
-    
-    CompOk=0;
-else
-    CompOK=1;
-    % asdasd
-    
-end
 
 end
 
