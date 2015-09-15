@@ -361,7 +361,7 @@ while(~FS.Stop() &&  ~Finished)
                 
                 fprintf('WTF! COMPLIANCE OUT OF RANGE on %dof%d prot. lines! ',CompBad,N_prt);
                 
-                if ~isemtpy(BadElecs) % tell user to check electrodes if some are clearly bad
+                if ~isempty(BadElecs) % tell user to check electrodes if some are clearly bad
                     fprintf('Check electrodes: ');
                     if length(BadElecs) >1
                         

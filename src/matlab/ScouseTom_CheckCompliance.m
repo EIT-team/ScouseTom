@@ -94,6 +94,7 @@ instr='';
 
 CompBadAll=nan(NumComp,NumFreq);
 CompBadArrayAll=cell(NumComp,NumFreq);
+CompOK=0;
 
 
 
@@ -119,7 +120,7 @@ while(~FS.Stop() &&  ~Finished)
             case -1 % there has been an error - stop the recording
                 HaltInj(Ard);
                 Finished=1;
-                warning('Ard sent an error - stopping :(');             
+                warning('Ard sent an error - stopping :(');
             case 6 % Compliance Warning
                 
                 %Ard sends compliance status first
@@ -156,11 +157,36 @@ while(~FS.Stop() &&  ~Finished)
                     return;
                 end
                 
-                fprintf('Check %d|Freq %d| Comp %d mV - COMPLIANCE OUT OF RANGE on %d of %d protocol\n',CurrentCompCheck,CurrentCompFreq,CurrentComp,  CompBad,N_prt);
+                
+                if (CompBad)
+                    
+                    fprintf('Check %d|Freq %d|Comp %d mV - COMPLIANCE OUT OF RANGE on %d of %d prot lines\n',CurrentCompCheck,CurrentCompFreq,CurrentComp, CompBad,N_prt);
+                    
+                else
+                    fprintf('Check %d|Freq %d|Comp %d mV - Compliance OK \n',CurrentCompCheck,CurrentCompFreq,CurrentComp);
+                    
+                end
+                
                 
                 CompBadAll(CurrentCompCheck,CurrentCompFreq)=CompBad;
                 CompBadArrayAll(CurrentCompCheck,CurrentCompFreq)={CompBadArray};
                 
+                BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,ExpSetup.Protocol);
+                
+                
+                if ~isempty(BadElecs) % tell user to check electrodes if some are clearly bad
+                    fprintf('Check electrodes: ');
+                    if length(BadElecs) >1
+                        
+                        for iprint=1:length(BadElecs)
+                            fprintf('%d, ',BadElecs(iprint));
+                        end
+                        fprintf('%d \n',BadElecs(end));
+                        
+                    else
+                        fprintf('%d \n',BadElecs);
+                    end
+                end
                 
                 
             case 7 % compliance finished
@@ -190,11 +216,11 @@ FlushSerialBuffer(Ard); % flush the serial buffer
 
 if any(CompBadAll)
     
-CompOk=0;
+    CompOk=0;
 else
     CompOK=1;
-% asdasd
-
+    % asdasd
+    
 end
 
 end
