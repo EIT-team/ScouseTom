@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.005" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.025" altunitdist="inch" altunit="inch"/>
+<grid distance="0.005" unitdist="inch" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.0127" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -2953,6 +2953,27 @@ IN</text>
 <text x="32.004" y="46.228" size="1.016" layer="22" font="vector" ratio="11" rot="MR0" align="center-left">SCLK</text>
 <text x="32.004" y="38.608" size="1.016" layer="22" font="vector" ratio="11" rot="MR0" align="center-left">TST2</text>
 <text x="2.032" y="7.493" size="1.6764" layer="21" font="vector" ratio="16" align="center-left">github.com/EIT-team/ScouseTom</text>
+<dimension x1="-17.145" y1="101.905" x2="152.38" y2="101.905" x3="67.6175" y3="132.842" textsize="1.778" layer="20" dtype="horizontal"/>
+<dimension x1="-17.145" y1="101.905" x2="-17.145" y2="4.445" x3="-54.61" y3="53.175" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="149.86" y1="6.985" x2="149.86" y2="99.06" x3="172.212" y3="53.0225" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="149.86" y1="99.06" x2="152.4" y2="99.695" x3="151.13" y3="92.964" textsize="1.778" layer="20" dtype="horizontal"/>
+<dimension x1="-17.145" y1="4.445" x2="-1.905" y2="7.62" x3="-9.525" y3="-3.937" textsize="1.778" layer="20" dtype="horizontal"/>
+<dimension x1="-1.905" y1="7.62" x2="-1.905" y2="4.445" x3="2.159" y3="6.0325" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="-17.145" y1="101.905" x2="-14.605" y2="99.06" x3="-22.987" y3="100.4825" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="-17.145" y1="101.905" x2="-14.605" y2="99.06" x3="-15.875" y3="102.616" textsize="1.778" layer="20" dtype="horizontal"/>
+<dimension x1="-13.335" y1="39.751" x2="-13.335" y2="35.814" x3="-29.083" y3="37.7825" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="146.939" y1="71.374" x2="146.558" y2="101.9048" x3="164.846" y3="86.6394" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="118.618" y1="95.885" x2="152.3873" y2="101.219" x3="135.50265" y3="117.983" textsize="1.778" layer="20" dtype="horizontal"/>
+<dimension x1="-14.097" y1="85.344" x2="-14.097" y2="101.9048" x3="-30.353" y3="93.6244" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="-16.29" y1="94.615" x2="-17.145" y2="94.615" x3="-16.7175" y3="97.663" textsize="1.778" layer="20" dtype="horizontal"/>
+<dimension x1="-16.29" y1="94.615" x2="-16.29" y2="88.9" x3="-26.924" y3="91.7575" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="-16.29" y1="76.2" x2="-16.29" y2="73.66" x3="-18.415" y3="74.93" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="-13.716" y1="95.25" x2="-13.589" y2="101.9048" x3="-41.529" y3="98.5774" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="-6.985" y1="70.739" x2="-7.493" y2="101.9048" x3="-46.355" y3="86.3219" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="-12.827" y1="4.826" x2="-12.827" y2="35.814" x3="-37.338" y3="20.32" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="137.922" y1="94.488" x2="137.795" y2="79.375" x3="142.494" y3="86.9315" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="137.541" y1="79.375" x2="142.24" y2="71.374" x3="141.097" y3="75.3745" textsize="1.778" layer="20" dtype="vertical"/>
+<dimension x1="137.795" y1="79.375" x2="141.605" y2="70.231" x3="139.7" y3="76.962" textsize="1.778" layer="20" dtype="horizontal"/>
 </plain>
 <libraries>
 <library name="Analog Devices_By_element14_Batch_1">
