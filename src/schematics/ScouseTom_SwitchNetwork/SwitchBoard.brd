@@ -9346,12 +9346,10 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <wire x1="-9.525" y1="85.725" x2="-12.7" y2="85.725" width="0.254" layer="16"/>
 <wire x1="22.225" y1="81.28" x2="19.05" y2="78.105" width="0.4064" layer="1"/>
 <wire x1="19.05" y1="78.105" x2="16.825" y2="78.105" width="0.4064" layer="1"/>
-<wire x1="10.16" y1="67.31" x2="16.825" y2="73.975" width="0.4064" layer="1"/>
-<wire x1="16.825" y1="73.975" x2="16.825" y2="78.105" width="0.4064" layer="1"/>
 <via x="29.845" y="91.44" extent="1-16" drill="0.4"/>
-<via x="31.115" y="90.17" extent="1-16" drill="0.4"/>
+<via x="31.75" y="90.297" extent="1-16" drill="0.4"/>
 <via x="31.75" y="88.265" extent="1-16" drill="0.4"/>
-<via x="31.75" y="84.455" extent="1-16" drill="0.4"/>
+<via x="31.75" y="84.201" extent="1-16" drill="0.4"/>
 <via x="31.75" y="82.55" extent="1-16" drill="0.4"/>
 <via x="10.16" y="84.455" extent="1-16" drill="0.4"/>
 <via x="8.89" y="83.185" extent="1-16" drill="0.4"/>
@@ -9362,15 +9360,15 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <via x="133.985" y="60.325" extent="1-16" drill="0.4"/>
 <via x="33.02" y="69.85" extent="1-16" drill="0.4"/>
 <via x="38.1" y="73.66" extent="1-16" drill="0.4"/>
-<via x="35.2425" y="85.4075" extent="1-16" drill="0.4"/>
+<via x="35.4965" y="85.4075" extent="1-16" drill="0.4"/>
 <via x="33.655" y="87.63" extent="1-16" drill="0.4"/>
-<via x="35.56" y="87.63" extent="1-16" drill="0.4"/>
+<via x="35.433" y="87.63" extent="1-16" drill="0.4"/>
 <via x="53.975" y="22.225" extent="1-16" drill="0.4"/>
 <via x="53.975" y="17.145" extent="1-16" drill="0.4"/>
 <via x="53.975" y="9.525" extent="1-16" drill="0.4"/>
 <via x="41.91" y="20.32" extent="1-16" drill="0.4"/>
-<via x="29.845" y="84.455" extent="1-16" drill="0.4"/>
-<via x="27.94" y="84.455" extent="1-16" drill="0.4"/>
+<via x="29.591" y="84.201" extent="1-16" drill="0.4"/>
+<via x="26.67" y="84.201" extent="1-16" drill="0.4"/>
 <via x="16.51" y="93.98" extent="1-16" drill="0.4"/>
 <via x="14.605" y="93.98" extent="1-16" drill="0.4"/>
 <via x="14.605" y="95.885" extent="1-16" drill="0.4"/>
@@ -9437,6 +9435,10 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <wire x1="-1.778" y1="78.74" x2="-1.27" y2="79.248" width="0.4064" layer="1"/>
 <wire x1="-1.27" y1="79.248" x2="-1.27" y2="81.6" width="0.4064" layer="1"/>
 <wire x1="-1.27" y1="81.6" x2="-1.905" y2="82.235" width="0.4064" layer="1"/>
+<wire x1="10.16" y1="67.31" x2="10.16" y2="70.231" width="0.4064" layer="1"/>
+<wire x1="10.16" y1="70.231" x2="15.494" y2="75.565" width="0.4064" layer="1"/>
+<wire x1="16.825" y1="78.105" x2="16.825" y2="76.896" width="0.4064" layer="1"/>
+<wire x1="16.825" y1="76.896" x2="15.494" y2="75.565" width="0.4064" layer="1"/>
 </signal>
 <signal name="SCLK">
 <contactref element="U2" pad="1"/>
@@ -10869,13 +10871,6 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <wire x1="11.684865625" y1="66.675" x2="11.68435625" y2="66.674490625" width="0.4064" layer="1"/>
 <wire x1="14.60459375" y1="67.624796875" x2="17.144796875" y2="67.624796875" width="0.4064" layer="1"/>
 <wire x1="29.17" y1="86.995" x2="29.17" y2="85.304" width="0.4064" layer="1"/>
-<wire x1="29.17" y1="85.304" x2="28.829" y2="84.963" width="0.4064" layer="1"/>
-<wire x1="28.829" y1="84.963" x2="28.829" y2="83.947" width="0.4064" layer="1"/>
-<wire x1="28.829" y1="83.947" x2="26.416" y2="81.534" width="0.4064" layer="1"/>
-<wire x1="26.416" y1="81.534" x2="23.495" y2="81.534" width="0.4064" layer="1"/>
-<wire x1="23.495" y1="81.534" x2="18.796" y2="76.835" width="0.4064" layer="1"/>
-<wire x1="18.796" y1="76.835" x2="18.796" y2="73.279" width="0.4064" layer="1"/>
-<wire x1="18.796" y1="73.279" x2="17.018" y2="71.501" width="0.4064" layer="1"/>
 <wire x1="17.018" y1="71.501" x2="17.018" y2="67.75159375" width="0.4064" layer="1"/>
 <wire x1="17.018" y1="67.75159375" x2="17.144796875" y2="67.624796875" width="0.4064" layer="1"/>
 <wire x1="11.68435625" y1="52.704746875" x2="12.699746875" y2="52.704746875" width="0.4064" layer="1"/>
@@ -10908,6 +10903,8 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <via x="17.78" y="57.404" extent="1-16" drill="0.6"/>
 <wire x1="17.78" y1="57.404" x2="18.161" y2="57.404" width="0.4064" layer="16"/>
 <wire x1="18.161" y1="57.404" x2="18.669" y2="57.912" width="0.254" layer="16"/>
+<wire x1="17.018" y1="71.501" x2="17.018" y2="73.152" width="0.4064" layer="1"/>
+<wire x1="17.018" y1="73.152" x2="29.17" y2="85.304" width="0.4064" layer="1"/>
 </signal>
 <signal name="~SYNC_BRD">
 <contactref element="U$1" pad="3"/>
