@@ -6,6 +6,12 @@ function [Ard] = ScouseTom_ContactCheck( Ard,ExpSetup )
 
 N_prt=ExpSetup.Info.ProtocolLength;
 
+N_elec=ExpSetup.Elec_num;
+
+Contact_Protocol=[1:N_elec; circshift(1:N_elec,-1,2)]';
+Contact_Protocol=Contact_Protocol(~(any(ismember(Contact_Protocol,ExpSetup.Bad_Elec),2)),:);
+
+
 
 
 %% Possible inputs
@@ -117,7 +123,7 @@ while(~FS.Stop() &&  ~Finished)
                 warning('Ard sent an error - stopping :(');
             case 6 % Compliance Warning
                 [CompBad,CompBadArray]=ScouseTom_ard_complianceprocess(outstr,N_prt);
-                BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,ExpSetup.Protocol);
+                BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,Contact_Protocol);
                 
                 fprintf('WTF! COMPLIANCE OUT OF RANGE on %d of %d prot. lines! ',CompBad,N_prt);
                 
