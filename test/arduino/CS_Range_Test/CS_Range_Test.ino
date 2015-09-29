@@ -44,87 +44,80 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
   Serial1.begin(57600);
-  Serial.println("ScouseTom, checking compliance status - 0 is good, 1 is bad");
-  Serial.println("Connect CS across a resistor and disconnect and reconnect to see compliance status change");
- 
+  Serial.println("ScouseTom, checking range setting - WHAT IS GOING ON");
+  
+  Serial.println("Turning OFF AutoRange");
 
-  Serial.print("Setting Compliance to ");
-  Serial.print(ComplianceSet);
-  Serial.println("mV");
+
+  //turn off autorange
+  sprintf(CS_outputBuffer, "SOUR:CURR:RANG:AUTO 0"); //
+  Serial1.println(CS_outputBuffer); // send to CS
+  //Serial.println(CS_outputBuffer); //to pc for debug
+
+  CS_getresponse("SOUR:CURR:RANG:AUTO?"); // check compliance is set ok set ok
+
+
+
+  Serial.println("TURNING OFF WAVE RANGING MODE");
+
+  sprintf(CS_outputBuffer, "SOUR:WAVE:RANG FIX"); //
+  Serial1.println(CS_outputBuffer); // send to CS
+  //Serial.println(CS_outputBuffer); //to pc for debug
+
+  CS_getresponse("SOUR:WAVE:RANG?"); // check compliance is set ok set ok
+
   
 
-  int setok = 0;
+  Serial.println("Setting Range to 2000uA");
 
-  setok=CS_SetCompliance(ComplianceSet);
+  sprintf(CS_outputBuffer, "SOUR:CURR:RANG %dE-6", 2000); //ask CS to set range based on highest amp
+  Serial1.println(CS_outputBuffer); // send to CS
+  CS_getresponse("SOUR:CURR:RANG?");
 
-  if (setok)
-  {
+  Serial.println("Setting Current to 200 and Freq to 2k");
 
-	  Serial.println("Compliance set ok");
-  }
+  CS_sendsettings(200, 3333,1);
 
-  else
-  {
-	  Serial.println("Compliance set WRONG");
-  }
+  Serial.println("Range is now");
+
+  CS_getresponse("SOUR:CURR:RANG?");
+
+  Serial.println("SETTING RANGE AGAIN");
+
+  sprintf(CS_outputBuffer, "SOUR:CURR:RANG %dE-6", 2000); //ask CS to set range based on highest amp
+  Serial1.println(CS_outputBuffer); // send to CS
+  CS_getresponse("SOUR:CURR:RANG?");
 
 
-
-  Serial.println("Sending settings ");
-
-
-  CS_sendsettings_check(Amp, Freq);
-
-  //CompOK = CS_CheckCompliance();
-
-  //Serial.print("Complicance before starting is : ");
-  //Serial.println(CompOK);
-
+  Serial.println("Starting Injection");
 
 //delay(2000);
   CS_start();
-
-//delay(2000);
-
-  CompOK = CS_CheckCompliance();
-
-  //Serial.print("Complicance after starting is : ");
-  //Serial.println(CompOK);
-
-  int elapsedtotal = 0;
-  int startt = 0;
-  int endt = 0;
+  CS_getresponse("SOUR:CURR:RANG?");
+  delay(3000);
 
 
-//delay(2000);
-  for (int i = 0; i < 1000; i++)
-  {
-	  //delay(5000);
-	  delay(10);
+  Serial.println("Setting Current to 250");
+  CS_sendsettings(250, 3333,1);
+  CS_getresponse("SOUR:CURR:RANG?");
+  delay(3000);
 
-	  startt = micros();
-	  CompOK = CS_CheckCompliance();
-	  endt = micros();
+  Serial.println("Setting Current to 450");
+  CS_sendsettings(450, 3333,1);
+  CS_getresponse("SOUR:CURR:RANG?");
+  delay(3000);
 
-	  elapsedtotal += (endt - startt);
+  Serial.println("Setting Current to 150");
+  CS_sendsettings(150, 3333,1);
+  CS_getresponse("SOUR:CURR:RANG?");
+  delay(3000);
+ 
 
 
-	  //Serial.print("Complicance Status is now: ");
-	  Serial.print(CompOK);
 
-	  if (i > 1 && !(i % 20))
-	  {
-		  Serial.println("");
-	  }
-
-  }
-
-  Serial.println("Stopping Current source. Reset Ard if you wanna try again");
+  
   CS_stop();
-
-  Serial.print("Time in us elapsed on average was: ");
-  Serial.println(elapsedtotal/1000);
-  //Serial.print("Time per check :")
+  Serial.println("done");
 
 
 }

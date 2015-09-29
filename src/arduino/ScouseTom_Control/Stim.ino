@@ -216,7 +216,7 @@ int CheckPmark()
 	PMARK_TEST_FLAG = 0;
 	int CheckOK = 0;
 
-	CS_sendsettings(1, 10000); // send settings to current source
+	CS_sendsettings(1, 10000,1); // send settings to current source
 	//Serial.println("starting pmark check");
 
 	CS_start();

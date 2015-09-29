@@ -70,7 +70,8 @@ long MeasTime[maxFreqs] = { 0 }; //injection time in microseconds - set by user 
 long curMeasTime = 0; // current measurement time changed by compliance check, or one of the MeasTime vars 
 
 int FreqOrder[maxFreqs] = { 0 }; // order of the frequencies - initilised
-long curFreq = 0; // index of frequency vector current being injected
+long curFreqIdx = 0; // index of frequency vector current being injected
+long prevFreq = 0; //previously used Frequency
 
 long StartElapsed_CS = 0;// time since CS_Start was called
 long StartTime_CS = 0; //time when CS_Start() was called
@@ -400,6 +401,11 @@ void dostuff()
 			iRep = 0;
 			iStim = 0;
 
+			//reset multifreq stuff
+			curFreqIdx = 0;
+			prevFreq = 0;
+
+
 			//set variables based on values sent by user
 			curMeasTime = MeasTime[0];
 			curNumRep = NumRep;
@@ -411,10 +417,9 @@ void dostuff()
 
 			if (SingleFreqMode) // see if we are in single freq mode and then set some of the settings that wont change
 			{
+				
+				CS_AutoRangeOn(); //set ranging to normal
 				CS_commgoodness = CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
-
-
-
 				if (!CS_commgoodness)
 				{
 					state = 0; // dont start injection if things are fucked
@@ -437,7 +442,18 @@ void dostuff()
 			}
 			else // we are in multifrequency mode and thus we need to set more stuff before we start injection
 			{
-				//not sure mate
+				
+				boolean AutoOffOK=CS_AutoRangeOff(); //set ranging to off
+				boolean RangeSetOK=CS_SetRange(); // set range to max required
+
+				if (!(AutoOffOK && RangeSetOK))
+				{
+					state = 0; 
+					Serial.print(CS_commerrmsg);
+					CS_Disp("CS SET ERROR");
+					CS_Disp_Wind2("NOOOOOOOOOOOO");
+				}
+
 			}
 
 		}
@@ -645,7 +661,7 @@ void dostuff()
 			else // if this is NOT the first time called, then check if time has elapsed before changing frequency
 			{
 				currentMicros = micros();
-				if ((currentMicros - lastFreqSwitch) > (MeasTime[curFreq] /*- SwitchTimeFix*/)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
+				if ((currentMicros - lastFreqSwitch) > (MeasTime[curFreqIdx] /*- SwitchTimeFix*/)) // time to switch is MeasTime, but we fixed the time taken to program switches in SetSwitchesFixed
 				{
 					Switchflag = 1; //set that we should switch now
 				}
@@ -712,6 +728,7 @@ void dostuff()
 
 		reset_pins(); //over the top but reset all of the switches again
 		digitalWriteDirect(IND_EX_1, LOW); //put the compliance flag to low
+
 		if (!ComplianceCheckMode) //if we are NOT doing a compliance check
 		{
 			//then go back to idle like normal
@@ -722,13 +739,19 @@ void dostuff()
 		else
 		{
 			//HERE IS WHERE WE GO BACK TO COMPLIANCE CHECK STATE!!!
-
 			//Serial.println("finished injecting, back to compliance state");
 			state = 9;
-
-
 		}
 
+		//front panel stuff
+		CS_Disp("Inj Stopped");
+		CS_Disp_Wind2("Immortality reached");
+
+		//Serial.println("Stopping injection");
+		Serial.print(CS_finishedmsg);
+
+		//put the range stuff back to normal - in case we changed it doing multifreq
+		CS_AutoRangeOn();
 	}
 
 	break;
@@ -759,7 +782,8 @@ void dostuff()
 
 			curComplianceCheckOffset = ContactTime / 2; 
 
-
+			CS_AutoRangeOn(); //set ranging to normal
+			
 			CS_commgoodness = CS_sendsettings_check(ContactAmp, ContactFreq); // send settings to current source
 
 			/* do this in the first iteration of the inject state - so the communication order the is the same!
@@ -827,7 +851,7 @@ void dostuff()
 		{
 			//Serial.println(CS_settingserrmsg);
 			Serial.print(CS_commerrmsg);
-			CS_Disp("SETTINGS ERROR!");
+			CS_Disp("SETTINGS READ ERROR!");
 			CS_Disp_Wind2("BOO >:(");
 		}
 
@@ -849,9 +873,19 @@ void dostuff()
 			}
 			else
 			{
-				Serial.print(CS_commokmsg);
-				CS_Disp("Settings check out ok");
-				CS_Disp_Wind2("Lets do some EIT why not");
+				PC_inputgoodness = CS_SetRange();
+				
+				if (PC_inputgoodness)
+				{
+					Serial.print(CS_commokmsg);
+					CS_Disp("Settings check out ok");
+					CS_Disp_Wind2("Lets do some EIT why not");
+				}
+				else
+				{
+					CS_Disp("Error Setting Range");
+					CS_Disp_Wind2("booooo");
+				}
 			}
 
 		}

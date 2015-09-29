@@ -37,7 +37,8 @@ void CS_next_freq() // set up next frequency of injection
 	long ttot = 0;
 	*/
 
-	CS_stop(); // stop current source - changing amp and freq may mean we set current too high for the new/old frequency
+	//we are not doing this now
+	//CS_stop(); // stop current source - changing amp and freq may mean we set current too high for the new/old frequency
 
 	indpins_pulse(0, 0, 0, 1); // indicate that this freq inj is done
 
@@ -46,20 +47,35 @@ void CS_next_freq() // set up next frequency of injection
 	{
 		//Serial.println("changing frequency"); //debug info
 
-		curFreq = FreqOrder[iFreq]; // get the new frequency from the shuffled freqorder array
+		curFreqIdx = FreqOrder[iFreq]; // get the new frequency from the shuffled freqorder array
 
 		if (StimMode) //initialise stimulator trigger if we are in stim mode
 		{
-			stim_init(Freq[curFreq]);
+			stim_init(Freq[curFreqIdx]);
 			Stimflag = 1;
 		}
 
-		/*Serial.println(curFreq);
-		Serial.println(iFreq);
-		sprintf(PC_outputBuffer, "Setting Amp %duA and Freq %dHz", Amp[curFreq], Freq[curFreq]);
-		Serial.println(PC_outputBuffer);*/
+		Serial.print("Previous Freq was ");
+		Serial.println(prevFreq);
+		Serial.print("The Next Freq is: ");
+		Serial.println(Freq[curFreqIdx]);
+		//Serial.println(iFreq);
+		/*
+		sprintf(PC_outputBuffer, "Setting Amp %duA and Freq %dHz", Amp[curFreqIdx], Freq[curFreqIdx]);
+		Serial.println(PC_outputBuffer); */
 
-		CS_sendsettings(Amp[curFreq], Freq[curFreq]); // set the new amp and freq in the current source, with no error checking for speed
+		// If the last inj freq is less than the one we are about to set, then put frequency first
+		if (prevFreq < Freq[curFreqIdx])
+		{
+			Serial.println("Setting Freq First");
+			CS_sendsettings(Amp[curFreqIdx], Freq[curFreqIdx], 1); // set the new amp and freq in the current source, with no error checking for speed
+		}
+		else //otherwise if we are stepping down in freq then do amp first
+		{
+			Serial.println("Setting Amp First");
+			CS_sendsettings(Amp[curFreqIdx], Freq[curFreqIdx], 0);
+		}
+
 		//tset = micros();
 
 		/*Serial.print("Channels I am about to program: ");
@@ -74,7 +90,7 @@ void CS_next_freq() // set up next frequency of injection
 
 		StartTime_CS = micros();
 		CS_start(); //start current source
-		
+
 
 		programswitches(Injection[iPrt][0], Injection[iPrt][1], TotalPins); //programm the switches
 		SwitchChn(); // open switches to CS
@@ -93,11 +109,10 @@ void CS_next_freq() // set up next frequency of injection
 			delayMicroseconds(StartDelay_CS - StartElapsed_CS);
 		}
 
+		prevFreq = Freq[curFreqIdx]; //store the value we just set for future comparison
 
 		lastFreqSwitch = micros(); // record time we switches freq
 		indpins_pulse(0, 0, 0, 1); // send new freq pulse
-
-
 
 	}
 	/*ttot = micros();
@@ -197,17 +212,33 @@ int CS_sendsettings_check(long Amp, long Freq)
 
 
 
-void CS_sendsettings(long Amp, long Freq)
+void CS_sendsettings(long Amp, long Freq, boolean FreqFirst)
 // send amplitude and frequency to the current source NO CHECKING as too slow
 //- all potential settings are checked during initialisation to make sure no errors
+// - FreqFirst Decides or at which they are sent - this is important for changing freqs during injection to keep the current applied below IEC6010
 {
-	sprintf(CS_outputBuffer, "SOUR:WAVE:FREQ %d", Freq); //make string to send to CS
-	Serial1.println(CS_outputBuffer); // send to CS
-	//Serial.println(CS_outputBuffer); //to pc for debug
+	if (FreqFirst)
+	{
 
-	sprintf(CS_outputBuffer, "SOUR:WAVE:AMPL %dE-6", Amp); //make amp setting string in microamps so have to use E-6
-	Serial1.println(CS_outputBuffer); // send to CS
-	//Serial.println(CS_outputBuffer); //to pc for debug
+		sprintf(CS_outputBuffer, "SOUR:WAVE:FREQ %d", Freq); //make string to send to CS
+		Serial1.println(CS_outputBuffer); // send to CS
+		//Serial.println(CS_outputBuffer); //to pc for debug
+
+		sprintf(CS_outputBuffer, "SOUR:WAVE:AMPL %dE-6", Amp); //make amp setting string in microamps so have to use E-6
+		Serial1.println(CS_outputBuffer); // send to CS
+		//Serial.println(CS_outputBuffer); //to pc for debug
+	}
+	else
+	{
+		sprintf(CS_outputBuffer, "SOUR:WAVE:AMPL %dE-6", Amp); //make amp setting string in microamps so have to use E-6
+		Serial1.println(CS_outputBuffer); // send to CS
+		//Serial.println(CS_outputBuffer); //to pc for debug
+
+		sprintf(CS_outputBuffer, "SOUR:WAVE:FREQ %d", Freq); //make string to send to CS
+		Serial1.println(CS_outputBuffer); // send to CS
+		//Serial.println(CS_outputBuffer); //to pc for debug
+
+	}
 
 }
 
@@ -264,6 +295,24 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 	Serial1.println("SOUR:WAVE:FUNC SIN");
 	CS_getresponse("SOUR:WAVE:FUNC?");
 	goodnessflag = CS_checkresponse("SIN");
+
+	if (goodnessflag == 0) // if bad comm then return and complain
+	{
+		//Serial.print(CS_commerrmsg);
+		return goodnessflag;
+	}
+
+
+	//set the range stuff back to defaults as we only need FIXED during multifreq
+
+	goodnessflag = CS_AutoRangeOn();
+
+	if (goodnessflag == 0) // if bad comm then return and complain
+	{
+		//Serial.print(CS_commerrmsg);
+		return goodnessflag;
+	}
+
 
 	// Set compliance as we only need this one time
 
@@ -419,7 +468,7 @@ int CS_checkresponse(String Str_exp) {
 	  Serial.println(CS_inputBuffer);
 	  Serial.print("expected ");
 	  Serial.println(Str_exp);
-	 */
+	  */
 	if (Str_exp == CS_inputBuffer)
 	{
 		// Serial.println("they match");
@@ -441,7 +490,7 @@ int CS_checkresponse_num(long exp_num, long scale) {
 	/*
 	   Serial.print("This just in ... ");
 	   Serial.println(CS_inputBuffer);
-	  */ 
+	   */
 	char* Epos = strchr(CS_inputBuffer, 'E');
 	char* decstr = strtok(CS_inputBuffer, "E");
 	/*
@@ -545,5 +594,169 @@ int CS_SetCompliance(int Compliance)
 	return SetOk;
 }
 
+boolean CS_SetRange()
+{
+	//Set the range of the current source based on the Max Amplitude given
+
+	boolean RangeGoodness = 0;
+
+	int maxamp = 0;
+
+	for (int i = 0; i < NumFreq; i++)
+	{
+		if (Amp[i] >maxamp)
+		{
+			maxamp = Amp[i];
+		}
+	}
+
+	Serial.print("The max amp is: ");
+	Serial.println(maxamp);
+
+	// set the expected range
+
+	//if its out of range then return error
+	if (maxamp < CurrentRangesMax[0] || maxamp > CurrentRangesMax[4])
+	{
+		RangeGoodness = 0;
+		Serial.print(CS_outofrange);
+		CS_Disp("AMP OUT OF RANGE");
+		CS_Disp_Wind2("must be within 2uA - 20mA");
+		delay(1000); //give time for display
+		return RangeGoodness;
+	}
+
+	int curRange = 0;
+
+	for (int i = 0; i < 4; i++)
+	{
+		/*Serial.print("Checking Between ");
+		Serial.print(CurrentRangesMax[i]);
+
+		Serial.print("and");
+		Serial.println(CurrentRangesMax[i + 1]);*/
+
+		if ((maxamp >= CurrentRangesMax[i]) && (maxamp <= CurrentRangesMax[i + 1]))
+		{
+			curRange = i + 1;
+			break;
+		}
+
+	}
+
+	Serial.print("Found Range :");
+	Serial.print(curRange);
+	Serial.print(" or ");
+	Serial.println(CurrentRanges[curRange]);
 
 
+	//turn off autorange
+	sprintf(CS_outputBuffer, "SOUR:CURR:RANG:AUTO 0"); //
+	Serial1.println(CS_outputBuffer); // send to CS
+	//Serial.println(CS_outputBuffer); //to pc for debug
+
+	CS_getresponse("SOUR:CURR:RANG:AUTO?"); // check compliance is set ok set ok
+	RangeGoodness = CS_checkresponse("0");
+
+	if (RangeGoodness)
+	{
+		sprintf(CS_outputBuffer, "SOUR:CURR:RANG %dE-6", maxamp); //ask CS to set range based on highest amp
+		Serial1.println(CS_outputBuffer); // send to CS
+		//Serial.println(CS_outputBuffer); //to pc for debug
+
+		if (curRange > 2) //higher 2 values returned in milli
+		{
+			Serial.println("Doing milli");
+			CS_getresponse("SOUR:CURR:RANG?"); // check range 
+			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange] / 1000, sc_milli); //output is in mA for highest 2
+		}
+		else
+		{
+			Serial.println("Doing micro");
+			CS_getresponse("SOUR:CURR:RANG?"); // check compliance is set ok set ok
+			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange], sc_micro); // output is in microA for lowest 2
+		}
+
+	}
+
+	if (!RangeGoodness)
+	{
+		Serial.print(CS_rangeseterr);
+	}
+
+	return RangeGoodness;
+
+
+}
+
+int CS_AutoRangeOn()
+{
+	//sets the default range WAVE finding to be ON! This is what we want it to be for single freq AND for general use of the CS
+
+	int RangeGoodness = 0;
+
+	//first set the CURR:RANG value to default - this is so we can set the change manually - even if it is overwritten by SOUR:WAVE:RANG BEST
+
+
+	sprintf(CS_outputBuffer, "SOUR:CURR:RANG:AUTO 0"); //
+	Serial1.println(CS_outputBuffer); // send to CS
+
+	CS_getresponse("SOUR:CURR:RANG:AUTO?"); // check compliance is set ok set ok
+	RangeGoodness = CS_checkresponse("0");
+
+	if (!RangeGoodness)
+	{
+		Serial.print(CS_rangeseterr);
+		return RangeGoodness;
+	}
+
+	sprintf(CS_outputBuffer, "SOUR:WAVE:RANG BEST"); //
+	Serial1.println(CS_outputBuffer); // send to CS
+	//Serial.println(CS_outputBuffer); //to pc for debug
+
+	CS_getresponse("SOUR:WAVE:RANG?"); // check compliance is set ok set ok
+	RangeGoodness = CS_checkresponse("BEST");
+
+	if (!RangeGoodness)
+	{
+		Serial.print(CS_rangeseterr);
+		
+	}
+	return RangeGoodness;
+
+}
+
+
+boolean CS_AutoRangeOff()
+{
+	//sets the default range finding to be OFF!!!! This is what we want it to be for multifreq
+
+	boolean RangeGoodness = 0;
+
+	sprintf(CS_outputBuffer, "SOUR:CURR:RANG:AUTO 0"); //
+	Serial1.println(CS_outputBuffer); // send to CS
+
+	CS_getresponse("SOUR:CURR:RANG:AUTO?"); // check compliance is set ok set ok
+	RangeGoodness = CS_checkresponse("0");
+
+	if (!RangeGoodness)
+	{
+		Serial.print(CS_rangeseterr);
+		return RangeGoodness;
+	}
+
+	sprintf(CS_outputBuffer, "SOUR:WAVE:RANG FIX"); //
+	Serial1.println(CS_outputBuffer); // send to CS
+	//Serial.println(CS_outputBuffer); //to pc for debug
+
+	CS_getresponse("SOUR:WAVE:RANG?"); // check compliance is set ok set ok
+	RangeGoodness = CS_checkresponse("FIX");
+
+	if (!RangeGoodness)
+	{
+		Serial.print(CS_rangeseterr);
+
+	}
+	return RangeGoodness;
+
+}
