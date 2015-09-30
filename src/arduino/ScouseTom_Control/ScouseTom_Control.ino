@@ -934,6 +934,10 @@ void dostuff()
 		if (FirstInj == 1) // if its the first time then switch straight away, otherwise check if the switch time has been met
 			//if this is the first time we are injecting we need to send settings to the current source
 		{
+			
+			//start current source
+			StartTime_CS = micros();
+			
 			//start current source
 			CS_start();
 			//display some stuff on the front
@@ -947,6 +951,18 @@ void dostuff()
 			FirstInj = 0;
 			Switchflag = 1;
 			lastInjSwitch = micros();
+
+
+			// delay the start of injection to give the current source time to get ready
+			StartElapsed_CS = micros() - StartTime_CS;
+
+			if (StartElapsed_CS < (StartDelay_CS - 10))
+			{
+				delayMicroseconds(StartDelay_CS - StartElapsed_CS);
+			}
+
+
+
 
 		}
 		else //if its not the first time, then see if we need to switch by checking time

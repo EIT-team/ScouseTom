@@ -55,10 +55,10 @@ void CS_next_freq() // set up next frequency of injection
 			Stimflag = 1;
 		}
 
-		Serial.print("Previous Freq was ");
-		Serial.println(prevFreq);
-		Serial.print("The Next Freq is: ");
-		Serial.println(Freq[curFreqIdx]);
+		//Serial.print("Previous Freq was ");
+		//Serial.println(prevFreq);
+		//Serial.print("The Next Freq is: ");
+		//Serial.println(Freq[curFreqIdx]);
 		//Serial.println(iFreq);
 		/*
 		sprintf(PC_outputBuffer, "Setting Amp %duA and Freq %dHz", Amp[curFreqIdx], Freq[curFreqIdx]);
@@ -67,12 +67,12 @@ void CS_next_freq() // set up next frequency of injection
 		// If the last inj freq is less than the one we are about to set, then put frequency first
 		if (prevFreq < Freq[curFreqIdx])
 		{
-			Serial.println("Setting Freq First");
+			//Serial.println("Setting Freq First");
 			CS_sendsettings(Amp[curFreqIdx], Freq[curFreqIdx], 1); // set the new amp and freq in the current source, with no error checking for speed
 		}
 		else //otherwise if we are stepping down in freq then do amp first
 		{
-			Serial.println("Setting Amp First");
+			//Serial.println("Setting Amp First");
 			CS_sendsettings(Amp[curFreqIdx], Freq[curFreqIdx], 0);
 		}
 
@@ -87,14 +87,30 @@ void CS_next_freq() // set up next frequency of injection
 		/*#################
 		Switching stuff moved to *after* CS start to limit the amount of time wasted waiting for CS to actually start in delay routine below
 		*/
-
 		StartTime_CS = micros();
-		CS_start(); //start current source
 
-
-		programswitches(Injection[iPrt][0], Injection[iPrt][1], TotalPins); //programm the switches
+		programswitches(Injection[iPrt][0], Injection[iPrt][1], TotalPins); //programme the switches
 		SwitchChn(); // open switches to CS
 		//tsw = micros();
+
+		boolean cson = CS_CheckOn();
+		int DelayBeforeSwitch = 0;
+
+		CS_start(); //start current source
+		
+		if (cson) //if current source is on then only wait the short amount of time
+		{ 
+			DelayBeforeSwitch = StartDelay_MultiFreq;
+		}
+		else //otherwise the cs hasnt started yet, and needs teh full time to wait
+		{
+			DelayBeforeSwitch = StartDelay_CS;
+			CS_start(); //start current source
+		}
+
+
+
+
 
 		CS_Disp_multi(Amp[iFreq], Freq[iFreq], iFreq + 1, NumFreq, iPrt + 1, NumInj, iRep + 1, NumRep); // write the front panel of the CS
 		//tdisp = micros();
@@ -104,15 +120,15 @@ void CS_next_freq() // set up next frequency of injection
 		// delay the start of injection to give the current source time to get ready
 		StartElapsed_CS = micros() - StartTime_CS;
 
-		if (StartElapsed_CS < (StartDelay_CS - 10))
+		if (StartElapsed_CS < (DelayBeforeSwitch - 10))
 		{
-			delayMicroseconds(StartDelay_CS - StartElapsed_CS);
+			delayMicroseconds(DelayBeforeSwitch - StartElapsed_CS);
 		}
 
 		prevFreq = Freq[curFreqIdx]; //store the value we just set for future comparison
 
 		lastFreqSwitch = micros(); // record time we switches freq
-		indpins_pulse(0, 0, 0, 1); // send new freq pulse
+		indpins_pulse(0, 0, 0, curFreqIdx+1); // send new freq pulse - equal to the freq number - so we can check this is processing
 
 	}
 	/*ttot = micros();
@@ -122,7 +138,12 @@ void CS_next_freq() // set up next frequency of injection
 }
 
 
-
+boolean CS_CheckOn()
+{
+	CS_getresponse("OUTP:STAT?");
+	boolean ison = CS_checkresponse("1");
+	return ison;
+}
 
 int CS_start() //start current injection
 {
@@ -610,8 +631,8 @@ boolean CS_SetRange()
 		}
 	}
 
-	Serial.print("The max amp is: ");
-	Serial.println(maxamp);
+	/*Serial.print("The max amp is: ");
+	Serial.println(maxamp);*/
 
 	// set the expected range
 
@@ -644,10 +665,10 @@ boolean CS_SetRange()
 
 	}
 
-	Serial.print("Found Range :");
+	/*Serial.print("Found Range :");
 	Serial.print(curRange);
 	Serial.print(" or ");
-	Serial.println(CurrentRanges[curRange]);
+	Serial.println(CurrentRanges[curRange]);*/
 
 
 	//turn off autorange
@@ -666,13 +687,13 @@ boolean CS_SetRange()
 
 		if (curRange > 2) //higher 2 values returned in milli
 		{
-			Serial.println("Doing milli");
+			//Serial.println("Doing milli");
 			CS_getresponse("SOUR:CURR:RANG?"); // check range 
 			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange] / 1000, sc_milli); //output is in mA for highest 2
 		}
 		else
 		{
-			Serial.println("Doing micro");
+			//Serial.println("Doing micro");
 			CS_getresponse("SOUR:CURR:RANG?"); // check compliance is set ok set ok
 			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange], sc_micro); // output is in microA for lowest 2
 		}

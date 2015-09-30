@@ -9,22 +9,26 @@ void SwitchChn() //switch channels - switches are programmed by SetSwitchesFixed
 
 	lastInjSwitch = micros();
 	digitalWriteDirect(SYNC, HIGH);
+	SwitchesProgrammed = 0;
+	lastStimTrigger = lastInjSwitch;
 
 	if (SingleFreqMode)
 	{ 
-		indpins_pulse(0, 0, 1, 0); // only pulse if single freq mode as prt is repeated for multi
 		// increment protocol line 
 		iPrt++;
+		indpins_pulse(0, 0, 1, 0); // only pulse if single freq mode as prt is repeated for multi
+
 		if (iPrt == NumInj) // if complete protocol done then reset and increment repetiton counter
 		{
-			indpins_pulse(0, 0, 1, 0); // Pulse for complete protocol - this is to make a double pulse to indicate complete protocol during processing 
 			iPrt = 0;
 			iRep++;
+			indpins_pulse(0, 0, 1, 0); // Pulse for complete protocol - this is to make a double pulse to indicate complete protocol during processing 
+
 		}
 	}
 
-	lastStimTrigger = lastInjSwitch;
-	SwitchesProgrammed = 0;
+
+	
 
 	/*Serial.println("Switching Right now");
 	Serial.print("IPRT is now: ");
@@ -119,7 +123,7 @@ void SwitchChn_Contact() //switch channels - switches are programmed by SetSwitc
 	lastInjSwitch = micros();
 	digitalWrite(SYNC, HIGH);
 
-	indpins_pulse(0, 0, 1, 0); // only pulse if single freq mode as prt is repeated for multi
+	
 	// increment protocol line 
 	iContact++;
 	if (iContact == NumElec) // if complete protocol done then reset and increment repetiton counter
@@ -130,6 +134,7 @@ void SwitchChn_Contact() //switch channels - switches are programmed by SetSwitc
 
 	SwitchesProgrammed = 0;
 	
+	indpins_pulse(0, 0, 1, 0); // only pulse if single freq mode as prt is repeated for multi
 	/*Serial.println("Switching Right now");
 	Serial.print("iContact is now: ");
 	Serial.println(iContact);*/

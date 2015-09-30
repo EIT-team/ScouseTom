@@ -39,3 +39,4 @@ int CS_SetCompliance(int Compliance);
 boolean CS_SetRange();
 int CS_AutoRangeOn();
 boolean CS_AutoRangeOff();
+boolean CS_CheckOn();
