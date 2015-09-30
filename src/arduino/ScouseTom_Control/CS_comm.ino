@@ -109,9 +109,6 @@ void CS_next_freq() // set up next frequency of injection
 		}
 
 
-
-
-
 		CS_Disp_multi(Amp[iFreq], Freq[iFreq], iFreq + 1, NumFreq, iPrt + 1, NumInj, iRep + 1, NumRep); // write the front panel of the CS
 		//tdisp = micros();
 
@@ -128,7 +125,7 @@ void CS_next_freq() // set up next frequency of injection
 		prevFreq = Freq[curFreqIdx]; //store the value we just set for future comparison
 
 		lastFreqSwitch = micros(); // record time we switches freq
-		indpins_pulse(0, 0, 0, curFreqIdx+1); // send new freq pulse - equal to the freq number - so we can check this is processing
+		indpins_pulse(0, 0, 0, curFreqIdx+2); // send new freq pulse - equal to the freq number (extra one because zero ind) - so we can check this is processing - and extra one so the DIFF of the pulses is the freq order, this makes processing way easier
 
 	}
 	/*ttot = micros();
