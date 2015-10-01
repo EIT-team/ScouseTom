@@ -12,8 +12,11 @@ void CS_next_chn() // setup next channel for multi frequency injection
 	{
 		iPrt = 0;
 		iRep++;
-		indpins_pulse(0, 0, 1, 0); // Pulse for complete protocol - this is to make a double pulse to indicate complete protocol during processing 
-
+		
+		if (iRep != NumRep)
+		{
+			indpins_pulse(0, 0, 1, 0); // Pulse for complete protocol - this is to make a double pulse to indicate complete protocol during processing 
+		}
 	}
 
 	if (iRep != NumRep) // if we arent finished then shuffle and send new info to pc
@@ -40,7 +43,7 @@ void CS_next_freq() // set up next frequency of injection
 	//we are not doing this now
 	//CS_stop(); // stop current source - changing amp and freq may mean we set current too high for the new/old frequency
 
-	indpins_pulse(0, 0, 0, 1); // indicate that this freq inj is done
+	indpins_pulse(0, 0, 0, 1); // indicate that this freq inj is done - THIS CAN SOMETIMES HAPPEN *AFTER* THE SWITCHCHN PULSE BELOW!
 
 	//tstart = micros();
 	if (iRep != NumRep) // check if we arent finished - do nothing if we are finished (this is to prevent an eroneous short injection at the end
