@@ -602,9 +602,9 @@ end
 function [ok]=checkIEC60601(Amp,Freq)
 %checks if too high current for any of the frqs
 
-Freq_khz=Freq*1000;
+Freq_khz=Freq/1000;
 
-Amp_rms=sqrt(2)*Amp;
+Amp_rms=Amp/sqrt(2);
 Amp_max=sqrt(2)*100*Freq_khz;
 
 ok=all(Amp_rms < Amp_max);
