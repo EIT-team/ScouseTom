@@ -96,8 +96,10 @@ void loop()
 
 
 
-
-void DigipotSetR(int val)// sets wiper on digipot
+/**
+* sets wiper on digipot
+*/
+void DigipotSetR(int val)
 {
 	Wire.beginTransmission(44); // transmit to device #44 (0x2c)
 	// device address is specified in datasheet
