@@ -21,7 +21,7 @@ int CurrentRangesMax[5] = { 2, 21, 210, 2100, 21000 }; //Max current for each ra
 void CS_next_chn();
 void CS_next_freq();
 int CS_start();
-int CS_stop();
+boolean CS_stop();
 int CS_sendsettings_check(long Amp, long Freq);
 void CS_sendsettings(long Amp, long Freq,boolean FreqFirst);
 int CS_init();
@@ -41,3 +41,4 @@ boolean CS_SetRange();
 int CS_AutoRangeOn();
 boolean CS_AutoRangeOff();
 boolean CS_CheckOn();
+void CS_serialFlush();

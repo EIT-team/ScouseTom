@@ -389,6 +389,11 @@ void dostuff()
 			CS_Disp("ITS EIT TIME!");
 			CS_Disp_Wind2("Lets bloody do this");
 
+
+			//remove anything left from the current source buffer - we dont care about it anymore!
+			CS_serialFlush();
+
+
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
 			//pulse pins different amounts so we can find them in the EEG loading
@@ -409,7 +414,27 @@ void dostuff()
 			//set variables based on values sent by user
 			curMeasTime = MeasTime[0];
 			curNumRep = NumRep;
-			curComplianceCheckOffset = curMeasTime / 2; //check for compliance half way through injection THIS ASSUMES INJECTION TIME IS AT LEAST 6ms AS IT TAKES 3ms TO CHECK COMPLIANCE
+
+			//if measurement time is 10ms or less, there is not enough time to check the compliance (as it takes about 5ms), so set the check time higher than switch time so it never happens
+
+			if (curMeasTime > MinMeasMineForComplianceCheck)
+			{
+				//as it takes max 8ms, set the check offset to the earliest of either halfway through or 8ms before end
+
+				if ((curMeasTime / 2) < (curMeasTime - 8000))
+				{
+					curComplianceCheckOffset = curMeasTime / 2; //check for compliance half way through injection
+				}
+				else
+				{
+					curComplianceCheckOffset = (curMeasTime - 8000); //check for compliance 8ms before the end
+				}
+			}
+			else
+			{
+				curComplianceCheckOffset = curMeasTime * 2;  //set it too high so it never gets called
+			}
+
 
 			state = 2; //move to injecting state next loop
 			FirstInj = 1; // flag that we are on the first injection
@@ -417,7 +442,7 @@ void dostuff()
 
 			if (SingleFreqMode) // see if we are in single freq mode and then set some of the settings that wont change
 			{
-				
+
 				CS_AutoRangeOn(); //set ranging to normal
 				CS_commgoodness = CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
 				if (!CS_commgoodness)
@@ -442,13 +467,13 @@ void dostuff()
 			}
 			else // we are in multifrequency mode and thus we need to set more stuff before we start injection
 			{
-				
-				boolean AutoOffOK=CS_AutoRangeOff(); //set ranging to off
-				boolean RangeSetOK=CS_SetRange(); // set range to max required
+
+				boolean AutoOffOK = CS_AutoRangeOff(); //set ranging to off
+				boolean RangeSetOK = CS_SetRange(); // set range to max required
 
 				if (!(AutoOffOK && RangeSetOK))
 				{
-					state = 0; 
+					state = 0;
 					Serial.print(CS_commerrmsg);
 					CS_Disp("CS SET ERROR");
 					CS_Disp_Wind2("NOOOOOOOOOOOO");
@@ -724,7 +749,7 @@ void dostuff()
 		CS_Disp_Wind2("Immortality reached");
 
 		//Serial.println("Stopping injection");
-		Serial.print(CS_finishedmsg);
+		//Serial.print(CS_finishedmsg);
 
 		reset_pins(); //over the top but reset all of the switches again
 		digitalWriteDirect(IND_EX_1, LOW); //put the compliance flag to low
@@ -749,6 +774,9 @@ void dostuff()
 
 		//Serial.println("Stopping injection");
 		Serial.print(CS_finishedmsg);
+
+		//remove anything left from the current source buffer - we dont care about it anymore!
+		CS_serialFlush();
 
 		//put the range stuff back to normal - in case we changed it doing multifreq
 		CS_AutoRangeOn();
@@ -780,10 +808,10 @@ void dostuff()
 			SwitchesProgrammed = 0; // show that switches are not set
 			ContactEndofSeq = 0; // restart contact seq
 
-			curComplianceCheckOffset = ContactTime / 2; 
+			curComplianceCheckOffset = ContactTime / 2;
 
 			CS_AutoRangeOn(); //set ranging to normal
-			
+
 			CS_commgoodness = CS_sendsettings_check(ContactAmp, ContactFreq); // send settings to current source
 
 			/* do this in the first iteration of the inject state - so the communication order the is the same!
@@ -837,6 +865,11 @@ void dostuff()
 		CS_Disp("Reading from PC");
 		CS_Disp_Wind2("Hang on a second....");
 
+
+		//remove anything left from the current source buffer - we dont care about it anymore!
+		CS_serialFlush();
+
+
 		//get settings from PC
 		PC_commgoodness = 0;
 		PC_commgoodness = PC_getsettings();
@@ -874,7 +907,7 @@ void dostuff()
 			else
 			{
 				PC_inputgoodness = CS_SetRange();
-				
+
 				if (PC_inputgoodness)
 				{
 					Serial.print(CS_commokmsg);
@@ -934,10 +967,10 @@ void dostuff()
 		if (FirstInj == 1) // if its the first time then switch straight away, otherwise check if the switch time has been met
 			//if this is the first time we are injecting we need to send settings to the current source
 		{
-			
+
 			//start current source
 			StartTime_CS = micros();
-			
+
 			//start current source
 			CS_start();
 			//display some stuff on the front
@@ -1041,7 +1074,7 @@ void dostuff()
 
 
 		*/
-		
+
 		//Serial.println("Comp Check mode!");
 
 		if (FirstCompCheck && PC_inputgoodness && CS_commgoodness) // only do anything if settings are ok
@@ -1068,7 +1101,7 @@ void dostuff()
 			//Serial.println("Lets see what the compliance was shall we?");
 			PC_sendcomplianceupdate();
 			//send info about that checks
-			sendasciinum(iCompCheck+1);
+			sendasciinum(iCompCheck + 1);
 			sendasciinum(iCompCheckFreq);
 			sendasciinum(curCompliance);
 		}
@@ -1084,13 +1117,13 @@ void dostuff()
 
 		if (iCompCheck >= CompCheckNum) // if we have done all the compliance values we need then stop and reset
 		{
-			
+
 			//Serial.println("We are done checking compliance");
 			Serial.print(Complianceokmsg);
-			ComplianceCheckMode = 0; 
+			ComplianceCheckMode = 0;
 			state = 0; // dont start injection if things are fucked
 			ResetAfterCompliance();
-			checkidle=1;	
+			checkidle = 1;
 
 		}
 		else

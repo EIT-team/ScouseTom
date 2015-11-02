@@ -12,7 +12,7 @@ void CS_next_chn() // setup next channel for multi frequency injection
 	{
 		iPrt = 0;
 		iRep++;
-		
+
 		if (iRep != NumRep)
 		{
 			indpins_pulse(0, 0, 1, 0); // Pulse for complete protocol - this is to make a double pulse to indicate complete protocol during processing 
@@ -100,9 +100,9 @@ void CS_next_freq() // set up next frequency of injection
 		int DelayBeforeSwitch = 0;
 
 		CS_start(); //start current source
-		
+
 		if (cson) //if current source is on then only wait the short amount of time
-		{ 
+		{
 			DelayBeforeSwitch = StartDelay_MultiFreq;
 		}
 		else //otherwise the cs hasnt started yet, and needs the full time to wait
@@ -128,7 +128,7 @@ void CS_next_freq() // set up next frequency of injection
 		prevFreq = Freq[curFreqIdx]; //store the value we just set for future comparison
 
 		lastFreqSwitch = micros(); // record time we switches freq
-		indpins_pulse(0, 0, 0, curFreqIdx+2); // send new freq pulse - equal to the freq number (extra one because zero ind) - so we can check this is processing - and extra one so the DIFF of the pulses is the freq order, this makes processing way easier
+		indpins_pulse(0, 0, 0, curFreqIdx + 2); // send new freq pulse - equal to the freq number (extra one because zero ind) - so we can check this is processing - and extra one so the DIFF of the pulses is the freq order, this makes processing way easier
 
 	}
 	/*ttot = micros();
@@ -180,9 +180,9 @@ int CS_start() //start current injection
 }
 
 
-int CS_stop() //start current injection
+boolean CS_stop() //start current injection
 {
-	int goodnessflag = 1; //communication ok flag
+	boolean goodnessflag = 1; //communication ok flag
 	Serial1.println("SOUR:WAVE:ABOR"); //stop current injection!
 
 	//CS_getresponse("OUTP:STAT?");
@@ -218,7 +218,7 @@ int CS_sendsettings_check(long Amp, long Freq)
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); //to pc for debug
 
-	CS_getresponse("SOUR:WAVE:AMPL?",CS_timeoutlimit); // check amp set ok
+	CS_getresponse("SOUR:WAVE:AMPL?", CS_timeoutlimit); // check amp set ok
 	goodnessflag = CS_checkresponse_num(Amp, sc_micro); // amp in uA so set scale to sc_micro
 
 	/*
@@ -466,21 +466,21 @@ boolean CS_getresponse(String Str_send, int timeoutlimit)
 		}
 	}
 
-	
+
 	if (timeout) // moan if it had timed out
 	{
-	Serial.println("timeoutcstalk");
-	sprintf(CS_outputBuffer, "%s<%d>", CS_commtimeoutmsg, timeoutlimit);
-	Serial.print(CS_outputBuffer);
+		//Serial.println("timeoutcstalk");
+		sprintf(CS_outputBuffer, "%s<%d>", CS_commtimeoutmsg, timeoutlimit);
+		Serial.print(CS_outputBuffer);
 	}
 	else
 	{
-	Serial.print("CS Response: "); // print output
-	Serial.println(CS_inputBuffer);
-	Serial.print("this took: ");
-	Serial.println(tcurrent - tstart);
+		/*Serial.print("CS Response: "); // print output
+		Serial.println(CS_inputBuffer);
+		Serial.print("this took: ");
+		Serial.println(tcurrent - tstart);*/
 	}
-	
+
 	CS_inputFinished = 0; // reset input finished flag
 	return readok;
 
@@ -733,7 +733,7 @@ int CS_AutoRangeOn()
 	sprintf(CS_outputBuffer, "SOUR:CURR:RANG:AUTO 0"); //
 	Serial1.println(CS_outputBuffer); // send to CS
 
-	CS_getresponse("SOUR:CURR:RANG:AUTO?",CS_timeoutlimit); // check compliance is set ok set ok
+	CS_getresponse("SOUR:CURR:RANG:AUTO?", CS_timeoutlimit); // check compliance is set ok set ok
 	RangeGoodness = CS_checkresponse("0");
 
 	if (!RangeGoodness)
@@ -752,7 +752,7 @@ int CS_AutoRangeOn()
 	if (!RangeGoodness)
 	{
 		Serial.print(CS_rangeseterr);
-		
+
 	}
 	return RangeGoodness;
 
@@ -790,5 +790,36 @@ boolean CS_AutoRangeOff()
 
 	}
 	return RangeGoodness;
+
+}
+
+
+void CS_serialFlush()
+/*
+Function to flush serial input coming from current source - leftover stuff in the buffer is likely the cause of some errors with unexpected things being in the buffer
+*/
+{
+
+	int timeoutmillis = 300; //dont run forever! Probably unnecessary but I get scared about while loops without a timeout!
+
+	boolean timeout = 0;
+
+	int tstart = millis();
+	int tcurrent = 0;
+
+	while (Serial1.available() > 0 && timeout == 0)
+	{
+		tcurrent = millis();
+		if (tcurrent - tstart > timeoutmillis) // check if the timeout limit has been reached
+		{
+			timeout = 1;
+
+		}
+		else
+		{
+			char junk = Serial1.read();
+		}
+	}
+
 
 }
