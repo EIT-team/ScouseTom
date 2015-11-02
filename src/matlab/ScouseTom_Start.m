@@ -86,10 +86,10 @@ end
 
 
 if strcmp(resp,yesresp) == 1
-    disp('User is ready to record - will need confirmation');
+%     disp('User is ready to record - will need confirmation');
     RecordingData=1;
 else
-    disp('User is testing, will save log in working directory instead');
+%     disp('User is testing, will save log in working directory instead');
     %might want to set so that it doesnt save at all...
 end
 
@@ -203,7 +203,7 @@ if isempty(resp) || (strcmp(resp,noresp) == 1)
 end
 
 
-disp('Lets inject shall we?');
+% disp('Lets inject shall we?');
 
 %start injection now
 writelogPC(logfid,tstart,'Starting Injection');
@@ -252,7 +252,7 @@ end
 if (SingleFreqMode ==1);
     
     disp('Starting Single Frequency Inject Mode');
-    fprintf('Injecting at %dHz and %duA, for %d repeats\n',ExpSetup.Freq(1),ExpSetup.Amp(1),N_rep);
+    fprintf('Injecting at %dHz and %duA, for %d repeats...',ExpSetup.Freq(1),ExpSetup.Amp(1),N_rep);
     fprintf('This should take about %.1f minutes\n',ExpSetup.Info.TotalTime/60);
     
     %if single freq mode then arduino sends a further OK message
@@ -350,10 +350,10 @@ while(~FS.Stop() &&  ~Finished)
                 [CompBad,CompBadArray]=ScouseTom_ard_complianceprocess(outstr,N_prt);
                 BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,ExpSetup.Protocol);
                 
-                fprintf('WTF! COMPLIANCE OUT OF RANGE on %d of %d prot. lines! ',CompBad,N_prt);
+                fprintf('COMP OUT OF RANGE on %d of %d prot. lines! ',CompBad,N_prt);
                 
                 if ~isempty(BadElecs) % tell user to check electrodes if some are clearly bad
-                    fprintf('Check electrodes: ');
+                    fprintf('Check elecs: ');
                     if length(BadElecs) >1
                         
                         for iprint=1:length(BadElecs)
@@ -364,6 +364,8 @@ while(~FS.Stop() &&  ~Finished)
                     else
                         fprintf('%d \n',BadElecs);
                     end
+                else
+                    fprintf('?\n'); %terminate string even if no bad ones found
                 end
                 
         end
@@ -428,7 +430,7 @@ function FlushSerialBuffer(Ard,logfid,tstart)
 %remove anything in the serial buffer - otherwise matters are super
 %confused
 
-disp('Flushing Serial Buffer...');
+% disp('Flushing Serial Buffer...');
 
 
 while (Ard.BytesAvailable >0) %whilst there are bytes to read

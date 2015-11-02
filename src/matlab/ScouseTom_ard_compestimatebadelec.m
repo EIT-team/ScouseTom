@@ -35,10 +35,10 @@ PossBadElecs=unique(BadProtLines);
 %find the number of times
 BadCount=histc(BadProtLines,PossBadElecs);
 
-% if the number of times it is bad is the number of times it is used then
+% if the number of times it is bad is three quarters of the number of times it is used then
 % it is bad 
 
-BadElecs=PossBadElecs((BadCount == ElecCount(ElecIdx)));
+BadElecs=PossBadElecs((BadCount >= 0.75*ElecCount(ElecIdx)));
 
 
 

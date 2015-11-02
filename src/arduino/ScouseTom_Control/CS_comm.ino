@@ -335,8 +335,7 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 	}
 
 
-	// Set compliance as we only need this one time
-
+	// Set compliance to default value
 	goodnessflag = CS_SetCompliance(Compliance);
 
 	return goodnessflag;
@@ -594,7 +593,7 @@ boolean CS_CheckCompliance()
 
 }
 
-boolean CS_SetCompliance(int Compliance)
+boolean CS_SetCompliance(int ComplianceValue)
 {
 	/*
 	Set the compliance of the current source to a given mV value, and check it was set ok
@@ -603,8 +602,8 @@ boolean CS_SetCompliance(int Compliance)
 
 	*/
 
-	int CompToSet = Compliance / 10;
-	if (Compliance % 10)
+	int CompToSet = ComplianceValue / 10;
+	if (ComplianceValue % 10)
 	{
 		CompToSet++;
 	}

@@ -12,7 +12,8 @@ const int CS_ComplianceTimeoutLimit = 5; //timeout in milliseconds for complianc
 const long sc_micro = 1000000; // scale for micro
 const long sc_milli = 1000; // scale for milliseconds
 
-int Compliance = 1900; // mV compliance setting for current source in mV - default is 1.9V for biosemi
+const int ComplianceDefault = 1900;
+int Compliance = ComplianceDefault; // mV compliance setting for current source in mV - default is 1.9V for biosemi
 
 int CurrentRanges[5] = { 2, 20, 200, 2000, 20000 }; // Current ranges in uA for current source
 int CurrentRangesMax[5] = { 2, 21, 210, 2100, 21000 }; //Max current for each range - we want to use smallest as poss

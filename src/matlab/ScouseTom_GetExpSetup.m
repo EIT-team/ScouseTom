@@ -13,7 +13,7 @@ function [ ExpSetup ] = ScouseTom_GetExpSetup(varargin )
 
 %% Default things unlikely to change often so no point asking user for inputs each time
 ContactCheckInjectTime =500; %ms to collect data on each pair of electrodes during contact impedance check
-
+ComplianceDefault=1900; %Compliance of current source in mV
 
 %% inputs varagin
 
@@ -202,6 +202,7 @@ ExpSetup.StimulatorPulseWidth=StimulatorPulseWidth;
 ExpSetup.StimulatorVoltage=StimulatorVoltage;
 ExpSetup.Repeats=Repeats;
 ExpSetup.Bad_Elec=[];
+ExpSetup.Compliace=ComplianceDefault;
 
 %info/reference
 ExpSetup.Info.ProtocolLength=ProtocolLength;

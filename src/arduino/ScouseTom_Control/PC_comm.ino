@@ -150,6 +150,18 @@ int PC_getsettings()
 
 			ContactTime = ContactTime * 1000; //CONVERT INTO MICROSECONDS
 
+			//get the compliance in mV
+			Compliance = getasciinum_long();
+			sendasciinum_long(Compliance);
+			if (Compliance == -1)
+			{
+				Compliance = ComplianceDefault;
+				commgoodness = 0;
+				break;
+			}
+
+
+
 			/*#####################################################
 			Stimulation stuff
 			#######################################################*/
@@ -367,9 +379,17 @@ int checkinputs()
 	int inputgoodness = 1;
 	int CSwritegoodness = 1;
 
-	int finished = 1;
-	while (finished == 1) //again stupid way of doing it
+	boolean finished = 0;
+	while (finished == 0) //again stupid way of doing it
 	{
+
+		boolean compsetok = CS_SetCompliance(Compliance);
+
+		if (!compsetok)
+		{
+			inputok = 0;
+			break;
+		}
 
 		if (StimMode) //is we are stimulating then check timings
 		{
@@ -392,7 +412,7 @@ int checkinputs()
 			}
 		}
 
-		finished = 0;
+		finished = 1;
 
 	}
 	return inputok;

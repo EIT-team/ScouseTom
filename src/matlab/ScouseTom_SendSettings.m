@@ -2,6 +2,8 @@ function [ Ard,ExpSetup,OKFLAG ] = ScouseTom_SendSettings( Ard,ExpSetup)
 %ScouseTom_SendSettings Sends the information of the protocol, time to inject
 %per protocol line etc. to the arduino in the agreed fashion
 
+%comments below is out of date
+
 %
 % Data is sent in the form <###> with confirmation.
 % Inputs:
@@ -20,6 +22,10 @@ function [ Ard,ExpSetup,OKFLAG ] = ScouseTom_SendSettings( Ard,ExpSetup)
 %
 %   Outputs:
 %   Flag - goodness flag, low is bad
+
+% smashed together from random bits and pieces by Jimmy
+
+
 %% Some variables
 
 CScommerrmsg='!E';
@@ -31,12 +37,12 @@ OKFLAG=0;
 
 %this is badly coded and incomplete....
 
-%disp('Checking your ExpSetup...');
+fprintf('Checking your ExpSetup...');
 
-[settingsgood,ExpSetup]=ScouseTom_ValidateExpSetup(ExpSetup);
+[settingsgood,ExpSetup]=ScouseTom_ValidateExpSetup(ExpSetup,0);
 
 if settingsgood
-    %disp('Validated ok! :)');
+    fprintf('Validated ok! :)\n');
 else
     warning('Bad input settings, not doing anything!');
     return
@@ -98,7 +104,7 @@ FlushSerialBuffer(Ard);
 fprintf(Ard,'I');
 
 %ard checks CS is ok before moving on
-disp('Checking CS is OK...');
+fprintf('Checking CS is OK...');
 [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);
 
 if (~cscommok)
@@ -110,7 +116,7 @@ if strcmp(resp,CScommerrmsg)
 end
 
 if strcmp(resp, CScommOKmsg)
-    disp('Current Source connected OK! yay!');
+    fprintf('Current Source connected OK! yay!\n');
 end
 
 % ard sends "im waiting" message before cracking on
@@ -129,12 +135,14 @@ else
 end
 
 fprintf(Ard,'A'); % send byte telling arduino to await settings
-fprintf('##################################\n');
+% fprintf('##################################\n');
 fprintf('Sending settings to arduino...');
 finished_sending=0;
 %send all of the data, stop if something fucks up - there is a better way
 %to do this
 while (finished_sending ==0)
+  
+    %% Injection and System Stuff
     
     okflag=ScouseTom_ard_sendnumconfim(Ard,N_prt,'Protocol Length');
     if (~okflag)
@@ -165,6 +173,16 @@ while (finished_sending ==0)
         finished_sending=1;
         break
     end
+    
+        okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Compliance,'Compliance');
+    if (~okflag)
+        finished_sending=1;
+        break
+    end
+    
+    
+    %% Stimulation Stuff
+    
     
     okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.StimulatorTriggerTime,'Stimulator Trigger Time');
     if (~okflag)
@@ -273,6 +291,12 @@ while (finished_sending ==0)
     finished_sending=1;
     okflag=1;
 end
+
+if ~okflag
+    fprintf('\n');
+    fprintf('Problem when sending things to Ard!\n');
+end
+
 
 %% read ok message from arduino that settings all sent ok
 [resp,numflg,cscommok]=ScouseTom_ard_getresp(Ard);

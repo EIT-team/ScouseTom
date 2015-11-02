@@ -11,6 +11,7 @@ dbstring=[dbstring sprintf('<%d>',ExpSetup.Elec_num)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.FreqNum)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.Repeats)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.ContactCheckInjectTime)];
+dbstring=[dbstring sprintf('<%d>',ExpSetup.Compliance)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerTime)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorTriggerOffset)];
 dbstring=[dbstring sprintf('<%d>',ExpSetup.StimulatorPulseWidth)];

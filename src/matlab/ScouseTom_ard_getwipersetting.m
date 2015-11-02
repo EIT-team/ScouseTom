@@ -30,7 +30,7 @@ end
 if exist('VstimCal.mat','file') ==2
     load('VstimCal.mat');
 else
-    warning('No VstimCal found, using defaults instead');
+    disp('No VstimCal found, using defaults instead');
     [Vp,R]=VStimCalHardcode();
     
 end

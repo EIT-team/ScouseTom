@@ -8,6 +8,7 @@ const float ComplianceScaleFactors[CompCheckNum] = { 1, 0.75, 0.5 }; // compplia
 const int CompMaskNum = 8;
 
 
+
 bool CompStatusRead(int i);
 void CompStatusWrite(int i, bool valin);
 void CompStatusReset();

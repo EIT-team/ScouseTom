@@ -1,8 +1,17 @@
-function [ goodnessflag,ExpSetup ] = ScouseTom_ValidateExpSetup( ExpSetup,varargin )
+function [ goodnessflag,ExpSetup ] = ScouseTom_ValidateExpSetup( ExpSetup,VerboseFlag,varargin )
 %ScouseTom_ValidateExpSetup Checks the settings in the ExpSetup structure
 %   Users can now edit the ExpSetup and resend settings without going
 %   through any of the settings dialogs, so need to check everything before
 %   we start
+
+%% Some system defaults
+
+ComplianceDefault=1900;
+maxInjections = 200;
+maxFreqs = 40;
+ChnPerBoard=32; % number of active channels per board - 32 for biosemi and actichamp
+
+
 
 %% check if the fields are actually there
 
@@ -13,7 +22,7 @@ function [ goodnessflag,ExpSetup ] = ScouseTom_ValidateExpSetup( ExpSetup,vararg
 
 legit_fields={'Amp', 'Freq', 'Protocol','Elec_num', 'MeasurementTime',...
     'Repeats','StimulatorTriggerTime','StimulatorTriggerOffset',...
-    'StimulatorPulseWidth','ContactCheckInjectTime','StimulatorVoltage'};
+    'StimulatorPulseWidth','ContactCheckInjectTime','StimulatorVoltage','Info'};
 
 fieldsok=isfield(ExpSetup,legit_fields);
 
@@ -24,9 +33,14 @@ end
 
 %% extra inputs
 
+%see if we have been asked to be verbose
+if exist('VerboseFlag','var') ==0
+    VerboseFlag=1;
+end
+
+%see if user has said if we want to adjust the protocol if we have more
+%than 1 board. So injections on 33 become 40
 if ~isempty(varargin)
-    
-    
     if isnumeric(varargin{1})
         ProtAdjust=varargin{1};
     end
@@ -36,11 +50,9 @@ end
 
 
 
-
-
 %% get some info first
 
-goodnessflag=0;
+goodnessflag=1;
 
 N_prt = size(ExpSetup.Protocol,1);
 N_freq= size(ExpSetup.Freq,1);
@@ -64,75 +76,83 @@ end
 %current set manually in arduino code to 200 and 40 as variables
 %maxInjections and maxFreqs
 
-maxInjections = 200;
-maxFreqs = 40;
-ChnPerBoard=32; % number of active channels per board - 32 for biosemi and actichamp
-
-
-
-
 if N_prt > maxInjections
+    goodnessflag=0;
     error(['Protocol is too long - max is ', num2str(maxInjections)]);
 end
 
 if N_freq > maxFreqs
+    goodnessflag=0;
     error(['Too many freqs - max is ', num2str(maxFreqs)]);
 end
 
 
 %% check variables make sense - there is DEFINITELY a better way of doing this, like defining a parser or something
 
-
 if isnumeric(ExpSetup.Amp) ~= 1
+    goodnessflag=0;
     warning('Weird Amplitude');
     return
 elseif any(ExpSetup.Amp < 0)
+    goodnessflag=0;
     warning('Weird Amplitude');
     return
 end
 
 if isnumeric(ExpSetup.Freq) ~= 1
+    goodnessflag=0;
     warning('Weird Frequency');
     return
 elseif any(ExpSetup.Freq < 0)
+    goodnessflag=0;
     warning('Weird Frequency');
     return
 end
 
 if ~all(size(ExpSetup.Amp)==size(ExpSetup.Freq))
+    goodnessflag=0;
     warning('Mismatched numbers of frequencies and amplitudes');
     return
 end
 
 if isnumeric(ExpSetup.Elec_num) ~= 1
+    goodnessflag=0;
     warning('Weird Number of Electrodes must be positive integer');
     return
 elseif ceil(ExpSetup.Elec_num) ~= fix(ExpSetup.Elec_num)
+    goodnessflag=0;
     warning('Weird Number of Electrodes must be positive integer');
     return
 elseif ExpSetup.Elec_num < 0
+    goodnessflag=0;
     warning('Weird Number of Electrodes must be positive integer');
     return
 end
 
 if isnumeric(ExpSetup.Repeats) ~= 1
+    goodnessflag=0;
     warning('Weird Number of Repeats must be positive integer');
     return
 elseif ceil(ExpSetup.Repeats) ~= fix(ExpSetup.Repeats)
+    goodnessflag=0;
     warning('Weird Number of Repeats must be positive integer');
     return
 elseif ExpSetup.Repeats < 0
+    goodnessflag=0;
     warning('Weird Number of Repeats must be positive integer');
     return
 end
 
 if isnumeric(ExpSetup.MeasurementTime) ~= 1
+    goodnessflag=0;
     warning('Weird measurement time must be positive integer');
     return
 elseif ceil(ExpSetup.MeasurementTime) ~= fix(ExpSetup.MeasurementTime)
+    goodnessflag=0;
     warning('Weird measurement time must be positive integer');
     return
 elseif ExpSetup.MeasurementTime < 0
+    goodnessflag=0;
     warning('Weird measurement time must be positive integer');
     return
 end
@@ -143,34 +163,43 @@ if StimMode % only check stim stuff if we are in stimmode
     
     if isnumeric(ExpSetup.StimulatorTriggerTime) ~= 1
         warning('Weird StimulatorTriggerTime must be positive integer');
+        goodnessflag=0;
         return
     elseif ceil(ExpSetup.StimulatorTriggerTime) ~= fix(ExpSetup.StimulatorTriggerTime)
         warning('Weird StimulatorTriggerTime must be positive integer');
+        goodnessflag=0;
         return
     elseif ExpSetup.StimulatorTriggerTime < 0
         warning('Weird StimulatorTriggerTime must be positive integer');
+        goodnessflag=0;
         return
     end
     
     if isnumeric(ExpSetup.StimulatorTriggerOffset) ~= 1
         warning('Weird StimulatorTriggerOffset must be positive integer');
+        goodnessflag=0;
         return
     elseif ceil(ExpSetup.StimulatorTriggerOffset) ~= fix(ExpSetup.StimulatorTriggerOffset)
         warning('Weird StimulatorTriggerOffset must be positive integer');
+        goodnessflag=0;
         return
     elseif ExpSetup.StimulatorTriggerOffset < 0
         warning('Weird StimulatorTriggerOffset must be positive integer');
+        goodnessflag=0;
         return
     end
     
     if isnumeric(ExpSetup.StimulatorPulseWidth) ~= 1
         warning('Weird StimulatorTriggerOffset must be positive integer');
+        goodnessflag=0;
         return
     elseif ceil(ExpSetup.StimulatorPulseWidth) ~= fix(ExpSetup.StimulatorPulseWidth)
         warning('Weird StimulatorTriggerOffset must be positive integer');
+        goodnessflag=0;
         return
     elseif ExpSetup.StimulatorPulseWidth < 0
         warning('Weird StimulatorTriggerOffset must be positive integer');
+        goodnessflag=0;
         return
     end
     
@@ -180,12 +209,15 @@ if StimMode % only check stim stuff if we are in stimmode
         
         if isnumeric(ExpSetup.Info.StimulatorWiperSetting) ~= 1
             warning('Weird StimulatorWiperSetting must be positive integer');
+            goodnessflag=0;
             return
         elseif ceil(ExpSetup.Info.StimulatorWiperSetting) ~= fix(ExpSetup.Info.StimulatorWiperSetting)
             warning('Weird StimulatorWiperSetting must be positive integer');
+            goodnessflag=0;
             return
         elseif ExpSetup.Info.StimulatorWiperSetting < 0
             warning('Weird StimulatorWiperSetting must be positive integer');
+            goodnessflag=0;
             return
         end
         
@@ -194,9 +226,11 @@ if StimMode % only check stim stuff if we are in stimmode
     
     if isnumeric(ExpSetup.StimulatorVoltage) ~= 1 %if check target voltage is ok
         warning('Weird StimulatorWiperSetting must be positive integer');
+        goodnessflag=0;
         return
     elseif ExpSetup.StimulatorVoltage < 0
         warning('Weird StimulatorWiperSetting must be positive number');
+        goodnessflag=0;
         return
     end
     
@@ -210,18 +244,18 @@ if StimMode % only check stim stuff if we are in stimmode
         ExpSetup.Info.StimulatorWiperSetting=Rnew;
     end
     
-    if ExpSetup.StimulatorTriggerTime > ExpSetup.MeasurementTime
+    
+    if ExpSetup.StimulatorTriggerTime+ExpSetup.StimulatorTriggerOffset >= ExpSetup.MeasurementTime
         warning('StimulationTime is greater than measurement time');
+        goodnessflag=0;
         return
     end
     
-    if ExpSetup.MeasurementTime < ExpSetup.StimulatorTriggerOffset
+    if ExpSetup.MeasurementTime <= ExpSetup.StimulatorTriggerOffset
         warning('Trigger offset is greater than measurement time');
+        goodnessflag=0;
         return
     end
-    
-    
-    
     
 end
 
@@ -230,25 +264,31 @@ end
 
 if size(ExpSetup.Protocol,2) ~= 2
     warning('Weird protocol vector');
+    goodnessflag=0;
     return
 end
 
 if max(max(ExpSetup.Protocol)) > ExpSetup.Elec_num
     warning('Number of electrodes lower than the maximum channel');
+    goodnessflag=0;
 end
 
 if ExpSetup.MeasurementTime < .5
     warning('Injection time too small');
+    goodnessflag=0;
     return
 elseif ExpSetup.MeasurementTime < 3
     warning('You might be cutting it a bit fine with the injection time!');
+    goodnessflag=0;
 end
 
 if ExpSetup.ContactCheckInjectTime < 1
     warning('ContactImpedanceTime time too small');
+    goodnessflag=0;
     return
 elseif ExpSetup.ContactCheckInjectTime < 5
     warning('You might be cutting it a bit fine with the ContactImpedanceTime !');
+    goodnessflag=0;
 end
 
 %% Remove bad electrodes from the protocol
@@ -330,8 +370,6 @@ if ExpSetup.Elec_num > ChnPerBoard
     
     if isempty(ProtAdjust) %if user hasnt specified if we do this or not, ask
         
-        
-        
         % ask if user wants to change protocol
         yesresp='YES! Adjust Prot';
         noresp=({'NO! I have adjusted it myself';'or I want to inject where it cant be measured for some reason'});
@@ -343,7 +381,6 @@ if ExpSetup.Elec_num > ChnPerBoard
             warning('User didnt say to adjust BUT GONNA GO IT ANYWAY');
             ProtAdjust=1;
         end
-        
         
         if strcmp(resp,yesresp) == 1
             ProtAdjust=1;
@@ -442,8 +479,9 @@ end
 
 if ExpSetup.Info.Inj_Define_ms ==1
     
-    disp('Injection time defined by milliseconds');
-    
+    if VerboseFlag
+        disp('Injection time defined by milliseconds');
+    end
     %if we are defining measurement time by milliseconds then check correct
     %number is there and calc new cycles eq
     
@@ -459,19 +497,22 @@ if ExpSetup.Info.Inj_Define_ms ==1
         ExpSetup.Info.Inj_Cycles_Offset=0;
     else
         %otherwise its ambigusou so fuck off
+        goodnessflag=0;
         error('Number of Measurement Times does not match number of frequencies: please put 1 or NFreq');
     end
     
 else
     % we are using number of cycles to calculate the measurement time
-    disp('Injection time defined by Number of Cycles');
-    
+    if VerboseFlag
+        disp('Injection time defined by Number of Cycles');
+    end
     if (N_freq == size(ExpSetup.Info.Inj_Cycles,1)) || (size(ExpSetup.Info.Inj_Cycles,1) == 1)
         
         [Meas,Cycles]=ScouseTom_cycles2ms(ExpSetup.Freq,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset);
         ExpSetup.MeasurementTime=Meas;
         ExpSetup.Info.Inj_Cycles=Cycles;
     else
+        goodnessflag=0;
         error('Number of Inj Cycles does not match number of frequencies: please put 1 or NFreq');
         
     end
@@ -488,6 +529,20 @@ if ~all(meas_temp == ExpSetup.MeasurementTime)
     ExpSetup.Info.Inj_Define_ms=1;
 end
 
+%% Set Compliance
+
+%see if compliance is missing, then add it if not
+if isfield(ExpSetup,'Compliance')
+    if isnumeric(ExpSetup.Compliance) ~= 1
+        goodnessflag=0;
+        warning('Weird Compliace must be positive integer');
+        return
+    end
+    
+else
+    ExpSetup.Compliance=ComplianceDefault;
+end
+
 
 
 
@@ -498,7 +553,6 @@ end
 %update the number of lines in protocol - this is different after
 %adjustment for bad elecs
 N_prt = size(ExpSetup.Protocol,1);
-
 
 %user can edit ExpSetup on the Fly, so make sure ExpSetup.Info relates to
 %the ExpSetup as it ACTUALLY IS
@@ -516,84 +570,94 @@ ExpSetup.Info.DebugString=ScouseTom_debugstring(ExpSetup);
 
 
 %% print the expsetup
-fprintf('########');
-fprintf('Validating Settings File for ScouseTom System!');
-fprintf('########\n');
 
-fprintf('Description of this file : %s\n',ExpSetup.Info.Desc');
-fprintf('Created at the auspicious time of : %s\n',ExpSetup.Info.DateStr);
-fprintf('--------------\n');
-
-
-if SingleFreqMode %simpler output for singlefreqmode
-    fprintf('System in "SingleFreqMode" - single amp and freq, running continuously\n');
-    fprintf('Amplitude: %d uA\n',ExpSetup.Amp(1));
-    fprintf('Frequency: %d Hz\n',ExpSetup.Freq(1));
-else
-    fprintf('System in "MultiFreqMode" - %d frequencies, randomised for each protocol line\n',N_freq);
-    fprintf('Amplitudes uA: ');
+if VerboseFlag
     
-    for i=1:N_amp-1
-        fprintf('%d, ',ExpSetup.Amp(i));
-    end
-    fprintf('%d \n',ExpSetup.Amp(N_amp));
+    fprintf('########');
+    fprintf('Validating Settings File for ScouseTom System!');
+    fprintf('########\n');
     
-    fprintf('Frequencies Hz: ');
+    fprintf('Description of this file : %s\n',ExpSetup.Info.Desc');
+    fprintf('Created at the auspicious time of : %s\n',ExpSetup.Info.DateStr);
+    % fprintf('--------------\n');
     
-    for i=1:N_amp-1
-        fprintf('%d, ',ExpSetup.Freq(i));
-    end
-    fprintf('%d \n',ExpSetup.Freq(N_freq));
-end
-
-fprintf('Protocol loaded was %s with %d lines \n',ExpSetup.Info.ProtocolName,N_prt);
-fprintf('Sources\tSinks\n');
-
-for i =1:N_prt
-
-fprintf('%d\t\t%d\n',ExpSetup.Protocol(i,1),ExpSetup.Protocol(i,2));
-end
-fprintf('--------------\n');
-fprintf('Number of repeats : %d \n',ExpSetup.Repeats);
-
-if SingleFreqMode
     
-    fprintf('Injection time per protocol line : %d ms/%.2f s or %d cycles +%d ms offset\n',ExpSetup.MeasurementTime, ExpSetup.MeasurementTime/1000,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset);
-    
-else
-    for i=1:N_amp
-        fprintf('Injection time for Freq %d: %d Hz: %d ms or %d cycles + %d ms offset\n',i,ExpSetup.Freq(i),ExpSetup.MeasurementTime(i), ExpSetup.Info.Inj_Cycles(i),ExpSetup.Info.Inj_Cycles_Offset);
-    end
-end
-
-
-
-fprintf('Estimated time to complete measurements :');
-
-if ExpSetup.Info.TotalTime < 60
-    fprintf(' %.2f sec \n',ExpSetup.Info.TotalTime);
-else if ExpSetup.Info.TotalTime < 3600
-        fprintf(' %.2f min \n',ExpSetup.Info.TotalTime/60);
+    if SingleFreqMode %simpler output for singlefreqmode
+        fprintf('System in "SingleFreqMode" - single amp and freq, running continuously\n');
+        fprintf('Amplitude: %d uA\n',ExpSetup.Amp(1));
+        fprintf('Frequency: %d Hz\n',ExpSetup.Freq(1));
     else
-        fprintf(' %.2f hours \n',ExpSetup.Info.TotalTime/3600);
+        fprintf('System in "MultiFreqMode" - %d frequencies, randomised for each protocol line\n',N_freq);
+        fprintf('Amplitudes uA: ');
+        
+        for i=1:N_amp-1
+            fprintf('%d, ',ExpSetup.Amp(i));
+        end
+        fprintf('%d \n',ExpSetup.Amp(N_amp));
+        
+        fprintf('Frequencies Hz: ');
+        
+        for i=1:N_amp-1
+            fprintf('%d, ',ExpSetup.Freq(i));
+        end
+        fprintf('%d \n',ExpSetup.Freq(N_freq));
     end
-end
-
-
-
-if StimMode
-    fprintf('--------------\n');
     
-    fprintf('Stimulation Mode is ON! - Randomised phase delay triggered by phase marker on Keithley\n');
-    fprintf('%d uS pulse triggered every %d ms with offset %d ms from channel switch\n',ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset);
-    fprintf('Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime(1)-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));
-    fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.StimulatorVoltage,ExpSetup.Info.StimulatorWiperSetting);
+    fprintf('Protocol loaded was %s with %d lines \n',ExpSetup.Info.ProtocolName,N_prt);
+    
+    fprintf('Sources\tSinks\n');
+    
+    for i =1:N_prt
+        
+        fprintf('%d\t\t%d\n',ExpSetup.Protocol(i,1),ExpSetup.Protocol(i,2));
+    end
+    fprintf('--------------\n');
+    fprintf('Number of repeats : %d \n',ExpSetup.Repeats);
+    
+    if SingleFreqMode
+        
+        fprintf('Injection time per protocol line : %d ms/%.2f s or %d cycles +%d ms offset\n',ExpSetup.MeasurementTime, ExpSetup.MeasurementTime/1000,ExpSetup.Info.Inj_Cycles,ExpSetup.Info.Inj_Cycles_Offset);
+        
+    else
+        for i=1:N_amp
+            fprintf('Injection time for Freq %d: %d Hz: %d ms or %d cycles + %d ms offset\n',i,ExpSetup.Freq(i),ExpSetup.MeasurementTime(i), ExpSetup.Info.Inj_Cycles(i),ExpSetup.Info.Inj_Cycles_Offset);
+        end
+    end
+    
+    
+    
+    fprintf('Estimated time to complete measurements :');
+    
+    if ExpSetup.Info.TotalTime < 60
+        fprintf(' %.2f sec \n',ExpSetup.Info.TotalTime);
+    else if ExpSetup.Info.TotalTime < 3600
+            fprintf(' %.2f min \n',ExpSetup.Info.TotalTime/60);
+        else
+            fprintf(' %.2f hours \n',ExpSetup.Info.TotalTime/3600);
+        end
+    end
+    
+    
+    
+    if StimMode
+        fprintf('--------------\n');
+        
+        fprintf('Stimulation Mode is ON! - Randomised phase delay triggered by phase marker on Keithley\n');
+        fprintf('%d uS pulse triggered every %d ms with offset %d ms from channel switch\n',ExpSetup.StimulatorPulseWidth,ExpSetup.StimulatorTriggerTime,ExpSetup.StimulatorTriggerOffset);
+        fprintf('Approx %d stims per injection\n',floor((ExpSetup.MeasurementTime(1)-ExpSetup.StimulatorTriggerOffset)/ExpSetup.StimulatorTriggerTime));
+        fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.StimulatorVoltage,ExpSetup.Info.StimulatorWiperSetting);
+    end
+    
+
+
+
+if goodnessflag
+    fprintf('########EVERYTHING IS OK##########\n');
+else
+    warning('########ERRORS DURING CHECK##########');
 end
 
-fprintf('########EVERYTHING IS OK!!##########\n');
-
-
-
+end
 
 
 end

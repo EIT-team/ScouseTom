@@ -41,7 +41,7 @@ end
 if ((in == Num) && numflag)
     flag=1;
 else
-    warning(['Unexpected response from ard sending ' numname])
+    warning(['Unexpected response from ard sending ' numname '. Expected ' num2str(Num) 'received ' num2str(in)])
     flag=0;
 end
 
