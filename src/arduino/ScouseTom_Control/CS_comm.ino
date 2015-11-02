@@ -105,7 +105,7 @@ void CS_next_freq() // set up next frequency of injection
 		{ 
 			DelayBeforeSwitch = StartDelay_MultiFreq;
 		}
-		else //otherwise the cs hasnt started yet, and needs teh full time to wait
+		else //otherwise the cs hasnt started yet, and needs the full time to wait
 		{
 			DelayBeforeSwitch = StartDelay_CS;
 			CS_start(); //start current source
@@ -140,7 +140,7 @@ void CS_next_freq() // set up next frequency of injection
 
 boolean CS_CheckOn()
 {
-	CS_getresponse("OUTP:STAT?");
+	CS_getresponse("OUTP:STAT?", CS_timeoutlimit);
 	boolean ison = CS_checkresponse("1");
 	return ison;
 }
@@ -204,7 +204,7 @@ int CS_sendsettings_check(long Amp, long Freq)
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); //to pc for debug
 
-	CS_getresponse("SOUR:WAVE:FREQ?");
+	CS_getresponse("SOUR:WAVE:FREQ?", CS_timeoutlimit);
 	goodnessflag = CS_checkresponse_num(Freq, 1);
 
 	if (goodnessflag == 0) // if bad comm then return and complain
@@ -218,7 +218,7 @@ int CS_sendsettings_check(long Amp, long Freq)
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); //to pc for debug
 
-	CS_getresponse("SOUR:WAVE:AMPL?"); // check amp set ok
+	CS_getresponse("SOUR:WAVE:AMPL?",CS_timeoutlimit); // check amp set ok
 	goodnessflag = CS_checkresponse_num(Amp, sc_micro); // amp in uA so set scale to sc_micro
 
 	/*
@@ -269,7 +269,7 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 	int goodnessflag = 0; //communication ok flag
 
 	//check comm to CS is ok by checking response to version num
-	CS_getresponse("SYST:VERS?");
+	CS_getresponse("SYST:VERS?", CS_timeoutlimit);
 	goodnessflag = CS_checkresponse(CS_vers);
 
 	if (goodnessflag == 0) // if bad comm then return and complain
@@ -283,7 +283,7 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 
 	//now comm is ok lets make sure the current source is off
 
-	CS_getresponse("OUTP:STAT?");
+	CS_getresponse("OUTP:STAT?", CS_timeoutlimit);
 	goodnessflag = CS_checkresponse("0");
 
 	if (goodnessflag == 0)
@@ -302,7 +302,7 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 
 	Serial1.println("SOUR:WAVE:PMARK:STAT 1");
 
-	CS_getresponse("SOUR:WAVE:PMARK:STAT?");
+	CS_getresponse("SOUR:WAVE:PMARK:STAT?", CS_timeoutlimit);
 	goodnessflag = CS_checkresponse("1");
 
 	if (goodnessflag == 0) // if bad comm then return and complain
@@ -314,7 +314,7 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 	// Set wave type as we only need to do this once
 
 	Serial1.println("SOUR:WAVE:FUNC SIN");
-	CS_getresponse("SOUR:WAVE:FUNC?");
+	CS_getresponse("SOUR:WAVE:FUNC?", CS_timeoutlimit);
 	goodnessflag = CS_checkresponse("SIN");
 
 	if (goodnessflag == 0) // if bad comm then return and complain
@@ -440,23 +440,25 @@ void CS_getmsg() {
 	}
 }
 
-
-void CS_getresponse(String Str_send)
+boolean CS_getresponse(String Str_send, int timeoutlimit)
 {
 	//send a query to current source and store response in the CS_inputBuffer
 
 	Serial1.println(Str_send); //send query to CS
 
-	int timeout = 0; //
+	boolean timeout = 0; //flag for whether we have timed out
+	boolean readok = 1; //was message read ok?
+
 	int tstart = millis();
 	int tcurrent = 0;
 
 	while (CS_inputFinished == 0 && timeout == 0)
 	{
 		tcurrent = millis();
-		if (tcurrent - tstart > CS_timeoutlimit) // check if the timeout limit has been reached
+		if (tcurrent - tstart > timeoutlimit) // check if the timeout limit has been reached
 		{
 			timeout = 1;
+			readok = 0;
 		}
 		else
 		{
@@ -464,18 +466,23 @@ void CS_getresponse(String Str_send)
 		}
 	}
 
-	/*
+	
 	if (timeout) // moan if it had timed out
 	{
-	Serial.print(CS_commerrmsg);
+	Serial.println("timeoutcstalk");
+	sprintf(CS_outputBuffer, "%s<%d>", CS_commtimeoutmsg, timeoutlimit);
+	Serial.print(CS_outputBuffer);
 	}
 	else
 	{
 	Serial.print("CS Response: "); // print output
 	Serial.println(CS_inputBuffer);
+	Serial.print("this took: ");
+	Serial.println(tcurrent - tstart);
 	}
-	*/
+	
 	CS_inputFinished = 0; // reset input finished flag
+	return readok;
 
 }
 
@@ -560,33 +567,34 @@ boolean CS_CheckCompliance()
 	/*Check the compliance status
 	Current Source Sends 16 bit register of status - we only want the 4th LSB which relates to compliance
 	This bit is 0 for OK, and 1 for bad which is what we want
-
 	*/
 
 	//read event register
-	CS_getresponse("STAT:MEAS:COND?");
-
-	// forth bit is complicance status 
+	boolean ComplianceFlag = CS_getresponse("STAT:MEAS:COND?", CS_ComplianceTimeoutLimit);
 
 	//Serial.print("CS response is : ");
 	//Serial.println(CS_inputBuffer);
 
-	int MeasRegister = atoi(CS_inputBuffer);
+	//if read ok, then check the bit, otherwise return
+	if (ComplianceFlag)
+	{
+		// forth bit is complicance status 
+		int MeasRegister = atoi(CS_inputBuffer);
 
-	//Serial.print("As an integer that is: ");
-	//Serial.println(MeasRegister);
+		//Serial.print("As an integer that is: ");
+		//Serial.println(MeasRegister);
 
-	boolean ComplianceFlag = bitRead(MeasRegister, 3);
+		ComplianceFlag = bitRead(MeasRegister, 3);
 
-	//Serial.print("Therefore ComplianceFlag is: ");
-	//Serial.println(ComplianceFlag);
-
+		//Serial.print("Therefore ComplianceFlag is: ");
+		//Serial.println(ComplianceFlag);
+	}
 	return ComplianceFlag;
 
 
 }
 
-int CS_SetCompliance(int Compliance)
+boolean CS_SetCompliance(int Compliance)
 {
 	/*
 	Set the compliance of the current source to a given mV value, and check it was set ok
@@ -604,14 +612,17 @@ int CS_SetCompliance(int Compliance)
 	CompToSet *= 10;
 
 
-	int SetOk = 0;
+	boolean SetOk = 0;
 
 	sprintf(CS_outputBuffer, "SOUR:CURR:COMP %dE-3", CompToSet); //set in mV so have to use E-3
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); //to pc for debug
 
-	CS_getresponse("SOUR:CURR:COMP?"); // check compliance is set ok set ok
-	SetOk = CS_checkresponse_num(CompToSet, sc_milli); // Compliance in mV so set scale to sc_milli
+	SetOk = CS_getresponse("SOUR:CURR:COMP?", CS_timeoutlimit); // check compliance is set ok
+	if (SetOk) //if no error on CS comm
+	{
+		SetOk = CS_checkresponse_num(CompToSet, sc_milli); // Compliance in mV so set scale to sc_milli
+	}
 	return SetOk;
 }
 
@@ -676,7 +687,7 @@ boolean CS_SetRange()
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); //to pc for debug
 
-	CS_getresponse("SOUR:CURR:RANG:AUTO?"); // check compliance is set ok set ok
+	CS_getresponse("SOUR:CURR:RANG:AUTO?", CS_timeoutlimit); // check compliance is set ok set ok
 	RangeGoodness = CS_checkresponse("0");
 
 	if (RangeGoodness)
@@ -688,13 +699,13 @@ boolean CS_SetRange()
 		if (curRange > 2) //higher 2 values returned in milli
 		{
 			//Serial.println("Doing milli");
-			CS_getresponse("SOUR:CURR:RANG?"); // check range 
+			CS_getresponse("SOUR:CURR:RANG?", CS_timeoutlimit); // check range 
 			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange] / 1000, sc_milli); //output is in mA for highest 2
 		}
 		else
 		{
 			//Serial.println("Doing micro");
-			CS_getresponse("SOUR:CURR:RANG?"); // check compliance is set ok set ok
+			CS_getresponse("SOUR:CURR:RANG?", CS_timeoutlimit); // check compliance is set ok set ok
 			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange], sc_micro); // output is in microA for lowest 2
 		}
 
@@ -722,7 +733,7 @@ int CS_AutoRangeOn()
 	sprintf(CS_outputBuffer, "SOUR:CURR:RANG:AUTO 0"); //
 	Serial1.println(CS_outputBuffer); // send to CS
 
-	CS_getresponse("SOUR:CURR:RANG:AUTO?"); // check compliance is set ok set ok
+	CS_getresponse("SOUR:CURR:RANG:AUTO?",CS_timeoutlimit); // check compliance is set ok set ok
 	RangeGoodness = CS_checkresponse("0");
 
 	if (!RangeGoodness)
@@ -735,7 +746,7 @@ int CS_AutoRangeOn()
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); //to pc for debug
 
-	CS_getresponse("SOUR:WAVE:RANG?"); // check compliance is set ok set ok
+	CS_getresponse("SOUR:WAVE:RANG?", CS_timeoutlimit); // check compliance is set ok set ok
 	RangeGoodness = CS_checkresponse("BEST");
 
 	if (!RangeGoodness)
@@ -757,7 +768,7 @@ boolean CS_AutoRangeOff()
 	sprintf(CS_outputBuffer, "SOUR:CURR:RANG:AUTO 0"); //
 	Serial1.println(CS_outputBuffer); // send to CS
 
-	CS_getresponse("SOUR:CURR:RANG:AUTO?"); // check compliance is set ok set ok
+	CS_getresponse("SOUR:CURR:RANG:AUTO?", CS_timeoutlimit); // check compliance is set ok set ok
 	RangeGoodness = CS_checkresponse("0");
 
 	if (!RangeGoodness)
@@ -770,7 +781,7 @@ boolean CS_AutoRangeOff()
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); //to pc for debug
 
-	CS_getresponse("SOUR:WAVE:RANG?"); // check compliance is set ok set ok
+	CS_getresponse("SOUR:WAVE:RANG?", CS_timeoutlimit); // check compliance is set ok set ok
 	RangeGoodness = CS_checkresponse("FIX");
 
 	if (!RangeGoodness)

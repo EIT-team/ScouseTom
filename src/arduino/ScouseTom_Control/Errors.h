@@ -11,6 +11,7 @@ const char CS_commerrmsg[] = "<!E>";
 const char CS_pmarkerrmsg[] = "<!P>";
 const char CS_outofrange[] = "<!Ro>";
 const char CS_rangeseterr[] = "<!Rs>";
+const char CS_commtimeoutmsg[] = "<!To>";
 
 const char SW_pwrerrmsg[] = "<!Wp>";
 const char SW_switcherrmsg[] = "<!Ws>";

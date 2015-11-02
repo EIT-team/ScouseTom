@@ -79,7 +79,7 @@ int stim_init(long Freq) //initialise the stimulator trigger
 
 	int goodnessflag = 0;
 
-	CS_getresponse("SOUR:WAVE:PMARK:LEV?");
+	CS_getresponse("SOUR:WAVE:PMARK:LEV?", CS_timeoutlimit);
 	goodnessflag = CS_checkresponse_num(CS_PhaseMarker, 1);
 
 	if (goodnessflag == 0) // if bad comm then return and complain

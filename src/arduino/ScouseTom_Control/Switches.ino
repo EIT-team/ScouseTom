@@ -41,12 +41,12 @@ void SetSwitchesFixed()
 	/*Serial.print("Programming Switches:iPrt ");
 	Serial.println(iPrt);*/
 	//start programming timer
-	tswprogstart = micros();
+	//tswprogstart = micros();
 	//set up switches
 	programswitches(Injection[iPrt][0], Injection[iPrt][1],TotalPins);
 
 	SwitchesProgrammed = 1; //set flag to indicate the switches have been programmed
-	tswprogend = micros();
+	//tswprogend = micros();
 	//ensure the switching always takes same time SwitchTime
 	//delayMicroseconds(SwitchTimeFix - (tswprogend - tswprogstart));
 }

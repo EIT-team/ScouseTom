@@ -2,12 +2,13 @@
  * CS_comm.h
  *
  *  Created on: 29 May 2015
- *      Author: raquel
+ *      Author: James
  */
 
 const byte CS_buffSize = 40; //size of char buffer to recieve from current source
 String CS_vers = "1999.0"; //Current source version number - used to check communication with current source
-const int CS_timeoutlimit = 1000; // timeout in milliseconds for response from current source
+const int CS_timeoutlimit = 50; // timeout in milliseconds for response from current source
+const int CS_ComplianceTimeoutLimit = 5; //timeout in milliseconds for compliance check - this is separete from normal timeout, as we dont want to wait as long during compliance checks!
 const long sc_micro = 1000000; // scale for micro
 const long sc_milli = 1000; // scale for milliseconds
 
@@ -30,11 +31,11 @@ void CS_Disp_multi(long Amp, long Freq, int Fnum, int Ftot, int Pnum, int Ptot, 
 void CS_Disp(String Textstr);
 void CS_Disp_Wind2(String Textstr);
 void CS_getmsg();
-void CS_getresponse(String Str_send);
+boolean CS_getresponse(String Str_send,int timeoutlimit);
 int CS_checkresponse(String Str_exp);
 int CS_checkresponse_num(long exp_num, long scale);
 boolean CS_CheckCompliance();
-int CS_SetCompliance(int Compliance);
+boolean CS_SetCompliance(int Compliance);
 
 boolean CS_SetRange();
 int CS_AutoRangeOn();
