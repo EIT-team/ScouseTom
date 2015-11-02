@@ -33,9 +33,9 @@ end
 
 % check if is all well
 if commgood == 0
-    error('Problem with arduino communication at some point');
     fclose(Ard);
     clear('Ard');
+    error('Problem with arduino communication at some point');
 end
 
 disp('Arduino Connected Fine');

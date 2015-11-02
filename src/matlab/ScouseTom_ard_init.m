@@ -20,7 +20,7 @@ end
 %open serial com
 Ard=serial(COMPORTSTR,'BaudRate',115200);
 
-disp('Resetting Arduino');
+% disp('Resetting Arduino');
 fopen(Ard); %arduino now reset
 
 %declare timing variables
@@ -55,7 +55,7 @@ while elapsed < timeout
 end
 
 if goodnessflag==1
-    disp('Communication with Arduino was OK');
+%     disp('Communication with Arduino was OK');
 else
     disp('Commuinocation with Arduino failed! BOOO');
     fclose(Ard);
