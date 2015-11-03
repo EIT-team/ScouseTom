@@ -49,6 +49,24 @@ endchar='>';
 
 FlushSerialBuffer(Ard);
 
+
+% ask if user ready to start - gives them opportunity to start recordign
+yesresp='START!';
+noresp='Cancel :(';
+titlestr='Ready to go?';
+promptstr=sprintf('Ready to start? \nI hope the EEG system is recording now....');
+resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
+
+if isempty(resp) || (strcmp(resp,noresp) == 1)
+    %cancel everytjing is they close dialogue
+    
+    warning('User hit cancel');
+    return
+end
+
+
+
+
 disp('Checking Contact - Neighbouring Electrode injections');
 fprintf(Ard,'C');
 
@@ -65,7 +83,7 @@ if (~cscommok)
 end
 
 if strcmp(resp,CScommOKmsg)
-    disp('Starting Contact Check');
+%     disp('Starting Contact Check');
 else
     disp('Arduino not ready to start - do you send the settings OK? Check current source');
     HaltInj(Ard);
@@ -83,7 +101,7 @@ if (~cscommok)
 end
 
 if strcmp(resp,CScommOKmsg)
-    disp('Settings sent OK');
+%     disp('Settings sent OK');
 else
     disp('CS Problem :(');
     HaltInj(Ard);
@@ -100,7 +118,7 @@ instr='';
 disp('INJECTING CONTACT CHECK PROTOCOL...');
 
 % create box for stopping early
-FS = stoploop('Compliance Check is happening! Hit button to stop it early if you want...');
+FS = stoploop('Contact Check is happening! Hit button to stop it early if you want...');
 
 while(~FS.Stop() &&  ~Finished)
     
