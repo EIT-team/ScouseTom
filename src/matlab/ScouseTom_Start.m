@@ -86,10 +86,10 @@ end
 
 
 if strcmp(resp,yesresp) == 1
-%     disp('User is ready to record - will need confirmation');
+    %     disp('User is ready to record - will need confirmation');
     RecordingData=1;
 else
-%     disp('User is testing, will save log in working directory instead');
+    %     disp('User is testing, will save log in working directory instead');
     %might want to set so that it doesnt save at all...
 end
 
@@ -228,7 +228,7 @@ if strcmp(resp, CScommOKmsg) %we are ready to go!
     writelogPC(logfid,tstart,'Comm ok, everything ready to go');
     
 else
-        
+    
     if strcmp(resp,CSsettingserrmsg) %stop if settings are not coo
         warning('Settings error - try resending settings i guess ');
     end
@@ -301,7 +301,15 @@ while(~FS.Stop() &&  ~Finished)
         
         %disp(['string in was: ', instr]);
         
-        [cmd,dataout,outstr]=ScouseTom_ard_parseinput(instr); %read the data from the input string
+        try
+            [cmd,dataout,outstr]=ScouseTom_ard_parseinput(instr); %read the data from the input string
+            
+        catch
+            outstr=['Error parsing: ' instr];
+            cmd=99;
+            
+        end
+        
         writelogArd(logfid,tstart,outstr);
         
         switch cmd
@@ -329,44 +337,75 @@ while(~FS.Stop() &&  ~Finished)
                 CurrentPrt=dataout;
                 fprintf('%.2fs >>> Starting Protocol Line: %d of %d for repeat %d of %d\n',elapsedtime,CurrentPrt,N_prt,CurrentRep,N_rep);
             case 4 % new freq order
-                FreqOrder=dataout;
-                %disp(FreqOrder);
-                %tmp(1,1,1:N_freq)=FreqOrder; %kludge to ensure it is 3d
-                matlog.FreqOrder(CurrentRep,CurrentPrt)={FreqOrder}; % stick in matlog file too
                 
-                if ~(SingleFreqMode) % reset phase counter as freq order sequence is complete
-                    CurrentPhase=0;
+                try
+                    
+                    
+                    FreqOrder=dataout;
+                    %disp(FreqOrder);
+                    %tmp(1,1,1:N_freq)=FreqOrder; %kludge to ensure it is 3d
+                    matlog.FreqOrder(CurrentRep,CurrentPrt)={FreqOrder}; % stick in matlog file too
+                    
+                    if ~(SingleFreqMode) % reset phase counter as freq order sequence is complete
+                        CurrentPhase=0;
+                    end
+                catch
+                    writelogArd(logfid,tstart,'Failed Processing FreqOrder');
                 end
+                
                 
             case 5 %new phase delay order
-                CurrentPhase=CurrentPhase+1;
-                PhaseOrder=dataout;
-                if (SingleFreqMode) % much easier if single freq mode
-                    matlog.PhaseOrder(CurrentPhase,1:length(PhaseOrder))=PhaseOrder; % stick in matlog file too
-                else % different freqs might have different number of potential phases so must be stored in cell
-                    matlog.PhaseOrder(CurrentRep,CurrentPrt,CurrentPhase)={PhaseOrder};
-                end
-            case 6 % Compliance Warning
-                [CompBad,CompBadArray]=ScouseTom_ard_complianceprocess(outstr,N_prt);
-                BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,ExpSetup.Protocol);
-                
-                fprintf('COMP OUT OF RANGE on %d of %d prot. lines! ',CompBad,N_prt);
-                
-                if ~isempty(BadElecs) % tell user to check electrodes if some are clearly bad
-                    fprintf('Check elecs: ');
-                    if length(BadElecs) >1
-                        
-                        for iprint=1:length(BadElecs)
-                            fprintf('%d, ',BadElecs(iprint));
-                        end
-                        fprintf('%d \n',BadElecs(end));
-                        
-                    else
-                        fprintf('%d \n',BadElecs);
+                try
+                    
+                    CurrentPhase=CurrentPhase+1;
+                    PhaseOrder=dataout;
+                    if (SingleFreqMode) % much easier if single freq mode
+                        matlog.PhaseOrder(CurrentPhase,1:length(PhaseOrder))=PhaseOrder; % stick in matlog file too
+                    else % different freqs might have different number of potential phases so must be stored in cell
+                        matlog.PhaseOrder(CurrentRep,CurrentPrt,CurrentPhase)={PhaseOrder};
                     end
-                else
-                    fprintf('?\n'); %terminate string even if no bad ones found
+                    
+                catch
+                    writelogArd(logfid,tstart,'Failed Processing Phase');
                 end
+                
+                
+                
+            case 6 % Compliance Warning
+                
+                try
+                    
+                    [CompBad,CompBadArray]=ScouseTom_ard_complianceprocess(outstr,N_prt);
+                    BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,ExpSetup.Protocol);
+                    
+                    fprintf('COMP OUT OF RANGE on %d of %d prot. lines! ',CompBad,N_prt);
+                    
+                    if ~isempty(BadElecs) % tell user to check electrodes if some are clearly bad
+                        fprintf('Check elecs: ');
+                        if length(BadElecs) >1
+                            
+                            for iprint=1:length(BadElecs)
+                                fprintf('%d, ',BadElecs(iprint));
+                            end
+                            fprintf('%d \n',BadElecs(end));
+                            
+                        else
+                            fprintf('%d \n',BadElecs);
+                        end
+                    else
+                        fprintf('?\n'); %terminate string even if no bad ones found
+                    end
+                    
+                catch
+                    writelogArd(logfid,tstart,'Failed Processing Compliance');
+                end
+                
+                
+                
+            otherwise
+                fprintf('Broken input from Ard');
+                
+                
                 
         end
         
