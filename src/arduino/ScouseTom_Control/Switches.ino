@@ -305,7 +305,7 @@ int SwitchCheckOpen(int BoardNum)
 
 	digitalWrite(RESET, LOW);
 	SwitchesPwrOn();
-	delay(10); //esnure switches really reset
+	delay(10); //ensure switches really reset
 
 	return SwitchOK;
 }

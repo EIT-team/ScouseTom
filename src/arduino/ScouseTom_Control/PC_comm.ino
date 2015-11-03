@@ -18,12 +18,12 @@ int PC_getsettings()
 	number of electrodes - int
 	number of frequencies - int
 	number of repeated protcols - int
-	
+
 	ContactTime  uS - long - user sends ms
 	Stimulator trigger time - us - user sends ms
 	Stimulator trigger offset - us - - user sends ms
 	Stimulator pulse width - long in uS - user sends us
-	Stimulator wiper setting - int 8bit value 
+	Stimulator wiper setting - int 8bit value
 	Source channels[NumInj] - int
 	Sink channels[NumInj] - int
 	Freq[NumFreq] - long
@@ -40,6 +40,7 @@ int PC_getsettings()
 
 	Serial.print("<A>"); //send "im ready" byte
 
+	//wait for response A from PC
 	while (comminit == 0 && timeout == 0)
 	{
 		tcurrent = millis();
@@ -78,6 +79,7 @@ int PC_getsettings()
 			sendasciinum(NumInj);
 			if (NumInj == -1)
 			{
+				Serial.print("<NumInj Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -86,6 +88,7 @@ int PC_getsettings()
 			sendasciinum(NumElec);
 			if (NumElec == -1)
 			{
+				Serial.print("<NumElec Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -107,6 +110,7 @@ int PC_getsettings()
 			sendasciinum(NumFreq);
 			if (NumFreq == -1)
 			{
+				Serial.print("<NumFreq Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -127,6 +131,7 @@ int PC_getsettings()
 			sendasciinum(NumRep);
 			if (NumRep == -1)
 			{
+				Serial.print("<NumRep Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -136,7 +141,7 @@ int PC_getsettings()
 			{
 				LongDispWind = 1;
 			}
-			
+
 
 
 			//get contact impedance measurement time
@@ -144,6 +149,7 @@ int PC_getsettings()
 			sendasciinum_long(ContactTime);
 			if (ContactTime == -1)
 			{
+				Serial.print("<ContactTime Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -155,6 +161,7 @@ int PC_getsettings()
 			sendasciinum_long(Compliance);
 			if (Compliance == -1)
 			{
+				Serial.print("<Compliance Bad>");
 				Compliance = ComplianceDefault;
 				commgoodness = 0;
 				break;
@@ -171,6 +178,7 @@ int PC_getsettings()
 			sendasciinum_long(StimTriggerTime);
 			if (StimTriggerTime == -1)
 			{
+				Serial.print("<StimTriggerTime Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -181,6 +189,7 @@ int PC_getsettings()
 			sendasciinum_long(StimOffset);
 			if (StimOffset == -1)
 			{
+				Serial.print("<StimOffset Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -193,6 +202,7 @@ int PC_getsettings()
 			sendasciinum_long(StimPulseWidth);
 			if (StimPulseWidth == -1)
 			{
+				Serial.print("<StimPulseWidth Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -202,6 +212,7 @@ int PC_getsettings()
 			sendasciinum(StimWiperValue);
 			if (StimWiperValue == -1)
 			{
+				Serial.print("<StimTriggerTime Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -218,7 +229,7 @@ int PC_getsettings()
 
 			/*#####################################################
 			ARRAY STUFF - PROTOCOL & FREQS & AMPS & MEASTIMES
-			#######################################################*/		
+			#######################################################*/
 
 			int tmp_in = 0;
 
@@ -229,6 +240,7 @@ int PC_getsettings()
 				sendasciinum(tmp_in);
 				if (tmp_in == -1)
 				{
+					Serial.print("<Source Bad>");
 					commgoodness = 0;
 					break;
 				}
@@ -237,11 +249,12 @@ int PC_getsettings()
 
 			if (tmp_in == -1)
 			{
+				Serial.print("<Source Bad>");
 				commgoodness = 0;
 				break;
 			}
 
-			 //Serial.println("sourcesok");
+			//Serial.println("sourcesok");
 
 			//get sinks
 			for (int n = 0; n < NumInj; n++)
@@ -250,6 +263,7 @@ int PC_getsettings()
 				sendasciinum(tmp_in);
 				if (tmp_in == -1)
 				{
+					Serial.print("<Sink Bad>");
 					commgoodness = 0;
 					break;
 				}
@@ -257,11 +271,12 @@ int PC_getsettings()
 			}
 			if (tmp_in == -1)
 			{
+				Serial.print("<Sink Bad>");
 				commgoodness = 0;
 				break;
 			}
 
-			 //Serial.println("sinksok");
+			//Serial.println("sinksok");
 
 			//get frequencies
 			for (int n = 0; n < NumFreq; n++)
@@ -270,6 +285,7 @@ int PC_getsettings()
 				sendasciinum(tmp_in);
 				if (tmp_in == -1)
 				{
+					Serial.print("<Freq Bad>");
 					commgoodness = 0;
 					break;
 				}
@@ -277,6 +293,7 @@ int PC_getsettings()
 			}
 			if (tmp_in == -1)
 			{
+				Serial.print("<Freq Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -290,6 +307,7 @@ int PC_getsettings()
 				sendasciinum(tmp_in);
 				if (tmp_in == -1)
 				{
+					Serial.print("<Amp Bad>");
 					commgoodness = 0;
 					break;
 				}
@@ -297,6 +315,7 @@ int PC_getsettings()
 			}
 			if (tmp_in == -1)
 			{
+				Serial.print("<Amp Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -310,6 +329,7 @@ int PC_getsettings()
 				sendasciinum_long(tmp_in);
 				if (tmp_in == -1)
 				{
+					Serial.print("<MeasTime Bad>");
 					commgoodness = 0;
 					break;
 				}
@@ -317,6 +337,7 @@ int PC_getsettings()
 			}
 			if (tmp_in == -1)
 			{
+				Serial.print("<MeasTime Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -329,6 +350,7 @@ int PC_getsettings()
 			sendasciinum(NumBadElec);
 			if (NumBadElec == -1)
 			{
+				Serial.print("<NumBadElec Bad>");
 				commgoodness = 0;
 				break;
 			}
@@ -336,7 +358,7 @@ int PC_getsettings()
 			//Serial.println("numbadok");
 
 			// if there are bad electrodes then read array
-		
+
 			if (NumBadElec > 0)
 			{
 				for (int n = 0; n < NumBadElec; n++)
@@ -345,6 +367,7 @@ int PC_getsettings()
 					sendasciinum(tmp_in);
 					if (tmp_in == -1)
 					{
+						Serial.print("<BadElec Bad>");
 						commgoodness = 0;
 						break;
 					}
@@ -352,6 +375,7 @@ int PC_getsettings()
 				}
 				if (tmp_in == -1)
 				{
+					Serial.print("<BadElec Bad>");
 					commgoodness = 0;
 					break;
 				}
@@ -369,7 +393,7 @@ int PC_getsettings()
 
 	}
 	return commgoodness;
-	
+
 }
 
 //check inputs are ok and check writing to CS
@@ -387,6 +411,7 @@ int checkinputs()
 
 		if (!compsetok)
 		{
+			Serial.print("<CompSetErr>");
 			inputok = 0;
 			break;
 		}
@@ -395,22 +420,61 @@ int checkinputs()
 		{
 			if (StimOffset > MeasTime[0] || StimPulseWidth > StimTriggerTime) // stim offset must be less than measurement time and pulsewidth must be less than stimulation time 
 			{
+				Serial.print("<StimPulseTime>");
 				inputok = 0;
 				break;
 				//Serial.println("stim bad");
 			}
-			
+
 		}
 
+		//send all settings to the current source to check that it likes them - this is so we dont check during multifreq mode and slow things down
 		for (int i = 0; i < NumFreq; i++)
 		{
 			CSwritegoodness = CS_sendsettings_check(Amp[i], Freq[i]); //check each combination of amp and freq are sent ok to CS
 			if (!CSwritegoodness)
 			{
+				Serial.print("<CSSetErr");
+				Serial.print(i + 1);
+				Serial.print(">");
 				inputok = 0;
 				break;
 			}
 		}
+
+		//check that the reserved channels arent being addressed in protocol
+		for (int curbrd = 0; curbrd < NumBoard; curbrd++)
+		{
+			//loop through each board
+			int IllegalChannels[3] = { 38 + curbrd*PinsPerBoard, 39 + curbrd*PinsPerBoard, 40 + curbrd*PinsPerBoard }; //illegal channels for each board
+
+			for (int curinj = 0; curinj < NumInj; curinj++) //loop through each injection
+			{
+				for (int i = 0; i < 3; i++) //loop through each illegal channel
+				{
+					/*Serial.print("Checking ");
+					Serial.print(Injection[curinj][0]);
+					Serial.print("and ");
+					Serial.print(Injection[curinj][1]);
+
+					Serial.print("against ");
+					Serial.println(IllegalChannels[i]);*/
+					
+					//if sourced or sink through bad one then return error
+					if (Injection[curinj][0] == IllegalChannels[i] || Injection[curinj][1] == IllegalChannels[i])
+					{
+						Serial.print("<IllegalChnProtLine");
+						Serial.print(curinj+1);
+						Serial.print(">");
+						inputok = 0;
+						break;
+					}
+				}
+			}
+
+		}
+
+
 
 		finished = 1;
 
@@ -554,15 +618,15 @@ void	PC_sendupdate()
 {
 	if (SingleFreqMode) //if only single freq mode then send each new rep to PC
 	{
-		sprintf(PC_outputBuffer, "%c%c%d%c", startOfNumberDelimiter,RepNumIndicator, iRep+1, endOfNumberDelimiter);
+		sprintf(PC_outputBuffer, "%c%c%d%c", startOfNumberDelimiter, RepNumIndicator, iRep + 1, endOfNumberDelimiter);
 		Serial.print(PC_outputBuffer);
 	}
 	else //if multifreq mode then send rep then prt and then freqorder - 1 indexed because matlab will read it and to stop me getting confused when debuging in the serial port
 	{
 
-		sprintf(PC_outputBuffer, "%c%c%d%c", startOfNumberDelimiter, RepNumIndicator, iRep+1, endOfNumberDelimiter);
+		sprintf(PC_outputBuffer, "%c%c%d%c", startOfNumberDelimiter, RepNumIndicator, iRep + 1, endOfNumberDelimiter);
 		Serial.print(PC_outputBuffer);
-		sprintf(PC_outputBuffer, "%c%c%d%c", startOfNumberDelimiter, PrtNumIndicator, iPrt+1, endOfNumberDelimiter);
+		sprintf(PC_outputBuffer, "%c%c%d%c", startOfNumberDelimiter, PrtNumIndicator, iPrt + 1, endOfNumberDelimiter);
 		Serial.print(PC_outputBuffer);
 
 		//lazy way of doing it 
@@ -572,11 +636,11 @@ void	PC_sendupdate()
 		//do rest with cheese!
 		for (int i = 0; i < NumFreq - 1; i++)
 		{
-			sprintf(PC_outputBuffer, "%d%c", FreqOrder[i]+1, OrderDelimiter); // do each #, at a time...(i did this as i didnt know how to make buffer all at once
+			sprintf(PC_outputBuffer, "%d%c", FreqOrder[i] + 1, OrderDelimiter); // do each #, at a time...(i did this as i didnt know how to make buffer all at once
 			Serial.print(PC_outputBuffer);
 		}
 		//do last one without comma but end thing
-		sprintf(PC_outputBuffer, "%d%c", FreqOrder[NumFreq-1]+1, endOfNumberDelimiter); // send last freq order and end delim
+		sprintf(PC_outputBuffer, "%d%c", FreqOrder[NumFreq - 1] + 1, endOfNumberDelimiter); // send last freq order and end delim
 		Serial.print(PC_outputBuffer);
 	}
 
@@ -595,7 +659,7 @@ void PC_sendphaseupdate() //send the array of phases indicating what freq this c
 		Serial.print(PC_outputBuffer);
 	}
 	//do last one without comma but end thing
-	sprintf(PC_outputBuffer, "%d%c", Stim_phases[Stim_PhaseOrder[NumDelay-1]], endOfNumberDelimiter); // send last freq order and end delim
+	sprintf(PC_outputBuffer, "%d%c", Stim_phases[Stim_PhaseOrder[NumDelay - 1]], endOfNumberDelimiter); // send last freq order and end delim
 	Serial.print(PC_outputBuffer);
 }
 

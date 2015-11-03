@@ -141,7 +141,7 @@ finished_sending=0;
 %send all of the data, stop if something fucks up - there is a better way
 %to do this
 while (finished_sending ==0)
-  
+    
     %% Injection and System Stuff
     
     okflag=ScouseTom_ard_sendnumconfim(Ard,N_prt,'Protocol Length');
@@ -174,7 +174,7 @@ while (finished_sending ==0)
         break
     end
     
-        okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Compliance,'Compliance');
+    okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Compliance,'Compliance');
     if (~okflag)
         finished_sending=1;
         break
@@ -305,12 +305,19 @@ if (~cscommok)
     error('Didnt get message from Arduino....');
 end
 if strcmp(resp,CScommerrmsg)
-    warning('Error during settings read');
+    
+    warnstr=sprintf('CS Error\n');
+    warning(warnstr);
     return
 end
 
 if strcmp(resp, CScommOKmsg)
     disp('All settings sent ok! Tadow! :)');
+    
+else
+    warnstr=sprintf('\nError during settings read: %s\n',resp);
+    warning(warnstr);
+    
 end
 
 %% check all settings were sent ok to CS
@@ -324,11 +331,15 @@ if (~cscommok)
     error('Didnt get message from Arduino....');
 end
 if strcmp(resp,CSsettingserrmsg)
-    warning('INPUT CHECK FAILED!? OMGWTFBBQ CHECK CS CONNECTION');
+    warnstr=sprintf('CS ERROR\n',resp);
+    warning(warnstr);
 end
 
 if strcmp(resp, CScommOKmsg)
-    fprintf('Settings all check out, you are ready to inject!!!\n');
+    fprintf('Settings OK! Ready to inject!!!\n');
+else
+    warnstr=sprintf('\nInput Check Fail MSG: %s\n',resp);
+    warning(warnstr);
 end
 
 
