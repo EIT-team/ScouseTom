@@ -22,9 +22,13 @@ void SwitchChn() //switch channels - switches are programmed by SetSwitchesFixed
 		{
 			iPrt = 0;
 			iRep++;
-			indpins_pulse(0, 0, 1, 0); // Pulse for complete protocol - this is to make a double pulse to indicate complete protocol during processing 
-
 		}
+
+		if (iPrt == 1)
+		{
+			indpins_pulse(0, 0, 1, 0); // Pulse for complete protocol - this is to make a double pulse to indicate complete protocol during processing 
+		}
+
 	}
 
 
