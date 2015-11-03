@@ -417,24 +417,7 @@ void dostuff()
 
 			//if measurement time is 10ms or less, there is not enough time to check the compliance (as it takes about 5ms), so set the check time higher than switch time so it never happens
 
-			if (curMeasTime > MinMeasMineForComplianceCheck)
-			{
-				//as it takes max 8ms, set the check offset to the earliest of either halfway through or 8ms before end
-
-				if ((curMeasTime / 2) < (curMeasTime - 8000))
-				{
-					curComplianceCheckOffset = curMeasTime / 2; //check for compliance half way through injection
-				}
-				else
-				{
-					curComplianceCheckOffset = (curMeasTime - 8000); //check for compliance 8ms before the end
-				}
-			}
-			else
-			{
-				curComplianceCheckOffset = curMeasTime * 2;  //set it too high so it never gets called
-			}
-
+			curComplianceCheckOffset = SetComplianceOffset(curMeasTime);
 
 			state = 2; //move to injecting state next loop
 			FirstInj = 1; // flag that we are on the first injection
@@ -589,7 +572,7 @@ void dostuff()
 				else // if it is not time to switch, then only do one of these with stim taking priority - im sorry for all the nested loops
 				{
 
-					if ((currentMicros - lastStimTrigger) > (StimTriggerTime + StimOffsetCurrent) && StimMode) // if after offset aND we are in stim mode then
+					if ((currentMicros - lastStimTrigger) > (StimTriggerTime + StimOffsetCurrent) && StimMode) // if after offset and we are in stim mode then
 					{
 						Stimflag = 1;
 						digitalWriteDirect(PWR_STIM, HIGH); //turn off stimulator power supply
@@ -690,10 +673,27 @@ void dostuff()
 				{
 					Switchflag = 1; //set that we should switch now
 				}
-				else if ((currentMicros - lastStimTrigger) > (StimTriggerTime + StimOffsetCurrent) && StimMode) // if enough time has elapsed AND we are in stim mode then
+				else
 				{
-					Stimflag = 1;
+					if ((currentMicros - lastStimTrigger) > (StimTriggerTime + StimOffsetCurrent) && StimMode) // if enough time has elapsed AND we are in stim mode then
+					{
+						Stimflag = 1;
+					}
+					else if ((currentMicros - lastInjSwitch) > (curComplianceCheckOffset) && CompCheckFlag)
+					{
+						//check the compliance and do stuff based on the result
+						//The iPrt counter is incremted when switching, thus the result needs to go into iPrt-1
+
+						int CurrentPrt = iPrt - 1;
+						if (CurrentPrt < 0) CurrentPrt = NumInj - 1;
+
+						CompProcessSingle(CurrentPrt);
+						CompCheckFlag = 0;
+
+					}
+
 				}
+
 			}
 
 			if (StimMode) //only do this if stim mode

@@ -77,7 +77,7 @@ void CompProcessSingle(int ProtocolLine)
 	/* This checks for compliance and puts result in approprtiate place in bitmask.
 	Also responds to bad compliance
 	*/
-	
+
 	/*
 	Serial.print("CheckingCompliance On ProtLine ");
 	Serial.println(ProtocolLine);
@@ -87,7 +87,12 @@ void CompProcessSingle(int ProtocolLine)
 
 	CompStatus = CS_CheckCompliance();
 
-	CompStatusWrite(ProtocolLine, CompStatus);
+	//only write the new value if the old value was low - this makes no difference if its in singlefreqmode
+	//but in multifreq mode this means that if one freq is bad it keeps that bad value until it is sent at the end of the protocol
+	if (!CompStatusRead(ProtocolLine))
+	{
+		CompStatusWrite(ProtocolLine, CompStatus);
+	}
 
 	if (CompStatus) // if compliance status was bad
 	{
@@ -96,8 +101,8 @@ void CompProcessSingle(int ProtocolLine)
 		//possibly something else
 		/*
 			Serial.print("Compbad in prot line: ");
-		Serial.println(ProtocolLine);
-		*/
+			Serial.println(ProtocolLine);
+			*/
 	}
 
 
@@ -105,12 +110,12 @@ void CompProcessSingle(int ProtocolLine)
 
 void CompProcessMulti()
 {
-	/*Checks whole compliance status for whole repetiton of protocol 
-	
+	/*Checks whole compliance status for whole repetiton of protocol
+
 	if there is a bad one then it sends the status to the PC - if in compliance check mode then this does it anyway
 
 	If no bad ones then it puts the indicator pin low
-	
+
 	*/
 
 	//Serial.println("checking all...");
@@ -137,17 +142,17 @@ void CompProcessMulti()
 			PC_sendcomplianceupdate();
 		}
 
-		
+
 	}
-
-
+	//reset the compliance afterwards
+	CompStatusReset();
 
 }
 
 void ResetAfterCompliance()
 {
 	//when compliance is done then put variables back to normal
-	
+
 	CompStatusReset();
 	SingleFreqMode = CompFreqModeBackUp;
 	StimMode = CompStimModeBackup;
@@ -156,3 +161,33 @@ void ResetAfterCompliance()
 	iCompCheckFreq = 0;
 	CS_SetCompliance(Compliance);
 }
+
+
+int SetComplianceOffset(int MeasTime)
+{
+
+	int CompCheckOffset = MinMeasTimeForComplianceCheck;
+
+	if (MeasTime > MinMeasTimeForComplianceCheck)
+	{
+		//as it takes max 8ms, set the check offset to the earliest of either halfway through or 8ms before end
+
+		if ((MeasTime / 2) < (MeasTime - 8000))
+		{
+			CompCheckOffset = MeasTime / 2; //check for compliance half way through injection
+		}
+		else
+		{
+			CompCheckOffset = (MeasTime - 8000); //check for compliance 8ms before the end
+		}
+	}
+	else
+	{
+		CompCheckOffset = MeasTime * 2;  //set it too high so it never gets called
+	}
+
+	return CompCheckOffset;
+
+}
+
+

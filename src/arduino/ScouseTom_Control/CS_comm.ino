@@ -12,6 +12,8 @@ void CS_next_chn() // setup next channel for multi frequency injection
 	{
 		iPrt = 0;
 		iRep++;
+		CompProcessMulti();// send compliance status to PC
+		CompStatusReset();
 
 		if (iRep != NumRep)
 		{
@@ -117,6 +119,12 @@ void CS_next_freq() // set up next frequency of injection
 
 		iFreq++; //increment the frequency counter (as all has gone well)
 
+
+
+		CompCheckFlag = 1; //say we want to check the compliance again
+		curComplianceCheckOffset = SetComplianceOffset(MeasTime[curFreqIdx]); //calculate the time to wait till compliance check
+		prevFreq = Freq[curFreqIdx]; //store the value we just set for future comparison
+
 		// delay the start of injection to give the current source time to get ready
 		StartElapsed_CS = micros() - StartTime_CS;
 
@@ -125,9 +133,8 @@ void CS_next_freq() // set up next frequency of injection
 			delayMicroseconds(DelayBeforeSwitch - StartElapsed_CS);
 		}
 
-		prevFreq = Freq[curFreqIdx]; //store the value we just set for future comparison
-
-		lastFreqSwitch = micros(); // record time we switches freq
+		lastFreqSwitch = micros(); // record time we switched freq
+		
 		indpins_pulse(0, 0, 0, curFreqIdx + 2); // send new freq pulse - equal to the freq number (extra one because zero ind) - so we can check this is processing - and extra one so the DIFF of the pulses is the freq order, this makes processing way easier
 
 	}
