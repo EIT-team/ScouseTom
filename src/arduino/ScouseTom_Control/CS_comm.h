@@ -7,7 +7,7 @@
 
 const byte CS_buffSize = 40; //size of char buffer to recieve from current source
 String CS_vers = "1999.0"; //Current source version number - used to check communication with current source
-const int CS_timeoutlimit = 50; // timeout in milliseconds for response from current source
+const int CS_timeoutlimit = 200; // timeout in milliseconds for response from current source
 const int CS_ComplianceTimeoutLimit = 5; //timeout in milliseconds for compliance check - this is separete from normal timeout, as we dont want to wait as long during compliance checks!
 const long sc_micro = 1000000; // scale for micro
 const long sc_milli = 1000; // scale for milliseconds
