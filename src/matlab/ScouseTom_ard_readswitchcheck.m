@@ -57,6 +57,7 @@ else
     warning('didnt receive number of boards from ard');
 end
 
+brdok=0;
 %error sent for each board in turn
 for iBrd =1:numboard
     

@@ -533,22 +533,24 @@ int CS_checkresponse_num(long exp_num, long scale) {
 	  Serial.print("bit after E: ");
 	  Serial.println(Epos + 1);
 	  */
-	float decimal = atof(decstr);
-	float power = atof(Epos + 1);
-
+	double decimal = atof(decstr);
+	double power = atof(Epos + 1);
 	/*
 	  Serial.print("dec float:");
-	  Serial.println(decimal);
+	  Serial.println(decimal,4);
 
 	  Serial.print("pow float:");
-	  Serial.println(power);
-	  */
-	float datainf = scale * decimal * pow(10, power);
-
-	long datain = long(datainf);
+	  Serial.println(power,4);
+  */
+	double datainf = scale * decimal * pow(10, power);
+   /* 
+    Serial.print("Converted to FP...");
+    Serial.println(datainf,4);
+*/
+	long datain = round(datainf);
 
 	/*
-	  Serial.print("Converted to a number...");
+	  Serial.print("Converted to a int...");
 	  Serial.println(datain);
 	  Serial.print("expected ");
 	  Serial.println(exp_num);
