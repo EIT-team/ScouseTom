@@ -11,12 +11,13 @@ const int TotalPins = 40 * NumBoard;
 void setup() {
   // put your setup code here, to run once:
 	Serial.begin(115200);
+	Serial.println("#############################");
 	Serial.println("ScouseTom Switch Checker: This will run the routines to check the switches are OK");
 	Serial.print("The number of boards in the daisy chain is : ");
 	Serial.println(NumBoard);
 	Serial.println("First the power is checked via TEST_1 Pin");
 	Serial.println("Then the test channel on the +ve and -ve sides are run");
-
+	Serial.println("#############################");
 	init_pins();
 
 	Serial.println("Turning Switches on");
@@ -52,9 +53,14 @@ void setup() {
 		}
 		else
 		{
-			Serial.println("Switching no workie B=====D~~~~~~ (.Y.)");
+			Serial.println("Switching Not Working :(");
 		}
 	}
+
+	Serial.println("#############################");
+	Serial.println("Done, Reset to try again!");
+	Serial.println("#############################");
+
 
 }
 
