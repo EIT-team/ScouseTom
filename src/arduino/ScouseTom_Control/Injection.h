@@ -4,7 +4,7 @@
 
 
 
-const int maxInjections = 256;// number of injections in protocol - max 200 to avoid dynamic memory allocation
+const int maxInjections = 256;// number of injections in protocol - max 256 to avoid dynamic memory allocation
 const int maxFreqs = 40; // max number of frequencies
 const int maxBadElecs = 20; // max number of bad electrodes 
 
