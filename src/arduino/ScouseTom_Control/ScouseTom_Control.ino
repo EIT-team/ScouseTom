@@ -174,7 +174,7 @@ int iStim = 0; // current stimulation number
 
 void setup() {
 	// setup PC connection
-	Serial.begin(115200);
+	//Serial.begin(115200); //THIS IS FOR DEBUGGING ONLY
 
 	init_pins(); // make sure switches are closed asap and set all low
 	reset_pins();
@@ -191,6 +191,9 @@ void setup() {
 	Stim_SetDigipot(StimOffValue); // set potentiometer to highest resistance to minimise current draw
 
 	randomSeed(analogRead(0)); // seed random number generator assumes A0 is floating!
+
+	// setup PC connection
+	Serial.begin(115200);
 
 	//Serial.println("hey there you motherfucker");
 	establishContact();
