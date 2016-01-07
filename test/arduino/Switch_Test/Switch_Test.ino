@@ -17,14 +17,13 @@ Jimmy 2014/2015
 #include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
 
 
-int sinkpin = 2; // pin that the sink is always connected to
+int sinkpin = 2; // pin that the sink is connected to
 int sourcepin = 4;
 
 const int chnmax = 99; // maximum number of channels
 
-const int NumBoard = 2;
-
-const int TotalPins = 40 * NumBoard;
+int NumBoard = 3;
+int TotalPins = 40 * NumBoard;
 
 
 
@@ -41,7 +40,7 @@ void setup() {
 
 
 	Serial.begin(115200);
-
+	Serial.println("#############################");
 	Serial.println("Hello There! This is a ScouseTom Switch Test");
 	Serial.print("The number of boards in the daisy chain is : ");
 	Serial.println(NumBoard);
@@ -49,11 +48,12 @@ void setup() {
 	Serial.println(sourcepin);
 	Serial.print("The sink pin is : ");
 	Serial.println(sinkpin);
-	Serial.println("Make sure you have changed terminator to newline :)");
+	Serial.println("#############################");
+	Serial.println("MAKE SURE YOU HAVE SET TERMINATOR TO NEWLINE :)");
 
 	Serial.println("The switches will be powered on, source and sink pins opened, then turned off");
 	Serial.println("This is repeated before allowing the user to select a pin");
-
+	Serial.println("#############################");
 	delay(1000);
 
 	init_pins();
@@ -81,8 +81,10 @@ void setup() {
 	Serial.println("off");
 	SwitchesPwrOff();
 	SwitchesPwrOn();
+	Serial.println("#############################");
 	Serial.println("waiting for input - < 100 sets source > 100 sets sink - for pins 1-99");
 	Serial.println("i.e. 32 sets source to pin 32, 132 sets sink to 32");
+	Serial.println("#############################");
 
 }
 
