@@ -213,7 +213,7 @@ while (finished_sending ==0)
     
     %send sources
     for n=1:N_prt
-        okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Protocol(n,1),['Source ' num2str(ExpSetup.Protocol(n,1))]);
+        okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Info.Protocol_Sent(n,1),['Source ' num2str(ExpSetup.Protocol(n,1))]);
         if (~okflag)
             finished_sending=1;
             break
@@ -222,7 +222,7 @@ while (finished_sending ==0)
     
     %send sinks
     for n=1:N_prt
-        okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Protocol(n,2),['Sink ' num2str(ExpSetup.Protocol(n,2))]);
+        okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Info.Protocol_Sent(n,2),['Sink ' num2str(ExpSetup.Protocol(n,2))]);
         if (~okflag)
             finished_sending=1;
             break
