@@ -20,7 +20,7 @@ Jimmy 2014/2015
 int sinkpin = 2; // pin that the sink is connected to
 int sourcepin = 4;
 
-const int chnmax = 99; // maximum number of channels
+const int chnmax = 199; // maximum number of channels
 
 int NumBoard = 3;
 int TotalPins = 40 * NumBoard;
@@ -82,7 +82,7 @@ void setup() {
 	SwitchesPwrOff();
 	SwitchesPwrOn();
 	Serial.println("#############################");
-	Serial.println("waiting for input - < 100 sets source > 100 sets sink - for pins 1-99");
+	Serial.println("waiting for input - < 200 sets source > 200 sets sink - for pins 1-99");
 	Serial.println("i.e. 32 sets source to pin 32, 132 sets sink to 32");
 	Serial.println("#############################");
 
@@ -104,7 +104,7 @@ void loop() {
 			}
 			else
 			{
-				c = c - 100;
+				c = c - 200;
 				if (c < chnmax)
 				{
 					sinkpin = c;
