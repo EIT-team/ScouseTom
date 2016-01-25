@@ -315,11 +315,19 @@ while(~FS.Stop() &&  ~Finished)
         switch cmd
             case -1 % there has been an error - stop the recording
                 
-                HaltInj(Ard,logfid,tstart);
+                %if a bad error has occured then stop, otherwise just
+                %record it
+                if (dataout ==1)
+                    
+                    HaltInj(Ard,logfid,tstart);
+                    Finished=1;
+                    warning('Ard sent an error - stopping :(');
+                    
+                else
+                    warning('Arduino sent a non-critical error code');
+                    
+                end
                 
-                
-                Finished=1;
-                warning('Ard sent an error - stopping :(');
                 writelogPC(logfid,tstart,'ERROR');
             case 0 %com ok msg sent
                 disp('Ard sent an ok message that it shouldnt have done....erm');
@@ -354,7 +362,6 @@ while(~FS.Stop() &&  ~Finished)
                 
             case 5 %new phase delay order
                 try
-                    
                     CurrentPhase=CurrentPhase+1;
                     PhaseOrder=dataout;
                     if (SingleFreqMode) % much easier if single freq mode
@@ -398,13 +405,9 @@ while(~FS.Stop() &&  ~Finished)
                     writelogArd(logfid,tstart,'Failed Processing Compliance');
                 end
                 
-                
-                
             otherwise
                 fprintf('Broken input from Ard');
-                
-                
-                
+
         end
         
         %reset instring and in byte now one completed

@@ -23,6 +23,7 @@ CSpmarkerrmsg = '!P';
 SwitchPWRerrmsg = '!Wp';
 SwitchOpenerrmsg = '!Ws';
 CScomplianceerrmsg = '!C';
+CSTimeouterrmsg='!To';
 
 CScommOKmsg='+OK';
 CSfinishmsg='+Fin';
@@ -59,8 +60,7 @@ datastr=StringIn(start_idx+2:end_idx-1);
 
 switch cmdstr
     case Error_prefix % error!
-        CMD=-1;
-        DataOut=-1;
+        [CMD,DataOut]=ParseError(datastr);
     case Message_prefix % ok message
         [CMD,DataOut]=ParseMessage(datastr);
         
@@ -94,12 +94,10 @@ end
 
 function [CMD,DataOut]=ParseMessage(datastr)
 
-
 CScommOKmsg='OK';
 CSfinishmsg='Fin';
 SwitchOKmsg = 'SW';
 ComplianceOKmsg = 'C';
-
 
 switch datastr
     
@@ -118,8 +116,44 @@ switch datastr
     case ComplianceOKmsg
         CMD=7;
         DataOut=1;
-       
         
 end
 
 end
+
+function [CMD,DataOut]=ParseError(datastr)
+
+CScommerrmsg='E';
+CSsettingserrmsg='S';
+CSpmarkerrmsg = 'P';
+SwitchPWRerrmsg = 'Wp';
+SwitchOpenerrmsg = 'Ws';
+CScomplianceerrmsg = 'C';
+CSTimeouterrmsg= 'To';
+
+CMD=-1; %all error have same code
+
+%certain error codes mean we should stop injection, others we can carry on
+
+switch datastr
+    
+    case CScommerrmsg
+        %CS comm bad, this is
+        DataOut=1;
+    case SwitchPWRerrmsg
+        %CS comm bad, this is
+        DataOut=1;
+    case SwitchOpenerrmsg
+        %CS comm bad, this is
+        DataOut=1;
+
+    otherwise
+        DataOut=0;
+        
+        
+end
+
+end
+
+
+
