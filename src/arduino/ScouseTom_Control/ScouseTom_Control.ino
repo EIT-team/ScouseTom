@@ -374,8 +374,8 @@ void dostuff()
 			long currentmillis = millis();
 			if ((currentmillis - lastidle) > idlewait)
 			{
-				CS_Disp("Idle...");
-				CS_Disp_Wind2("Twiddling thumbs");
+				CS_Disp(MSG_Idle);
+				CS_Disp_Wind2(MSG_Idle_2);
 				checkidle = 1;
 				//here is where the pmc_enable_sleep_mode stuff would go
 			}
@@ -389,8 +389,8 @@ void dostuff()
 
 		if (PC_inputgoodness && CS_commgoodness) // only do anything if settings are ok
 		{
-			CS_Disp("ITS EIT TIME!");
-			CS_Disp_Wind2("Lets bloody do this");
+			CS_Disp(MSG_Start);
+			CS_Disp_Wind2(MSG_Start_2);
 
 
 			//remove anything left from the current source buffer - we dont care about it anymore!
