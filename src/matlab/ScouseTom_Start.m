@@ -339,8 +339,6 @@ while(~FS.Stop() &&  ~Finished)
             case 4 % new freq order
                 
                 try
-                    
-                    
                     FreqOrder=dataout;
                     %disp(FreqOrder);
                     %tmp(1,1,1:N_freq)=FreqOrder; %kludge to ensure it is 3d
