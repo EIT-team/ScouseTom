@@ -476,7 +476,7 @@ boolean CS_getresponse(String Str_send, int timeoutlimit)
 	if (timeout) // moan if it had timed out
 	{
 		//Serial.println("timeoutcstalk");
-		sprintf(CS_outputBuffer, "%s<%d>", CS_commtimeoutmsg, timeoutlimit);
+		sprintf(CS_outputBuffer, "<%s,%d>", CS_commtimeoutmsg, timeoutlimit);
 		Serial.print(CS_outputBuffer);
 	}
 	else
