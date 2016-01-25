@@ -66,7 +66,7 @@ end
 
 
 
-
+%% Send Start Contact Command
 disp('Checking Contact - Neighbouring Electrode injections');
 fprintf(Ard,'C');
 
@@ -83,8 +83,11 @@ if (~cscommok)
 end
 
 if strcmp(resp,CScommOKmsg)
-%     disp('Starting Contact Check');
+    %     disp('Starting Contact Check');
 else
+     if strcmp(resp,CSsettingserrmsg)
+         warning('Settings error - did you send them to Arduino yet!?');
+     end
     disp('Arduino not ready to start - do you send the settings OK? Check current source');
     HaltInj(Ard);
     return;
@@ -101,7 +104,7 @@ if (~cscommok)
 end
 
 if strcmp(resp,CScommOKmsg)
-%     disp('Settings sent OK');
+    %     disp('Settings sent OK');
 else
     disp('CS Problem :(');
     HaltInj(Ard);
@@ -132,32 +135,61 @@ while(~FS.Stop() &&  ~Finished)
         
         %disp(['string in was: ', instr]);
         
-        [cmd,dataout,outstr]=ScouseTom_ard_parseinput(instr); %read the data from the input string
+        try
+            [cmd,dataout,outstr]=ScouseTom_ard_parseinput(instr); %read the data from the input string
+            
+        catch
+            outstr=['Error parsing: ' instr];
+            cmd=99;
+            
+        end
         
         switch cmd
             case -1 % there has been an error - stop the recording
-                HaltInj(Ard);
-                Finished=1;
-                warning('Ard sent an error - stopping :(');
-            case 6 % Compliance Warning
-                [CompBad,CompBadArray]=ScouseTom_ard_complianceprocess(outstr,N_prt);
-                BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,Contact_Protocol);
                 
-                fprintf('WTF! COMPLIANCE OUT OF RANGE on %d of %d prot. lines! ',CompBad,N_prt);
-                
-                if ~isempty(BadElecs) % tell user to check electrodes if some are clearly bad
-                    fprintf('Check electrodes: ');
-                    if length(BadElecs) >1
-                        
-                        for iprint=1:length(BadElecs)
-                            fprintf('%d, ',BadElecs(iprint));
-                        end
-                        fprintf('%d \n',BadElecs(end));
-                        
-                    else
-                        fprintf('%d \n',BadElecs);
-                    end
+                if (dataout ==1)
+                    
+                    HaltInj(Ard);
+                    Finished=1;
+                    warning('Ard sent an error - stopping :(');
+                    
+                    
+                else
+                    warning('Arduino sent a non-critical error code');
+                    
                 end
+                
+                
+            case 6 % Compliance Warning
+                
+                
+                try
+                    
+                    [CompBad,CompBadArray]=ScouseTom_ard_complianceprocess(outstr,N_prt);
+                    BadElecs=ScouseTom_ard_compestimatebadelec(CompBadArray,Contact_Protocol);
+                    
+                    fprintf('WTF! COMPLIANCE OUT OF RANGE on %d of %d prot. lines! ',CompBad,N_prt);
+                    
+                    if ~isempty(BadElecs) % tell user to check electrodes if some are clearly bad
+                        fprintf('Check electrodes: ');
+                        if length(BadElecs) >1
+                            
+                            for iprint=1:length(BadElecs)
+                                fprintf('%d, ',BadElecs(iprint));
+                            end
+                            fprintf('%d \n',BadElecs(end));
+                            
+                        else
+                            fprintf('%d \n',BadElecs);
+                        end
+                    end
+                    
+                catch
+                    warning('Error during Compliance processing');
+                end
+                
+                
+                
             case 1  % inj finished! yay!
                 disp('Ard is all done!');
                 Finished=1;
