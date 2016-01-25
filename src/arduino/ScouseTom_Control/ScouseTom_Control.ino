@@ -435,15 +435,15 @@ void dostuff()
 				{
 					state = 0; // dont start injection if things are fucked
 					Serial.print(CS_commerrmsg);
-					CS_Disp("CS SET ERROR");
-					CS_Disp_Wind2("NOOOOOOOOOOOO");
+					CS_Disp(MSG_CS_SET_ERR);
+					CS_Disp_Wind2(MSG_CS_SET_ERR_2);
 				}
 				else
 				{
 					// everything is ok - lets inject!
 					Serial.print(CS_commokmsg);
-					CS_Disp("CS SET OK");
-					CS_Disp_Wind2("SingleFreqMode");
+					CS_Disp(MSG_CS_SET_OK);
+					CS_Disp_Wind2(MSG_CS_SET_OK_2);
 					// turn on switches ready for injecting and that
 					SwitchesPwrOn();
 
@@ -461,8 +461,8 @@ void dostuff()
 				{
 					state = 0;
 					Serial.print(CS_commerrmsg);
-					CS_Disp("CS SET ERROR");
-					CS_Disp_Wind2("NOOOOOOOOOOOO");
+					CS_Disp(MSG_CS_SET_ERR);
+					CS_Disp_Wind2(MSG_CS_SET_ERR_2);
 				}
 
 			}
@@ -530,7 +530,7 @@ void dostuff()
 				///* debug trig */indpins_pulse(0, 0, 0, 1);
 
 				//display some stuff on the front
-				CS_Disp("EIT is happening...");
+				CS_Disp(MSG_SYS_RUN);
 				CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, curNumRep);
 
 				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
@@ -648,7 +648,7 @@ void dostuff()
 			if (FirstInj) //if this is the first time it is called then setup straight away
 			{
 
-				CS_Disp("EIT IS GO");
+				CS_Disp(MSG_SYS_RUN_MULTI);
 				Switchflag = 1;
 
 				if (StimMode) Stimflag = 1;
@@ -748,8 +748,8 @@ void dostuff()
 		indpins_pulse(0, 1, 0, 0); // indicate injection has stopped
 
 		//front panel stuff
-		CS_Disp("Inj Stopped");
-		CS_Disp_Wind2("Immortality reached");
+		CS_Disp(MSG_SYS_STOP);
+		CS_Disp_Wind2(MSG_SYS_STOP_2);
 
 		//Serial.println("Stopping injection");
 		//Serial.print(CS_finishedmsg);
@@ -772,8 +772,8 @@ void dostuff()
 		}
 
 		//front panel stuff
-		CS_Disp("Inj Stopped");
-		CS_Disp_Wind2("Immortality reached");
+		CS_Disp(MSG_SYS_STOP);
+		CS_Disp_Wind2(MSG_SYS_STOP_2);
 
 		//Serial.println("Stopping injection");
 		Serial.print(CS_finishedmsg);
@@ -791,8 +791,8 @@ void dostuff()
 	{
 		if (PC_inputgoodness && CS_commgoodness) // only do anything if settings are ok
 		{
-			CS_Disp("Contact Check");
-			CS_Disp_Wind2("Lets go!");
+			CS_Disp(MSG_CONTACT_CHECK_RUN);
+			CS_Disp_Wind2(MSG_CONTACT_CHECK_RUN_2);
 
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
@@ -828,14 +828,14 @@ void dostuff()
 			{
 				state = 0; // dont start injection if things are fucked
 				Serial.print(CS_commerrmsg);
-				CS_Disp("CS SET ERROR");
-				CS_Disp_Wind2("NOOOOOOOOOOOO");
+				CS_Disp(MSG_CS_SET_ERR);
+				CS_Disp_Wind2(MSG_CS_SET_ERR_2);
 			}
 			else
 			{
 				Serial.print(CS_commokmsg);
-				CS_Disp("CS SET OK");
-				CS_Disp_Wind2("Contact Check");
+				CS_Disp(MSG_CS_SET_OK);
+				CS_Disp_Wind2(MSG_CS_SET_OK_2);
 
 				SwitchesPwrOn(); //turn on switches
 				delay(50); // cant remember what this delay is for!
@@ -865,8 +865,8 @@ void dostuff()
 		{
 			Serial.print(CS_commerrmsg);
 		}
-		CS_Disp("Reading from PC");
-		CS_Disp_Wind2("Hang on a second....");
+		CS_Disp(MSG_SET_READ);
+		CS_Disp_Wind2(MSG_SET_READ_2);
 
 
 		//remove anything left from the current source buffer - we dont care about it anymore!
@@ -880,15 +880,15 @@ void dostuff()
 		if (PC_commgoodness)
 		{
 			Serial.print(CS_commokmsg);
-			CS_Disp("SETTINGS READ OK!");
-			CS_Disp_Wind2("WOOO :DDD");
+			CS_Disp(MSG_SET_READ_OK);
+			CS_Disp_Wind2(MSG_SET_READ_OK_2);
 		}
 		else
 		{
 			//Serial.println(CS_settingserrmsg);
 			Serial.print(CS_commerrmsg);
-			CS_Disp("SETTINGS READ ERROR!");
-			CS_Disp_Wind2("BOO >:(");
+			CS_Disp(MSG_SET_READ_ERR);
+			CS_Disp_Wind2(MSG_SET_READ_ERR_2);
 		}
 
 		/*check settings are ok - all sent to CS with verification ONCE
@@ -904,8 +904,8 @@ void dostuff()
 			{
 				//Serial.println("INPUT CHECK FAILED");
 				Serial.print(CS_settingserrmsg);
-				CS_Disp("WEIRD SETTINGS");
-				CS_Disp_Wind2("WTF????");
+				CS_Disp(MSG_SET_ERR);
+				CS_Disp_Wind2(MSG_SET_ERR_2);
 			}
 			else
 			{
@@ -914,13 +914,13 @@ void dostuff()
 				if (PC_inputgoodness)
 				{
 					Serial.print(CS_commokmsg);
-					CS_Disp("Settings check out ok");
-					CS_Disp_Wind2("Lets do some EIT why not");
+					CS_Disp(MSG_SET_CHK_OK);
+					CS_Disp_Wind2(MSG_SET_CHK_OK_2);
 				}
 				else
 				{
-					CS_Disp("Error Setting Range");
-					CS_Disp_Wind2("booooo");
+					CS_Disp(MSG_RNG_ERR);
+					CS_Disp_Wind2(MSG_RNG_ERR_2);
 				}
 			}
 
@@ -977,7 +977,7 @@ void dostuff()
 			//start current source
 			CS_start();
 			//display some stuff on the front
-			CS_Disp("Checking Contact");
+			CS_Disp(MSG_CONTANT_CHECK_START);
 			CS_Disp_Contact(iContact, NumElec);
 
 			indpins_pulse(2, 0, 0, 0); //two pulses for indicating contact check
@@ -1195,8 +1195,8 @@ void dostuff()
 				checkidle = 1;
 				ResetAfterCompliance();
 				Serial.print(CS_commerrmsg);
-				CS_Disp("CS SET ERROR");
-				CS_Disp_Wind2("NOOOOOOOOOOOO");
+				CS_Disp(MSG_CS_SET_ERR);
+				CS_Disp_Wind2(MSG_CS_SET_ERR_2);
 			}
 			else
 			{

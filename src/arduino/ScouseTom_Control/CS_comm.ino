@@ -669,8 +669,8 @@ boolean CS_SetRange()
 	{
 		RangeGoodness = 0;
 		Serial.print(CS_outofrange);
-		CS_Disp("AMP OUT OF RANGE");
-		CS_Disp_Wind2("must be within 2uA - 20mA");
+		CS_Disp(MSG_AMP_RANGE);
+		CS_Disp_Wind2(MSG_AMP_RANGE_2);
 		delay(1000); //give time for display
 		return RangeGoodness;
 	}
