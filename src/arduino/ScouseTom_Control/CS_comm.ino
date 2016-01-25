@@ -302,8 +302,8 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 	Serial1.println("DISP:TEXT:STAT 1"); //turn on text front panel
 	Serial1.println("DISP:WIND2:TEXT:STAT 1"); //turn on text front panel - smaller disp
 
-	CS_Disp("Lets do some EIT");
-	CS_Disp_Wind2("Brink of immortality");
+	CS_Disp(MSG_Init);
+	CS_Disp_Wind2(MSG_Init_2);
 
 	// turn on phase marker as only need to do this once
 
@@ -387,10 +387,19 @@ void CS_Disp_multi(long Amp, long Freq, int Fnum, int Ftot, int Pnum, int Ptot, 
 
 
 
-void CS_Disp(String Textstr) // display text on front panel
+void CS_Disp(String Textstr) 
 {
+	/*
+	Display text on front panel of the current source.
+	Truncates if longer than 20
+	This uses the arduino String format which I dont think is necessary 
+	*/
+	
 	String Part1 = "DISP:TEXT \"";
 	String Part2 = "\"";
+
+	//if string is bigger than 20 characters then truncate
+
 	if (Textstr.length() > 20)
 	{
 		Textstr = Textstr.substring(0, 19);
@@ -660,8 +669,8 @@ boolean CS_SetRange()
 	{
 		RangeGoodness = 0;
 		Serial.print(CS_outofrange);
-		CS_Disp("AMP OUT OF RANGE");
-		CS_Disp_Wind2("must be within 2uA - 20mA");
+		CS_Disp(MSG_AMP_RANGE);
+		CS_Disp_Wind2(MSG_AMP_RANGE_2);
 		delay(1000); //give time for display
 		return RangeGoodness;
 	}
