@@ -472,7 +472,8 @@ if ampok
     goodnessflag=1;
 else
     warning('AMP AND FREQ TOO HIGH FOR HUMAN STUDIES! CARRYING ON ANYWAY...')
-    msgbox('Exceeding IEC60601. Are you sure? Will carry on for now','Too high current?','warn');
+    uiwait(msgbox('Exceeding IEC60601. Are you sure? Will carry on for now','Too high current?','warn','modal'));
+    goodnessflag=1;
 end
 
 %% Check if we need to calculate more measurement times
@@ -651,13 +652,16 @@ if VerboseFlag
 
 
 
+
+
+end
+
 if goodnessflag
     fprintf('########EVERYTHING IS OK##########\n');
 else
     warning('########ERRORS DURING CHECK##########');
 end
 
-end
 
 
 end
