@@ -393,7 +393,7 @@ UsedLibrary="C:/SPB_Data/external_lbrs/WE-PD@E/WE-PD.lbr"
 [Win_1]
 Type="Control Panel"
 Loc="365 91 1320 875"
-State=0
+State=2
 Number=0
 
 [Desktop]

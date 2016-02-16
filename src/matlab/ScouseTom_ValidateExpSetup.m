@@ -649,18 +649,15 @@ if VerboseFlag
         fprintf('Stimulation Voltage is %.2f V for a potentiomter setting of %d\n',ExpSetup.StimulatorVoltage,ExpSetup.Info.StimulatorWiperSetting);
     end
     
-
-
-
-
-
-end
-
 if goodnessflag
     fprintf('########EVERYTHING IS OK##########\n');
 else
     warning('########ERRORS DURING CHECK##########');
 end
+
+end
+
+
 
 
 
