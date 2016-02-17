@@ -23,16 +23,27 @@ void setup() {
  
 void loop() {
  
-	ind_pulse(del, gap, IND_SWITCH);
-	ind_pulse(del, gap, IND_STIM);
-	ind_pulse(del, gap, IND_START);
-	ind_pulse(del, gap, IND_STOP);
-	ind_pulse(del, gap, IND_FREQ);
-	ind_pulse(del, gap, IND_EX_1);
-	ind_pulse(del, gap, IND_EX_2);
-	ind_pulse(del, gap, IND_EX_3);
 
+	digitalWriteDirect(IND_SWITCH, HIGH);
+	delayMicroseconds(gap);
+	digitalWriteDirect(IND_STIM, HIGH);
+	delayMicroseconds(gap);
+	digitalWriteDirect(IND_START, HIGH);
+	delayMicroseconds(gap);
+	digitalWriteDirect(IND_STOP, HIGH);
+	delayMicroseconds(gap);
+	digitalWriteDirect(IND_FREQ, HIGH);
+	delayMicroseconds(gap);
+	digitalWriteDirect(IND_EX_1, HIGH);
+	delayMicroseconds(gap);
+	digitalWriteDirect(IND_EX_2, HIGH);
+	delayMicroseconds(gap);
+	digitalWriteDirect(IND_EX_3, HIGH);
+	delayMicroseconds(gap);
 	ind_low();
+	delayMicroseconds(gap);
+	delayMicroseconds(gap);
+	delayMicroseconds(gap);
 
 
 }
