@@ -6,7 +6,7 @@ Code which pulses all the trigger channels on and off in sequence to check the a
 #include "Pins.h" // constants used in indicator pins and reseting ALL pins to defaults etc.
 int del = 100 * 1000; // time to delay between high and low in microseconds
 
-int gap = 500 * 1000; // gap between pulses
+int gap = 200 * 1000; // gap between pulses
 
 
 /*############ Indicator Pin things - consts in Pins.h and PCBPins.h ############*/
@@ -21,8 +21,6 @@ int pulseleftptr = 0; // pointer for for loop in indpins_check, defined here for
 int indpulseson = 0; // are pulses active? this flag is used to prevent checking pulses left when we know there are none
 
 int iTrigChk = 0; //iteration of indicator pin check loop
-
-
 
 
 void setup() {
@@ -63,9 +61,42 @@ void setup() {
 	Finished with timer stuff
 	#########################################################*/
 
-	delay(100);
+	delay(5000);//delay long time to get eeg recording ready
 
 	indChnIdent();
+
+
+	//spoof some triggers
+	
+	delayMicroseconds(del);
+
+	indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
+
+	delayMicroseconds(gap/2);
+	
+	indpins_pulse(0, 0, 1, 0); //switch trig
+	delayMicroseconds(gap);
+	indpins_pulse(0, 0, 1, 0); //switch trig
+	delayMicroseconds(gap);
+	indpins_pulse(0, 0, 1, 0); //switch trig
+	delayMicroseconds(gap);
+	indpins_pulse(0, 0, 1, 0); //switch trig
+	delayMicroseconds(gap);
+	indpins_pulse(0, 0, 1, 0); //switch trig
+	delayMicroseconds(gap);
+	indpins_pulse(0, 0, 1, 0); //switch trig
+	delayMicroseconds(gap);
+	indpins_pulse(0, 0, 1, 0); //switch trig
+	delayMicroseconds(gap);
+	indpins_pulse(0, 0, 1, 0); //switch trig
+	delayMicroseconds(gap);
+	indpins_pulse(0, 0, 1, 0); //switch trig
+	delayMicroseconds(gap);
+	indpins_pulse(0, 0, 1, 0); //switch trig
+	delayMicroseconds(gap);
+
+	indpins_pulse(0, 1, 0, 0); //send start pulse to indicators
+
 
 
 

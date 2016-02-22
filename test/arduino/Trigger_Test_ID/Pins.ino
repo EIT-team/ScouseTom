@@ -142,10 +142,20 @@ void indpins_init() //initialise the indicator pins
 void indChnIdent() //pulses to send at start of injections to indicate which indicator pins are which
 {
 	
+	int del = 430;
+
+	ind_pulse_with_delay(IND_EX_3,del,7);
+
+
 	//pulses indicator pins
 	indpins_pulse(3, 5, 4, 6); //number of pulses is a bit odd as 4 was used previously on switch chn, so dont want kirill to shout at me for making him change one line of code
 	
-	int del = 430;
+	delayMicroseconds(del);
+	
+
+	ind_pulse_with_delay(IND_STIM, del, 2);
+
+	/*
 	//pulses stimuator pin - harcoded at the moment
 	digitalWriteDirect(IND_STIM, HIGH);
 	delayMicroseconds(del);
@@ -155,7 +165,7 @@ void indChnIdent() //pulses to send at start of injections to indicate which ind
 	delayMicroseconds(del);
 	digitalWriteDirect(IND_STIM, LOW);
 	//delayMicroseconds(500);
-
+	*/
 
 }
 
@@ -184,6 +194,19 @@ void ind_high()
 	digitalWriteDirect(IND_EX_1, HIGH);
 	digitalWriteDirect(IND_EX_2, HIGH);
 	digitalWriteDirect(IND_EX_3, HIGH);
+}
+
+void ind_pulse_with_delay(int chn,int del, int repeats)
+{
+	for (int i = 0; i < repeats; i++)
+	{
+
+		digitalWriteDirect(chn, HIGH);
+		delayMicroseconds(del);
+		digitalWriteDirect(chn, LOW);
+		delayMicroseconds(del);
+
+	}
 }
 
 

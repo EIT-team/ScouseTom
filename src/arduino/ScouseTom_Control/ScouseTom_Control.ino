@@ -1351,11 +1351,13 @@ void TC8_Handler() // this is the ISR for the indicator pins - cycles through al
 			{
 				digitalWriteDirect(indpins[iInd], 1);
 				indpinstate[iInd] = 1;
+				digitalWriteDirect(IND_EX_3, 0);
 			}
 			else if (indpinstate[iInd] && (IndinterruptCtr[iInd] > indpulsewidth)) //set pin low if greater than pulse wifth
 			{
 				digitalWriteDirect(indpins[iInd], 0);
 				indpinstate[iInd] = 0;
+				digitalWriteDirect(IND_EX_3, 1);
 			}
 			IndinterruptCtr[iInd]++; //increment tick counter
 			if (IndinterruptCtr[iInd] == indpulsewidthtotal) // if total pulse length (HIGH and LOW) happened then decrement pulses left
