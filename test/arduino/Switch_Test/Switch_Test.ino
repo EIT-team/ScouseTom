@@ -22,7 +22,7 @@ int sourcepin = 4;
 
 const int chnmax = 199; // maximum number of channels
 
-int NumBoard = 3;
+int NumBoard = 5;
 int TotalPins = 40 * NumBoard;
 
 

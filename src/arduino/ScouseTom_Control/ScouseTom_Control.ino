@@ -157,8 +157,11 @@ int checkidle = 1; //should we check idle?
 
 int FirstInj = 0; // flag for doing the first injection - so we dont wait to switch at start
 int SwitchesProgrammed = 0; // flag for whether the switches are programmed or not
+int StimSwitchesProgrammed = 0; //flag for whether stimulating switches are programmed or not (Epilepsy Mode)
 int Switchflag = 0; // do we need to switch?
 int Stimflag = 0; // should we stimulate?
+int StimCurrent = 0; // should we inject stimulating current (Epilepsy Mode)
+int InjCurrent = 0 // should we inject EIT current (Epilepsy Mode)
 
 long lastInjSwitch = 0; //time when channels were switched - SingleFreqMode
 long lastFreqSwitch = 0; //time when Freq was last changed - MultipleFreqMode
@@ -1220,6 +1223,35 @@ void dostuff()
 
 	}
 	break;
+        case 10; //Epilepsy Initialisation
+        {
+                Serial.println("Starting Epilepsy Initialisation");
+                
+                if {PC_inputgoodness && CS_commgoodness) // only do anything is settings are ok
+                {
+                  Serial.println("Communication with PC and CS good");
+                  
+                  CS_Disp("ITS EIT TIME!");
+                  CS_Disp_Wind2("Lets bloody do this");        
+                  
+                  //remove anything left from the current source buffer - we dont care about it anymore!
+                  CS_serialFlush();
+                  
+                  Serial.print(CS_commokmsg);
+                  
+                  //pulse pins different amounds so we can find them in the EEG loading
+                  indChnIdent();
+                  
+                  //reset all counters
+                  iFreq = 0;
+                  iPrt = 1; //for epilepsy mode the first line of protocol will be stimulating electrodes
+                  iRep = 0;
+                  
+                  //set variables base on values sent by user
+                  curMeasTime = MeasTime[0];
+                  curNumRep = NumRep;
+                  
+                  
 
 
 
@@ -1297,6 +1329,14 @@ void getCMD(char CMDIN)
 		}
 		break;
 	}
+        case 'E' // Epilepsy Injection Mode
+        {
+                if (state == 0) //if the system is idle ONLY
+                {
+                       state = 10;
+                }
+                break;
+        }
 
 	default: // if not one of these commands then keep state the same
 		state = state; //a bit didactic but hey
