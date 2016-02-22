@@ -144,13 +144,21 @@ void indChnIdent() //pulses to send at start of injections to indicate which ind
 	
 	int del = 430;
 
-	ind_pulse_with_delay(IND_EX_3,del,8);
+
+	//pulse on the dummy channel 
+	ind_pulse_with_delay(IND_EX_3,del,10);
+
+	//separate these from the next ID codes
+	delayMicroseconds(del*5);
+
+
+	//real ID codes start
 
 
 	//pulses indicator pins
 	indpins_pulse(3, 5, 4, 6); //number of pulses is a bit odd as 4 was used previously on switch chn, so dont want kirill to shout at me for making him change one line of code
 	
-	//delayMicroseconds(del);
+	
 	
 	ind_pulse_with_delay(IND_EX_1, del, 7);
 
