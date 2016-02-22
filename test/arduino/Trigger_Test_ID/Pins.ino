@@ -69,7 +69,7 @@ void reset_ind()
 	digitalWriteDirect(IND_STOP, LOW);
 	digitalWriteDirect(IND_EX_1, LOW);
 	digitalWriteDirect(IND_EX_2, LOW);
-	digitalWriteDirect(IND_EX_3, LOW);
+	digitalWriteDirect(IND_EX_3, HIGH);
 }
 
 
@@ -144,14 +144,15 @@ void indChnIdent() //pulses to send at start of injections to indicate which ind
 	
 	int del = 430;
 
-	ind_pulse_with_delay(IND_EX_3,del,7);
+	ind_pulse_with_delay(IND_EX_3,del,8);
 
 
 	//pulses indicator pins
 	indpins_pulse(3, 5, 4, 6); //number of pulses is a bit odd as 4 was used previously on switch chn, so dont want kirill to shout at me for making him change one line of code
 	
-	delayMicroseconds(del);
+	//delayMicroseconds(del);
 	
+	ind_pulse_with_delay(IND_EX_1, del, 7);
 
 	ind_pulse_with_delay(IND_STIM, del, 2);
 
