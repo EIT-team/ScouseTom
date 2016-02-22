@@ -441,6 +441,14 @@ writelogPC(logfid,tstart,'Injection Finished!');
 
 fclose(logfid);
 
+%take screenshot of system when it finished
+try
+    system('screenshot-cmd.exe');
+catch
+    warning('Couldnt take ending screenshot!');
+end
+
+
 %all done!
 
 end
