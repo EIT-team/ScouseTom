@@ -407,7 +407,7 @@ while(~FS.Stop() &&  ~Finished)
                 
             otherwise
                 fprintf('Broken input from Ard');
-
+                
         end
         
         %reset instring and in byte now one completed
@@ -443,7 +443,10 @@ fclose(logfid);
 
 %take screenshot of system when it finished
 try
-    system('screenshot-cmd.exe');
+    
+    [sspath,ssname]=fileparts(fullfile(logpath,[logstr '-screenshot']));
+    ssname=fullfile(sspath,ssname);
+    system(['screenshot-cmd.exe -wt "ActiView706-Lores" -o ' ssname '.png']);
 catch
     warning('Couldnt take ending screenshot!');
 end
