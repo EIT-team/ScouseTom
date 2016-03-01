@@ -21650,7 +21650,7 @@ IC-09995</description>
 <part name="JP9" library="pinhead" deviceset="PINHD-1X1" device="" value="CS_IN-"/>
 <part name="AGND51" library="supply1" deviceset="AGND" device=""/>
 <part name="U$1" library="pinhead" deviceset="PINHD-3X7GAP" device=""/>
-<part name="J1" library="Molex-47346-0001" deviceset="47346-0001" device=""/>
+<part name="X1" library="Molex-47346-0001" deviceset="47346-0001" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -21853,7 +21853,7 @@ Split into free components</text>
 <instance part="JP9" gate="G$1" x="363.22" y="149.86"/>
 <instance part="AGND51" gate="VR1" x="248.92" y="121.92" rot="R90"/>
 <instance part="U$1" gate="G$1" x="383.54" y="114.3"/>
-<instance part="J1" gate="G$1" x="-571.5" y="195.58" rot="R180"/>
+<instance part="X1" gate="G$1" x="-571.5" y="195.58" rot="R180"/>
 </instances>
 <busses>
 </busses>
@@ -23367,7 +23367,7 @@ Split into free components</text>
 <wire x1="-543.56" y1="190.5" x2="-543.56" y2="198.12" width="0.1524" layer="91"/>
 <pinref part="JP1" gate="G$1" pin="2"/>
 <pinref part="AGND1" gate="VR1" pin="AGND"/>
-<pinref part="J1" gate="G$1" pin="5"/>
+<pinref part="X1" gate="G$1" pin="5"/>
 <wire x1="-561.34" y1="200.66" x2="-558.8" y2="200.66" width="0.1524" layer="91"/>
 <wire x1="-558.8" y1="200.66" x2="-558.8" y2="208.28" width="0.1524" layer="91"/>
 <wire x1="-558.8" y1="208.28" x2="-579.12" y2="208.28" width="0.1524" layer="91"/>
@@ -24226,7 +24226,7 @@ Split into free components</text>
 <wire x1="-546.1" y1="193.04" x2="-556.26" y2="193.04" width="0.1524" layer="91"/>
 <wire x1="-556.26" y1="193.04" x2="-556.26" y2="190.5" width="0.1524" layer="91"/>
 <junction x="-546.1" y="193.04"/>
-<pinref part="J1" gate="G$1" pin="1"/>
+<pinref part="X1" gate="G$1" pin="1"/>
 <wire x1="-556.26" y1="190.5" x2="-561.34" y2="190.5" width="0.1524" layer="91"/>
 </segment>
 </net>
