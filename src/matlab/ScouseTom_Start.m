@@ -67,7 +67,8 @@ logstrdef='Testing';
 eegnamedef='Null- user was testing';
 logpathdef=pwd;
 
-
+%%Flag for epilepsy
+Epilepsy_flag = 1;
 %% prompt user to point at eeg/bdf file that they are saving
 
 RecordingData=0; %should we look for a file?
@@ -208,8 +209,13 @@ end
 %start injection now
 writelogPC(logfid,tstart,'Starting Injection');
 %start arduino going
+if Epilepsy_flag
+    fprintf(Ard, 'E');
+    writelogArd(logfid,tstart,'E');
+else
 fprintf(Ard,'S');
 writelogArd(logfid,tstart,'S');
+end
 
 pause(0.2); %this was necessary on PC upstairs but not on my one. Could have been delay from USB hub? or PC bit slower?
 

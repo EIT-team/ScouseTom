@@ -157,11 +157,12 @@ int checkidle = 1; //should we check idle?
 
 int FirstInj = 0; // flag for doing the first injection - so we dont wait to switch at start
 int SwitchesProgrammed = 0; // flag for whether the switches are programmed or not
-int StimSwitchesProgrammed = 0; //flag for whether stimulating switches are programmed or not (Epilepsy Mode)
 int Switchflag = 0; // do we need to switch?
 int Stimflag = 0; // should we stimulate?
-int StimCurrent = 0; // should we inject stimulating current (Epilepsy Mode)
-int InjCurrent = 0 // should we inject EIT current (Epilepsy Mode)
+int stimCurrent = 0; // should we inject stimulating current (Epilepsy Mode)
+int injCurrent = 0; // should we inject EIT current (Epilepsy Mode)
+int pulseTime = 0; // time for injecting train of pulses (Epilepsy Mode)
+
 
 long lastInjSwitch = 0; //time when channels were switched - SingleFreqMode
 long lastFreqSwitch = 0; //time when Freq was last changed - MultipleFreqMode
@@ -198,7 +199,7 @@ void setup() {
 	// setup PC connection
 	Serial.begin(115200);
 
-	//Serial.println("hey there you motherfucker");
+	Serial.println("hey there you motherfucker");
 	establishContact();
 
 	/*########################################################
@@ -1223,11 +1224,11 @@ void dostuff()
 
 	}
 	break;
-        case 10; //Epilepsy Initialisation
+        case 10: //Epilepsy Mode Initialisation
         {
                 Serial.println("Starting Epilepsy Initialisation");
                 
-                if {PC_inputgoodness && CS_commgoodness) // only do anything is settings are ok
+                if (PC_inputgoodness && CS_commgoodness) // only do anything is settings are ok
                 {
                   Serial.println("Communication with PC and CS good");
                   
@@ -1244,19 +1245,172 @@ void dostuff()
                   
                   //reset all counters
                   iFreq = 0;
-                  iPrt = 1; //for epilepsy mode the first line of protocol will be stimulating electrodes
+                  iPrt = 0; 
                   iRep = 0;
+                  injCurrent = 0;
+                  stimCurrent = 0;
+                  FirstInj=1;
+                  pulseTime = 15000000; //define the time you want to inject train of pulses
                   
                   //set variables base on values sent by user
                   curMeasTime = MeasTime[0];
                   curNumRep = NumRep;
                   
+                  state = 11; //move to train of pulses injecting mode
+                  SwitchesProgrammed = 0; //show that switches are not set
                   
+                  //Calculate the string we want to send to CS to give arbitrary waveform
+                  //Do this here so we only do it once
+                  
+                 //arb_waveform = CS_ArbWaveform();                
+                  
+                  //Serial.println(arb_waveform);
+                  CS_commgoodness = CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
+                  if (!CS_commgoodness)
+                  {
+	              state = 0; // dont start injection if things are fucked
+	              Serial.print(CS_commerrmsg);
+	              CS_Disp("CS SET ERROR");
+	              CS_Disp_Wind2("NOOOOOOOOOOOO");
+	          }
+	        else
+	          {
+	          // everything is ok - lets inject!
+	            Serial.print(CS_commokmsg);
+	            CS_Disp("CS SET OK");
+	            CS_Disp_Wind2("SingleFreqMode");
+	            // turn on switches ready for injecting and that
+	            SwitchesPwrOn();
 
+	          Serial.println("Switches POWERED ON");
+	          delay(50);
+	          }
+               }
+        }
+           
+	break;
+        case 11:
+        {
+          if(!stimCurrent) //Stimulation current flag
+          {
+          //Send settings for train of pulses, this currently isn't flexible
+          Serial.println("Sending pulse train settings");
+          CS_sendsettingsStim();
+          CS_Disp("Epilepsy Stimulation Set");
+          
+          //Start injection
+          StartTime_CS = micros();
+          CS_start();
+          CS_Disp("Epilepsy Stim...");
+          //CS_Disp_single(stim_amp, frequency, iRep, curNumRep);
+          stimCurrent = 1;
+          }
+          else
+          {
+            currentMicros = micros();
+            if ((currentMicros - StartTime_CS) > pulseTime)
+            {
+              Serial.println(currentMicros - StartTime_CS);
+              CS_stop(); //stop injecting current
+              Serial.println("Stopped current injection");
+              state = 12; //move to EIT injecting state
+              Serial.println("About to move to state 12");
+              CS_Disp("Flick dat Switch!");
+              delay(500);
+             }
+          
+        }
+                     
+        }
+        
+        break;
+        case 12:
+        {
+          //Send settings to do EIT
+          if(!SwitchesProgrammed)
+          {
+            Serial.print("Channels I am about to program: ");
+	    Serial.print(Injection[iPrt][0]);
+	    Serial.print(" and ");
+	    Serial.println(Injection[iPrt][1]);
+            SetSwitchesFixed(); // if switches havent been programmed then do that based on iPrt and take a set amount of time
+            if (FirstInj)
+            {
+              SwitchChn();
+              SwitchesProgrammed = 0;
+              iPrt--;
+              FirstInj = 0;
+            }
+                          
+           }
+          
+          if(!injCurrent)
+          {
+            Serial.println("About to send setting for EIT"); 
+            CS_sendsettingsInj(Amp[iFreq], Freq[iFreq]); // Send settings for EIT injection
 
+             StartTime_CS = micros();
+             Serial.println("Start EIT current injection");
+             CS_start();
+                 
+             CS_Disp("EIT is happening...");
+	     CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, curNumRep);
 
-	}
+             indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
+          
+             lastInjSwitch = micros(); //start timer
+             Serial.println(lastInjSwitch);
+             
+             PC_sendupdate(); //send stuff to PC
+          
+             currentMicros = micros();
+             injCurrent = 1;
+          }
+          else
+          {
+             currentMicros = micros();
+             
+             if ((currentMicros - lastInjSwitch) > (curMeasTime))
+             {
+               Serial.println(currentMicros - lastInjSwitch);
+               CS_stop(); //Stop current injection
+               Serial.println("Stopped EIT current injection");
+               Switchflag = 1; //set flag so that switches can be changed
+             }
+          }    
+          
+          
+          if (Switchflag) // if we have been told to switch
+          {
+            Serial.println("In switch flag mode");
+            if (iRep == curNumRep) // if we have reached the total number of injections
+            {
+              state = 3; // stop protocol
+            }
+            else //otherwise carry on with switching and go back to 
+            {
+              SwitchChn();
+              injCurrent = 0;
+              stimCurrent = 0;
+              Switchflag = 0;
+              state = 11;
+              Serial.println("Going back to state 11");
+            }
+          }
+          
+        }
 }
+}
+         
+         
+            
+       
+            
+	         
+
+          
+          
+          
 
 
 //function to read command from PC and then put system in "state"
@@ -1329,7 +1483,7 @@ void getCMD(char CMDIN)
 		}
 		break;
 	}
-        case 'E' // Epilepsy Injection Mode
+        case 'E': // Epilepsy Injection Mode
         {
                 if (state == 0) //if the system is idle ONLY
                 {

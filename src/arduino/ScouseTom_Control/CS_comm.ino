@@ -831,3 +831,75 @@ Function to flush serial input coming from current source - leftover stuff in th
 
 
 }
+
+void CS_sendsettingsStim()
+{
+  Serial.println(pulse_width);
+  Serial.println(frequency);
+ 
+  Duty_cycle = (pulse_width/(1/frequency))*100;
+   
+   Serial.println(Duty_cycle);
+  
+    if (Duty_cycle % 2 != 0)
+    {
+      Serial.println("In if statement");
+    Duty_cycle = Duty_cycle + 1;
+    }
+  
+    N_points = Duty_cycle/2;
+    
+    Serial.println(N_points);
+  
+    for (int i=1; i<= N_points; i++) 
+    {
+          Points[50-i] = 1;
+          Points[50 + (i-1)] = -1;
+    }
+    //Serial.println(Points);
+     
+      
+    //sprintf(arb_waveform, "SOUR:WAVE:ARB:DATA %s", arb); 
+  
+    //Serial.println(arb);  
+    Serial1.println("SOUR:WAVE:ABOR");
+    Serial1.print("SOUR:WAVE:ARB:DATA ");
+    for (int i=0; i<=99; i++)
+    {
+      Serial1.print(Points[i]);
+      Serial.print(Points[i]);
+      if(i<99)
+      {
+      Serial1.print(" ,");
+      Serial.print(" ,");
+      }
+    }
+    Serial1.print("\n");
+    Serial.print("\n");    
+    //Serial1.println(arb_waveform);
+    Serial1.println("SOUR:WAVE:FUNC ARB0");
+    Serial1.println("SOUR:WAVE:FREQ 50");
+    Serial1.println("SOUR:WAVE:AMPL 1e-3");
+    Serial1.println("SOUR:CURR:COMP 11");
+    Serial1.println("SOUR:WAVE:OFFS 0");
+}
+
+void CS_sendsettingsInj(long Amp , long Freq)
+{
+  
+    Serial1.println("SOUR:WAVE:FUNC SIN"); //Set to sine wave
+    
+    // Set the compliance to default value
+    CS_SetCompliance(Compliance);
+    
+    sprintf(CS_outputBuffer, "SOUR:WAVE:FREQ %d", Freq); //make string to send to CS
+    Serial1.println(CS_outputBuffer); // send to CS
+    //Serial.println(CS_outputBuffer); //to pc for debug
+
+    sprintf(CS_outputBuffer, "SOUR:WAVE:AMPL %dE-6", Amp); //make amp setting string in microamps so have to use E-6
+    Serial1.println(CS_outputBuffer); // send to CS
+    //Serial.println(CS_outputBuffer); //to pc for debug
+}
+
+
+  
