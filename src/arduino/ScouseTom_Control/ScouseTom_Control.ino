@@ -526,7 +526,7 @@ void dostuff()
 				//start current source
 				StartTime_CS = micros();
 				CS_start();
-
+				
 				///* debug trig */indpins_pulse(0, 0, 0, 1);
 
 				//display some stuff on the front
