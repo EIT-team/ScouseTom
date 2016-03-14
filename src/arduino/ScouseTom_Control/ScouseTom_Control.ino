@@ -1257,7 +1257,7 @@ void dostuff()
                   curNumRep = NumRep;
                   
                   state = 11; //move to train of pulses injecting mode
-                  SwitchesProgrammed = 0; //show that switches are not set
+                  SwitchesProgrammed = 1; //show that switches are not set (opposite to above)
                   
                   //Calculate the string we want to send to CS to give arbitrary waveform
                   //Do this here so we only do it once
@@ -1316,7 +1316,7 @@ void dostuff()
               state = 12; //move to EIT injecting state
               Serial.println("About to move to state 12");
               CS_Disp("Flick dat Switch!");
-              delay(500);
+              delay(1000);
              }
           
         }
@@ -1327,21 +1327,16 @@ void dostuff()
         case 12:
         {
           //Send settings to do EIT
-          if(!SwitchesProgrammed)
+          if(SwitchesProgrammed)
           {
+            Serial.println(iPrt);
             Serial.print("Channels I am about to program: ");
 	    Serial.print(Injection[iPrt][0]);
 	    Serial.print(" and ");
 	    Serial.println(Injection[iPrt][1]);
             SetSwitchesFixed(); // if switches havent been programmed then do that based on iPrt and take a set amount of time
-            if (FirstInj)
-            {
-              SwitchChn();
-              SwitchesProgrammed = 0;
-              iPrt--;
-              FirstInj = 0;
-            }
-                          
+            SwitchChn();
+                      
            }
           
           if(!injCurrent)
@@ -1380,21 +1375,23 @@ void dostuff()
           }    
           
           
-          if (Switchflag) // if we have been told to switch
+          if (Switchflag) // don't actually do any switching here
           {
             Serial.println("In switch flag mode");
+            
             if (iRep == curNumRep) // if we have reached the total number of injections
             {
               state = 3; // stop protocol
             }
             else //otherwise carry on with switching and go back to 
             {
-              SwitchChn();
+              SwitchesProgrammed = 1;
               injCurrent = 0;
               stimCurrent = 0;
               Switchflag = 0;
               state = 11;
               Serial.println("Going back to state 11");
+              CS_Disp("Flick dat Switch back!");
             }
           }
           
