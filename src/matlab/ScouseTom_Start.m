@@ -122,7 +122,7 @@ end
 log_suffix='_log.txt';
 logfname=fullfile(logpath,[logstr log_suffix]);
 
-if RecordingData % icnrement log file name for non testing ones only
+if RecordingData % increment log file name for non testing ones only
     
     if (exist(logfname,'file') ==2) %incrememnt it incase one already exisits - you might inject a bunch of times and use the same EEG file
         incr=1;
@@ -304,9 +304,12 @@ while(~FS.Stop() &&  ~Finished)
         try
             [cmd,dataout,outstr]=ScouseTom_ard_parseinput(instr); %read the data from the input string
             
-        catch
+        catch err
             outstr=['Error parsing: ' instr];
             cmd=99;
+            
+            fprintf(2, '%s\n', getReport(err, 'extended'));
+            
             
         end
         
@@ -355,8 +358,9 @@ while(~FS.Stop() &&  ~Finished)
                     if ~(SingleFreqMode) % reset phase counter as freq order sequence is complete
                         CurrentPhase=0;
                     end
-                catch
+                catch err 
                     writelogArd(logfid,tstart,'Failed Processing FreqOrder');
+                    fprintf(2, '%s\n', getReport(err, 'extended'));
                 end
                 
                 
@@ -370,8 +374,9 @@ while(~FS.Stop() &&  ~Finished)
                         matlog.PhaseOrder(CurrentRep,CurrentPrt,CurrentPhase)={PhaseOrder};
                     end
                     
-                catch
+                catch err
                     writelogArd(logfid,tstart,'Failed Processing Phase');
+                    fprintf(2, '%s\n', getReport(err, 'extended'));
                 end
                 
                 
@@ -401,8 +406,9 @@ while(~FS.Stop() &&  ~Finished)
                         fprintf('?\n'); %terminate string even if no bad ones found
                     end
                     
-                catch
+                catch err 
                     writelogArd(logfid,tstart,'Failed Processing Compliance');
+                    fprintf(2, '%s\n', getReport(err, 'extended'));
                 end
                 
             otherwise
