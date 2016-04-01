@@ -3,6 +3,7 @@
 **/*.vcxproj
 **/*.vcxproj.filters
 **/Visual*
+**/__vm*
 **/~$*.sld*
 **/*.asv
 **/.pioenvs
