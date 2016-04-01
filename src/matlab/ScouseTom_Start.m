@@ -18,13 +18,6 @@ function [ Ard,ExpSetup ] = ScouseTom_Start( Ard,ExpSetup,NoPrompt)
 %
 % hewn from the finest marble by the exploratory hands of jimmy 2015
 
-%%
-
-profstart=tic;
-profsavenum=1;
-profile on
-
-
 %% responses from arduino
 Error_prefix='!';
 Message_prefix='+';
@@ -180,7 +173,6 @@ if ~RecordingData
     end
 end
 
-
 matlog=matfile(matfilename,'Writable',true);
 
 matlog.ExpSetup=ExpSetup;
@@ -192,8 +184,6 @@ else % different freqs might have different number of potential phases so must b
     matlog.FreqOrder=cell(N_rep,N_prt);
     matlog.PhaseOrder=cell(N_rep,N_prt,N_freq);
 end
-
-
 
 %% start by flushing serial buffer
 
@@ -221,8 +211,6 @@ if ~NoPrompt
     end
     
 end
-
-% disp('Lets inject shall we?');
 
 %start injection now
 writelogPC(logfid,tstart,'Starting Injection');
@@ -259,12 +247,6 @@ else
     CancelInj(Ard,logfid,tstart,logfname,matfilename)
     return
 end
-%
-% if strcmp(resp, CScommOKmsg) %we are ready to go!
-%     disp('Everything is good to go darling...');
-%     writelogPC(logfid,tstart,'Comm ok, everything ready to go');
-%
-% end
 
 %% SINGLE FREQUENCY INJECTION
 
@@ -310,22 +292,6 @@ FS = stoploop('Injection is happening as we speak. Hit button to stop it early i
 while(~FS.Stop() &&  ~Finished)
     elapsedtime=toc(tstart);
     
-    elapsedproftime=toc(profstart);
-    
-    if elapsedproftime > 600
-        disp('saving profile');
-        %mkdir(['profile_results_' num2str(profsavenum)])
-        profsave(profile('info'),['profile_results_' num2str(profsavenum)]);
-        profstart=tic;
-        profsavenum=profsavenum+1;
-        
-    end
-    
-    
-    
-    
-    
-    
     if (Ard.BytesAvailable > 0)
         inbyte=fread(Ard,1,'uchar');
         %concat string
@@ -342,9 +308,7 @@ while(~FS.Stop() &&  ~Finished)
         catch err
             outstr=['Error parsing: ' instr];
             cmd=99;
-            
             fprintf(2, '%s\n', getReport(err, 'extended'));
-            
             
         end
         
@@ -362,8 +326,7 @@ while(~FS.Stop() &&  ~Finished)
                     warning('Ard sent an error - stopping :(');
                     
                 else
-                    warning('Arduino sent a non-critical error code');
-                    
+                    fprintf(2,'Arduino sent a non-critical error code: %s\n',outstr');
                 end
                 
                 writelogPC(logfid,tstart,'ERROR');
