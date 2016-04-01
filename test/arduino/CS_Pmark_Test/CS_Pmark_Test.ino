@@ -29,20 +29,14 @@ const long sc_micro = 1000000; // scale for micro
 char CS_outputBuffer[50]; // char array buffer for output strings to CS
 int CS_commgoodness = 1; // flag for current communication goodness
 
-
-
-
 int PMARK_TEST_FLAG = 0;
 int INTR_PMARK = 25;
 
 void ISR_PMARK_TEST() // ISR for testing PMARK in, set variable high when called
 {
   PMARK_TEST_FLAG++; //increment this counter
-  //Serial.print("s"); //for debugging
+  Serial.print("s"); //for debugging
 }
-
-
-
 
 
 void setup() {
@@ -51,7 +45,7 @@ void setup() {
   Serial.println("ScouseTom Pmark Test...");
 
   Serial1.begin(57600);
-  Serial1.println("DISP:TEXT \"P_Mark Test\"");
+  
 
   int commok = 0;
 
@@ -66,6 +60,12 @@ void setup() {
   {
     Serial.println("CS COMM BAD");
   }
+
+
+  Serial1.println("DISP:TEXT \"P_Mark Test\"");
+  Serial1.println("DISP:WIND2:TEXT \"Lets do this\"");
+
+
 
 
 

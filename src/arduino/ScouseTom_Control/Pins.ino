@@ -35,7 +35,6 @@ void init_pins()
 
 	//power pins
 	pinMode(PWR_STIM, OUTPUT);
-	pinMode(PWR_SWITCH, OUTPUT);
 
 
 	//pinMode(LED, OUTPUT);
@@ -69,7 +68,7 @@ void reset_ind()
 	digitalWriteDirect(IND_STOP, LOW);
 	digitalWriteDirect(IND_EX_1, LOW);
 	digitalWriteDirect(IND_EX_2, LOW);
-	digitalWriteDirect(IND_EX_3, LOW);
+	digitalWriteDirect(IND_EX_3, HIGH);
 }
 
 
@@ -78,7 +77,7 @@ void reset_pins_pwr()
 {
 	//reset all power pins
 	digitalWrite(PWR_STIM, LOW);
-	digitalWrite(PWR_SWITCH, LOW);
+
 }
 
 
@@ -142,19 +141,24 @@ void indpins_init() //initialise the indicator pins
 void indChnIdent() //pulses to send at start of injections to indicate which indicator pins are which
 {
 	
+	int del = 430;
+
+
+	//pulse on the dummy channel 
+	ind_pulse_with_delay(IND_EX_3, del, 10);
+
+	//separate these from the next ID codes
+	delayMicroseconds(del * 5);
+
+
+	//real ID codes start
+
 	//pulses indicator pins
 	indpins_pulse(3, 5, 4, 6); //number of pulses is a bit odd as 4 was used previously on switch chn, so dont want kirill to shout at me for making him change one line of code
-	
-	int del = 430;
-	//pulses stimuator pin - harcoded at the moment
-	digitalWriteDirect(IND_STIM, HIGH);
-	delayMicroseconds(del);
-	digitalWriteDirect(IND_STIM, LOW);
-	delayMicroseconds(del);
-	digitalWriteDirect(IND_STIM, HIGH);
-	delayMicroseconds(del);
-	digitalWriteDirect(IND_STIM, LOW);
-	//delayMicroseconds(500);
+
+	ind_pulse_with_delay(IND_EX_1, del, 7);
+
+	ind_pulse_with_delay(IND_STIM, del, 2);
 
 
 }
@@ -187,3 +191,15 @@ void ind_high()
 }
 
 
+void ind_pulse_with_delay(int chn, int del, int repeats)
+{
+	for (int i = 0; i < repeats; i++)
+	{
+
+		digitalWriteDirect(chn, HIGH);
+		delayMicroseconds(del);
+		digitalWriteDirect(chn, LOW);
+		delayMicroseconds(del);
+
+	}
+}

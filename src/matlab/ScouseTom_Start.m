@@ -1,4 +1,4 @@
-function [ Ard,ExpSetup ] = ScouseTom_Start( Ard,ExpSetup )
+function [ Ard,ExpSetup ] = ScouseTom_Start( Ard,ExpSetup,NoPrompt)
 %ScouseTom_Start Start injection with scoustom system
 %
 %   Script to start injection on the ScouseTom system. User must have run
@@ -17,6 +17,13 @@ function [ Ard,ExpSetup ] = ScouseTom_Start( Ard,ExpSetup )
 %   Outputs : as above
 %
 % hewn from the finest marble by the exploratory hands of jimmy 2015
+
+%%
+
+profstart=tic;
+profsavenum=1;
+profile on
+
 
 %% responses from arduino
 Error_prefix='!';
@@ -68,29 +75,39 @@ eegnamedef='Null- user was testing';
 logpathdef=pwd;
 
 
+%% Prompt check
+
+
+if exist('NoPrompt','var') ==0
+    NoPrompt=0;
+end
+
 %% prompt user to point at eeg/bdf file that they are saving
 
 RecordingData=0; %should we look for a file?
 
-% ask if user wants to change protocol
-yesresp='YES, it is, honest';
-noresp='NO! Im testing leave me alone';
-titlestr='Where is your eeg data being saved?';
-promptstr=sprintf('EEG SYSTEM SHOULD BE READY TO SAVE NOW - FOR REALS\n You will have to point to the file');
-resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
-
-if isempty(resp) %if user quits dialogue then save in default
-    warning('User didnt say if testing, taking this to mean they ARE testing and dont want to save');
-    RecordingData=0;
-end
-
-
-if strcmp(resp,yesresp) == 1
-    %     disp('User is ready to record - will need confirmation');
-    RecordingData=1;
-else
-    %     disp('User is testing, will save log in working directory instead');
-    %might want to set so that it doesnt save at all...
+if ~NoPrompt
+    % ask if user wants to change protocol
+    yesresp='YES, it is, honest';
+    noresp='NO! Im testing leave me alone';
+    titlestr='Where is your eeg data being saved?';
+    promptstr=sprintf('EEG SYSTEM SHOULD BE READY TO SAVE NOW - FOR REALS\n You will have to point to the file');
+    resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
+    
+    if isempty(resp) %if user quits dialogue then save in default
+        warning('User didnt say if testing, taking this to mean they ARE testing and dont want to save');
+        RecordingData=0;
+    end
+    
+    
+    if strcmp(resp,yesresp) == 1
+        %     disp('User is ready to record - will need confirmation');
+        RecordingData=1;
+    else
+        %     disp('User is testing, will save log in working directory instead');
+        %might want to set so that it doesnt save at all...
+    end
+    
 end
 
 if RecordingData % if we are saving then look for the eeg file to save everything
@@ -122,7 +139,7 @@ end
 log_suffix='_log.txt';
 logfname=fullfile(logpath,[logstr log_suffix]);
 
-if RecordingData % icnrement log file name for non testing ones only
+if RecordingData % increment log file name for non testing ones only
     
     if (exist(logfname,'file') ==2) %incrememnt it incase one already exisits - you might inject a bunch of times and use the same EEG file
         incr=1;
@@ -188,20 +205,22 @@ FlushSerialBuffer(Ard,logfid,tstart);
 
 %% Start measurement and confirm
 
-% ask if user ready to start - gives them opportunity to start recordign
-yesresp='START!';
-noresp='Cancel :(';
-titlestr='Ready to go?';
-promptstr=sprintf('Ready to start? \nI hope the EEG system is recording now....');
-resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
-
-if isempty(resp) || (strcmp(resp,noresp) == 1)
-    %cancel everytjing is they close dialogue
-    CancelInj(Ard,logfid,tstart,logfname,matfilename)
-    warning('User hit cancel');
-    return
+if ~NoPrompt
+    % ask if user ready to start - gives them opportunity to start recordign
+    yesresp='START!';
+    noresp='Cancel :(';
+    titlestr='Ready to go?';
+    promptstr=sprintf('Ready to start? \nI hope the EEG system is recording now....');
+    resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
+    
+    if isempty(resp) || (strcmp(resp,noresp) == 1)
+        %cancel everytjing is they close dialogue
+        CancelInj(Ard,logfid,tstart,logfname,matfilename)
+        warning('User hit cancel');
+        return
+    end
+    
 end
-
 
 % disp('Lets inject shall we?');
 
@@ -291,6 +310,22 @@ FS = stoploop('Injection is happening as we speak. Hit button to stop it early i
 while(~FS.Stop() &&  ~Finished)
     elapsedtime=toc(tstart);
     
+    elapsedproftime=toc(profstart);
+    
+    if elapsedproftime > 600
+        disp('saving profile');
+        %mkdir(['profile_results_' num2str(profsavenum)])
+        profsave(profile('info'),['profile_results_' num2str(profsavenum)]);
+        profstart=tic;
+        profsavenum=profsavenum+1;
+        
+    end
+    
+    
+    
+    
+    
+    
     if (Ard.BytesAvailable > 0)
         inbyte=fread(Ard,1,'uchar');
         %concat string
@@ -304,9 +339,12 @@ while(~FS.Stop() &&  ~Finished)
         try
             [cmd,dataout,outstr]=ScouseTom_ard_parseinput(instr); %read the data from the input string
             
-        catch
+        catch err
             outstr=['Error parsing: ' instr];
             cmd=99;
+            
+            fprintf(2, '%s\n', getReport(err, 'extended'));
+            
             
         end
         
@@ -355,8 +393,9 @@ while(~FS.Stop() &&  ~Finished)
                     if ~(SingleFreqMode) % reset phase counter as freq order sequence is complete
                         CurrentPhase=0;
                     end
-                catch
+                catch err
                     writelogArd(logfid,tstart,'Failed Processing FreqOrder');
+                    fprintf(2, '%s\n', getReport(err, 'extended'));
                 end
                 
                 
@@ -370,8 +409,9 @@ while(~FS.Stop() &&  ~Finished)
                         matlog.PhaseOrder(CurrentRep,CurrentPrt,CurrentPhase)={PhaseOrder};
                     end
                     
-                catch
+                catch err
                     writelogArd(logfid,tstart,'Failed Processing Phase');
+                    fprintf(2, '%s\n', getReport(err, 'extended'));
                 end
                 
                 
@@ -401,13 +441,14 @@ while(~FS.Stop() &&  ~Finished)
                         fprintf('?\n'); %terminate string even if no bad ones found
                     end
                     
-                catch
+                catch err
                     writelogArd(logfid,tstart,'Failed Processing Compliance');
+                    fprintf(2, '%s\n', getReport(err, 'extended'));
                 end
                 
             otherwise
                 fprintf('Broken input from Ard');
-
+                
         end
         
         %reset instring and in byte now one completed

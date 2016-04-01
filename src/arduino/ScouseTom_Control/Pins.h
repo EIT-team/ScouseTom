@@ -29,3 +29,4 @@ void indpins_init();
 void indChnIdent();
 void ind_low();
 void ind_high();
+void ind_pulse_with_delay(int chn, int del, int repeats);

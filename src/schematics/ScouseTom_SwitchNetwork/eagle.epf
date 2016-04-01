@@ -389,11 +389,12 @@ UsedLibrary="C:/SPB_Data/external_lbrs/SparkFun-Eagle-Libraries.git/User-Submitt
 UsedLibrary="C:/SPB_Data/external_lbrs/NXP-74HCT14N@E/untitled.lbr"
 UsedLibrary="C:/SPB_Data/external_lbrs/Microchip-MCP41HV@E/Microchip-MCP41HV.lbr"
 UsedLibrary="C:/SPB_Data/external_lbrs/WE-PD@E/WE-PD.lbr"
+UsedLibrary="C:/SPB_Data/external_lbrs/Molex-47346-0001@E/Molex-47346-0001.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="365 91 1320 875"
-State=2
+Loc="714 58 1669 842"
+State=0
 Number=0
 
 [Desktop]
