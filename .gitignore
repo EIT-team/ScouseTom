@@ -10,3 +10,5 @@
 **/.sconsign.dblite
 **/.psess
 **/Debug
+**/*.bak
+**/plot.log
