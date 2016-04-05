@@ -21,9 +21,13 @@ int CurrentRangesMax[5] = { 2, 21, 210, 2100, 21000 }; //Max current for each ra
 //For setting epilepsy pulse train
 int Points[100] = { 0 };
 float pulse_width = 1e-3;
-float frequency = 50;
-int Duty_cycle = 0;
-int N_points = 0;
+float frequency = 8;
+float amplitude = 1e-3
+int Duration = 15;
+float Freq = 0;
+float Pause_time = 0;
+int N_init = 0;
+
 char arb[600];
 char arb_waveform[600];
 
