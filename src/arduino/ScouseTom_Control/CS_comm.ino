@@ -832,78 +832,78 @@ Function to flush serial input coming from current source - leftover stuff in th
 
 }
 
-void CS_sendsettingsStim()
-{
-  Serial.println(pulse_width);
-  
-  Time_point = Pulse_width/10; //Duration of each arbitrary point 
-  Freq = round(1/(100*Time_point));
-  
-  Serial.println(Freq);
-  
-   for (int i=1; i<= 9; i++) 
-    {
-          Points[i] = 1;
-    }
-    
-   for (int i = 10; i<= 99; i++)
-    {
-          Points[i] = -0.111;
-    }
-    //Serial.println(Points);
-     
-      
-   //Send arbitrary waveform to the current source 
-    
-    Serial1.println("SOUR:WAVE:ABOR");
-    Serial1.print("SOUR:WAVE:ARB:DATA ");
-    for (int i=0; i<=99; i++)
-    {
-      Serial1.print(Points[i]);
-      Serial.print(Points[i]);
-      if(i<99)
-      {
-      Serial1.print(" ,");
-      Serial.print(" ,");
-      }
-    }
-    Serial1.print("\n");
-    Serial.print("\n");    
-    
-    Serial1.println("SOUR:WAVE:FUNC ARB0");
-    
-    //Send frequency
-    printf(CS_outputBuffer, "SOUR:WAVE:FREQ %d", Freq); //make string to send to CS
-    Serial1.println(CS_outputBuffer);
-    
-    //Send current amplitude
-    printf(CS_outputBuffer, "SOUR:WAVE:AMP %d", amplitude); //make string to send to CS
-    Serial1.println(CS_outputBuffer);
-    
-    //Set duration to 1 cycle
-    Serial1.println("SOUR:WAVE:DUR:CYCL 1");
-    
-    //Set compliance
-    Serial1.println("SOUR:CURR:COMP 11");
-    
-    //Arm the current source
-    Serial1.println("SOUR:WAVE:ARM"); 
-}
+//void CS_sendsettingsStim()
+//{
+//  Serial.println(pulse_width);
+//  
+//  Time_point = Pulse_width/10; //Duration of each arbitrary point 
+//  Freq = round(1/(100*Time_point));
+//  
+//  Serial.println(Freq);
+//  
+//   for (int i=1; i<= 9; i++) 
+//    {
+//          Points[i] = 1;
+//    }
+//    
+//   for (int i = 10; i<= 99; i++)
+//    {
+//          Points[i] = -0.111;
+//    }
+//    //Serial.println(Points);
+//     
+//      
+//   //Send arbitrary waveform to the current source 
+//    
+//    Serial1.println("SOUR:WAVE:ABOR");
+//    Serial1.print("SOUR:WAVE:ARB:DATA ");
+//    for (int i=0; i<=99; i++)
+//    {
+//      Serial1.print(Points[i]);
+//      Serial.print(Points[i]);
+//      if(i<99)
+//      {
+//      Serial1.print(" ,");
+//      Serial.print(" ,");
+//      }
+//    }
+//    Serial1.print("\n");
+//    Serial.print("\n");    
+//    
+//    Serial1.println("SOUR:WAVE:FUNC ARB0");
+//    
+//    //Send frequency
+//    printf(CS_outputBuffer, "SOUR:WAVE:FREQ %d", Freq); //make string to send to CS
+//    Serial1.println(CS_outputBuffer);
+//    
+//    //Send current amplitude
+//    printf(CS_outputBuffer, "SOUR:WAVE:AMP %d", amplitude); //make string to send to CS
+//    Serial1.println(CS_outputBuffer);
+//    
+//    //Set duration to 1 cycle
+//    Serial1.println("SOUR:WAVE:DUR:CYCL 1");
+//    
+//    //Set compliance
+//    Serial1.println("SOUR:CURR:COMP 11");
+//    
+//    //Arm the current source
+//    Serial1.println("SOUR:WAVE:ARM"); 
+//}
 
-void CS_stimStart()
-{
-  Pause_time = (1/frequency)*1000; //Have it in milliseconds to use with delay later
-  N_init = frequency * Duration;
-  
-  n = 0;
-  while(n < N_init)
-  {
-    Serial.println("SOUR:WAVE:INIT");
-    delay(Pause_time);
-    n++
-  }
-}
-    
+//void CS_stimStart()
+//{
+//  Pause_time = (1/frequency)*1000; //Have it in milliseconds to use with delay later
+//  N_init = frequency * Duration;
+//  
+//  n = 0;
+//  while(n < N_init)
+//  {
+//    Serial.println("SOUR:WAVE:INIT");
+//    delay(Pause_time);
+//    n++
+//  }
+//}
+ 
 void CS_sendsettingsInj(long Amp , long Freq)
 {
   

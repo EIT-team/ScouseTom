@@ -19,14 +19,14 @@ int CurrentRanges[5] = { 2, 20, 200, 2000, 20000 }; // Current ranges in uA for 
 int CurrentRangesMax[5] = { 2, 21, 210, 2100, 21000 }; //Max current for each range - we want to use smallest as poss
 
 //For setting epilepsy pulse train
-int Points[100] = { 0 };
-float pulse_width = 1e-3;
-float frequency = 8;
-float amplitude = 1e-3
-int Duration = 15;
-float Freq = 0;
-float Pause_time = 0;
-int N_init = 0;
+//int Points[100] = { 0 };
+//float pulse_width = 1e-3;
+//float frequency = 8;
+//float amplitude = 1e-3;
+//int Duration = 15;
+//float Freq = 0;
+//float Pause_time = 0;
+//int N_init = 0;
 
 char arb[600];
 char arb_waveform[600];
@@ -57,6 +57,6 @@ int CS_AutoRangeOn();
 boolean CS_AutoRangeOff();
 boolean CS_CheckOn();
 void CS_serialFlush();
-void CS_sendsettingsStim();
+//void CS_sendsettingsStim();
 void CS_sendsettingsInj(long Amp , long Freq);
 //char CS_ArbWaveform();

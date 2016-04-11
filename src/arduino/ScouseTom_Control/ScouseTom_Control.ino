@@ -1295,7 +1295,7 @@ void dostuff()
           {
           //Send settings for train of pulses, this currently isn't flexible
           Serial.println("Sending pulse train settings");
-          CS_sendsettingsStim();
+//          CS_sendsettingsStim();
           CS_Disp("Epilepsy Stimulation Set");
           
           //Start injection
