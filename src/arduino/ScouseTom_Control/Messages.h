@@ -28,8 +28,8 @@ String MSG_SYS_RUN = "EIT RECORDING";
 String MSG_SYS_RUN_MULTI = "MFEIT RECORDING";
 
 //System Stop
-String MSG_SYS_STOP = "Inj Stopped";
-String MSG_SYS_STOP_2 = "Immortality reached";
+String MSG_SYS_STOP = "RECORDING STOPPED";
+String MSG_SYS_STOP_2 = "EIT data collection finished";
 
 //System Contact Check Running
 String MSG_CONTACT_CHECK_RUN = "Contact Check";
