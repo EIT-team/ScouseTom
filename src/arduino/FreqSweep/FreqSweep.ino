@@ -147,6 +147,7 @@ void FreqSweep()
 	Serial.println("Starting Current Source");
 	CS_start();
 
+	digitalWrite(IND_SWITCH, 0);
 	for (int iFreq = 0; iFreq < NumFreq; iFreq++)
 	{
 		Serial.print("Sending Settings ");
@@ -165,6 +166,7 @@ void FreqSweep()
 		digitalWrite(IND_SWITCH, 0);
 
 		delay(InjectionTime);
+
 		digitalWrite(IND_SWITCH, 1);
 		digitalWrite(IND_SWITCH, 0);
 
