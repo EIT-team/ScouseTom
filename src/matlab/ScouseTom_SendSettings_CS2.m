@@ -206,7 +206,7 @@ while (finished_sending ==0)
         break
     end
     
-    pulsetrains(COM_CS2, ExpSetup.CSStimAmp, ExpSetup.StimulatorPulseWidth);
+    pulsetrains(COM_CS2, ExpSetup.CSStimAmp, ExpSetup.StimulatorPulseWidth/1000000);
     
     fprintf('Timing OK, ');
     
