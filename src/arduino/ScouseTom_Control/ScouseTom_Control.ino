@@ -1313,15 +1313,15 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 	if (Stim_goflag) //if we should go
 	{
 		//StiminterruptCtr++; //increment intrctr
-		if (!Stim_pinstate && StiminterruptCtr >= d1) // check if timer is up and pulse still low
+		if (Stim_pinstate && StiminterruptCtr >= d1) // check if timer is up and pulse still low
 		{
-			digitalWriteDirect(IND_STIM, 1); //write pin high
+			digitalWriteDirect(IND_STIM, 0); //write pin high
 			Stim_pinstate = !Stim_pinstate;
 		}
-		else if (Stim_pinstate && StiminterruptCtr >= d2)
+		else if (!Stim_pinstate && StiminterruptCtr >= d2)
 		{
 
-			digitalWriteDirect(IND_STIM, 0); //write pin low
+			digitalWriteDirect(IND_STIM, 1); //write pin low
 			Stim_pinstate = !Stim_pinstate;
 
 			Stim_goflag = 0; //stop it from happening again
