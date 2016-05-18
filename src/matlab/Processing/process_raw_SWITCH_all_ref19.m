@@ -25,7 +25,7 @@
    N_butter_dZ = 5;  % Butterworth order for filtering dZs
    N_butter_notch = 3; % Butterworth order for notch filtering    
    Noise_thres = 100000;  % Noise threshold (in uV)
-   Filter_50Hz = false; % 50 Hz notch filter on EPs
+   Filter_50Hz = true; % 50 Hz notch filter on EPs
    Plot_chan = [1:length(map_)];
    T_window = 0.1; % time to take around trigger
  
@@ -269,8 +269,8 @@ for iPair = 1:Prt_size
         [b,a] = butter(3,1/(Fs/2),'high');
         plot(T,detrend(filtfilt(b,a,avg_dZ_abs(:,Plot_chan))))
         title(['Pair=' num2str(iPair)]);
-        %ylim([-30,30])
-        %xlim([-5,50])
+        ylim([-30,30])
+        xlim([-5,50])
         grid on
         ylabel('dZ (uV)')
         
