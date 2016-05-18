@@ -1,14 +1,14 @@
-close all
-clear all
- path_n='G:\GSK_M\EX_VIVO\sheep_1';
-files=dir('EIT*.vhdr');
-files={files.name};
+% close all
+% clear all
+%  path_n='G:\GSK_M\EX_VIVO\sheep_1';
+% files=dir('EIT*.vhdr');
+% files={files.name};
 
-for ffil = 2
+%for ffil = 2
    
    
-   %EIT_fname = 'EIT_003_T.vhdr';
-   EIT_fname = files{ffil};
+   EIT_fname = 'EIT_003_T.vhdr';
+  % EIT_fname = files{ffil};
    
    log_f=dir([EIT_fname(1:end-5) '_log*.mat']);
    log_f=log_f.name;
@@ -100,7 +100,9 @@ for iPair = 1:Prt_size
       EEG.data=EEG.data(map_p,:);
       
       T_trig=cell2mat({EEG.event.latency})';
- 
+
+      %%THIS MIGHT BE DIFFERENT NOW!
+      
       for i=1:length(T_trig)
          if ~strcmp([EEG.event(1,i).type], ['S  2']);
            T_trig(i)=0;
@@ -297,7 +299,7 @@ save([EIT_fname(1:end-5) '_BW3000.mat'],'EIT','-v7.3');
 %       
 %       
       
-end      
+%end      
       
       
       
