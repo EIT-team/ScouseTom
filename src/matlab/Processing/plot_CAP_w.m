@@ -33,8 +33,9 @@ EEG=pop_loadbv;
  Data = filtfilt(b,a,Data);
  
  
-%     [b,a] = iirnotch(50/(Fs/2),(50/(Fs/2))/45);
-%      Data = filtfilt(b,a,Data);
+ 
+     [b,a] = iirnotch(50/(Fs/2),(50/(Fs/2))/25);
+      Data = filtfilt(b,a,Data);
 %  
 %   [b,a] = butter(3,20/(Fs/2),'high');
 %   Data = filtfilt(b,a,Data);

@@ -1,26 +1,24 @@
 % close all
 % clear all
-  path_n='E:\GSK\ActCh\sheep_2';
-% files=dir('EIT*.vhdr');
-% files={files.name};
+ path_n='G:\GSK_M\EX_VIVO\sheep_2';
+ files=dir('Freq_sweep*.vhdr');
+ files={files.name};
 
-%for ffil = 2
+for ffil = 3:length(files)
    
    
-   EIT_fname = 'EIT_6000Hz_30uA.vhdr';
-  % EIT_fname = files{ffil};
-   
-   log_f=dir([EIT_fname(1:end-5) '_log*.mat']);
-   log_f=log_f.name;
-   load(log_f);
+  % EIT_fname = 'Freq_sweep_3000_500_12000.vhdr';
+   EIT_fname = files{ffil};
+   load('EIT_CRUSHED_6000Hz_30uA_log.mat');
+   freq = [3000:500:12000];
  
    map_p=[1:29]; % Montage
    map_=[1:18,20:30];
    
    ring = [29 1 24 6 18 11 10 20 5 25 17 30 28 2 23 7 16 12 9 21 4 26 15 13 27 3 22 8 14];
      
-   EP_cutoff = 3000;  % cutoff frequency for EPs (low-pass freq.)
-   dZ_BW = 3000;      % Bandwidth for demodulation
+   EP_cutoff_0 = 3000;  % cutoff frequency for EPs (low-pass freq.)
+   dZ_BW_0 = 3000;      % Bandwidth for demodulation
    N_butter_EP = 5; % Butterworth order for filtering EPs
    N_butter_dZ = 5;  % Butterworth order for filtering dZs
    N_butter_notch = 3; % Butterworth order for notch filtering    
@@ -46,19 +44,14 @@
     
     
     SWITCH(SWITCH==0)=[];
-    SWITCH=SWITCH(2:end);
+   % SWITCH=SWITCH(2:end);
     
-    remove_mid_trig =0;
-    if length(SWITCH) >30
-        SWITCH=SWITCH(1:2:end);
-        remove_mid_trig =1;
-    end
-    
+      
     SWITCH = [SWITCH;2*SWITCH(end)-SWITCH(end-1)];
 % Load Prt and check that switches are ok
  %disp(['Loading protocol file ',Prt_name, ' ...']);
  Prt = ExpSetup.Protocol;
- Prt_size = size(Prt,1);
+ Prt_size = size(freq,2);
  
  if (Prt_size+1==size(SWITCH,1))
      disp('All data seemed to be there');
@@ -70,19 +63,7 @@
      %%write stuff to handle this
  end
 
- EEG = pop_loadbv('',EIT_fname,[SWITCH(1)+Fs SWITCH(1)+10*Fs]);
- EEG.data=EEG.data(map_p,:);
- V_inj = detrend(double(EEG.data(map_==Prt(1,2),:)'),'constant'); 
  
-  NFFT = 2^nextpow2(length(V_inj)); % Next power of 2 from length of y
-Y = fft(V_inj,NFFT)/length(V_inj);
-f = Fs/2*linspace(0,1,NFFT/2+1);
-w_ind=2*abs(Y(1:NFFT/2+1));
- %plot(f,w_ind) 
- 
- [~,maxw] = max((w_ind));
- Fc = f(maxw);
-  disp(sprintf('****** Detected carrier frequency: Fc = %i Hz ******',Fc));
  
  %%
 EIT = [];  
@@ -91,13 +72,26 @@ EIT = [];
                   
         
   
-for iPair = 1:Prt_size
+for iPair = 1:length(SWITCH)-1
       
-      disp(sprintf('Processing protocol line %02i / %02i',iPair,Prt_size));
+      disp(sprintf('Processing frequency line %02i / %02i',iPair,Prt_size));
       
-      EEG = pop_loadbv( '',EIT_fname,[SWITCH(iPair) SWITCH(iPair+1)]);
+      EEG = pop_loadbv( '',EIT_fname,[SWITCH(iPair) SWITCH(iPair+1)-Fs*3]);
       
+     
       EEG.data=EEG.data(map_p,:);
+      
+      V_inj = detrend(double(EEG.data(map_==Prt(1,2),:)'),'constant'); 
+ 
+  NFFT = 2^nextpow2(length(V_inj)); % Next power of 2 from length of y
+  Y = fft(V_inj,NFFT)/length(V_inj);
+  f = Fs/2*linspace(0,1,NFFT/2+1);
+  w_ind=2*abs(Y(1:NFFT/2+1));
+ %plot(f,w_ind) 
+ 
+ [~,maxw] = max((w_ind));
+ Fc = f(maxw);
+  disp(sprintf('****** Detected carrier frequency: Fc = %i Hz ******',Fc));
       
       T_trig=cell2mat({EEG.event.latency})';
 
@@ -110,12 +104,12 @@ for iPair = 1:Prt_size
       end
       
       T_trig(T_trig==0)=[];
-      T_trig=T_trig(4:end-3);
+      T_trig=T_trig(4:end-6);
       
-      if remove_mid_trig
-          k_s = round(size(EEG.data,2)/2);
-          T_trig(T_trig > k_s-Fs/2 & T_trig < k_s+Fs/2)=[];
-      end
+%       if remove_mid_trig
+%           k_s = round(size(EEG.data,2)/2);
+%           T_trig(T_trig > k_s-Fs/2 & T_trig < k_s+Fs/2)=[];
+%       end
       
       T_stim = mean(T_trig(2:end)-T_trig(1:end-1))/Fs;
       disp(['Siimulation every ' num2str(round(T_stim*1000)) ' ms']);
@@ -126,9 +120,12 @@ for iPair = 1:Prt_size
  
     Data = double(EEG.data');
     
-    if Fc<=300
-        dZ_BW = 50;
-        EP_cutoff = 100;
+    if Fc<=5000
+        dZ_BW = 2000;
+        EP_cutoff = 1000;
+    else
+        dZ_BW = dZ_BW_0;
+        EP_cutoff = EP_cutoff_0;
     end
     
  
@@ -181,7 +178,7 @@ for iPair = 1:Prt_size
 
     % Find trials with low noise
     Trial_sel = [];
-    for iChan = setdiff(1:N_chan,[Prt(iPair,:)])
+    for iChan = setdiff(1:N_chan,Prt)
         Trial_sel = [Trial_sel; BV{iChan}>1e2 ...
                     & max(abs(dZ{iChan}))<Noise_thres];
     end
@@ -220,11 +217,10 @@ for iPair = 1:Prt_size
 
     
     
-    EIT{iPair}.Pair = Prt(iPair,:);
+    EIT{iPair}.freq = Fc;
     EIT{iPair}.EP_avg=avg_EP;
     EIT{iPair}.dZ_avg=avg_dZ_abs;
-    EIT{iPair}.dZ=dZ;
-    EIT{iPair}.BV0=BV0;
+    EIT{iPair}.BW = dZ_BW;
     
 % Plot
     
@@ -268,9 +264,9 @@ for iPair = 1:Prt_size
         %figure;
         [b,a] = butter(3,1/(Fs/2),'high');
         plot(T,detrend(filtfilt(b,a,avg_dZ_abs(:,Plot_chan))))
-        title(['Pair=' num2str(iPair)]);
+        title(['frequency=' num2str(round(Fc),'%d')]);
         ylim([-30,30])
-        xlim([-5,50])
+        xlim([-5,20])
         grid on
         ylabel('dZ (uV)')
         
@@ -282,24 +278,11 @@ for iPair = 1:Prt_size
 end
       
 
-figure('name',sprintf('EIT %s iPair %02i (%i, %i) [Fc: %i]',...
-                      strtt,iPair,Prt(iPair,1),...
-                      Prt(iPair,2),Fc),'Position',[10,50,1900,950],'PaperPositionMode','auto'); 
-for iPair=1:Prt_size  
-        
-         subplot(round(sqrt(Prt_size))+1,round(sqrt(Prt_size)),iPair);
-       
-        bar(EIT{iPair}.BV0);
-        [~,k]=ismember(EIT{iPair}.Pair,ring);
-        title(['Pair  ' num2str(k)]);
-end
-
-%end
-save([EIT_fname(1:end-5) '_BW3000.mat'],'EIT','-v7.3');
+save([EIT_fname(1:end-5) '_BW' num2str(dZ_BW_0) '.mat'],'EIT','-v7.3');
 %       
 %       
       
-%end      
+end      
       
       
       
