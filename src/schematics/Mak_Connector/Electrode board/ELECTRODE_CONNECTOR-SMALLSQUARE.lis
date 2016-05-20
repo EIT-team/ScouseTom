@@ -1,0 +1,130 @@
+Post Processor Report
+OrCAD FILE: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.MAX
+Mon Feb 03 17:24:05 2014
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.TOP
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.TOP:
+---------------------------------------------------------
+D10:  0.0354 x 0.1102 RECTANGLE -----      60 Flashes
+---------------------------------------------------------
+  1 D-Codes      -----       0 Draws,      60 Flashes
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.BOT
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.BOT:
+---------------------------------------------------------
+D10:  0.0354 x 0.1102 RECTANGLE -----      60 Flashes
+---------------------------------------------------------
+  1 D-Codes      -----       0 Draws,      60 Flashes
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SMT
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SMT:
+---------------------------------------------------------
+D10:  0.0354 x 0.1102 RECTANGLE -----      60 Flashes
+---------------------------------------------------------
+  1 D-Codes      -----       0 Draws,      60 Flashes
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SMB
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SMB:
+---------------------------------------------------------
+D10:  0.0354 x 0.1102 RECTANGLE -----      60 Flashes
+---------------------------------------------------------
+  1 D-Codes      -----       0 Draws,      60 Flashes
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SPT
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SPT:
+---------------------------------------------------------
+No data on this layer
+---------------------------------------------------------
+  0 D-Codes      -----       0 Draws,       0 Flashes
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SPB
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SPB:
+---------------------------------------------------------
+No data on this layer
+---------------------------------------------------------
+  0 D-Codes      -----       0 Draws,       0 Flashes
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SST
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SST:
+---------------------------------------------------------
+D11:  0.0050 ROUND  --     317 Draws,       0 Flashes
+---------------------------------------------------------
+  1 D-Codes      -----     317 Draws,       0 Flashes
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SSB
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.SSB:
+---------------------------------------------------------
+No data on this layer
+---------------------------------------------------------
+  0 D-Codes      -----       0 Draws,       0 Flashes
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.AST
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.AST:
+---------------------------------------------------------
+D10:  0.0354 x 0.1102 RECTANGLE -----      60 Flashes
+D12:  0.0500 ROUND  --       4 Draws,       0 Flashes
+---------------------------------------------------------
+  2 D-Codes      -----       4 Draws,      60 Flashes
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.DRD
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.DRD:
+---------------------------------------------------------
+D12:  0.0500 ROUND  --       4 Draws,       0 Flashes
+D13:  0.0100 ROUND  --     400 Draws,       0 Flashes
+---------------------------------------------------------
+  2 D-Codes      -----     404 Draws,       0 Flashes
+
+*********************************************************
+
+Output file: C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.FAB
+
+Aperture totals for C:\USERS\MAK\DESKTOP\60WAY ELECTRODE CONNECTOR\ELECTRODE_CONNECTOR-SMALLSQUARE.FAB:
+---------------------------------------------------------
+D12:  0.0500 ROUND  --       4 Draws,       0 Flashes
+---------------------------------------------------------
+  1 D-Codes      -----       4 Draws,       0 Flashes
+
+
+*********************************************************
+
+Aperture totals for entire project:
+---------------------------------------------------------
+D10:  0.0354 x 0.1102 RECTANGLE -----     300 Flashes
+D11:  0.0050 ROUND  --     317 Draws,       0 Flashes
+D12:  0.0500 ROUND  --      12 Draws,       0 Flashes
+D13:  0.0100 ROUND  --     400 Draws,       0 Flashes
+---------------------------------------------------------
+  4 D-Codes      -----     729 Draws,     300 Flashes
+
+
+No warnings or errors.

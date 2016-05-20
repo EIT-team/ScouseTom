@@ -129,12 +129,12 @@ void stim_calcdelays(long Freq) //calculate the possible delays for this freq
 
 	if (phaseacc < mintime) // if time for 1 degree is less than the minimum take a subset
 	{
-		NumDelay = int(T / mintime); //find number of possible phases
+		NumDelay = int((T / mintime)+0.5); //find number of possible phases
 
 		for (int i = 0; i < NumDelay; i++) //populate vector
 		{
 			Stim_delays[i] = i;
-			Stim_phases[i] = i*mintime;
+			Stim_phases[i] = (i*mintime)/phaseacc;
 		}
 	}
 	else // if phase time is greater than min time, then only do 360 phases
