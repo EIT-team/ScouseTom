@@ -15,7 +15,7 @@ Points = zeros(100,1);
 % Points([1:10],1) = 1;
 % Points([11:100]) = -0.111;
 Points([1:10],1) = 1;
-Points([11:20],1) = -0;
+Points([11:20],1) = -1;
 points = sprintf('%d ,', Points);
 points = points(1:end-1);
  
