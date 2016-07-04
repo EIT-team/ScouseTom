@@ -10,8 +10,8 @@ Use this to obtain frequency responses of EEG system/electrodes etc.
 /* USER CHANGES THESE VALUES!!!!*/
 
 long Amplitude = 100; // amplitude in uA to inject
-const int NumFreq = 4; // number of frequencies to check
-int Freq[NumFreq] = { 100, 5000, 10000, 15000 };
+const int NumFreq = 20; // number of frequencies to check
+int Freq[NumFreq] = { 500  ,1000  ,1500  ,2000  ,2500  ,3000  ,3500  ,4000  ,4500  ,5000  ,5500  ,6000  ,6500  ,7000  ,7500  ,8000  ,8500  ,9000  ,9500,  10000 };
 
 int Injection_pair[2] = { 1,10 }; // which electrodes the current is injected between
 
@@ -147,6 +147,7 @@ void FreqSweep()
 	Serial.println("Starting Current Source");
 	CS_start();
 
+	digitalWrite(IND_SWITCH, 0);
 	for (int iFreq = 0; iFreq < NumFreq; iFreq++)
 	{
 		Serial.print("Sending Settings ");
@@ -162,10 +163,13 @@ void FreqSweep()
 		Serial1.println(CS_outputBuffer); // send to CS
 
 		digitalWrite(IND_SWITCH,1);
+   delay(1);
 		digitalWrite(IND_SWITCH, 0);
 
 		delay(InjectionTime);
+
 		digitalWrite(IND_SWITCH, 1);
+    delay(1);
 		digitalWrite(IND_SWITCH, 0);
 
 	}
