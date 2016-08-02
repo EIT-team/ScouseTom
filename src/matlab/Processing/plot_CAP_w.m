@@ -9,6 +9,16 @@ EEG=pop_loadbv;
  %Good_ch=map_;
  
  
+   map_p=[1:29]; % Montage
+   map_=[1:18,20:30]; %REF = 19
+   % map_=[2:30]; %REF = 1
+   
+   ring = [7 28 12 23 21 16 26 9 13 4 3 15 8 27 14 22];
+   %ring = [29 1 24 6 18 11 10 20 5 25 17 30 28 2 23 7 16 12 9 21 4 26 15 13 27 3 22 8 14];
+   for i = 1:length(ring)
+       ring_n (i) = map_p(map_==ring(i));
+   end
+ 
  
  t=cell2mat({EEG.event.latency})';
  
@@ -35,7 +45,7 @@ EEG=pop_loadbv;
  
  
      [b,a] = iirnotch(50/(Fs/2),(50/(Fs/2))/25);
-      Data = filtfilt(b,a,Data);
+      Data = filtfilt(b,a,Data(ring_n,:));
 %  
 %   [b,a] = butter(3,20/(Fs/2),'high');
 %   Data = filtfilt(b,a,Data);
@@ -55,7 +65,7 @@ EEG=pop_loadbv;
  
  EP_avg=detrend(squeeze(mean(EP,1)));
  
-   figure 
-  pwelch(EP_avg(:,2),[],[],25000,Fs);
+ %  figure 
+ % pwelch(EP_avg(:,2),[],[],25000,Fs);
  figure
  plot(T,EP_avg);
