@@ -11,6 +11,7 @@ const int CS_timeoutlimit = 200; // timeout in milliseconds for response from cu
 const int CS_ComplianceTimeoutLimit = 5; //timeout in milliseconds for compliance check - this is separete from normal timeout, as we dont want to wait as long during compliance checks!
 const long sc_micro = 1000000; // scale for micro
 const long sc_milli = 1000; // scale for milliseconds
+const long sc_nano = 1000000000; // scale for micro
 
 const int ComplianceDefault = 1900;
 int Compliance = ComplianceDefault; // mV compliance setting for current source in mV - default is 1.9V for biosemi
