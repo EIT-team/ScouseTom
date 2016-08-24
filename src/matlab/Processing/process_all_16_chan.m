@@ -1,10 +1,10 @@
 % close all
 % clear all
-  path_n='G:\GSK_M\EX_VIVO\sheep_4';
- files=dir('EIT*ful*.vhdr');
+  path_n='D:\KIRILL\RAT003';
+ files=dir('EIT*.vhdr');
  files={files.name};
 
-for ffil = 3:length(files)
+for ffil = 1:length(files)
    
    
  %  EIT_fname = 'EIT_008_cer_1_full.vhdr';
@@ -14,14 +14,15 @@ for ffil = 3:length(files)
    log_f=log_f.name;
    load(log_f);
  
-   map_p=[1:29]; % Montage
-    map_=[1:18,20:30]; %REF = 19
+   map_p=[1:17]; % Montage
+    map_=[7 28 12 23 21 16 26 9 13 4 3 15 8 27 14 22]; %REF = 19
    % map_=[2:30]; %REF = 1
    
-   ring = [7 28 12 23 21 16 26 9 13 4 3 15 8 27 14 22];
-   for i = 1:length(ring)
-       ring_n (i) = map_p(map_==ring(i));
-   end
+   ring = [7 28 12 23 21 16 26 9 13 4 3 15 8 27 14 22]; %[7 28 12 23 21 16 26 9 13 4 3 15 8 27 14 22];
+   ring_n= [1:16];
+%    for i = 1:length(ring)
+%        ring_n (i) = map_p(map_==ring(i));
+%    end
      
    EP_cutoff = 3000;  % cutoff frequency for EPs (low-pass freq.)
    dZ_BW = 3000;      % Bandwidth for demodulation
@@ -142,10 +143,10 @@ for iPair = 1:size(SWITCH,1)-1;
     % Low-pass filter to retrieve EP's
     [b,a] = butter(N_butter_EP,EP_cutoff/(Fs/2),'low');
     X_ep = filtfilt(b,a,Data);
-    if Filter_50Hz
-        [b,a] = iirnotch(50/(Fs/2),(50/(Fs/2))/35);
-        X_ep = filtfilt(b,a,X_ep);
-    end
+%     if Filter_50Hz
+%         [b,a] = butter(50/(Fs/2),(50/(Fs/2))/35);
+%         X_ep = filtfilt(b,a,X_ep);
+%     end
     
     % Band-pass filter and demodulate
     [b,a] = butter(N_butter_dZ,(Fc+dZ_BW*[-1,1])/(Fs/2));
@@ -153,11 +154,11 @@ for iPair = 1:size(SWITCH,1)-1;
     X_dz = hilbert(X_dz);
     A_dz   = abs(X_dz);              % amplitude
 %     if Filter_50Hz
-         [b,a] = iirnotch(50/(Fs/2),(50/(Fs/2))/10);
-         A_dz = filtfilt(b,a,A_dz);
-         
-         [b,a] = iirnotch(100/(Fs/2),(100/(Fs/2))/10);
-         A_dz = filtfilt(b,a,A_dz);
+%          [b,a] = iirnotch(50/(Fs/2),(50/(Fs/2))/10);
+%          A_dz = filtfilt(b,a,A_dz);
+%          
+%          [b,a] = iirnotch(100/(Fs/2),(100/(Fs/2))/10);
+%          A_dz = filtfilt(b,a,A_dz);
 %      end
     
     % Number of channels, triggers, bins
@@ -270,9 +271,9 @@ for iPair = 1:size(SWITCH,1)-1;
 %        % close(gcf)
 %     end
 
-        SDD = std(avg_dZ_abs);
+        SDD = std(avg_dZ_abs(T<-2,:));
 
-        Plot_thr = 3;
+        Plot_thr = 10;
         
         if (any(SDD<Plot_thr))
          subplot(round(sqrt(Prt_size))+1,round(Prt_size/round(sqrt(Prt_size))),iPair);
@@ -281,7 +282,7 @@ for iPair = 1:size(SWITCH,1)-1;
       %  [b,a] = butter(3,1/(Fs/2),'high');
             plot(T,avg_dZ_abs(:,SDD<Plot_thr));
             title(['Pair=' num2str(k)]);
-            ylim([-20,20])
+            ylim([-50,50])
             xlim([-3,15])
             grid on
             ylabel('dZ (uV)')
