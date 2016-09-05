@@ -8,23 +8,23 @@ Wind2 represents the text for the smaller window at the bottom of the screen
 */
 
 //Initialisation messages during CS_init
-String MSG_Init = "EIT ST MK 2.5";
-String MSG_Init_2 = "Initialising...";
+String MSG_Init = "NANONANONANONANO";
+String MSG_Init_2 = "Initialising...NANO";
 
 //Idle messages
-String MSG_Idle = "System Idle";
-String MSG_Idle_2 = "...";
+String MSG_Idle = "NANO System Idle";
+String MSG_Idle_2 = "NANONANONANO...";
 
 //Start Messages
 String MSG_Start = "Starting Recording";
 String MSG_Start_2 = "Checking System";
 
 //CS Set OK
-String MSG_CS_SET_OK = "CS SET OK";
-String MSG_CS_SET_OK_2 = "SingleFreqMode";
+String MSG_CS_SET_OK = "CS SET OK NANO";
+String MSG_CS_SET_OK_2 = "SingleFreqMode NANO";
 
 //System Running
-String MSG_SYS_RUN = "EIT RECORDING";
+String MSG_SYS_RUN = "EIT REC. NANO";
 String MSG_SYS_RUN_MULTI = "MFEIT RECORDING";
 
 //System Stop
@@ -39,7 +39,7 @@ String MSG_CONTANT_CHECK_START = "Checking Contact";
 
 //Get setting from System
 String MSG_SET_READ = "Get Settings";
-String MSG_SET_READ_2 = "Reading from PC...";
+String MSG_SET_READ_2 = "Reading from PC...NANO";
 
 //Settings read OK
 String MSG_SET_READ_OK = "All Settings read";

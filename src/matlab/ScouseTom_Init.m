@@ -27,6 +27,14 @@ if exist('Ard','var')
     clear('Ard');
 end
 
+disp('NANO');
+disp('NANO');
+disp('NANO');
+disp('NANO');
+disp('NANO');
+disp('NANO');
+disp('NANO');
+
 
 % Reset and Connect to Arduino
 [Ard,commgood]=ScouseTom_ard_init(ArdComPortStr);
