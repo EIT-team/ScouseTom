@@ -1,43 +1,66 @@
+/*
+Code for setting ports on 16 chn Mux ADG426 x2
+This is for Kirushka
+Expects Arduino Uno
+
+*/
+
+
+
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
-  Serial.println("hello");
+  Serial.println("Hello Kirushka");
+  Serial.println("MAKE SURE YOU HAVE CR IN ENDINGS SELECTED");
 
-  DDRB = B11111111; //set pins to outputs - ard pins 8-13
+  Serial.println("Type in EXACTLY this format: 2,3 ");
+
+  DDRB = B00111111; //set pins to outputs - ard pins 8-13
   DDRD = DDRD | B11111100; //set pins to outputs without fucking up serial 0-7
+
+
+
 
 }
 
 void loop() {
-// put your main code here, to run repeatedly:
 
-// PORTB = B00000000; // init PORTB 8-13
-// PORTD = PORTD & B00000011; // init PORTD 0-7
+while (Serial.available() > 0)
+{
 
-//initports();
-writeMux1(2);
-writeMux2(2);
-delay(10);
-// initports();
-writeMux1(3);
-writeMux2(3);
-delay(10);
-// initports();
-writeMux1(5);
-writeMux2(5);
-delay(10);
-// initports();
-writeMux1(9);
-writeMux2(9);
-delay(10);
-Serial.println("loop is done");
+  int Mux1Val = Serial.parseInt();
+  int Mux2Val = Serial.parseInt();
+  if (Serial.read() == '\r') {
+
+    Serial.print("I am going to set Mux 1: ");
+    Serial.print(Mux1Val);
+    Serial.print(" and Mux 2 to: ");
+    Serial.println(Mux2Val);
+    bool badrange = writeMux1(Mux1Val) | writeMux2(Mux2Val);
+
+	if (badrange)
+	{
+		Serial.println("OUT OF RANGE");
+		void initports();
+	}
+
+
+
+  }
+
+
+
+
+
+}
 
 }
 
 
 void initmux1()
 {
-  PORTB = B00000000; // init PORTB 8-13
+  PORTB = PORTB & B11000000; // init PORTB 8-13
 }
 
 void initmux2()
@@ -56,7 +79,7 @@ bool writeMux1(int chn)
 {
   bool outofrange = 0;
 
-  if ( (chn > 16) | (chn < 0))
+  if ( (chn > 16) | (chn < 1))
   {
     outofrange =1;
     return outofrange;
@@ -64,7 +87,7 @@ bool writeMux1(int chn)
 
   initmux1();
 
-  PORTB = byte(chn -1);
+  PORTB = PORTB | byte(chn -1);
   return outofrange;
 
 }
@@ -74,7 +97,7 @@ bool writeMux2(int chn)
 {
   bool outofrange = 0;
 
-  if ((chn > 16) | (chn < 0))
+  if ((chn > 16) | (chn < 1))
   {
     outofrange =1;
     return outofrange;
