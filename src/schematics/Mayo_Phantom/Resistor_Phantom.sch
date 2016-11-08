@@ -3910,31 +3910,77 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 &lt;/ul&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
 <packages>
-<package name="SSOP4">
-<description>&lt;b&gt;SSOP 04&lt;/b&gt; NAiS&lt;p&gt;Source: http://www.mew-europe.com/..  pti_en.pdf</description>
-<wire x1="-2.15" y1="1.1" x2="-2" y2="1.25" width="0.1524" layer="21" curve="-90"/>
-<wire x1="-2" y1="1.25" x2="2" y2="1.25" width="0.1524" layer="21"/>
-<wire x1="2" y1="1.25" x2="2.15" y2="1.1" width="0.1524" layer="21" curve="-90"/>
-<wire x1="2.15" y1="1.1" x2="2.15" y2="0.1" width="0.1524" layer="51"/>
-<wire x1="2.15" y1="0.1" x2="2.15" y2="-0.1" width="0.1524" layer="21"/>
-<wire x1="2.15" y1="-0.1" x2="2.15" y2="-1.1" width="0.1524" layer="51"/>
-<wire x1="2" y1="-1.25" x2="2.15" y2="-1.1" width="0.1524" layer="21" curve="90"/>
-<wire x1="2" y1="-1.25" x2="-2" y2="-1.25" width="0.1524" layer="21"/>
-<wire x1="-2.15" y1="-1.1" x2="-2" y2="-1.25" width="0.1524" layer="21" curve="90"/>
-<wire x1="-2.15" y1="-1.1" x2="-2.15" y2="-0.1" width="0.1524" layer="51"/>
-<wire x1="-2.15" y1="-0.1" x2="-2.15" y2="0.1" width="0.1524" layer="21"/>
-<wire x1="-2.15" y1="0.1" x2="-2.15" y2="1.1" width="0.1524" layer="51"/>
-<wire x1="-1.9" y1="1" x2="1.95" y2="1" width="0.0508" layer="51"/>
-<wire x1="1.95" y1="1" x2="1.95" y2="-1" width="0.0508" layer="51"/>
-<wire x1="1.95" y1="-1" x2="-1.9" y2="-1" width="0.0508" layer="51"/>
-<wire x1="-1.9" y1="-1" x2="-1.9" y2="1" width="0.0508" layer="51"/>
-<circle x="-1.27" y="0.762" radius="0.254" width="0" layer="21"/>
-<smd name="2" x="-2.175" y="-0.635" dx="0.9" dy="0.7" layer="1"/>
-<smd name="1" x="-2.175" y="0.635" dx="0.9" dy="0.7" layer="1"/>
-<smd name="4" x="2.175" y="0.635" dx="0.9" dy="0.7" layer="1"/>
-<smd name="3" x="2.175" y="-0.635" dx="0.9" dy="0.7" layer="1"/>
-<text x="-2.032" y="1.524" size="1.27" layer="25">&gt;NAME</text>
-<text x="-2.032" y="-2.794" size="1.27" layer="27">&gt;VALUE</text>
+<package name="SOP04">
+<description>&lt;b&gt;SOP 04 - 4.3x4.4mm RM 2.54mm&lt;/b&gt; AQY21, AQY22, AQY61 Series NAiS&lt;p&gt;Source: http://www.mew-europe.com/..  pti_en.pdf</description>
+<wire x1="-2" y1="2.075" x2="2" y2="2.075" width="0.254" layer="21"/>
+<wire x1="2" y1="2.075" x2="2" y2="-2.075" width="0.254" layer="21"/>
+<wire x1="2" y1="-2.075" x2="-2" y2="-2.075" width="0.254" layer="21"/>
+<wire x1="-2" y1="-2.075" x2="-2" y2="2.075" width="0.254" layer="21"/>
+<circle x="-1.27" y="-1.524" radius="0.254" width="0" layer="21"/>
+<smd name="1" x="-1.27" y="-3" dx="0.8" dy="1.2" layer="1"/>
+<smd name="2" x="1.27" y="-3" dx="0.8" dy="1.2" layer="1"/>
+<smd name="3" x="1.27" y="3" dx="0.8" dy="1.2" layer="1"/>
+<smd name="4" x="-1.27" y="3" dx="0.8" dy="1.2" layer="1"/>
+<text x="-2.54" y="-2.54" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+<text x="3.81" y="-2.54" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
+<rectangle x1="-1.5" y1="-3.35" x2="-1" y2="-2.1" layer="51"/>
+<rectangle x1="1.04" y1="-3.35" x2="1.54" y2="-2.1" layer="51"/>
+<rectangle x1="1" y1="2.1" x2="1.5" y2="3.35" layer="51"/>
+<rectangle x1="-1.54" y1="2.1" x2="-1.04" y2="3.35" layer="51"/>
+</package>
+<package name="AQY27-SMD04">
+<description>&lt;b&gt;SMD 04 9.4x8.8mm RM 5.08mm&lt;/b&gt; NAiS&lt;p&gt;
+Source: http://www.mew-europe.com/..  pti_en.pdf</description>
+<wire x1="-4.55" y1="4.3" x2="-3.302" y2="4.3" width="0.2032" layer="21"/>
+<wire x1="-1.778" y1="4.3" x2="1.778" y2="4.3" width="0.2032" layer="21"/>
+<wire x1="3.302" y1="4.3" x2="4.55" y2="4.3" width="0.2032" layer="21"/>
+<wire x1="4.55" y1="4.3" x2="4.55" y2="-4.3" width="0.2032" layer="21"/>
+<wire x1="-4.55" y1="-4.3" x2="-4.55" y2="4.3" width="0.2032" layer="21"/>
+<wire x1="-3.302" y1="4.3" x2="-1.778" y2="4.3" width="0.2032" layer="51"/>
+<wire x1="1.778" y1="4.3" x2="3.302" y2="4.3" width="0.2032" layer="51"/>
+<wire x1="4.55" y1="-4.3" x2="3.302" y2="-4.3" width="0.2032" layer="21"/>
+<wire x1="1.778" y1="-4.3" x2="-1.778" y2="-4.3" width="0.2032" layer="21"/>
+<wire x1="-3.302" y1="-4.3" x2="-4.55" y2="-4.3" width="0.2032" layer="21"/>
+<wire x1="3.302" y1="-4.3" x2="1.778" y2="-4.3" width="0.2032" layer="51"/>
+<wire x1="-1.778" y1="-4.3" x2="-3.302" y2="-4.3" width="0.2032" layer="51"/>
+<circle x="-2.54" y="-2.794" radius="0.508" width="0" layer="21"/>
+<smd name="1" x="-2.54" y="-5.5" dx="1.8" dy="1.8" layer="1"/>
+<smd name="2" x="2.54" y="-5.5" dx="1.8" dy="1.8" layer="1"/>
+<smd name="3" x="2.54" y="5.5" dx="1.8" dy="1.8" layer="1"/>
+<smd name="4" x="-2.54" y="5.5" dx="1.8" dy="1.8" layer="1"/>
+<text x="-4.9164" y="-4.445" size="1.397" layer="25" ratio="10" rot="R90">&gt;NAME</text>
+<text x="6.2626" y="-4.445" size="1.397" layer="27" ratio="10" rot="R90">&gt;VALUE</text>
+<rectangle x1="-2.921" y1="4.318" x2="-2.159" y2="5.461" layer="51"/>
+<rectangle x1="2.159" y1="4.318" x2="2.921" y2="5.461" layer="51"/>
+<rectangle x1="2.159" y1="-5.461" x2="2.921" y2="-4.318" layer="51"/>
+<rectangle x1="-2.921" y1="-5.461" x2="-2.159" y2="-4.318" layer="51"/>
+</package>
+<package name="AQY27">
+<description>&lt;b&gt;DIL 04&lt;/b&gt; NAiS&lt;p&gt;
+Source: http://www.mew-europe.com/..  pti_en.pdf</description>
+<wire x1="-4.55" y1="4.3" x2="-3.302" y2="4.3" width="0.2032" layer="21"/>
+<wire x1="-1.778" y1="4.3" x2="1.778" y2="4.3" width="0.2032" layer="21"/>
+<wire x1="3.302" y1="4.3" x2="4.55" y2="4.3" width="0.2032" layer="21"/>
+<wire x1="4.55" y1="4.3" x2="4.55" y2="-4.3" width="0.2032" layer="21"/>
+<wire x1="-4.55" y1="-4.3" x2="-4.55" y2="4.3" width="0.2032" layer="21"/>
+<wire x1="-3.302" y1="4.3" x2="-1.778" y2="4.3" width="0.2032" layer="51"/>
+<wire x1="1.778" y1="4.3" x2="3.302" y2="4.3" width="0.2032" layer="51"/>
+<wire x1="4.55" y1="-4.3" x2="3.302" y2="-4.3" width="0.2032" layer="21"/>
+<wire x1="1.778" y1="-4.3" x2="-1.778" y2="-4.3" width="0.2032" layer="21"/>
+<wire x1="-3.302" y1="-4.3" x2="-4.55" y2="-4.3" width="0.2032" layer="21"/>
+<wire x1="3.302" y1="-4.3" x2="1.778" y2="-4.3" width="0.2032" layer="51"/>
+<wire x1="-1.778" y1="-4.3" x2="-3.302" y2="-4.3" width="0.2032" layer="51"/>
+<circle x="-2.54" y="-2.794" radius="0.508" width="0" layer="21"/>
+<pad name="1" x="-2.54" y="-5.08" drill="0.8" shape="long" rot="R90"/>
+<pad name="2" x="2.54" y="-5.08" drill="0.8" shape="long" rot="R90"/>
+<pad name="3" x="2.54" y="5.08" drill="0.8" shape="long" rot="R90"/>
+<pad name="4" x="-2.54" y="5.08" drill="0.8" shape="long" rot="R90"/>
+<text x="-4.9164" y="-4.445" size="1.397" layer="25" ratio="10" rot="R90">&gt;NAME</text>
+<text x="6.2626" y="-4.445" size="1.397" layer="27" ratio="10" rot="R90">&gt;VALUE</text>
+<rectangle x1="-2.921" y1="4.572" x2="-2.159" y2="5.08" layer="51"/>
+<rectangle x1="2.159" y1="4.572" x2="2.921" y2="5.08" layer="51"/>
+<rectangle x1="2.159" y1="-5.08" x2="2.921" y2="-4.572" layer="51"/>
+<rectangle x1="-2.921" y1="-5.08" x2="-2.159" y2="-4.572" layer="51"/>
 </package>
 </packages>
 <symbols>
@@ -4003,15 +4049,14 @@ Source: http://www.mouser.com/ds/2/392/products_18-2245.pdf</description>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="AQY221*2V" prefix="K">
-<description>&lt;b&gt;PHOTOMOS Relay&lt;/b&gt; RF (Radio Frequency) NAiS&lt;p&gt;
-C . R 10 SSOP Type;&lt;br&gt;
-Source: http://www.mew-europe.com/.. aqy221_2v.pdf</description>
+<deviceset name="AQY*" prefix="K">
+<description>&lt;b&gt;PhotoMOS Relay&lt;/b&gt; NAiS&lt;p&gt;
+Source: http://www.panasonic-electric-works.com/catalogues/downloads/photomos/ds_x615_en_aqz10_20.pdf</description>
 <gates>
 <gate name="G$1" symbol="PHOTOMOS_2D" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="SSOP4">
+<device name="SOP" package="SOP04">
 <connects>
 <connect gate="G$1" pin="A" pad="1"/>
 <connect gate="G$1" pin="DS1" pad="4"/>
@@ -4019,17 +4064,55 @@ Source: http://www.mew-europe.com/.. aqy221_2v.pdf</description>
 <connect gate="G$1" pin="K" pad="2"/>
 </connects>
 <technologies>
-<technology name="N">
+<technology name="21">
 <attribute name="MF" value="" constant="no"/>
-<attribute name="MPN" value="AQY221N2V" constant="no"/>
-<attribute name="OC_FARNELL" value="1448344" constant="no"/>
-<attribute name="OC_NEWARK" value="13P1186" constant="no"/>
+<attribute name="MPN" value="" constant="no"/>
+<attribute name="OC_FARNELL" value="unknown" constant="no"/>
+<attribute name="OC_NEWARK" value="unknown" constant="no"/>
 </technology>
-<technology name="R">
-<attribute name="MF" value="AROMAT/ MATSUSHITA" constant="no"/>
-<attribute name="MPN" value="AQY221R2V" constant="no"/>
-<attribute name="OC_FARNELL" value="1839014" constant="no"/>
-<attribute name="OC_NEWARK" value="94C1062" constant="no"/>
+<technology name="22">
+<attribute name="MF" value="" constant="no"/>
+<attribute name="MPN" value="" constant="no"/>
+<attribute name="OC_FARNELL" value="unknown" constant="no"/>
+<attribute name="OC_NEWARK" value="unknown" constant="no"/>
+</technology>
+<technology name="41">
+<attribute name="MF" value="" constant="no"/>
+<attribute name="MPN" value="" constant="no"/>
+<attribute name="OC_FARNELL" value="unknown" constant="no"/>
+<attribute name="OC_NEWARK" value="unknown" constant="no"/>
+</technology>
+</technologies>
+</device>
+<device name="SMD" package="AQY27-SMD04">
+<connects>
+<connect gate="G$1" pin="A" pad="1"/>
+<connect gate="G$1" pin="DS1" pad="4"/>
+<connect gate="G$1" pin="DS2" pad="3"/>
+<connect gate="G$1" pin="K" pad="2"/>
+</connects>
+<technologies>
+<technology name="27">
+<attribute name="MF" value="" constant="no"/>
+<attribute name="MPN" value="" constant="no"/>
+<attribute name="OC_FARNELL" value="unknown" constant="no"/>
+<attribute name="OC_NEWARK" value="unknown" constant="no"/>
+</technology>
+</technologies>
+</device>
+<device name="AQY27" package="AQY27">
+<connects>
+<connect gate="G$1" pin="A" pad="1"/>
+<connect gate="G$1" pin="DS1" pad="4"/>
+<connect gate="G$1" pin="DS2" pad="3"/>
+<connect gate="G$1" pin="K" pad="2"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="MF" value="" constant="no"/>
+<attribute name="MPN" value="" constant="no"/>
+<attribute name="OC_FARNELL" value="unknown" constant="no"/>
+<attribute name="OC_NEWARK" value="unknown" constant="no"/>
 </technology>
 </technologies>
 </device>
@@ -4385,14 +4468,14 @@ wire to board 2.54 mm (.1 inch) pitch header</description>
 <part name="R158" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
 <part name="R159" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
 <part name="R160" library="rcl" deviceset="R-EU_" device="R0402" value="1k"/>
-<part name="K1" library="relay" deviceset="AQY221*2V" device="" technology="R"/>
-<part name="K2" library="relay" deviceset="AQY221*2V" device="" technology="R"/>
-<part name="K3" library="relay" deviceset="AQY221*2V" device="" technology="R"/>
+<part name="K1" library="relay" deviceset="AQY*" device="SOP" technology="22" value="AQY22SOP"/>
+<part name="K2" library="relay" deviceset="AQY*" device="SOP" technology="22" value="AQY22SOP"/>
+<part name="K3" library="relay" deviceset="AQY*" device="SOP" technology="22" value="AQY22SOP"/>
 <part name="R163" library="rcl" deviceset="R-EU_" device="R0402" value="300k"/>
 <part name="R164" library="rcl" deviceset="R-EU_" device="R0402" value="300k"/>
 <part name="R165" library="rcl" deviceset="R-EU_" device="R0402" value="300k"/>
-<part name="R168" library="rcl" deviceset="R-EU_" device="R0402" value="90k"/>
-<part name="R171" library="rcl" deviceset="R-EU_" device="R0402" value="9k"/>
+<part name="R168" library="rcl" deviceset="R-EU_" device="R0402" value="75k"/>
+<part name="R171" library="rcl" deviceset="R-EU_" device="R0402" value="24k"/>
 <part name="R172" library="rcl" deviceset="R-EU_" device="R0402" value="30k"/>
 <part name="R173" library="rcl" deviceset="R-EU_" device="R0402" value="30k"/>
 <part name="R174" library="rcl" deviceset="R-EU_" device="R0402" value="30k"/>
