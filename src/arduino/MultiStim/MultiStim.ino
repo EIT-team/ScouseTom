@@ -3,7 +3,24 @@ Code for setting ports on 16 chn Mux ADG426 x2
 This is for Kirushka
 Expects Arduino Uno
 
+
+
+RS pin = 12
+EN pin = 10
+
+
+RS = 12
+EN =10
+WS=7
+
+
+
 */
+
+
+int RS = 13;
+int EN = 12;
+int WR = 7;
 
 
 
@@ -20,6 +37,10 @@ void setup() {
 
 	DDRB = DDRB | B00111111; //set pins to outputs - ard pins 8-13 - dont sure if we want to mess with B6 and 7 so leave those
 	DDRD = DDRD | B11111100; //set pins to outputs without fucking up serial 0-7
+
+	digitalWrite(RS, 1);
+	digitalWrite(EN, 0);
+	digitalWrite(WR, 1);
 
 
 
@@ -49,8 +70,9 @@ void loop() {
 				Serial.print(" and Mux 2 to: ");
 				Serial.println(Mux2Val);
 				MuxOn();
+				digitalWrite(WR, 0);
 				bool badrange = writeMux1(Mux1Val) | writeMux2(Mux2Val);
-
+				digitalWrite(WR, 1);
 				if (badrange)
 				{
 					Serial.println("OUT OF RANGE");
@@ -87,20 +109,20 @@ void initports()
 
 void MuxOn()
 {
-	//digitalWrite(12, 1);
+	digitalWrite(EN, 1);
 	//digitalWrite(13, 1);
 
-	PORTB = PORTB | B00110000;
+	//PORTB = PORTB | B00110000;
 
 }
 
 
 void MuxOff()
 {
-	//digitalWrite(12, 0);
+	digitalWrite(EN, 0);
 	//digitalWrite(13, 0);
 
-	PORTB = PORTB & B11001111;
+	//PORTB = PORTB & B11001111;
 }
 
 
