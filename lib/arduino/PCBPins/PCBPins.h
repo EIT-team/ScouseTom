@@ -1,4 +1,7 @@
-/*Pin Numbering for PCB version - changed to reduce trace length */
+/*Pin Numbering for Arduino Due
+  platformio needs to have this directory lib_dir = ../../../lib/arduino
+
+  */
 
 // switch network pin definitions
 const int DINp = 39;
