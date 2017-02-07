@@ -1,2 +1,0 @@
-report unconnected
-quit -c

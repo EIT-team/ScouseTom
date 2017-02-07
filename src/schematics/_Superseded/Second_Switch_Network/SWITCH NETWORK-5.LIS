@@ -1,0 +1,24 @@
+AutoECO Report
+FILE-A: D:\DOCUMENTS\CIRCUIT LAYOUTS, SCHEMATICS AND MISC TECHNICAL\SWTICH NETWORK\NEW DESIGN MARCH 2015\SWITCH NETWORK-3.MAX
+FILE-B: D:\DOCUMENTS\CIRCUIT LAYOUTS, SCHEMATICS AND MISC TECHNICAL\SWTICH NETWORK\NEW DESIGN MARCH 2015\SWITCH NETWORK.MNL
+If "*EOF*" immediately follows, no changes were made
+Deleting R4.1 from net N00947
+Adding R6.1 to net N00947
+Deleting R6.1 from net N00967
+Adding R8.1 to net N00967
+Deleting R5.1 from net N00957
+Adding R7.1 to net N00957
+Deleting R7.1 from net N06058
+Adding R4.1 to net N06058
+Deleting R8.1 from net N09690
+Adding R9.1 to net N09690
+Deleting R9.1 from net DOUT+
+Adding R5.1 to net DOUT+
+Adding P5.18 to net N06110
+Adding P5.20 to net N06116
+Adding P5.16 to net N06104
+Adding N5.18 to net N09742
+Adding N5.16 to net N09736
+Adding N5.20 to net N09748
+*EOF*
+No errors found

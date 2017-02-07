@@ -396,8 +396,8 @@ Type="Schematic Editor"
 Loc="652 321 1251 720"
 State=1
 Number=1
-File="C:/Users/Jimbles/ScouseTom/src/schematics/Ard_Shield/ScouseTom_New.sch"
-View="290.688 -52.4972 635.247 80.4331"
+File="C:/Users/Jimbles/ScouseTom/src/schematics/Debug_Phantom/Debug_Phantom.sch"
+View="-197.483 19.5724 611.037 227.447"
 WireWidths=" 0 0.3048 0.6096 0.8128 1.016 1.27 1.4224 1.6764 1.778 1.9304 2.1844 2.54 3.81 6.4516 0.4064 0.1524"
 PadDiameters=" 0.254 0.3048 0.4064 0.6096 0.8128 1.016 1.27 1.4224 1.6764 1.778 1.9304 2.1844 2.54 3.81 6.4516 0"
 PadDrills=" 0.5 0.6 0.7 0.9 1 1.1 1.2 1.3 1.4 1.5 1.6 2 2.2 2.8 3.2 0.8"
@@ -436,7 +436,7 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
-Views=" 1: 290.688 -52.4972 635.247 80.4331"
+Views=" 1: -197.483 19.5724 611.037 227.447"
 Sheet="1"
 
 [Win_2]
@@ -444,8 +444,8 @@ Type="Board Editor"
 Loc="294 21 893 420"
 State=1
 Number=2
-File="C:/Users/Jimbles/ScouseTom/src/schematics/Ard_Shield/ScouseTom_New.brd"
-View="-60.9294 10.2361 63.1197 67.2636"
+File="C:/Users/Jimbles/ScouseTom/src/schematics/Debug_Phantom/Debug_Phantom.brd"
+View="36.1252 36.8297 128.247 92.3196"
 WireWidths=" 0 0.254 0.3048 0.6096 0.8128 1.016 1.27 1.4224 1.6764 1.778 1.9304 2.1844 2.54 3.81 6.4516 0.4064"
 PadDiameters=" 0.254 0.3048 0.4064 0.6096 0.8128 1.016 1.27 1.4224 1.6764 1.778 1.9304 2.1844 2.54 3.81 6.4516 0"
 PadDrills=" 0.5 0.6 0.7 0.9 1 1.1 1.2 1.3 1.4 1.5 1.6 2 2.2 2.8 3.2 0.8"
@@ -487,8 +487,8 @@ Layer=16
 
 [Win_3]
 Type="Control Panel"
-Loc="-8 -8 947 776"
-State=1
+Loc="1999 701 2874 1100"
+State=2
 Number=0
 
 [Desktop]
