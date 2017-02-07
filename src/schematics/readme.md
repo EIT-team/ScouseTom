@@ -12,4 +12,7 @@ The schematics needed to create a ScouseTom system and custom electrode boards a
 
 
 ## The ones you need to  make a ScouseTom System
+
+![ScouseTom System blocks](https://raw.githubusercontent.com/EIT-team/ScouseTom/master/doc/figures/blocks.png)
+
 The two boards you will need are __Ard Shield__ and at least one __ScouseTom_SwitchNetwork__. The [wiki page](https://github.com/EIT-team/ScouseTom/wiki/Building-ScouseTom-Boards) has some useful background for what parts require hand soldering.
