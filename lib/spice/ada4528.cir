@@ -1,0 +1,124 @@
+* ADA4528-x SPICE Macro-model        
+* Description: Amplifier
+* Generic Desc: 2.2/5.5V, CMOS, RRIO, ZD
+* Developed by: HH
+* Revision History: 
+* 1.0 (8/2012) – VW – initial release
+* 2.0 (9/2014) - fixed Vos
+* 3.0 (8/2016) - Added ASSOC line for Simetrix symbol compatibility
+* Copyright 2012 by Analog Devices, Inc.
+*
+* Refer to http://www.analog.com/Analog_Root/static/techSupport/designTools/spiceModels/license/spice_general.html 
+* for License Statement. Use of this model indicates your acceptance
+* of the terms and provisions in the License Statement.
+* 
+*
+* BEGIN Notes:
+*    
+* Model created for Vsy=5V and at 25C
+*  
+* Not Modeled:
+* Temperature effects
+* 
+* END Notes
+*
+*
+* Node Assignments
+*                               noninverting input
+*                               |    inverting input
+*                               |    |     positive supply
+*                               |    |     |      negative supply
+*                               |    |     |      |     output
+*                               |    |     |      |     |
+*                               |    |     |      |     |
+.SUBCKT ADA4528 1   2   99   50   45
+*#ASSOC Category=Op-amp symbol=opamp
+*
+*
+* INPUT STAGE
+*
+M1  14  7  8  8 PIX L=1E-6 W=1.969E-02
+M2  16  2  8  8 PIX L=1E-6 W=1.969E-02
+M3  17  7 10 10 NIX L=1E-6 W=1.969E-02
+M4  18  2 10 10 NIX L=1E-6 W=1.969E-02
+RD1 14 50 2.000E+03
+RD2 16 50 2.000E+03
+RD3 99 17 2.000E+03
+RD4 99 18 2.000E+03
+C1  14 16 5.5E-12; 
+C2  17 18 5.5E-12
+I1  99  8 200.00E-06
+I2  10 50 200.00E-06
+V1  99  9 1.086E+00
+V2  13 50 1.086E+00
+D1   8  9 DX
+D2  13 10 DX
+EOS  7  1 POLY(4)(22,98)(73,98)(81,98) (83,98) 2.5E-06 1 1 0.768 0.73
+IOS 1 2 10.0E-12
+*
+* GAIN STAGE
+*
+G1 98 30 POLY(2) (14,16) (17,18) 0 2.841E-03 2.841E-03
+R1 30 98 1.000E+06
+V3 32 30 -0.50E-00; 
+V4 30 33 -1.0E-00; 
+D3 32 98 DX
+D4 98 33 DX
+EZ (145 0) (45 0) 1
+CF 145 31 5.9E-09;  
+RZ  30 31 1.4E-6;  
+*
+* VOLTAGE NOISE REFERENCE
+*
+VN1 80 98 0
+RN1 80 98  16.95E-03
+HN  81 98 VN1 6.6E0
+RNHH1 81 183 5.3
+CHH1 183 98 1pF
+*
+* BPF
+*
+EBP1 (200 98) (81 98) 1E0; 81
+R201 200 201  169.0
+R203 201  98  1.32
+C201 201  83 1.6E-08
+C202 201 202 1.6E-08
+R202 202  83 2.0E+3
+EBP2  (83 98) (98 202) 1E7
+*
+* INTERNAL VOLTAGE REFERENCE
+*
+EREF 98  0 POLY(2) (99,0) (50,0) 0 0.5 0.5
+GSY  99 50 POLY(1) (99,50) 670E-6 37E-06
+*
+* CMRR
+*
+E1  21 98 POLY(2) (1,98) (2,98) 0 1.270E-02 1.270E-02
+R10 21 22 5.053E+03
+R20 22 98 1.989E-02
+C10 21 22 1.000E-06
+*
+* PSRR 
+*
+EPSY 72 98 POLY(1) (99,50) -2.812E-00 5.623E-01
+RPS3 72 73 5.305E+04
+RPS4 73 98 5.305E-02
+CPS3 72 73 1.00E-06
+*
+* OUTPUT STAGE
+*
+M5  45 46 99 99 POX L=1E-6 W=3.707E-04
+M6  45 47 50 50 NOX L=1E-6 W=5.475E-04
+EG1 99 46 POLY(1) (98,30) 7.439E-01 1
+EG2 47 50 POLY(1) (30,98) 7.025E-01 1
+*
+* MODELS
+.MODEL POX PMOS (LEVEL=2,KP=6.00E-05,VTO=-0.6,LAMBDA=0.03,RD=3)
+.MODEL NOX NMOS (LEVEL=2,KP=8.00E-05,VTO=+0.6,LAMBDA=0.02,RD=1)
+.MODEL PIX PMOS (LEVEL=2,KP=5.00E-05,VTO=-0.5,LAMBDA=0.02)
+.MODEL NIX NMOS (LEVEL=2,KP=5.00E-05,VTO=0.5, LAMBDA=0.02)
+.MODEL DX D(IS=1E-14,RS=5)
+.MODEL DNOISE D(IS=1E-14,RS=1E3,KF=2.50E-20)
+*
+.ENDS ADA4528
+*
