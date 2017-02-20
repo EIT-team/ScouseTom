@@ -36,3 +36,9 @@ hold on
 plot(RL,Vsim,':');
 plot(RL,Vmeas)
 hold off
+%%
+figure
+hold on
+plot(RL,Vdiff);
+% plot(RL,Vmeas)
+hold off

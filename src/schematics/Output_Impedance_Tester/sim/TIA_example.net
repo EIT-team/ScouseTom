@@ -1,0 +1,26 @@
+* C:\Users\Jimbles\ScouseTom\src\schematics\Output_Impedance_Tester\sim\TIA_example.asc
+R1 N003 0 1e8 tol=1 pwr=0.1
+I1 0 N003 100µ AC 100u 0
+R2 TIA_out N001 1000
+R3 N001 N003 {R}
+XU1 0 N001 Vdd Vee TIA_out ADA4522
+V1 Vdd 0 5
+V2 0 Vee 5
+C1 TIA_out N001 .1n
+XU2 TIA_out N002 Vdd Vee Amp_out ADA4522
+R4 N002 0 2k
+R5 Amp_out N002 80k
+.op
+.inc ..\..\..\..\lib\spice\ada4610.cir
+.step param R 1 1000000 100000
+;.ac dec 10 1 1MEG
+.inc ..\..\..\..\lib\spice\ADA4077.cir
+* set U1 value to ADA4610
+* set U1 value to ADA4077
+.inc ..\..\..\..\lib\spice\ada4528.cir
+* set U1 value to ADA4528
+;.tran 10m
+.inc ..\..\..\..\lib\spice\ADA4522.cir
+* set U1 value to ADA4522
+.backanno
+.end
