@@ -1,15 +1,17 @@
 * C:\Users\Jimbles\ScouseTom\src\schematics\Output_Impedance_Tester\sim\Parallel_Droop.asc
 R1 Vload 0 1Meg
 R2 Vload 0 {X}
-I1 0 Vload 100µ
+I1 0 Vload 100µ AC 100u
 V1 Vdd 0 5
 V2 0 Vee 5
 XU1 Vload Vbuff Vdd Vee Vbuff ADA4522
 XU2 Vbuff N001 Vdd Vee Vamp ADA4522
 R3 Vamp N001 100k
 R4 N001 0 10k
+I2 0 Vload SINE(0 100u 1k) AC 0
 .step param X 500 10000 500
-.op
+.op 5m
 .inc C:\Users\Jimbles\ScouseTom\lib\spice\ADA4522.cir
+;tran 5m
 .backanno
 .end

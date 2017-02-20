@@ -1,5 +1,5 @@
 * C:\Users\Jimbles\ScouseTom\src\schematics\Output_Impedance_Tester\sim\TIA_example.asc
-R1 N003 0 1e8 tol=1 pwr=0.1
+R1 N003 0 1e9 tol=1 pwr=0.1
 I1 0 N003 100µ AC 100u 0
 R2 TIA_out N001 1000
 R3 N001 N003 {R}
