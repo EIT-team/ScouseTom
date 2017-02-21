@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -9413,6 +9413,10 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <part name="AGND27" library="supply1" deviceset="AGND" device=""/>
 <part name="C19" library="rcl" deviceset="C-EU" device="C0402" value="0.1uF"/>
 <part name="P+13" library="supply1" deviceset="V+" device=""/>
+<part name="JP8" library="pinhead" deviceset="PINHD-1X5" device="/90"/>
+<part name="AGND28" library="supply1" deviceset="AGND" device=""/>
+<part name="JP9" library="pinhead" deviceset="PINHD-1X3" device="/90"/>
+<part name="AGND29" library="supply1" deviceset="AGND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -10243,6 +10247,10 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <instance part="AGND27" gate="VR1" x="142.24" y="198.12" rot="R270"/>
 <instance part="C19" gate="G$1" x="144.78" y="205.74" rot="R180"/>
 <instance part="P+13" gate="1" x="144.78" y="220.98"/>
+<instance part="JP8" gate="A" x="276.86" y="53.34"/>
+<instance part="AGND28" gate="VR1" x="264.16" y="43.18"/>
+<instance part="JP9" gate="A" x="210.82" y="50.8"/>
+<instance part="AGND29" gate="VR1" x="200.66" y="43.18"/>
 </instances>
 <busses>
 </busses>
@@ -10374,6 +10382,18 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <wire x1="160.02" y1="203.2" x2="160.02" y2="198.12" width="0.1524" layer="91"/>
 <junction x="160.02" y="198.12"/>
 </segment>
+<segment>
+<pinref part="AGND28" gate="VR1" pin="AGND"/>
+<wire x1="264.16" y1="45.72" x2="264.16" y2="48.26" width="0.1524" layer="91"/>
+<pinref part="JP8" gate="A" pin="5"/>
+<wire x1="264.16" y1="48.26" x2="274.32" y2="48.26" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="JP9" gate="A" pin="3"/>
+<wire x1="208.28" y1="48.26" x2="200.66" y2="48.26" width="0.1524" layer="91"/>
+<wire x1="200.66" y1="48.26" x2="200.66" y2="45.72" width="0.1524" layer="91"/>
+<pinref part="AGND29" gate="VR1" pin="AGND"/>
+</segment>
 </net>
 <net name="V-" class="0">
 <segment>
@@ -10474,6 +10494,11 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <wire x1="119.38" y1="66.04" x2="121.92" y2="66.04" width="0.1524" layer="91"/>
 <label x="144.78" y="76.2" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="JP9" gate="A" pin="1"/>
+<wire x1="208.28" y1="53.34" x2="182.88" y2="53.34" width="0.1524" layer="91"/>
+<label x="175.26" y="53.34" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="VOUT_TIA" class="0">
 <segment>
@@ -10496,6 +10521,11 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <pinref part="U6" gate="A" pin="+IN_A"/>
 <wire x1="60.96" y1="78.74" x2="50.8" y2="78.74" width="0.1524" layer="91"/>
 <label x="45.72" y="78.74" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="JP9" gate="A" pin="2"/>
+<wire x1="208.28" y1="50.8" x2="193.04" y2="50.8" width="0.1524" layer="91"/>
+<label x="190.5" y="50.8" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="VLOAD_TIA" class="0">
@@ -10600,6 +10630,11 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <pinref part="U10" gate="A" pin="IN"/>
 <wire x1="162.56" y1="208.28" x2="160.02" y2="208.28" width="0.1524" layer="91"/>
 <label x="147.32" y="208.28" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="JP8" gate="A" pin="1"/>
+<wire x1="274.32" y1="58.42" x2="254" y2="58.42" width="0.1524" layer="91"/>
+<label x="238.76" y="58.42" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SOURCE_TIA" class="0">
@@ -10759,6 +10794,11 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <wire x1="162.56" y1="127" x2="160.02" y2="127" width="0.1524" layer="91"/>
 <label x="147.32" y="127" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="JP8" gate="A" pin="2"/>
+<wire x1="274.32" y1="55.88" x2="264.16" y2="55.88" width="0.1524" layer="91"/>
+<label x="248.92" y="55.88" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="SW3_TIA" class="0">
 <segment>
@@ -10766,12 +10806,22 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <wire x1="261.62" y1="124.46" x2="259.08" y2="124.46" width="0.1524" layer="91"/>
 <label x="246.38" y="124.46" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="JP8" gate="A" pin="3"/>
+<wire x1="274.32" y1="53.34" x2="254" y2="53.34" width="0.1524" layer="91"/>
+<label x="238.76" y="53.34" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="SW4_TIA" class="0">
 <segment>
 <pinref part="U9" gate="A" pin="IN"/>
 <wire x1="353.06" y1="124.46" x2="350.52" y2="124.46" width="0.1524" layer="91"/>
 <label x="337.82" y="124.46" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="JP8" gate="A" pin="4"/>
+<wire x1="274.32" y1="50.8" x2="264.16" y2="50.8" width="0.1524" layer="91"/>
+<label x="248.92" y="50.8" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
