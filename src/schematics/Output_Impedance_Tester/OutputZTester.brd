@@ -54,7 +54,7 @@
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
 <layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
 <layer number="49" name="Reference" color="7" fill="1" visible="no" active="yes"/>
 <layer number="51" name="tDocu" color="7" fill="1" visible="no" active="yes"/>
@@ -125,6 +125,8 @@ CHK</text>
 <text x="19" y="24.8" size="1.778" layer="22" font="vector" ratio="19" rot="MR0">CS+</text>
 <text x="50.8" y="41.4" size="1.778" layer="22" font="vector" ratio="19" rot="MR270">Z
 CHK</text>
+<dimension x1="14" y1="44.4" x2="14" y2="9.8" x3="10.2" y3="27.1" textsize="0.55" textratio="19" layer="47" dtype="vertical"/>
+<dimension x1="14" y1="44.4" x2="52" y2="44.4" x3="33" y3="57" textsize="0.55" textratio="19" layer="47" dtype="horizontal"/>
 </plain>
 <libraries>
 <library name="ScouseTomLib">
