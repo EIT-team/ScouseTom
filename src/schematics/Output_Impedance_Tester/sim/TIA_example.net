@@ -9,7 +9,7 @@ V2 0 Vee 5
 C1 TIA_out N001 .1n
 XU2 TIA_out N002 Vdd Vee Amp_out ADA4522
 R4 N002 0 1500
-R5 Amp_out N002 80k
+R5 Amp_out N002 60k
 .op
 .inc ..\..\..\..\lib\spice\ada4610.cir
 .step param R 1 1000000 100000
