@@ -1,0 +1,15 @@
+Title: * C:\Users\Jimbles\ScouseTom\src\schematics\Small_CS\Sim\Howland_example.asc
+Date: Mon Feb 27 14:39:37 2017
+Plotname: Operating Point
+Flags: real stepped
+No. Variables: 2
+No. Points:            1
+Offset:   0.0000000000000000e+000
+Command: Linear Technology Corporation LTspice XVII
+Backannotation: u2 1 2 3 4 5
+Variables:
+	0	x	param
+	1	I(Rload)	device_current
+Values:
+0		1.000000000000000e+000
+	6.666071292911473e-009
