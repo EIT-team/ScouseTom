@@ -659,8 +659,8 @@ boolean CS_SetRange()
 		}
 	}
 
-	/*Serial.print("The max amp is: ");
-	Serial.println(maxamp);*/
+	Serial.print("The max amp is: ");
+	Serial.println(maxamp);
 
 	// set the expected range
 
@@ -679,11 +679,11 @@ boolean CS_SetRange()
 
 	for (int i = 0; i < 4; i++)
 	{
-		/*Serial.print("Checking Between ");
+		Serial.print("Checking Between ");
 		Serial.print(CurrentRangesMax[i]);
 
 		Serial.print("and");
-		Serial.println(CurrentRangesMax[i + 1]);*/
+		Serial.println(CurrentRangesMax[i + 1]);
 
 		if ((maxamp >= CurrentRangesMax[i]) && (maxamp <= CurrentRangesMax[i + 1]))
 		{
@@ -693,16 +693,16 @@ boolean CS_SetRange()
 
 	}
 
-	/*Serial.print("Found Range :");
+	Serial.print("Found Range :");
 	Serial.print(curRange);
 	Serial.print(" or ");
-	Serial.println(CurrentRanges[curRange]);*/
+	Serial.println(CurrentRanges[curRange]);
 
 
 	//turn off autorange
 	sprintf(CS_outputBuffer, "SOUR:CURR:RANG:AUTO 0"); //
 	Serial1.println(CS_outputBuffer); // send to CS
-	//Serial.println(CS_outputBuffer); //to pc for debug
+	Serial.println(CS_outputBuffer); //to pc for debug
 
 	CS_getresponse("SOUR:CURR:RANG:AUTO?", CS_timeoutlimit); // check compliance is set ok set ok
 	RangeGoodness = CS_checkresponse("0");
@@ -711,20 +711,14 @@ boolean CS_SetRange()
 	{
 		sprintf(CS_outputBuffer, "SOUR:CURR:RANG %dE-9", maxamp); //ask CS to set range based on highest amp
 		Serial1.println(CS_outputBuffer); // send to CS
-		//Serial.println(CS_outputBuffer); //to pc for debug
+		Serial.println(CS_outputBuffer); //to pc for debug
 
-		if (curRange > 2) //higher 2 values returned in milli
-		{
-			//Serial.println("Doing milli");
-			CS_getresponse("SOUR:CURR:RANG?", CS_timeoutlimit); // check range 
-			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange] / 1000, sc_milli); //output is in mA for highest 2
-		}
-		else
-		{
-			//Serial.println("Doing micro");
+    // HERE IS A NANO HACK
+
+			Serial.println("Doing micro");
 			CS_getresponse("SOUR:CURR:RANG?", CS_timeoutlimit); // check compliance is set ok set ok
+      Serial.println(CS_inputBuffer);
 			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange], sc_nano); // output is in microA for lowest 2
-		}
 
 	}
 
