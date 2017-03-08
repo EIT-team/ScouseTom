@@ -38,7 +38,7 @@ void SwitchesPwrOff()
 {
 	digitalWrite(RESET, LOW); // reset is probably quicker than just turning power off 
 	//digitalWriteDirect(RESET, HIGH); // 
-	digitalWriteDirect(PWR_SWITCH, LOW); //turn off power
+	//digitalWriteDirect(PWR_SWITCH, LOW); //turn off power
 	reset_pins(); // set all pins to starting state
 }
 
