@@ -1,6 +1,6 @@
 function [ flag,errout ] = ScouseTom_ard_sendnumconfim( Ard, Num,varargin )
 %SendNumConfim Sends number to arduino and confirms the response. Number
-%must be integer, it is roudned and then sent in form <###>. The arduino
+%must be integer, it is rounded and then sent in form <###>. The arduino
 %reads this and responds with <###> for confirmation.
 %   Inputs:
 %   S - Serial Structure
@@ -22,7 +22,6 @@ if ischar(varargin{1})
 else
     numname ='some number or other';
 end
-
 
 flag=0;
 errout='';

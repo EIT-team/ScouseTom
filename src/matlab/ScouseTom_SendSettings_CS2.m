@@ -206,8 +206,6 @@ while (finished_sending ==0)
         break
     end
     
-    pulsetrains(COM_CS2, ExpSetup.CSStimAmp, ExpSetup.StimulatorPulseWidth/1000000);
-    
     fprintf('Timing OK, ');
     
     %% Send protocol
@@ -343,10 +341,14 @@ else
     warning(warnstr);
 end
 
-
 OKFLAG=okflag;
 
 FlushSerialBuffer(Ard);
+
+%% Setup the second current source
+SetupCS_ExtTrig(COM_CS2, ExpSetup.CSStimAmp, ExpSetup.StimulatorPulseWidth/1000000);
+
+
 
 end
 
