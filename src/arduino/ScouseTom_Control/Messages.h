@@ -8,8 +8,8 @@ Wind2 represents the text for the smaller window at the bottom of the screen
 */
 
 //Initialisation messages during CS_init
-String MSG_Init = "EIT ST MK 2.5";
-String MSG_Init_2 = "Initialising...";
+String MSG_Init = "ST CRAB";
+String MSG_Init_2 = "JAMES CRAB Init...";
 
 //Idle messages
 String MSG_Idle = "System Idle";

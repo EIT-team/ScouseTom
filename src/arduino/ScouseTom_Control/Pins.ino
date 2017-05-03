@@ -158,7 +158,7 @@ void indChnIdent() //pulses to send at start of injections to indicate which ind
 
 	ind_pulse_with_delay(IND_EX_1, del, 7);
 
-	ind_pulse_with_delay(IND_STIM, del, 2);
+	//ind_pulse_with_delay(IND_STIM, del, 2);
 
 
 }
