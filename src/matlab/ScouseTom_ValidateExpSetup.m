@@ -467,14 +467,14 @@ end
 %% check amp and freqs for 60601
 
 ampok=checkIEC60601(ExpSetup.Amp,ExpSetup.Freq);
-
-if ampok
-    goodnessflag=1;
-else
-    warning('AMP AND FREQ TOO HIGH FOR HUMAN STUDIES! CARRYING ON ANYWAY...')
-    uiwait(msgbox('Exceeding IEC60601. Are you sure? Will carry on for now','Too high current?','warn','modal'));
-    goodnessflag=1;
-end
+goodnessflag = 1;
+% if ampok
+%     goodnessflag=1;
+% else
+%     warning('AMP AND FREQ TOO HIGH FOR HUMAN STUDIES! CARRYING ON ANYWAY...')
+%     uiwait(msgbox('Exceeding IEC60601. Are you sure? Will carry on for now','Too high current?','warn','modal'));
+%     goodnessflag=1;
+% end
 
 %% Check if we need to calculate more measurement times
 
