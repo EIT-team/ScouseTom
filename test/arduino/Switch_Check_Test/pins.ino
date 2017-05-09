@@ -38,7 +38,7 @@ void init_pins()
 
 	//power pins
 	pinMode(PWR_STIM, OUTPUT);
-	pinMode(PWR_SWITCH, OUTPUT);
+	//pinMode(PWR_SWITCH, OUTPUT);
 
 
 	//pinMode(LED, OUTPUT);
@@ -80,7 +80,7 @@ void reset_pins_pwr()
 {
 	//reset all power pins
 	digitalWrite(PWR_STIM, LOW);
-	digitalWrite(PWR_SWITCH, LOW);
+	//digitalWrite(PWR_SWITCH, LOW);
 }
 
 

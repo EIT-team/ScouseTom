@@ -211,7 +211,7 @@ void setup() {
 	//number comes from here https://github.com/ivanseidel/DueTimer/blob/master/TimerCounter.md
 	//set timer interupts - this might possible conflict with servo library as I didnt check.....
 	pmc_set_writeprotect(false);		 // disable write protection for pmc registers
-	pmc_enable_periph_clk(ID_TC4);	 // enable peripheral clock TC7 this means isntance T7 on TC2 channel 1  - this is the timer for the stim trigger output
+	pmc_enable_periph_clk(ID_TC4);	 // enable peripheral clock TC4 this means T4 on TC1 channel 1  - this is the timer for the stim trigger output
 	pmc_enable_periph_clk(ID_TC8); // enable TC8 or instance T8 on timer TC2 channel 2 - this is the timer for indicator pins
 	//pmc_enable_periph_clk(ID_TC6); // enable TC6 or instance T6 on timer TC2 channel 0 - this is the timer for the fake pmark
 
