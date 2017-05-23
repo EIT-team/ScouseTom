@@ -57,7 +57,7 @@ end
 % 
  
  
-set(obj1, 'BaudRate', 57600);
+set(obj1, 'BaudRate', 115200);
 set(obj1, 'OutputBufferSize', 1500);
 % Connect to instrument object, obj1.
 fopen(obj1);
@@ -79,11 +79,11 @@ fprintf(obj1, FREQ);
 fprintf(obj1, DUR);
 %Enable external triggering
 fprintf(obj1, 'SOUR:WAVE:EXTR:ENAB ON');
-fprintf(obj1, 'SOUR:WAVE:EXTR:ILIN 1');
+fprintf(obj1, 'SOUR:WAVE:EXTR:ILIN 2');
 fprintf(obj1, 'SOUR:WAVE:EXTR:IGN OFF');
 fprintf(obj1, 'SOUR:WAVE:EXTR:IVAL 0.00');
 
-pause(1);
+% % pause(1);
 
 fprintf(obj1, 'DISP:TEXT "Communication OK"');
 fprintf(obj1, 'DISP:WIND2:TEXT "So thats good"');
