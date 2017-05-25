@@ -8,7 +8,7 @@ function [obj1] = SetupCS_ExtTrig(COMCS, Amp, PW)
 % Duration = 10; %Duration of pulse trains
 Amplitude = Amp; % 1e-3; %Amplitude of peak of pulse, A
 Pulse_width =  PW; %0.1e-3; %Pulse width you want for the positive bit, s
-Compliance = 12; %If it starts flashing make this higher, V
+Compliance = 50; %If it starts flashing make this higher, V
  
 %Initialise arbitrary waveform
 Points = zeros(100,1);
@@ -56,7 +56,6 @@ end
 % end
 % 
  
- 
 set(obj1, 'BaudRate', 115200);
 set(obj1, 'OutputBufferSize', 1500);
 % Connect to instrument object, obj1.
@@ -66,8 +65,8 @@ fprintf(obj1, '*RST');
  
 %Enable front panel text display
 fprintf(obj1, 'DISP:TEXT:STAT 1');
-fprintf(obj1, 'DISP:WIND2:TEXT:STAT 1');
-fprintf(obj1, 'DISP:TEXT "CRABCRABCRAB"');
+%fprintf(obj1, 'DISP:WIND2:TEXT:STAT 1');
+%fprintf(obj1, 'DISP:TEXT "CRABCRABCRAB"');
  
 %Initialise current source
 fprintf(obj1, 'SOUR:WAVE:ABOR');
@@ -85,9 +84,9 @@ fprintf(obj1, 'SOUR:WAVE:EXTR:IVAL 0.00');
 
 % % pause(1);
 
-fprintf(obj1, 'DISP:TEXT "Communication OK"');
-fprintf(obj1, 'DISP:WIND2:TEXT "So thats good"');
-pause(1);
+%fprintf(obj1, 'DISP:TEXT "Communication OK"');
+%fprintf(obj1, 'DISP:WIND2:TEXT "So thats good"');
+% pause(1);
 
 % arm the current source ready for triggering
 fprintf(obj1, 'SOUR:WAVE:ARM');

@@ -363,7 +363,7 @@ while (Ard.BytesAvailable >0) %whilst there are bytes to read
     %     jnkstr=sprintf(char(jnk)); %convert to string
     %     jnkstr=strrep(jnkstr,sprintf('\r\n'),''); %remove newlines
     %     fprintf(logfid,'%.2fs\t\tSerial Buffer flushed: %s\n',toc(tstart),jnkstr); %write to log
-    pause(0.2); %wait a bit to fill up Serial buffer is necessary - not needed on my PC but added in case related problems to the pause needed at the start
+    pause(0.1); %wait a bit to fill up Serial buffer is necessary - not needed on my PC but added in case related problems to the pause needed at the start
     
 end
 
