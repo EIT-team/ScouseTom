@@ -64,9 +64,10 @@ fopen(obj1);
 fprintf(obj1, '*RST');
  
 %Enable front panel text display
-fprintf(obj1, 'DISP:TEXT:STAT 1');
-%fprintf(obj1, 'DISP:WIND2:TEXT:STAT 1');
+% fprintf(obj1, 'DISP:TEXT:STAT 1');
+fprintf(obj1, 'DISP:WIND2:TEXT:STAT 1');
 %fprintf(obj1, 'DISP:TEXT "CRABCRABCRAB"');
+fprintf(obj1, 'DISP:WIND2:TEXT "CRABCRABCRAB"');
  
 %Initialise current source
 fprintf(obj1, 'SOUR:WAVE:ABOR');
@@ -92,7 +93,7 @@ fprintf(obj1, 'SOUR:WAVE:EXTR:IVAL 0.00');
 fprintf(obj1, 'SOUR:WAVE:ARM');
 fprintf(obj1, 'SOUR:WAVE:INIT');
 
-fprintf(obj1, 'DISP:TEXT "Current source armed"');
+% fprintf(obj1, 'DISP:TEXT "Current source armed"');
 fprintf(obj1, 'DISP:WIND2:TEXT "Awaiting ext. trig"');
 
 
