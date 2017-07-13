@@ -20,7 +20,10 @@ switch HDR.TYPE
         Trigger=ScouseTom_TrigReadChn(HDR);
         TT=ScouseTom_TrigProcess(Trigger,HDR);
     case 'BrainVision'
-        map_ = [ 7 8 9:18 24];
+%         map_ = [ 7 8 9:18 24];
+        map_ = [1 2 3 4 7 8 9];
+%         map_ = [1 2 3];
+
         
         Trigger=ScouseTom_TrigReadChn(HDR);
         TT=ScouseTom_TrigProcess(Trigger,HDR);
@@ -92,8 +95,8 @@ DataF = filtfilt(b,a,Data);
 Data_demod = abs(hilbert(DataF));
 
 % low pass filter 1000hz cut off
-% [b,a] = butter(5,800/(Fs/2),'low');
-% Data = filtfilt(b,a,Data);
+[b,a] = butter(5,3000/(Fs/2),'low');
+Data = filtfilt(b,a,Data);
 % high pass 10 Hz
 % [b,a] = butter(3,.1/(Fs/2),'high');
 % Data = filtfilt(b,a,Data);
@@ -158,7 +161,9 @@ for iStim = 1:size(TT.Stimulations,2)
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    ylim([-20 5])
+%     ylim([-20 5])
+%     ylim([-.5 .5])
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     
@@ -172,13 +177,13 @@ for iStim = 1:size(TT.Stimulations,2)
     
     %%
     % subplot(2,1,2)
-    % figure
-    % % % xlim([20 50]);
-    % plot(T,EP_dz_avg);
-    % xlabel('Time ms');
-    % ylabel('dZ uV');
-    % xlim([245 285])
-    % % %xlim([20 40])
+    figure
+    % % xlim([20 50]);
+    plot(T,EP_dz_avg);
+    xlabel('Time ms');
+    ylabel('dZ uV');
+    xlim([245 285])
+%     % %xlim([20 40])
     
     % ylim([-1 1]*5e3)
     
@@ -329,33 +334,33 @@ for iStim = 1:size(TT.Stimulations,2)
 
     
     %%
-    %Plot bar charts of area
-    figure
-    subplot(2,1,1)
-    bar([OUTPUT{1}.A ,OUTPUT{2}.A, OUTPUT{3}.A]);
-    ylabel('mVms');
-    title('Area Under Curve');
-    
-    subplot(2,1,2)
-    bar([OUTPUT{1}.P ,OUTPUT{2}.P, OUTPUT{3}.P]);
-    ylabel('mV');
-    title('Peak Value');
-    
-    
-    figure; plot(T,data)
-    hold on; plot([T(idx_start), T(idx_start)], [-20,5],'k')
-    hold on; plot([T(idx1), T(idx1)], [-20,5], 'k')
-    hold on; plot([T(idx2), T(idx2)], [-20,5], 'k')
-    hold on; plot([T(idx3), T(idx3)], [-20,5],'k')
-    for iP = 2:length(idx_cross)-1
-        hold on; plot([T(idx_cross(iP)), T(idx_cross(iP))], [-10,5],'k--')
-    end
-    hold on; plot([240,290], [0,0], 'k');
-    xlim([247.5 285]);
-    ylim([-20 5]);
-    xlabel('Time ms');
-    ylabel('EP mV');
-    hold off;
+%     %Plot bar charts of area
+%     figure
+%     subplot(2,1,1)
+%     bar([OUTPUT{1}.A ,OUTPUT{2}.A, OUTPUT{3}.A]);
+%     ylabel('mVms');
+%     title('Area Under Curve');
+%     
+%     subplot(2,1,2)
+%     bar([OUTPUT{1}.P ,OUTPUT{2}.P, OUTPUT{3}.P]);
+%     ylabel('mV');
+%     title('Peak Value');
+%     
+%     
+%     figure; plot(T,data)
+%     hold on; plot([T(idx_start), T(idx_start)], [-20,5],'k')
+%     hold on; plot([T(idx1), T(idx1)], [-20,5], 'k')
+%     hold on; plot([T(idx2), T(idx2)], [-20,5], 'k')
+%     hold on; plot([T(idx3), T(idx3)], [-20,5],'k')
+%     for iP = 2:length(idx_cross)-1
+%         hold on; plot([T(idx_cross(iP)), T(idx_cross(iP))], [-10,5],'k--')
+%     end
+%     hold on; plot([240,290], [0,0], 'k');
+%     xlim([247.5 285]);
+%     ylim([-20 5]);
+%     xlabel('Time ms');
+%     ylabel('EP mV');
+%     hold off;
     
         catch
         disp('quant code fucked up');
