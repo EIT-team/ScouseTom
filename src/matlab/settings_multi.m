@@ -1,4 +1,4 @@
-load('C:\Users\James\Documents\crab\Crab_09\Testing_log.mat')
+load('Testing_log.mat')
 
 
 %% RAMP REC for 11 - 12
@@ -27,7 +27,7 @@ for iSettings = 1:size(AMP_RAMP,2);
     
     
     % send settings to controllers and current source
-    [Ard,ExpSetup,isok]=ScouseTom_SendSettings_CS2(Ard,ExpSetup,'COM7');
+    [Ard,ExpSetup,isok]=ScouseTom_SendSettings_CS2(Ard,ExpSetup,'COM17');
     
     % then you need to run this:
     % [ Ard,ExpSetup]=ScouseTom_Start(Ard,ExpSetup,1);

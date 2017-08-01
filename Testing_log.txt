@@ -1,0 +1,48 @@
+##################################
+Log file for EIT with ScouseTom system
+Date and time this file was created : 05-Jul-2017 14:56:04
+Description of this ExpSetup file : resistor phantom load test
+ExpSetup created : 31-Jul-2015 15:05:43
+The EEG system file stored was : Null- user was testing
+The PC name was : QUAD
+The Username was : Anna
+--------------
+System in "SingleFreqMode" - single amp and freq, running continuously
+Amplitude: 20 uA
+Frequency: 1200 Hz
+Protocol loaded was NCopt_markus_prot.txt with 1 lines 
+Sources	Sinks
+1	2
+--------------
+Number of repeats : 1 
+Injection time per protocol line : 30000 ms or 30.00 s
+Estimated time to complete measurements : 30.00 sec 
+--------------
+Stimulation Mode is ON! - Randomised phase delay triggered by phase marker on Keithley
+1000 uS pulse triggered every 988 ms with offset 2 ms from channel switch
+Approx 30 stims per injection
+##################################
+Codes for info from arduino: 
+R	Current Repeat
+P	Current Protocol Line
+O	frequency order (multifreqmode)
+D	phases (stim mode)
+Codes for commmands sent to arduino: 
+S	Start
+H	Stop
+I	Initialise
+##
+Time	Arduino Message	PC Message
+0.01s		Serial Buffer flushed: <+Fin>
+0.21s		Starting Injection
+0.22s	S	
+0.43s	+OK	
+0.43s		Comm ok, everything ready to go
+0.44s	+OK	
+0.44s		EIT STARTING
+2.67s	D224,20,169,255,102,216,168,62,153,354,48,338,351,327,136,26,263,164,107,336,154,155,340,67,227,249,189,187,88,9,232,44,139,296,129,329,167,23,177,315,19,33,103,253,342,17,66,190,290,16,292,283,238,235,138,311,127,237,334,38,236,45,59,32,162,330,71,213,60,208,165,137,270,90,63,86,228,8,151,178,130,47,303,209,229,120,99,182,77,205,328,313,179,159,56,323,349,260,282,202,51,321,78,293,170,262,87,185,118,1,295,221,150,50,316,94,105,55,181,356,346,343,217,198,269,104,312,57,131,276,175,7,160,113,108,332,64,69,207,144,188,239,302,335,281,40,212,220,339,309,97,288,358,72,201,241,5,41,49,200,93,75,277,121,274,122,89,184,146,287,194,42,3,231,91,320,124,215,225,261,284,73,68,37,240,163,308,289,317,171,251,243,70,268,252,258,140,4,344,357,245,123,166,195,291,199,101,112,204,133,324,298,13,210,318,307,278,128,81,319,345,230,242,211,305,126,223,110,34,247,259,115,82,92,96,98,206,143,24,22,61,286,348,214,114,74,350,191,352,196,35,31,176,267,279,197,109,100,297,244,275,310,142,116,119,29,306,222,271,193,76,186,218,234,111,14,58,233,21,141,333,300,79,299,266,353,264,301,219,304,326,183,265,85,341,250,52,117,125,134,322,65,2,145,80,36,203,0,359,25,226,147,314,53,149,84,6,106,15,254,11,46,30,10,272,337,257,28,132,54,192,172,174,83,173,355,12,43,294,156,157,325,347,331,95,18,148,27,256,161,285,39,273,280,152,180,158,135,248,246	
+2.69s	R1	
+30.54s	+Fin	
+30.54s		Finished! :)
+30.55s		H
+30.55s		Injection Finished!
