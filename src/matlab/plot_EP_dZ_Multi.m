@@ -9,8 +9,7 @@ Trigger=ScouseTom_TrigReadChn(HDR);
 TT=ScouseTom_TrigProcess(Trigger,HDR);
 
 %% channel map
-% specify channels
-% becayse we use chn 5 as ref, we have to record all elecs 1-4.
+
 
 % map_ = [9:19 25];
 
@@ -20,30 +19,38 @@ switch HDR.TYPE
         Trigger=ScouseTom_TrigReadChn(HDR);
         TT=ScouseTom_TrigProcess(Trigger,HDR);
     case 'BrainVision'
-%         map_ = [ 7 8 9:18 24];
-        map_ = [1 2 3 4 7 8 9];
-%         map_ = [1 2 3];
 
+% specify channels to plot... Recall that the recording software (Biosemi or Actichamp) may have renumbered them... 
+%         map_ = [ 7 8 9:18 24];
+
+%This is one cominbation for cuff electrodes (5x2 design,with stimulating (neuronal activiation) on 1&2)          
+    %map_ = [1 2 3 4 7 8 9 10];
+
+%This is for cuff electrodes (5x2 design,with stimulating (neuronal activiation) on 1&2)          
+         map_ = [1:8]
+
+%This is for hook electrodes, with 19 as the reference...         
+%    map_ = [1 2 3 4 5 6 7 8 9 10 11 12];
+
+%         map_ = [1 2 3 ];
+%         map_ = [3:4];
+%         map_ = [5 6 7 9:18];
+%         map_ = [7 8 9:18 25];
+%         map_ = [7 8 9 10 11];
+
+ 
         
-        Trigger=ScouseTom_TrigReadChn(HDR);
-        TT=ScouseTom_TrigProcess(Trigger,HDR);
+%         Trigger = ScouseTom_TrigReadChn(HDR);
+%         TT=ScouseTom_TrigProcess(Trigger,HDR);
         
-        %         trigsidx=find(HDR.EVENT.TYP == 2);
+                trigsidx=find(HDR.EVENT.TYP == 2);
         
-        %         TT.Stimulations{1}=HDR.EVENT.POS(trigsidx);
-        
-        
+                TT.Stimulations{1}=HDR.EVENT.POS(trigsidx);
+            
     otherwise
         error('Bad HDR');
 end
 
-% map_ = [ 7 8 9:18 25];
-% map_ = [ 7 8 9 10 11];
-% map_ = [5 6 7  9:18];
-
-% map_=[3:4];
-
-ref_chn=19;
 
 Good_ch=map_;
 
@@ -73,35 +80,52 @@ Good_ch=map_;
 
 %% read the data
 % get the voltages on the desired channels out of the EEG structure
-Data= sread(HDR,inf,0);
-
-% ref to elec 19
-% Data=Data - repmat(Data(:,ref_chn),1,size(Data,2));
+Data = sread(HDR,inf,0);
 
 
-Data=Data(:,Good_ch);
+%Here, we define the reference channel for our recordings...
+%ref_chn = 12;
+
+% ref to CHANNEL 11 THIS IS NOT THE ELECTRODE NUMBER
+%Data = Data - repmat(Data(:,ref_chn),1,size(Data,2));
+
+Data = Data(:,Good_ch);
 
 
 %Data=detrend(Data);
 
-%% filtering
+%% filtering for EIT Carrier Frequency...
 
-Fc = 1200;
-BW=1000;
-% bandpass filter 1000hz cut off
+% Fc is the carrier frequency of EIT, BW = ?????
+
+%This line of code detects teh estimated EIT carrier frequency (from the %oscillations within the trace...)
+Fc_est=ScouseTom_data_GetCarrier(Data(:,8),Fs);
+
+% Fc_est=225;
+
+%Fc = round(Fc_est);
+Fc=2000;
+
+BW = 500;
+
+DataF=nan(size(Data));
+
+% bandpass filter -- 1000hz cut off FOR EIT
 [b,a] = butter(5,[Fc-BW/2 Fc+BW/2 ]./(Fs/2),'bandpass');
-DataF = filtfilt(b,a,Data);
-
+[b,a]=fir1(500,[Fc-BW/2 Fc+BW/2 ]./(Fs/2),'bandpass');
+%DataF = filtfilt(b,a,Data); %comment this to turn it off this only changes eit signal not cap
 Data_demod = abs(hilbert(DataF));
 
-% low pass filter 1000hz cut off
-[b,a] = butter(5,3000/(Fs/2),'low');
-Data = filtfilt(b,a,Data);
+%low pass filter -- 1000hz cut off FOR REMOVING EIT SIGNAL FROM CAP
+[b_ep,a_ep] = butter(5,25000/(Fs/2),'low');
+%Data = filtfilt(b_ep,a_ep,Data); %comment this to turn it off
+
+
 % high pass 10 Hz
 % [b,a] = butter(3,.1/(Fs/2),'high');
 % Data = filtfilt(b,a,Data);
 
-% notch at 50Hz
+% notch at 50Hz (filter out mains noise)
 % % [b,a] = iirnotch(Fc/(Fs/2),(Fc/(Fs/2))/45);
 % Data = filtfilt(b,a,Data);
 
@@ -134,35 +158,37 @@ for iStim = 1:size(TT.Stimulations,2)
     % loop through every stime event and take the data either side of stim
     for iTrig=2:length(T_trig)-1
         EP_dz(iTrig-1,:,:)=Data_demod([T_trig(iTrig)-floor(size_bin/2):T_trig(iTrig)+ceil(size_bin/2)-1],:);
-        EP(iTrig-1,:,:)=Data([T_trig(iTrig)-floor(size_bin/2):T_trig(iTrig)+ceil(size_bin/2)-1],:);
+        EP(iTrig-1,:,:)= Data([T_trig(iTrig)-floor(size_bin/2):T_trig(iTrig)+ceil(size_bin/2)-1],:);
     end
     % EP is now Repeats x Samples x Channels
     
     % average all the EP chunks across repeats of EPs
-    EP_dz_avg=detrend(squeeze(mean(EP_dz,1)));
+    EP_dz_avg=(squeeze(mean(EP_dz,1)));
+    EP_dz_avg = EP_dz_avg - repmat(EP_dz_avg(end,:),size(EP_dz_avg,1),1);
     EP_avg=detrend(squeeze(mean(EP,1)));
     %EP_avg is now Samples x Channels
     
     
-    %% plot the figure
+%% plot the figure
     
-    %    figure
-    %   pwelch(EP_avg(:,2),[],[],25000,Fs);
+%   figure
+%   pwelch(EP_avg(:,2),[],[],25000,Fs);
     
     
     figure % new window
-    % subplot(2,1,1)
+    
+    subplot(2,1,1)
     plot(T,EP_avg/1000);
     xlabel('Time ms');
     ylabel('EP mV');
     title(sprintf('EP in file %s Stimulation %d',fname,iStim))
-    % xlim([tau_max/2 - 10   tau_max])
-    xlim([247.5 270])
-    
+%   xlim([tau_max/2 - 10   tau_max])
+%   xlim([247.5 280])
+    xlim([240 350])
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-%     ylim([-20 5])
-%     ylim([-.5 .5])
+%   ylim([-20 5])
+    ylim([-10 2])
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -175,17 +201,17 @@ for iStim = 1:size(TT.Stimulations,2)
     % set(frame_h,'Maximized',1);
     set(gcf,'units','normalized','outerposition',[0 0 1 1])
     
-    %%
-    % subplot(2,1,2)
-    figure
+    
+     subplot(2,1,2)
+   % figure
     % % xlim([20 50]);
     plot(T,EP_dz_avg);
     xlabel('Time ms');
     ylabel('dZ uV');
-    xlim([245 285])
-%     % %xlim([20 40])
+    xlim([240 350])
+%     xlim([20 40])
     
-    % ylim([-1 1]*5e3)
+    ylim([-1 1]*50)
     
     
     %%
