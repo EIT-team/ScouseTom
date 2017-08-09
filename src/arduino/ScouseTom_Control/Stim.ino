@@ -21,8 +21,8 @@ void stim_nextphase()
 	if (iStim == NumDelay) // reset counter if all of them are done
 	{
 		iStim = 0;
-		shuffle(Stim_PhaseOrder, NumDelay); //shuffle the phases again
-		PC_sendphaseupdate(); //send order to PC
+		//shuffle(Stim_PhaseOrder, NumDelay); //shuffle the phases again
+		//PC_sendphaseupdate(); //send order to PC
 		//Serial.println("shuffled phases");
 	}
 
@@ -70,7 +70,8 @@ int stim_init(long Freq) //initialise the stimulator trigger
 	//Serial.println(StimPulseWidthTicks);
 
 	stim_calcdelays(Freq); //calculate the delays for this frequency - 
-	shuffle(Stim_PhaseOrder, NumDelay); // randomise the order of the delays
+
+	//shuffle(Stim_PhaseOrder, NumDelay); // randomise the order of the delays
 
 	CS_PhaseMarker = stim_setpmark(Freq); //get the phasemarker phase 
 
@@ -124,30 +125,23 @@ void stim_stop()
 
 void stim_calcdelays(long Freq) //calculate the possible delays for this freq
 {
-	float T = 1000000 / Freq; // period in microseconds
+	float T = 1000000 / float(Freq); // period in microseconds
 	float phaseacc = T / 360; //microseconds per degree of phase
 
-	if (phaseacc < mintime) // if time for 1 degree is less than the minimum take a subset
+	NumDelay = StimSeqLength; // we just fix the number of delays to use
+
+
+	for (int i = 0; i < NumDelay; i++) //populate vector
 	{
-		NumDelay = int((T / mintime)+0.5); //find number of possible phases
 
-		for (int i = 0; i < NumDelay; i++) //populate vector
-		{
-			Stim_delays[i] = i;
-			Stim_phases[i] = (i*mintime)/phaseacc;
-		}
+		float TimeTarget = phaseacc*float(StimSeq[i]);
+
+		Stim_delays[i] = round(TimeTarget / mintime);
+
+
+		Stim_phases[i] = ((Stim_delays[i] * mintime) / T) * 360;
 	}
-	else // if phase time is greater than min time, then only do 360 phases
-	{
-		NumDelay = 360;
 
-		for (int i = 0; i < NumDelay; i++)
-		{
-			Stim_delays[i] = i*phaseacc;
-			Stim_phases[i] = i;
-		}
-
-	}
 
 	for (int n = 0; n < NumDelay; n++) // populate phase order array
 	{
@@ -155,30 +149,40 @@ void stim_calcdelays(long Freq) //calculate the possible delays for this freq
 	}
 
 
-	/*
+
 	Serial.print("T:");
-	Serial.println(T);
+	Serial.println(T,4);
 	Serial.print("phaseacc:");
-	Serial.println(phaseacc);
+	Serial.println(phaseacc,4);
 	Serial.print("NumDelay:");
 	Serial.println(NumDelay);
 
 	Serial.print("delays:");
 	for (int i = 0; i < NumDelay; i++)
 	{
-	Serial.print(delays[i]);
-	Serial.print(",");
+		Serial.print(Stim_delays[i]);
+		Serial.print(",");
 	}
 	Serial.println("...");
 
 	Serial.print("phases:");
 	for (int i = 0; i < NumDelay; i++)
 	{
-	Serial.print(phases[i]);
-	Serial.print(",");
+		Serial.print(Stim_phases[i]);
+		Serial.print(",");
 	}
 	Serial.println("...");
-	*/
+
+	Serial.print("phases actual:");
+	for (int i = 0; i < NumDelay; i++)
+	{
+		Serial.print(float(((Stim_delays[i]) * mintime)/T)*360,4);
+		Serial.print(",");
+	}
+	Serial.println("...");
+
+
+
 }
 
 int stim_setpmark(long Freq) // sets the phase marker on the current source based on the 7 uS delay such that a delay of 0 ticks is 0 phase
@@ -216,7 +220,7 @@ int CheckPmark()
 	PMARK_TEST_FLAG = 0;
 	int CheckOK = 0;
 
-	CS_sendsettings(1, 10000,1); // send settings to current source
+	CS_sendsettings(1, 10000, 1); // send settings to current source
 	//Serial.println("starting pmark check");
 
 	CS_start();
