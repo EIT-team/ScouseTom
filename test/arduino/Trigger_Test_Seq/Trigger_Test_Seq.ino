@@ -31,7 +31,10 @@ void loop() {
 	ind_pulse(del, gap, IND_EX_1);
 	ind_pulse(del, gap, IND_EX_2);
 	ind_pulse(del, gap, IND_EX_3);
-
+  ind_pulse(del, gap, BONUS_1);
+  ind_pulse(del, gap, BONUS_2);
+  ind_pulse(del, gap, BONUS_3);
+  ind_pulse(del, gap, BONUS_4);
 	ind_low();
 
 

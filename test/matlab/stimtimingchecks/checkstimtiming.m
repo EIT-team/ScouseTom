@@ -1,7 +1,7 @@
 nseg = 100; % number of segments
 fname = 'scope_0.bin';
 
-[x,~]=importAgilentBin('scope_0.bin',1);
+[x,~]=importAgilentBin(fname,1);
 dT=mean(diff(x));
 Fs=1/dT;
 nsamples=length(x);
@@ -20,18 +20,18 @@ y3=y1;
 
 % load the sine wave
 for iSeg = 1: nseg
-    [x,y1(:,iSeg)]=importAgilentBin('scope_0.bin',iSeg);
+    [x,y1(:,iSeg)]=importAgilentBin(fname,iSeg);
     y1=detrend(y1,'constant');
     y1_mod(:,iSeg)=abs(hilbert(y1(:,iSeg)));
     y1_pha(:,iSeg)=angle(hilbert(y1(:,iSeg))); 
 end
 
 for iSeg = 1: nseg
-    [x,y2(:,iSeg)]=importAgilentBin('scope_0.bin',iSeg+nseg);
+    [x,y2(:,iSeg)]=importAgilentBin(fname,iSeg+nseg);
 end
 
 for iSeg = 1: nseg
-    [x,y3(:,iSeg)]=importAgilentBin('scope_0.bin',iSeg+2*nseg);
+    [x,y3(:,iSeg)]=importAgilentBin(fname,iSeg+2*nseg);
 end
 
 [b,a]=fir1(40,0.1);
