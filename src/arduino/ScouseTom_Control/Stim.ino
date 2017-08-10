@@ -2,7 +2,7 @@ void stim_nextphase()
 {
 	//digitalWriteDirect(PWR_STIM, HIGH); //turn on stimulator power supply
 
-	d1 = Stim_delays[Stim_PhaseOrder[iStim]]; // number of ticks to wait after pmark before starting simulation 
+	d1 = Stim_delays[Stim_PhaseOrder[iStim]]; // number of ticks to wait after pmark before starting simulation
 	d2 = d1 + StimPulseWidthTicks; // number of ticks to set pin low
 
 	//sprintf(PC_outputBuffer, "%d: d1 = %d, d2 = %d", iStim, d1, d2);
@@ -14,7 +14,7 @@ void stim_nextphase()
 	//Serial.println("attached");
 	TC_Start(TC1, 1); // start the timer ISR for the stim trigger
 	Stim_ready = 1; // set flag so ISR_PMARK starts the stim going when pmark happens
-	lastStimTrigger = currentMicros; //record time we last did one 
+	lastStimTrigger = currentMicros; //record time we last did one
 
 	iStim++; // increment stimulation conter
 
@@ -47,13 +47,13 @@ void ISR_PMARK() // this ISR runs when pmark detected
 
 void ISR_PMARK_TEST() // ISR for testing PMARK in, set variable high when called
 {
-	PMARK_TEST_FLAG++; //increment this counter 
+	PMARK_TEST_FLAG++; //increment this counter
 	//Serial.print("s"); //for debugging
 }
 
 
 
-int stim_init(long Freq) //initialise the stimulator trigger 
+int stim_init(long Freq) //initialise the stimulator trigger
 {
 	TC_Stop(TC1, 1); // stop stim ISR just in case :)
 
@@ -69,11 +69,11 @@ int stim_init(long Freq) //initialise the stimulator trigger
 	//Serial.print("StimPulseTicks:");
 	//Serial.println(StimPulseWidthTicks);
 
-	stim_calcdelays(Freq); //calculate the delays for this frequency - 
+	stim_calcdelays(Freq); //calculate the delays for this frequency -
 
 	//shuffle(Stim_PhaseOrder, NumDelay); // randomise the order of the delays
 
-	CS_PhaseMarker = stim_setpmark(Freq); //get the phasemarker phase 
+	CS_PhaseMarker = stim_setpmark(Freq); //get the phasemarker phase
 
 	sprintf(CS_outputBuffer, "SOUR:WAVE:PMARK:LEV %d", CS_PhaseMarker); //make string to send to CS
 	Serial1.println(CS_outputBuffer); // send to CS
@@ -111,7 +111,7 @@ void stim_stop()
 
 	//digitalWriteDirect(PWR_STIM, LOW); //turn on stimulator power supply
 
-	//reset all the variables  
+	//reset all the variables
 	Stim_goflag = 0;
 	Stim_ready = 0;
 	d1 = 0;
@@ -200,10 +200,10 @@ int stim_setpmark(long Freq) // sets the phase marker on the current source base
 
 	return pmarkphase;
 
-	/*	Serial.print("phasedelay:");
+	Serial.print("phasedelay:");
 	Serial.print(phasedelay);
 	Serial.print("pmarkphase:");
-	Serial.println(pmarkphase);*/
+	Serial.println(pmarkphase);
 }
 
 
@@ -260,4 +260,3 @@ void Stim_SetDigipot(int val)
 	Wire.write(val);             // sends potentiometer value byte
 	Wire.endTransmission();     // stop transmitting
 }
-
