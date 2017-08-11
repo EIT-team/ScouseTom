@@ -1,5 +1,5 @@
 /*
-Stuff for initilalising pins and indicator pins*/
+  Stuff for initilalising pins and indicator pins*/
 
 void init_pins_ind()
 {
@@ -15,6 +15,12 @@ void init_pins_ind()
   pinMode(IND_EX_1, OUTPUT);
   pinMode(IND_EX_2, OUTPUT);
   pinMode(IND_EX_3, OUTPUT);
+
+  pinMode(BONUS_1, OUTPUT);
+  pinMode(BONUS_2, OUTPUT);
+  pinMode(BONUS_3, OUTPUT);
+  pinMode(BONUS_4, OUTPUT);
+
 
   pinMode(TRIG_DISABLE_1, OUTPUT);
   pinMode(TRIG_DISABLE_2, OUTPUT);
@@ -41,7 +47,10 @@ void ind_low()
   digitalWriteDirect(IND_EX_1, LOW);
   digitalWriteDirect(IND_EX_2, LOW);
   digitalWriteDirect(IND_EX_3, LOW);
-
+  digitalWriteDirect(BONUS_1, LOW);
+  digitalWriteDirect(BONUS_2, LOW);
+  digitalWriteDirect(BONUS_3, LOW);
+  digitalWriteDirect(BONUS_4, LOW);
 }
 
 void ind_high()
@@ -55,14 +64,18 @@ void ind_high()
   digitalWriteDirect(IND_EX_1, HIGH);
   digitalWriteDirect(IND_EX_2, HIGH);
   digitalWriteDirect(IND_EX_3, HIGH);
+    digitalWriteDirect(BONUS_1, HIGH);
+  digitalWriteDirect(BONUS_2, HIGH);
+  digitalWriteDirect(BONUS_3, HIGH);
+  digitalWriteDirect(BONUS_4, HIGH);
 }
 
 
 void ind_pulse(int del, int gap, int chn)
 {
-	digitalWriteDirect(chn, HIGH);
-	delayMicroseconds(del);
-	digitalWriteDirect(chn, LOW);
-	delayMicroseconds(del);
-	delayMicroseconds(gap);
+  digitalWriteDirect(chn, HIGH);
+  delayMicroseconds(del);
+  digitalWriteDirect(chn, LOW);
+  delayMicroseconds(del);
+  delayMicroseconds(gap);
 }

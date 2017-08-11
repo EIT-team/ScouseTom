@@ -17,7 +17,7 @@ const int DigiPotAddress = 44; // I2C address of AD5280 - default is 44 up to 48
 const int StimOffValue = 1; // Wiper position when stim is off - this is set to 1 to maximuise the resistance and thus limit the current used when no
 
 const int StimSeqLength = 2; // length of stim sequence below
-int StimSeq[StimSeqLength] = { 10,190 }; // sequence of phases in degrees
+int StimSeq[StimSeqLength] = { 0,0 }; // sequence of phases in degrees
 
 
 

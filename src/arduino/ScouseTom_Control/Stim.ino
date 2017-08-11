@@ -38,10 +38,12 @@ void ISR_PMARK() // this ISR runs when pmark detected
 
 	if (Stim_ready) // if software says we should have a stim
 	{
-
+    digitalWriteDirect(BONUS_1,1); 
 		Stim_goflag = 1; // set flag for the TC7 Handler
 		Stim_ready = 0; //no more stims till time has elapsed
+		digitalWriteDirect(BONUS_1,0);
 		detachInterrupt(INTR_PMARK); //remove this interupt as we want to ignore it during stimulation
+     
 	}
 }
 
@@ -150,7 +152,7 @@ void stim_calcdelays(long Freq) //calculate the possible delays for this freq
 	}
 
 
-
+  Serial.println("");
 	Serial.print("T:");
 	Serial.println(T,4);
 	Serial.print("phaseacc:");
@@ -188,7 +190,7 @@ void stim_calcdelays(long Freq) //calculate the possible delays for this freq
 
 int stim_setpmark(long Freq) // sets the phase marker on the current source based on the 7 uS delay such that a delay of 0 ticks is 0 phase
 {
-	float T = 1000000 / Freq; // period in microseconds
+	float T = 1000000 / float(Freq); // period in microseconds
 	float phaseacc = T / 360; //microseconds per degree of phase
 	float phasedelay = startdelay / phaseacc; // phase delay this corresponds to
 
@@ -199,12 +201,16 @@ int stim_setpmark(long Freq) // sets the phase marker on the current source base
 		pmarkphase = 360 - phasedelay;
 	}
 
+  Serial.println("");
+  Serial.print("phasedelay:");
+  Serial.print(phasedelay);
+  Serial.print("pmarkphase:");
+  Serial.println(pmarkphase);
+
+
 	return pmarkphase;
 
-	Serial.print("phasedelay:");
-	Serial.print(phasedelay);
-	Serial.print("pmarkphase:");
-	Serial.println(pmarkphase);
+
 }
 
 

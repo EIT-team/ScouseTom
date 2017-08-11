@@ -27,6 +27,10 @@ void init_pins()
 	pinMode(IND_EX_2, OUTPUT);
 	pinMode(IND_EX_3, OUTPUT);
 
+  pinMode(BONUS_1, OUTPUT);
+  pinMode(BONUS_2, OUTPUT);
+  pinMode(BONUS_3, OUTPUT);
+  pinMode(BONUS_4, OUTPUT);
 
 
 
