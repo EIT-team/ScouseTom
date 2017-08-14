@@ -1,6 +1,6 @@
 
 const int strt = 7;
-const int ind = 24;
+const int ind = 47;
 const int intrpin = 25; // pin to detect change in state
 
 void InterIn()
@@ -18,16 +18,26 @@ void setup() {
 	digitalWrite(ind,0);
 	pinMode(intrpin, INPUT);
 
-	attachInterrupt(intrpin, InterIn, RISING);
+	attachInterrupt(intrpin, InterIn, FALLING);
 
 }
 
 void loop() {
 
-		digitalWriteDirect(strt, 1);
-		delay(1);
-		digitalWriteDirect(strt, 0);
-		delay(1);
+  int x = micros();
+
+    char c = '#'; //placeholder value 
+
+  //read serial byte if one is available
+  if (Serial.available() > 0)
+  {
+
+    c = Serial.read();
+    Serial.print(c);
+  }
+  
+  delayMicroseconds(1);
+  
 }
 
 //taken from http://forum.arduino.cc/index.php?topic=129868.15

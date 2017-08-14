@@ -10,10 +10,12 @@ void stim_nextphase()
 	//StiminterruptCtr = 0;
 
 	//Serial.println("attaching ISR");
+    TC_Stop(TC2, 2); // stop ind ISR, just in case
 	attachInterrupt(INTR_PMARK, ISR_PMARK, FALLING); // attach the interupt to the pmark pin - turning on and off in this way prevents errors with pmarks happening during stimulation
 	//Serial.println("attached");
-	TC_Start(TC1, 1); // start the timer ISR for the stim trigger
-	TC_Stop(TC2, 2); // Stop other timer
+
+  TC_Start(TC1, 1); // start the timer ISR for the stim trigger
+
 	Stim_ready = 1; // set flag so ISR_PMARK starts the stim going when pmark happens
 	lastStimTrigger = currentMicros; //record time we last did one
 

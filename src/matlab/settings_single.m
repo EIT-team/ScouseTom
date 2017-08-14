@@ -8,7 +8,7 @@
 load('ExpSetup_nerve.mat');
 
 % run this first time
-[Ard]=ScouseTom_Init('COM6');
+[Ard]=ScouseTom_Init('COM4');
 
 %Experimental Parameters
 % Runtime --> this in ms so 30,000 is 30 seconds

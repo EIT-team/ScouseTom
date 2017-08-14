@@ -318,7 +318,7 @@ void loop() {
 
 	//int statein = state;
 
-	indpins_check(); // get rid of ind pins
+	//indpins_check(); // get rid of ind pins
 
 	char c = '#'; //placeholder value 
 
@@ -1332,7 +1332,6 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 
 			Stim_goflag = 0; //stop it from happening again
 			TC_Stop(TC1, 1);
-			TC_Start(TC2, 2); // Start other timer
 
 		}
 
