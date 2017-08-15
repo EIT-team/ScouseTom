@@ -11,11 +11,8 @@ void stim_nextphase()
 
 	//Serial.println("attaching ISR");
     TC_Stop(TC2, 2); // stop ind ISR, just in case
-	attachInterrupt(INTR_PMARK, ISR_PMARK, FALLING); // attach the interupt to the pmark pin - turning on and off in this way prevents errors with pmarks happening during stimulation
 	//Serial.println("attached");
-
-  TC_Start(TC1, 1); // start the timer ISR for the stim trigger
-
+ 
 	Stim_ready = 1; // set flag so ISR_PMARK starts the stim going when pmark happens
 	lastStimTrigger = currentMicros; //record time we last did one
 
@@ -29,6 +26,9 @@ void stim_nextphase()
 		//Serial.println("shuffled phases");
 	}
 
+  attachInterrupt(INTR_PMARK, ISR_PMARK, FALLING); // attach the interupt to the pmark pin - turning on and off in this way prevents errors with pmarks happening during stimulation
+
+
 }
 
 
@@ -40,11 +40,12 @@ void ISR_PMARK() // this ISR runs when pmark detected
 
 	if (Stim_ready) // if software says we should have a stim
 	{
-    digitalWriteDirect(BONUS_1,1); 
+    //digitalWriteDirect(BONUS_1,1); 
 		Stim_goflag = 1; // set flag for the TC7 Handler
 		Stim_ready = 0; //no more stims till time has elapsed
-		digitalWriteDirect(BONUS_1,0);
-		detachInterrupt(INTR_PMARK); //remove this interupt as we want to ignore it during stimulation
+		//digitalWriteDirect(BONUS_1,0);
+    TC_Start(TC1, 1); // start the timer ISR for the stim trigger
+
      
 	}
 }

@@ -220,7 +220,7 @@ void setup() {
 	TC_Configure(TC2, 2, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK2); // use TC2 channel 2 in "count up mode" using MCLK /8 clock1 to give 10.5MHz
 	//TC_Configure(TC2, 0, TC_CMR_WAVE | TC_CMR_WAVSEL_UP_RC | TC_CMR_TCCLKS_TIMER_CLOCK4); // use TC2 channel 0 in "count up mode" using MCLK /128 clock1 to give 656.25 kHz
 
-	TC_SetRC(TC1, 1, 42); // count 63 ticks on the 42MHz clock before calling the overflow routine - this gives an interupt every 1.5 uS
+	TC_SetRC(TC1, 1, 63); // count 42 ticks on the 42MHz clock before calling the overflow routine - this gives an interupt every 1 uS
 	TC_SetRC(TC2, 2, 105); // count 105 ticks on the 10.5MHz clock before calling the overflow routine - this gives an interupt every 10 uS
 	//TC_SetRC(TC2, 0, 110); // count 110 ticks on the 656.25 kHz clock before calling the overflow routine - this gives an interupt every 167uS (equal to pmark at 6khz - kirills target freq)
 	//TC_Start(TC1, 1); //start stim trig timer
@@ -1315,6 +1315,8 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 {
 	// We need to get the status to clear it and allow the interrupt to fire again
 	TC_GetStatus(TC1, 1); //here TC2,1 means TIMER 2 channel 1
+    digitalWriteDirect(BONUS_1,1); 
+
 
 	if (Stim_goflag) //if we should go
 	{
@@ -1323,6 +1325,7 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 		{
 			digitalWriteDirect(IND_STIM, 0); //write pin high
 			Stim_pinstate = !Stim_pinstate;
+
 		}
 		else if (!Stim_pinstate && StiminterruptCtr >= d2)
 		{
@@ -1342,6 +1345,8 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 		StiminterruptCtr = 0; //reset intrcntr
 
 	}
+ digitalWriteDirect(BONUS_1,0); 
+
 }
 
 void TC8_Handler() // this is the ISR for the indicator pins - cycles through all of the pins if they should change their state - this runs every 10uS
