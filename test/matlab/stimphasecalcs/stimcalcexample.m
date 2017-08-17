@@ -1,6 +1,6 @@
 
 
-mintime = 1; % time in microseconds each tick takes
+mintime = 1.5; % time in microseconds each tick takes
 
 % StimOffset =[10 20];
 F= 100:1:12000;
@@ -38,3 +38,5 @@ for iStim = 1:length(StimOffset)
 end
 
 plot(F,timeerror)
+figure
+plot(F,phaseerror)
