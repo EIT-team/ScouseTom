@@ -56,7 +56,7 @@ end
 % end
 % 
  
-set(obj1, 'BaudRate', 115200);
+set(obj1, 'BaudRate', 56700);
 set(obj1, 'OutputBufferSize', 1500);
 % Connect to instrument object, obj1.
 fopen(obj1);
