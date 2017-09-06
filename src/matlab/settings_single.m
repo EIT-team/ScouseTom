@@ -10,6 +10,9 @@ load('ExpSetup_nerve.mat');
 % run this first time
 [Ard]=ScouseTom_Init('COM18');
 
+ExpSetup.Repeats =1;
+ExpSetup.Protocl =[1 2];
+
 %Experimental Parameters
 % Runtime --> this in ms so 30,000 is 30 seconds
 ExpSetup.MeasurementTime = 31000;
