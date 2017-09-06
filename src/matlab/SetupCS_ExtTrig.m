@@ -15,7 +15,7 @@ Points = zeros(100,1);
 % Points([1:10],1) = 1;
 % Points([11:100]) = -0.111;
 Points([1:10],1) = -1;
-Points([11:20],1) = 1;
+Points([11:20],1) = 0; % make this zero for monophasic 
 points = sprintf('%d ,', Points);
 points = points(1:end-1);
  
@@ -56,7 +56,7 @@ end
 % end
 % 
  
-set(obj1, 'BaudRate', 115200);
+set(obj1, 'BaudRate', 57600);
 set(obj1, 'OutputBufferSize', 1500);
 % Connect to instrument object, obj1.
 fopen(obj1);

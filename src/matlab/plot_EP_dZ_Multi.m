@@ -27,10 +27,21 @@ switch HDR.TYPE
     %map_ = [1 2 3 4 7 8 9 10];
 
 %This is for cuff electrodes (5x2 design,with stimulating (neuronal activiation) on 1&2)          
-         map_ = [1:8]
+%          map_ = [1:8]
 
-%This is for hook electrodes, with 19 as the reference...         
-%    map_ = [1 2 3 4 5 6 7 8 9 10 11 12];
+% 'Hook' electrodes - Ref: 22...         
+%       map_ = [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15]
+
+% 'Hook' electrodes - Ref: 19, recording until 19...         
+        map_ = [1 2 3 4 5 6 7 8 9 10 11 12]
+
+        
+        
+% 'Hook' electrodes - Ref: 19, recording until 21...         
+%        map_ = [1 2 3 4 5 6 7 8 9 10 11 12 14 15]
+
+%'Hook' electrodes - Ref: 7...           
+%        map_ = [1 2 3 4 5 6];
 
 %         map_ = [1 2 3 ];
 %         map_ = [3:4];
@@ -40,12 +51,12 @@ switch HDR.TYPE
 
  
         
-%         Trigger = ScouseTom_TrigReadChn(HDR);
-%         TT=ScouseTom_TrigProcess(Trigger,HDR);
+        Trigger = ScouseTom_TrigReadChn(HDR);
+        TT=ScouseTom_TrigProcess(Trigger,HDR);
         
-                trigsidx=find(HDR.EVENT.TYP == 2);
+%                 trigsidx=find(HDR.EVENT.TYP == 2);
         
-                TT.Stimulations{1}=HDR.EVENT.POS(trigsidx);
+%                 TT.Stimulations{1}=HDR.EVENT.POS(trigsidx);
             
     otherwise
         error('Bad HDR');
@@ -99,26 +110,26 @@ Data = Data(:,Good_ch);
 % Fc is the carrier frequency of EIT, BW = ?????
 
 %This line of code detects teh estimated EIT carrier frequency (from the %oscillations within the trace...)
-Fc_est=ScouseTom_data_GetCarrier(Data(:,8),Fs);
+%Fc_est=ScouseTom_data_GetCarrier(Data(:,8),Fs);
 
 % Fc_est=225;
 
 %Fc = round(Fc_est);
-Fc=2000;
+Fc=6000;
 
-BW = 500;
+BW = 3000;
 
 DataF=nan(size(Data));
 
 % bandpass filter -- 1000hz cut off FOR EIT
 [b,a] = butter(5,[Fc-BW/2 Fc+BW/2 ]./(Fs/2),'bandpass');
 [b,a]=fir1(500,[Fc-BW/2 Fc+BW/2 ]./(Fs/2),'bandpass');
-%DataF = filtfilt(b,a,Data); %comment this to turn it off this only changes eit signal not cap
+DataF = filtfilt(b,a,Data); %comment this to turn it off this only changes eit signal not cap
 Data_demod = abs(hilbert(DataF));
 
 %low pass filter -- 1000hz cut off FOR REMOVING EIT SIGNAL FROM CAP
-[b_ep,a_ep] = butter(5,25000/(Fs/2),'low');
-%Data = filtfilt(b_ep,a_ep,Data); %comment this to turn it off
+[b_ep,a_ep] = butter(5,2500/(Fs/2),'low');
+Data = filtfilt(b_ep,a_ep,Data); %comment this to turn it off
 
 
 % high pass 10 Hz
