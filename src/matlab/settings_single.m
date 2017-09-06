@@ -17,18 +17,16 @@ ExpSetup.MeasurementTime = 46000;
 % this is in ms, and we want to set it to not a multiple of 50Hz 
 ExpSetup.StimulatorTriggerTime = 497; % approx 1sec
 
-%Keithley - Neuronal activation current settings...
-ExpSetup.CSStimAmp = 1500e-6; % this in in AMPS so you need e-6;
-ExpSetup.StimulatorPidth = 250; % this is in us
+ExpSetup.StimulatorPulseWidth = 250;
 
 %Keithley - EIT current settings...
 ExpSetup.Freq = 225; % Hz
 ExpSetup.Amp = 50; % uA
 
 % send settings to controllers and current source
-[Ard,ExpSetup,isok]=ScouseTom_SendSettings_CS2(Ard,ExpSetup,'COM23');
+% [Ard,ExpSetup,isok]=ScouseTom_SendSettings_CS2(Ard,ExpSetup,'COM23');
 
-% [Ard,ExpSetup,isok]=ScouseTom_SendSettings(Ard,ExpSetup);
+[Ard,ExpSetup,isok]=ScouseTom_SendSettings(Ard,ExpSetup);
 
 
 
