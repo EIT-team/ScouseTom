@@ -1,0 +1,14 @@
+display -19;
+grid mil 50;
+Move R1 (500 -500);
+Move R2 (1000 -500);
+Move R33 (1500 -500);
+Move R65 (2000 -500);
+Move R66 (2500 -500);
+Move R97 (3000 -500);
+Move R129 (3500 -500);
+Move R130 (4000 -500);
+grid last;
+display +19;
+ratsnest;
+window fit;

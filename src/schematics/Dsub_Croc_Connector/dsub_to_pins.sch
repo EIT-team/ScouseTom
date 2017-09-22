@@ -880,7 +880,6 @@ D = Direct mounting &lt;p&gt;
 <part name="PAD35" library="wirepad" deviceset="WIREPAD" device="3,81/1,3" value="WIREPAD3,81/1,3"/>
 <part name="PAD36" library="wirepad" deviceset="WIREPAD" device="3,81/1,3" value="WIREPAD3,81/1,3"/>
 <part name="PAD37" library="wirepad" deviceset="WIREPAD" device="3,81/1,3" value="WIREPAD3,81/1,3"/>
-<part name="SHIELD" library="wirepad" deviceset="WIREPAD" device="3,81/1,3" value="WIREPAD3,81/1,3"/>
 </parts>
 <sheets>
 <sheet>
@@ -999,25 +998,10 @@ D = Direct mounting &lt;p&gt;
 <instance part="PAD37" gate="G$1" x="147.32" y="27.94" smashed="yes" rot="R180">
 <attribute name="NAME" x="148.463" y="31.1658" size="1.778" layer="95" rot="R180"/>
 </instance>
-<instance part="SHIELD" gate="G$1" x="119.38" y="88.9" smashed="yes" rot="R270">
-<attribute name="NAME" x="116.1542" y="90.043" size="1.778" layer="95" rot="R270"/>
-</instance>
 </instances>
 <busses>
 </busses>
 <nets>
-<net name="GND" class="0">
-<segment>
-<pinref part="X1" gate="G$1" pin="G1"/>
-<pinref part="SHIELD" gate="G$1" pin="P"/>
-<wire x1="119.38" y1="73.66" x2="119.38" y2="86.36" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="X1" gate="G$1" pin="G2"/>
-<wire x1="119.38" y1="22.86" x2="127" y2="22.86" width="0.1524" layer="91"/>
-<label x="127" y="22.86" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="1" class="0">
 <segment>
 <pinref part="X1" gate="G$1" pin="1"/>
