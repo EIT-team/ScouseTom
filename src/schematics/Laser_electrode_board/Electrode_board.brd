@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE eagle SYSTEM "eagle.dtd">
+<eagle version="7.2.0">
+<drawing>
+<settings>
+<setting alwaysvectorfont="no"/>
+<setting verticaltext="up"/>
+</settings>
+<grid distance="1" unitdist="mm" unit="mm" style="dots" multiple="1" display="yes" altdistance="0.05" altunitdist="mm" altunit="mm"/>
+<layers>
+<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
+<layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
+<layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
+<layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
+<layer number="6" name="Route6" color="1" fill="8" visible="no" active="no"/>
+<layer number="7" name="Route7" color="4" fill="8" visible="no" active="no"/>
+<layer number="8" name="Route8" color="1" fill="2" visible="no" active="no"/>
+<layer number="9" name="Route9" color="4" fill="2" visible="no" active="no"/>
+<layer number="10" name="Route10" color="1" fill="7" visible="no" active="no"/>
+<layer number="11" name="Route11" color="4" fill="7" visible="no" active="no"/>
+<layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
+<layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
+<layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
+<layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
+<layer number="30" name="bStop" color="7" fill="6" visible="yes" active="yes"/>
+<layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
+<layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
+<layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
+<layer number="34" name="bFinish" color="6" fill="6" visible="no" active="yes"/>
+<layer number="35" name="tGlue" color="7" fill="4" visible="no" active="yes"/>
+<layer number="36" name="bGlue" color="7" fill="5" visible="no" active="yes"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="yes"/>
+<layer number="39" name="tKeepout" color="4" fill="11" visible="yes" active="yes"/>
+<layer number="40" name="bKeepout" color="1" fill="11" visible="yes" active="yes"/>
+<layer number="41" name="tRestrict" color="4" fill="10" visible="yes" active="yes"/>
+<layer number="42" name="bRestrict" color="1" fill="10" visible="yes" active="yes"/>
+<layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="yes"/>
+<layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
+<layer number="48" name="Document" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="yes"/>
+</layers>
+<board>
+<plain>
+<rectangle x1="-47" y1="16.1" x2="-46" y2="19" layer="1"/>
+<rectangle x1="-47" y1="16.1" x2="-46" y2="19" layer="16"/>
+<rectangle x1="-47.1" y1="16" x2="-45.9" y2="19.1" layer="29"/>
+<rectangle x1="-47.1" y1="16" x2="-45.9" y2="19.1" layer="30"/>
+<rectangle x1="-45.73" y1="16.1" x2="-44.73" y2="19" layer="1"/>
+<rectangle x1="-45.73" y1="16.1" x2="-44.73" y2="19" layer="16"/>
+<rectangle x1="-45.83" y1="16" x2="-44.63" y2="19.1" layer="29"/>
+<rectangle x1="-45.83" y1="16" x2="-44.63" y2="19.1" layer="30"/>
+<rectangle x1="-44.46" y1="16.1" x2="-43.46" y2="19" layer="1"/>
+<rectangle x1="-44.46" y1="16.1" x2="-43.46" y2="19" layer="16"/>
+<rectangle x1="-44.56" y1="16" x2="-43.36" y2="19.1" layer="29"/>
+<rectangle x1="-44.56" y1="16" x2="-43.36" y2="19.1" layer="30"/>
+<rectangle x1="-43.19" y1="16.1" x2="-42.19" y2="19" layer="1"/>
+<rectangle x1="-43.19" y1="16.1" x2="-42.19" y2="19" layer="16"/>
+<rectangle x1="-43.29" y1="16" x2="-42.09" y2="19.1" layer="29"/>
+<rectangle x1="-43.29" y1="16" x2="-42.09" y2="19.1" layer="30"/>
+<rectangle x1="-41.92" y1="16.1" x2="-40.92" y2="19" layer="1"/>
+<rectangle x1="-41.92" y1="16.1" x2="-40.92" y2="19" layer="16"/>
+<rectangle x1="-42.02" y1="16" x2="-40.82" y2="19.1" layer="29"/>
+<rectangle x1="-42.02" y1="16" x2="-40.82" y2="19.1" layer="30"/>
+<rectangle x1="-40.65" y1="16.1" x2="-39.65" y2="19" layer="1"/>
+<rectangle x1="-40.65" y1="16.1" x2="-39.65" y2="19" layer="16"/>
+<rectangle x1="-40.75" y1="16" x2="-39.55" y2="19.1" layer="29"/>
+<rectangle x1="-40.75" y1="16" x2="-39.55" y2="19.1" layer="30"/>
+<rectangle x1="-39.38" y1="16.1" x2="-38.38" y2="19" layer="1"/>
+<rectangle x1="-39.38" y1="16.1" x2="-38.38" y2="19" layer="16"/>
+<rectangle x1="-39.48" y1="16" x2="-38.28" y2="19.1" layer="29"/>
+<rectangle x1="-39.48" y1="16" x2="-38.28" y2="19.1" layer="30"/>
+<rectangle x1="-48.27" y1="16.1" x2="-47.27" y2="19" layer="1"/>
+<rectangle x1="-48.27" y1="16.1" x2="-47.27" y2="19" layer="16"/>
+<rectangle x1="-48.37" y1="16" x2="-47.17" y2="19.1" layer="29"/>
+<rectangle x1="-48.37" y1="16" x2="-47.17" y2="19.1" layer="30"/>
+<rectangle x1="-49.54" y1="16.1" x2="-48.54" y2="19" layer="1"/>
+<rectangle x1="-49.54" y1="16.1" x2="-48.54" y2="19" layer="16"/>
+<rectangle x1="-49.64" y1="16" x2="-48.44" y2="19.1" layer="29"/>
+<rectangle x1="-49.64" y1="16" x2="-48.44" y2="19.1" layer="30"/>
+<rectangle x1="-50.81" y1="16.1" x2="-49.81" y2="19" layer="1"/>
+<rectangle x1="-50.81" y1="16.1" x2="-49.81" y2="19" layer="16"/>
+<rectangle x1="-50.91" y1="16" x2="-49.71" y2="19.1" layer="29"/>
+<rectangle x1="-50.91" y1="16" x2="-49.71" y2="19.1" layer="30"/>
+<rectangle x1="-38.11" y1="16.1" x2="-37.11" y2="19" layer="1"/>
+<rectangle x1="-38.11" y1="16.1" x2="-37.11" y2="19" layer="16"/>
+<rectangle x1="-38.21" y1="16" x2="-37.01" y2="19.1" layer="29"/>
+<rectangle x1="-38.21" y1="16" x2="-37.01" y2="19.1" layer="30"/>
+<rectangle x1="-36.84" y1="16.1" x2="-35.84" y2="19" layer="1"/>
+<rectangle x1="-36.84" y1="16.1" x2="-35.84" y2="19" layer="16"/>
+<rectangle x1="-36.94" y1="16" x2="-35.74" y2="19.1" layer="29"/>
+<rectangle x1="-36.94" y1="16" x2="-35.74" y2="19.1" layer="30"/>
+<rectangle x1="-35.57" y1="16.1" x2="-34.57" y2="19" layer="1"/>
+<rectangle x1="-35.57" y1="16.1" x2="-34.57" y2="19" layer="16"/>
+<rectangle x1="-35.67" y1="16" x2="-34.47" y2="19.1" layer="29"/>
+<rectangle x1="-35.67" y1="16" x2="-34.47" y2="19.1" layer="30"/>
+<rectangle x1="-34.3" y1="16.1" x2="-33.3" y2="19" layer="1"/>
+<rectangle x1="-34.3" y1="16.1" x2="-33.3" y2="19" layer="16"/>
+<rectangle x1="-34.4" y1="16" x2="-33.2" y2="19.1" layer="29"/>
+<rectangle x1="-34.4" y1="16" x2="-33.2" y2="19.1" layer="30"/>
+<rectangle x1="-33.03" y1="16.1" x2="-32.03" y2="19" layer="1"/>
+<rectangle x1="-33.03" y1="16.1" x2="-32.03" y2="19" layer="16"/>
+<rectangle x1="-33.13" y1="16" x2="-31.93" y2="19.1" layer="29"/>
+<rectangle x1="-33.13" y1="16" x2="-31.93" y2="19.1" layer="30"/>
+<rectangle x1="-31.76" y1="16.1" x2="-30.76" y2="19" layer="1"/>
+<rectangle x1="-31.76" y1="16.1" x2="-30.76" y2="19" layer="16"/>
+<rectangle x1="-31.86" y1="16" x2="-30.66" y2="19.1" layer="29"/>
+<rectangle x1="-31.86" y1="16" x2="-30.66" y2="19.1" layer="30"/>
+<rectangle x1="-30.49" y1="16.1" x2="-29.49" y2="19" layer="1"/>
+<rectangle x1="-30.49" y1="16.1" x2="-29.49" y2="19" layer="16"/>
+<rectangle x1="-30.59" y1="16" x2="-29.39" y2="19.1" layer="29"/>
+<rectangle x1="-30.59" y1="16" x2="-29.39" y2="19.1" layer="30"/>
+<rectangle x1="-52.08" y1="16.1" x2="-51.08" y2="19" layer="1"/>
+<rectangle x1="-52.08" y1="16.1" x2="-51.08" y2="19" layer="16"/>
+<rectangle x1="-52.18" y1="16" x2="-50.98" y2="19.1" layer="29"/>
+<rectangle x1="-52.18" y1="16" x2="-50.98" y2="19.1" layer="30"/>
+<rectangle x1="-29.22" y1="16.1" x2="-28.22" y2="19" layer="1"/>
+<rectangle x1="-29.22" y1="16.1" x2="-28.22" y2="19" layer="16"/>
+<rectangle x1="-29.32" y1="16" x2="-28.12" y2="19.1" layer="29"/>
+<rectangle x1="-29.32" y1="16" x2="-28.12" y2="19.1" layer="30"/>
+<rectangle x1="-27.95" y1="16.1" x2="-26.95" y2="19" layer="1"/>
+<rectangle x1="-27.95" y1="16.1" x2="-26.95" y2="19" layer="16"/>
+<rectangle x1="-28.05" y1="16" x2="-26.85" y2="19.1" layer="29"/>
+<rectangle x1="-28.05" y1="16" x2="-26.85" y2="19.1" layer="30"/>
+<rectangle x1="-52.2" y1="16" x2="-26.85" y2="19.1" layer="39"/>
+<rectangle x1="-52.2" y1="16" x2="-26.85" y2="19.1" layer="40"/>
+<rectangle x1="-52.2" y1="16" x2="-26.85" y2="19.1" layer="41"/>
+<rectangle x1="-52.2" y1="16" x2="-26.85" y2="19.1" layer="42"/>
+<rectangle x1="-47" y1="10.1" x2="-46" y2="13" layer="1"/>
+<rectangle x1="-47" y1="10.1" x2="-46" y2="13" layer="16"/>
+<rectangle x1="-47.1" y1="10" x2="-45.9" y2="13.1" layer="29"/>
+<rectangle x1="-47.1" y1="10" x2="-45.9" y2="13.1" layer="30"/>
+<rectangle x1="-45.73" y1="10.1" x2="-44.73" y2="13" layer="1"/>
+<rectangle x1="-45.73" y1="10.1" x2="-44.73" y2="13" layer="16"/>
+<rectangle x1="-45.83" y1="10" x2="-44.63" y2="13.1" layer="29"/>
+<rectangle x1="-45.83" y1="10" x2="-44.63" y2="13.1" layer="30"/>
+<rectangle x1="-44.46" y1="10.1" x2="-43.46" y2="13" layer="1"/>
+<rectangle x1="-44.46" y1="10.1" x2="-43.46" y2="13" layer="16"/>
+<rectangle x1="-44.56" y1="10" x2="-43.36" y2="13.1" layer="29"/>
+<rectangle x1="-44.56" y1="10" x2="-43.36" y2="13.1" layer="30"/>
+<rectangle x1="-43.19" y1="10.1" x2="-42.19" y2="13" layer="1"/>
+<rectangle x1="-43.19" y1="10.1" x2="-42.19" y2="13" layer="16"/>
+<rectangle x1="-43.29" y1="10" x2="-42.09" y2="13.1" layer="29"/>
+<rectangle x1="-43.29" y1="10" x2="-42.09" y2="13.1" layer="30"/>
+<rectangle x1="-41.92" y1="10.1" x2="-40.92" y2="13" layer="1"/>
+<rectangle x1="-41.92" y1="10.1" x2="-40.92" y2="13" layer="16"/>
+<rectangle x1="-42.02" y1="10" x2="-40.82" y2="13.1" layer="29"/>
+<rectangle x1="-42.02" y1="10" x2="-40.82" y2="13.1" layer="30"/>
+<rectangle x1="-40.65" y1="10.1" x2="-39.65" y2="13" layer="1"/>
+<rectangle x1="-40.65" y1="10.1" x2="-39.65" y2="13" layer="16"/>
+<rectangle x1="-40.75" y1="10" x2="-39.55" y2="13.1" layer="29"/>
+<rectangle x1="-40.75" y1="10" x2="-39.55" y2="13.1" layer="30"/>
+<rectangle x1="-39.38" y1="10.1" x2="-38.38" y2="13" layer="1"/>
+<rectangle x1="-39.38" y1="10.1" x2="-38.38" y2="13" layer="16"/>
+<rectangle x1="-39.48" y1="10" x2="-38.28" y2="13.1" layer="29"/>
+<rectangle x1="-39.48" y1="10" x2="-38.28" y2="13.1" layer="30"/>
+<rectangle x1="-48.27" y1="10.1" x2="-47.27" y2="13" layer="1"/>
+<rectangle x1="-48.27" y1="10.1" x2="-47.27" y2="13" layer="16"/>
+<rectangle x1="-48.37" y1="10" x2="-47.17" y2="13.1" layer="29"/>
+<rectangle x1="-48.37" y1="10" x2="-47.17" y2="13.1" layer="30"/>
+<rectangle x1="-49.54" y1="10.1" x2="-48.54" y2="13" layer="1"/>
+<rectangle x1="-49.54" y1="10.1" x2="-48.54" y2="13" layer="16"/>
+<rectangle x1="-49.64" y1="10" x2="-48.44" y2="13.1" layer="29"/>
+<rectangle x1="-49.64" y1="10" x2="-48.44" y2="13.1" layer="30"/>
+<rectangle x1="-50.81" y1="10.1" x2="-49.81" y2="13" layer="1"/>
+<rectangle x1="-50.81" y1="10.1" x2="-49.81" y2="13" layer="16"/>
+<rectangle x1="-50.91" y1="10" x2="-49.71" y2="13.1" layer="29"/>
+<rectangle x1="-50.91" y1="10" x2="-49.71" y2="13.1" layer="30"/>
+<rectangle x1="-38.11" y1="10.1" x2="-37.11" y2="13" layer="1"/>
+<rectangle x1="-38.11" y1="10.1" x2="-37.11" y2="13" layer="16"/>
+<rectangle x1="-38.21" y1="10" x2="-37.01" y2="13.1" layer="29"/>
+<rectangle x1="-38.21" y1="10" x2="-37.01" y2="13.1" layer="30"/>
+<rectangle x1="-36.84" y1="10.1" x2="-35.84" y2="13" layer="1"/>
+<rectangle x1="-36.84" y1="10.1" x2="-35.84" y2="13" layer="16"/>
+<rectangle x1="-36.94" y1="10" x2="-35.74" y2="13.1" layer="29"/>
+<rectangle x1="-36.94" y1="10" x2="-35.74" y2="13.1" layer="30"/>
+<rectangle x1="-35.57" y1="10.1" x2="-34.57" y2="13" layer="1"/>
+<rectangle x1="-35.57" y1="10.1" x2="-34.57" y2="13" layer="16"/>
+<rectangle x1="-35.67" y1="10" x2="-34.47" y2="13.1" layer="29"/>
+<rectangle x1="-35.67" y1="10" x2="-34.47" y2="13.1" layer="30"/>
+<rectangle x1="-34.3" y1="10.1" x2="-33.3" y2="13" layer="1"/>
+<rectangle x1="-34.3" y1="10.1" x2="-33.3" y2="13" layer="16"/>
+<rectangle x1="-34.4" y1="10" x2="-33.2" y2="13.1" layer="29"/>
+<rectangle x1="-34.4" y1="10" x2="-33.2" y2="13.1" layer="30"/>
+<rectangle x1="-33.03" y1="10.1" x2="-32.03" y2="13" layer="1"/>
+<rectangle x1="-33.03" y1="10.1" x2="-32.03" y2="13" layer="16"/>
+<rectangle x1="-33.13" y1="10" x2="-31.93" y2="13.1" layer="29"/>
+<rectangle x1="-33.13" y1="10" x2="-31.93" y2="13.1" layer="30"/>
+<rectangle x1="-31.76" y1="10.1" x2="-30.76" y2="13" layer="1"/>
+<rectangle x1="-31.76" y1="10.1" x2="-30.76" y2="13" layer="16"/>
+<rectangle x1="-31.86" y1="10" x2="-30.66" y2="13.1" layer="29"/>
+<rectangle x1="-31.86" y1="10" x2="-30.66" y2="13.1" layer="30"/>
+<rectangle x1="-30.49" y1="10.1" x2="-29.49" y2="13" layer="1"/>
+<rectangle x1="-30.49" y1="10.1" x2="-29.49" y2="13" layer="16"/>
+<rectangle x1="-30.59" y1="10" x2="-29.39" y2="13.1" layer="29"/>
+<rectangle x1="-30.59" y1="10" x2="-29.39" y2="13.1" layer="30"/>
+<rectangle x1="-52.08" y1="10.1" x2="-51.08" y2="13" layer="1"/>
+<rectangle x1="-52.08" y1="10.1" x2="-51.08" y2="13" layer="16"/>
+<rectangle x1="-52.18" y1="10" x2="-50.98" y2="13.1" layer="29"/>
+<rectangle x1="-52.18" y1="10" x2="-50.98" y2="13.1" layer="30"/>
+<rectangle x1="-29.22" y1="10.1" x2="-28.22" y2="13" layer="1"/>
+<rectangle x1="-29.22" y1="10.1" x2="-28.22" y2="13" layer="16"/>
+<rectangle x1="-29.32" y1="10" x2="-28.12" y2="13.1" layer="29"/>
+<rectangle x1="-29.32" y1="10" x2="-28.12" y2="13.1" layer="30"/>
+<rectangle x1="-27.95" y1="10.1" x2="-26.95" y2="13" layer="1"/>
+<rectangle x1="-27.95" y1="10.1" x2="-26.95" y2="13" layer="16"/>
+<rectangle x1="-28.05" y1="10" x2="-26.85" y2="13.1" layer="29"/>
+<rectangle x1="-28.05" y1="10" x2="-26.85" y2="13.1" layer="30"/>
+<rectangle x1="-52.2" y1="10" x2="-26.85" y2="13.1" layer="39"/>
+<rectangle x1="-52.2" y1="10" x2="-26.85" y2="13.1" layer="40"/>
+<rectangle x1="-52.2" y1="10" x2="-26.85" y2="13.1" layer="41"/>
+<rectangle x1="-52.2" y1="10" x2="-26.85" y2="13.1" layer="42"/>
+<rectangle x1="-47" y1="4.1" x2="-46" y2="7" layer="1"/>
+<rectangle x1="-47" y1="4.1" x2="-46" y2="7" layer="16"/>
+<rectangle x1="-47.1" y1="4" x2="-45.9" y2="7.1" layer="29"/>
+<rectangle x1="-47.1" y1="4" x2="-45.9" y2="7.1" layer="30"/>
+<rectangle x1="-45.73" y1="4.1" x2="-44.73" y2="7" layer="1"/>
+<rectangle x1="-45.73" y1="4.1" x2="-44.73" y2="7" layer="16"/>
+<rectangle x1="-45.83" y1="4" x2="-44.63" y2="7.1" layer="29"/>
+<rectangle x1="-45.83" y1="4" x2="-44.63" y2="7.1" layer="30"/>
+<rectangle x1="-44.46" y1="4.1" x2="-43.46" y2="7" layer="1"/>
+<rectangle x1="-44.46" y1="4.1" x2="-43.46" y2="7" layer="16"/>
+<rectangle x1="-44.56" y1="4" x2="-43.36" y2="7.1" layer="29"/>
+<rectangle x1="-44.56" y1="4" x2="-43.36" y2="7.1" layer="30"/>
+<rectangle x1="-43.19" y1="4.1" x2="-42.19" y2="7" layer="1"/>
+<rectangle x1="-43.19" y1="4.1" x2="-42.19" y2="7" layer="16"/>
+<rectangle x1="-43.29" y1="4" x2="-42.09" y2="7.1" layer="29"/>
+<rectangle x1="-43.29" y1="4" x2="-42.09" y2="7.1" layer="30"/>
+<rectangle x1="-41.92" y1="4.1" x2="-40.92" y2="7" layer="1"/>
+<rectangle x1="-41.92" y1="4.1" x2="-40.92" y2="7" layer="16"/>
+<rectangle x1="-42.02" y1="4" x2="-40.82" y2="7.1" layer="29"/>
+<rectangle x1="-42.02" y1="4" x2="-40.82" y2="7.1" layer="30"/>
+<rectangle x1="-40.65" y1="4.1" x2="-39.65" y2="7" layer="1"/>
+<rectangle x1="-40.65" y1="4.1" x2="-39.65" y2="7" layer="16"/>
+<rectangle x1="-40.75" y1="4" x2="-39.55" y2="7.1" layer="29"/>
+<rectangle x1="-40.75" y1="4" x2="-39.55" y2="7.1" layer="30"/>
+<rectangle x1="-39.38" y1="4.1" x2="-38.38" y2="7" layer="1"/>
+<rectangle x1="-39.38" y1="4.1" x2="-38.38" y2="7" layer="16"/>
+<rectangle x1="-39.48" y1="4" x2="-38.28" y2="7.1" layer="29"/>
+<rectangle x1="-39.48" y1="4" x2="-38.28" y2="7.1" layer="30"/>
+<rectangle x1="-48.27" y1="4.1" x2="-47.27" y2="7" layer="1"/>
+<rectangle x1="-48.27" y1="4.1" x2="-47.27" y2="7" layer="16"/>
+<rectangle x1="-48.37" y1="4" x2="-47.17" y2="7.1" layer="29"/>
+<rectangle x1="-48.37" y1="4" x2="-47.17" y2="7.1" layer="30"/>
+<rectangle x1="-49.54" y1="4.1" x2="-48.54" y2="7" layer="1"/>
+<rectangle x1="-49.54" y1="4.1" x2="-48.54" y2="7" layer="16"/>
+<rectangle x1="-49.64" y1="4" x2="-48.44" y2="7.1" layer="29"/>
+<rectangle x1="-49.64" y1="4" x2="-48.44" y2="7.1" layer="30"/>
+<rectangle x1="-50.81" y1="4.1" x2="-49.81" y2="7" layer="1"/>
+<rectangle x1="-50.81" y1="4.1" x2="-49.81" y2="7" layer="16"/>
+<rectangle x1="-50.91" y1="4" x2="-49.71" y2="7.1" layer="29"/>
+<rectangle x1="-50.91" y1="4" x2="-49.71" y2="7.1" layer="30"/>
+<rectangle x1="-38.11" y1="4.1" x2="-37.11" y2="7" layer="1"/>
+<rectangle x1="-38.11" y1="4.1" x2="-37.11" y2="7" layer="16"/>
+<rectangle x1="-38.21" y1="4" x2="-37.01" y2="7.1" layer="29"/>
+<rectangle x1="-38.21" y1="4" x2="-37.01" y2="7.1" layer="30"/>
+<rectangle x1="-36.84" y1="4.1" x2="-35.84" y2="7" layer="1"/>
+<rectangle x1="-36.84" y1="4.1" x2="-35.84" y2="7" layer="16"/>
+<rectangle x1="-36.94" y1="4" x2="-35.74" y2="7.1" layer="29"/>
+<rectangle x1="-36.94" y1="4" x2="-35.74" y2="7.1" layer="30"/>
+<rectangle x1="-35.57" y1="4.1" x2="-34.57" y2="7" layer="1"/>
+<rectangle x1="-35.57" y1="4.1" x2="-34.57" y2="7" layer="16"/>
+<rectangle x1="-35.67" y1="4" x2="-34.47" y2="7.1" layer="29"/>
+<rectangle x1="-35.67" y1="4" x2="-34.47" y2="7.1" layer="30"/>
+<rectangle x1="-34.3" y1="4.1" x2="-33.3" y2="7" layer="1"/>
+<rectangle x1="-34.3" y1="4.1" x2="-33.3" y2="7" layer="16"/>
+<rectangle x1="-34.4" y1="4" x2="-33.2" y2="7.1" layer="29"/>
+<rectangle x1="-34.4" y1="4" x2="-33.2" y2="7.1" layer="30"/>
+<rectangle x1="-33.03" y1="4.1" x2="-32.03" y2="7" layer="1"/>
+<rectangle x1="-33.03" y1="4.1" x2="-32.03" y2="7" layer="16"/>
+<rectangle x1="-33.13" y1="4" x2="-31.93" y2="7.1" layer="29"/>
+<rectangle x1="-33.13" y1="4" x2="-31.93" y2="7.1" layer="30"/>
+<rectangle x1="-31.76" y1="4.1" x2="-30.76" y2="7" layer="1"/>
+<rectangle x1="-31.76" y1="4.1" x2="-30.76" y2="7" layer="16"/>
+<rectangle x1="-31.86" y1="4" x2="-30.66" y2="7.1" layer="29"/>
+<rectangle x1="-31.86" y1="4" x2="-30.66" y2="7.1" layer="30"/>
+<rectangle x1="-30.49" y1="4.1" x2="-29.49" y2="7" layer="1"/>
+<rectangle x1="-30.49" y1="4.1" x2="-29.49" y2="7" layer="16"/>
+<rectangle x1="-30.59" y1="4" x2="-29.39" y2="7.1" layer="29"/>
+<rectangle x1="-30.59" y1="4" x2="-29.39" y2="7.1" layer="30"/>
+<rectangle x1="-52.08" y1="4.1" x2="-51.08" y2="7" layer="1"/>
+<rectangle x1="-52.08" y1="4.1" x2="-51.08" y2="7" layer="16"/>
+<rectangle x1="-52.18" y1="4" x2="-50.98" y2="7.1" layer="29"/>
+<rectangle x1="-52.18" y1="4" x2="-50.98" y2="7.1" layer="30"/>
+<rectangle x1="-29.22" y1="4.1" x2="-28.22" y2="7" layer="1"/>
+<rectangle x1="-29.22" y1="4.1" x2="-28.22" y2="7" layer="16"/>
+<rectangle x1="-29.32" y1="4" x2="-28.12" y2="7.1" layer="29"/>
+<rectangle x1="-29.32" y1="4" x2="-28.12" y2="7.1" layer="30"/>
+<rectangle x1="-27.95" y1="4.1" x2="-26.95" y2="7" layer="1"/>
+<rectangle x1="-27.95" y1="4.1" x2="-26.95" y2="7" layer="16"/>
+<rectangle x1="-28.05" y1="4" x2="-26.85" y2="7.1" layer="29"/>
+<rectangle x1="-28.05" y1="4" x2="-26.85" y2="7.1" layer="30"/>
+<rectangle x1="-52.2" y1="4" x2="-26.85" y2="7.1" layer="39"/>
+<rectangle x1="-52.2" y1="4" x2="-26.85" y2="7.1" layer="40"/>
+<rectangle x1="-52.2" y1="4" x2="-26.85" y2="7.1" layer="41"/>
+<rectangle x1="-52.2" y1="4" x2="-26.85" y2="7.1" layer="42"/>
+<wire x1="-54" y1="21" x2="-25" y2="21" width="0.254" layer="20"/>
+<wire x1="-25" y1="21" x2="-25" y2="2" width="0.254" layer="20"/>
+<wire x1="-25" y1="2" x2="-54" y2="2" width="0.254" layer="20"/>
+<wire x1="-54" y1="2" x2="-54" y2="21" width="0.254" layer="20"/>
+<dimension x1="-54" y1="21" x2="-25" y2="22" x3="-39.5" y3="23" textsize="1.778" layer="27" dtype="horizontal"/>
+<dimension x1="-54" y1="21" x2="-56" y2="2" x3="-61" y3="11.5" textsize="1.778" layer="27" dtype="vertical"/>
+</plain>
+<libraries>
+</libraries>
+<attributes>
+</attributes>
+<variantdefs>
+</variantdefs>
+<classes>
+<class number="0" name="default" width="0" drill="0">
+</class>
+</classes>
+<designrules name="default">
+<description language="de">&lt;b&gt;EAGLE Design Rules&lt;/b&gt;
+&lt;p&gt;
+Die Standard-Design-Rules sind so gewählt, dass sie für 
+die meisten Anwendungen passen. Sollte ihre Platine 
+besondere Anforderungen haben, treffen Sie die erforderlichen
+Einstellungen hier und speichern die Design Rules unter 
+einem neuen Namen ab.</description>
+<description language="en">&lt;b&gt;EAGLE Design Rules&lt;/b&gt;
+&lt;p&gt;
+The default Design Rules have been set to cover
+a wide range of applications. Your particular design
+may have different requirements, so please make the
+necessary adjustments and save your customized
+design rules under a new name.</description>
+<param name="layerSetup" value="(1*16)"/>
+<param name="mtCopper" value="0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm 0.035mm"/>
+<param name="mtIsolate" value="1.5mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm 0.15mm 0.2mm"/>
+<param name="mdWireWire" value="8mil"/>
+<param name="mdWirePad" value="8mil"/>
+<param name="mdWireVia" value="8mil"/>
+<param name="mdPadPad" value="8mil"/>
+<param name="mdPadVia" value="8mil"/>
+<param name="mdViaVia" value="8mil"/>
+<param name="mdSmdPad" value="8mil"/>
+<param name="mdSmdVia" value="8mil"/>
+<param name="mdSmdSmd" value="8mil"/>
+<param name="mdViaViaSameLayer" value="8mil"/>
+<param name="mnLayersViaInSmd" value="2"/>
+<param name="mdCopperDimension" value="40mil"/>
+<param name="mdDrill" value="8mil"/>
+<param name="mdSmdStop" value="0mil"/>
+<param name="msWidth" value="10mil"/>
+<param name="msDrill" value="24mil"/>
+<param name="msMicroVia" value="9.99mm"/>
+<param name="msBlindViaRatio" value="0.5"/>
+<param name="rvPadTop" value="0.25"/>
+<param name="rvPadInner" value="0.25"/>
+<param name="rvPadBottom" value="0.25"/>
+<param name="rvViaOuter" value="0.25"/>
+<param name="rvViaInner" value="0.25"/>
+<param name="rvMicroViaOuter" value="0.25"/>
+<param name="rvMicroViaInner" value="0.25"/>
+<param name="rlMinPadTop" value="10mil"/>
+<param name="rlMaxPadTop" value="20mil"/>
+<param name="rlMinPadInner" value="10mil"/>
+<param name="rlMaxPadInner" value="20mil"/>
+<param name="rlMinPadBottom" value="10mil"/>
+<param name="rlMaxPadBottom" value="20mil"/>
+<param name="rlMinViaOuter" value="8mil"/>
+<param name="rlMaxViaOuter" value="20mil"/>
+<param name="rlMinViaInner" value="8mil"/>
+<param name="rlMaxViaInner" value="20mil"/>
+<param name="rlMinMicroViaOuter" value="4mil"/>
+<param name="rlMaxMicroViaOuter" value="20mil"/>
+<param name="rlMinMicroViaInner" value="4mil"/>
+<param name="rlMaxMicroViaInner" value="20mil"/>
+<param name="psTop" value="-1"/>
+<param name="psBottom" value="-1"/>
+<param name="psFirst" value="-1"/>
+<param name="psElongationLong" value="100"/>
+<param name="psElongationOffset" value="100"/>
+<param name="mvStopFrame" value="1"/>
+<param name="mvCreamFrame" value="0"/>
+<param name="mlMinStopFrame" value="4mil"/>
+<param name="mlMaxStopFrame" value="4mil"/>
+<param name="mlMinCreamFrame" value="0mil"/>
+<param name="mlMaxCreamFrame" value="0mil"/>
+<param name="mlViaStopLimit" value="0mil"/>
+<param name="srRoundness" value="0"/>
+<param name="srMinRoundness" value="0mil"/>
+<param name="srMaxRoundness" value="0mil"/>
+<param name="slThermalIsolate" value="10mil"/>
+<param name="slThermalsForVias" value="0"/>
+<param name="dpMaxLengthDifference" value="10mm"/>
+<param name="dpGapFactor" value="2.5"/>
+<param name="checkGrid" value="0"/>
+<param name="checkAngle" value="0"/>
+<param name="checkFont" value="1"/>
+<param name="checkRestrict" value="1"/>
+<param name="useDiameter" value="13"/>
+<param name="maxErrors" value="50"/>
+</designrules>
+<autorouter>
+<pass name="Default">
+<param name="RoutingGrid" value="50mil"/>
+<param name="AutoGrid" value="1"/>
+<param name="Efforts" value="0"/>
+<param name="TopRouterVariant" value="1"/>
+<param name="tpViaShape" value="round"/>
+<param name="PrefDir.1" value="a"/>
+<param name="PrefDir.2" value="0"/>
+<param name="PrefDir.3" value="0"/>
+<param name="PrefDir.4" value="0"/>
+<param name="PrefDir.5" value="0"/>
+<param name="PrefDir.6" value="0"/>
+<param name="PrefDir.7" value="0"/>
+<param name="PrefDir.8" value="0"/>
+<param name="PrefDir.9" value="0"/>
+<param name="PrefDir.10" value="0"/>
+<param name="PrefDir.11" value="0"/>
+<param name="PrefDir.12" value="0"/>
+<param name="PrefDir.13" value="0"/>
+<param name="PrefDir.14" value="0"/>
+<param name="PrefDir.15" value="0"/>
+<param name="PrefDir.16" value="a"/>
+<param name="cfVia" value="8"/>
+<param name="cfNonPref" value="5"/>
+<param name="cfChangeDir" value="2"/>
+<param name="cfOrthStep" value="2"/>
+<param name="cfDiagStep" value="3"/>
+<param name="cfExtdStep" value="0"/>
+<param name="cfBonusStep" value="1"/>
+<param name="cfMalusStep" value="1"/>
+<param name="cfPadImpact" value="4"/>
+<param name="cfSmdImpact" value="4"/>
+<param name="cfBusImpact" value="0"/>
+<param name="cfHugging" value="3"/>
+<param name="cfAvoid" value="4"/>
+<param name="cfPolygon" value="10"/>
+<param name="cfBase.1" value="0"/>
+<param name="cfBase.2" value="1"/>
+<param name="cfBase.3" value="1"/>
+<param name="cfBase.4" value="1"/>
+<param name="cfBase.5" value="1"/>
+<param name="cfBase.6" value="1"/>
+<param name="cfBase.7" value="1"/>
+<param name="cfBase.8" value="1"/>
+<param name="cfBase.9" value="1"/>
+<param name="cfBase.10" value="1"/>
+<param name="cfBase.11" value="1"/>
+<param name="cfBase.12" value="1"/>
+<param name="cfBase.13" value="1"/>
+<param name="cfBase.14" value="1"/>
+<param name="cfBase.15" value="1"/>
+<param name="cfBase.16" value="0"/>
+<param name="mnVias" value="20"/>
+<param name="mnSegments" value="9999"/>
+<param name="mnExtdSteps" value="9999"/>
+<param name="mnRipupLevel" value="10"/>
+<param name="mnRipupSteps" value="100"/>
+<param name="mnRipupTotal" value="100"/>
+</pass>
+<pass name="Follow-me" refer="Default" active="yes">
+</pass>
+<pass name="Busses" refer="Default" active="yes">
+<param name="cfNonPref" value="4"/>
+<param name="cfBusImpact" value="4"/>
+<param name="cfHugging" value="0"/>
+<param name="mnVias" value="0"/>
+</pass>
+<pass name="Route" refer="Default" active="yes">
+</pass>
+<pass name="Optimize1" refer="Default" active="yes">
+<param name="cfVia" value="99"/>
+<param name="cfExtdStep" value="10"/>
+<param name="cfHugging" value="1"/>
+<param name="mnExtdSteps" value="1"/>
+<param name="mnRipupLevel" value="0"/>
+</pass>
+<pass name="Optimize2" refer="Optimize1" active="yes">
+<param name="cfNonPref" value="0"/>
+<param name="cfChangeDir" value="6"/>
+<param name="cfExtdStep" value="0"/>
+<param name="cfBonusStep" value="2"/>
+<param name="cfMalusStep" value="2"/>
+<param name="cfPadImpact" value="2"/>
+<param name="cfSmdImpact" value="2"/>
+<param name="cfHugging" value="0"/>
+</pass>
+<pass name="Optimize3" refer="Optimize2" active="yes">
+<param name="cfChangeDir" value="8"/>
+<param name="cfPadImpact" value="0"/>
+<param name="cfSmdImpact" value="0"/>
+</pass>
+<pass name="Optimize4" refer="Optimize3" active="yes">
+<param name="cfChangeDir" value="25"/>
+</pass>
+</autorouter>
+<elements>
+</elements>
+<signals>
+<signal name="S$1">
+<via x="-46.5" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$2">
+<via x="-45.23" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$3">
+<via x="-43.96" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$4">
+<via x="-42.69" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$5">
+<via x="-41.42" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$6">
+<via x="-40.15" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$7">
+<via x="-38.88" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$8">
+<via x="-47.77" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$9">
+<via x="-49.04" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$10">
+<via x="-50.31" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$11">
+<via x="-37.61" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$12">
+<via x="-36.34" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$13">
+<via x="-35.07" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$14">
+<via x="-33.8" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$15">
+<via x="-32.53" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$16">
+<via x="-31.26" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$17">
+<via x="-29.99" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$18">
+<via x="-51.58" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$19">
+<via x="-28.72" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$20">
+<via x="-27.45" y="17.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$21">
+<via x="-46.5" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$22">
+<via x="-45.23" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$23">
+<via x="-43.96" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$24">
+<via x="-42.69" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$25">
+<via x="-41.42" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$26">
+<via x="-40.15" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$27">
+<via x="-38.88" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$28">
+<via x="-47.77" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$29">
+<via x="-49.04" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$30">
+<via x="-50.31" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$31">
+<via x="-37.61" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$32">
+<via x="-36.34" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$33">
+<via x="-35.07" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$34">
+<via x="-33.8" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$35">
+<via x="-32.53" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$36">
+<via x="-31.26" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$37">
+<via x="-29.99" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$38">
+<via x="-51.58" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$39">
+<via x="-28.72" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$40">
+<via x="-27.45" y="11.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$41">
+<via x="-46.5" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$42">
+<via x="-45.23" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$43">
+<via x="-43.96" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$44">
+<via x="-42.69" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$45">
+<via x="-41.42" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$46">
+<via x="-40.15" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$47">
+<via x="-38.88" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$48">
+<via x="-47.77" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$49">
+<via x="-49.04" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$50">
+<via x="-50.31" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$51">
+<via x="-37.61" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$52">
+<via x="-36.34" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$53">
+<via x="-35.07" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$54">
+<via x="-33.8" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$55">
+<via x="-32.53" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$56">
+<via x="-31.26" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$57">
+<via x="-29.99" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$58">
+<via x="-51.58" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$59">
+<via x="-28.72" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$60">
+<via x="-27.45" y="5.55" extent="1-16" drill="0.5" diameter="0.025"/>
+</signal>
+<signal name="S$61">
+<polygon width="0.254" layer="1">
+<vertex x="-54" y="21"/>
+<vertex x="-25" y="21"/>
+<vertex x="-25" y="2"/>
+<vertex x="-54" y="2"/>
+</polygon>
+</signal>
+<signal name="S$62">
+<polygon width="0.254" layer="16">
+<vertex x="-54" y="21"/>
+<vertex x="-25" y="21"/>
+<vertex x="-25" y="2"/>
+<vertex x="-54" y="2"/>
+</polygon>
+</signal>
+</signals>
+</board>
+</drawing>
+</eagle>
