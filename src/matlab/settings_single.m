@@ -8,14 +8,14 @@
 load('ExpSetup_nerve.mat');
 
 % run this first time
-[Ard]=ScouseTom_Init('COM4');
+[Ard]=ScouseTom_Init('COM3');
 
 %Experimental Parameters
 % Runtime --> this in ms so 30,000 is 30 seconds
 ExpSetup.MeasurementTime = 31000;
 % this is in ms, and we want to set it to not a multiple of 50Hz 
-ExpSetup.StimulatorTriggerTime = 500; % approx 1sec
-
+ExpSetup.StimulatorTriggerTime = 100; % approx 1sec
+ExpSetup.Protocol=[1,2];
 
 %Keithley - Neuronal activation current settings...
 ExpSetup.CSStimAmp = 2500e-6; % this in in AMPS so you need e-6;
@@ -37,7 +37,7 @@ ExpSetup.Amp = 100; % uA
 
 %%
 % then you need to run this:
-[ Ard,ExpSetup]=ScouseTom_Start(Ard,ExpSetup,1);
+%[ Ard,ExpSetup]=ScouseTom_Start(Ard,ExpSetup,1);
 % in the command window
 
 % [ Ard,ExpSetup]=ScouseTom_Start(Ard,ExpSetup,1);

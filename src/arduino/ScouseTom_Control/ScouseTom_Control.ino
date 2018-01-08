@@ -132,7 +132,7 @@ int CS_Pmarkgoodness = 0; // flag to confirm Phasemarker has been checked ok
 /*########### Stimulation Voltage stuff - consts in Stim.h ############*/
 
 int StimWiperValue = 0; // Wiper position for setting voltage of stimulation - must be 0-256 although usable range is between 215 and 250 with 215 approx 10V and 250 ~3V
-
+int curStimWiperValue = 0; //current wiper setting
 /*########### Compliance Check stuff  ############*/
 
 
@@ -175,6 +175,8 @@ int iFreq = 0; //current frequency
 int iPrt = 0; //current protocol line
 int iRep = 0; //current protocol repetition
 int iStim = 0; // current stimulation number
+int iWiper = 0; // current stimulation wiper selection
+int iWiperRep = 0;
 
 /*ALL DEFINITIONS DONE FINIALLY!*/
 
@@ -551,7 +553,7 @@ void dostuff()
 
 
 				if (StimMode) {
-					Stimflag = 1;
+					//Stimflag = 1;
 					lastStimTrigger = lastInjSwitch;
 					StimOffsetCurrent = StimOffset;
 				}
@@ -583,8 +585,10 @@ void dostuff()
 
 					if ((currentMicros - lastStimTrigger) > (StimTriggerTime + StimOffsetCurrent) && StimMode) // if after offset and we are in stim mode then
 					{
+						//Stim_SetDigipot(StimAmpSeq[iWiper]); // set the potentiometer voltage
 						Stimflag = 1;
-						digitalWriteDirect(PWR_STIM, HIGH); //turn off stimulator power supply
+						//digitalWriteDirect(PWR_STIM, HIGH); //turn off stimulator power supply
+
 
 						/*sprintf(PC_outputBuffer, "Stim: %d", currentMicros - lastInjSwitch);
 						Serial.println(PC_outputBuffer);*/
@@ -1323,14 +1327,14 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 		//StiminterruptCtr++; //increment intrctr
 		if (Stim_pinstate && StiminterruptCtr >= d1) // check if timer is up and pulse still low
 		{
-			digitalWriteDirect(IND_STIM, 0); //write pin high
+			digitalWriteDirect(IND_STIM, 1); //write pin high
 			Stim_pinstate = !Stim_pinstate;
 
 		}
 		else if (!Stim_pinstate && StiminterruptCtr >= d2)
 		{
 
-			digitalWriteDirect(IND_STIM, 1); //write pin low
+			digitalWriteDirect(IND_STIM, 0); //write pin low
 			Stim_pinstate = !Stim_pinstate;
 
 			Stim_goflag = 0; //stop it from happening again
@@ -1342,7 +1346,14 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 	}
 	else
 	{
+		Stim_SetDigipot(curStimWiperValue); // set the potentiometer voltage
 		StiminterruptCtr = 0; //reset intrcntr
+		//Stim_SetDigipot(StimAmpSeq[iWiper]); // set the potentiometer voltage
+
+
+		iStim++; // increment stimulation conter
+		iWiperRep++; // increment Wiper Rep Counter
+
 
 	}
  digitalWriteDirect(BONUS_1,0); 

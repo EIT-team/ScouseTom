@@ -1,6 +1,7 @@
 void stim_nextphase()
 {
 	//digitalWriteDirect(PWR_STIM, HIGH); //turn on stimulator power supply
+	//Stim_SetDigipot(StimAmpSeq[iWiper]); // set the potentiometer voltage
 
 	d1 = Stim_delays[Stim_PhaseOrder[iStim]]; // number of ticks to wait after pmark before starting simulation
 	d2 = d1 + StimPulseWidthTicks; // number of ticks to set pin low
@@ -9,6 +10,8 @@ void stim_nextphase()
 	//Serial.println(PC_outputBuffer);
 	//StiminterruptCtr = 0;
 
+	//Stim_SetDigipot(StimAmpSeq[iWiper]); // set the potentiometer voltage
+
 	//Serial.println("attaching ISR");
     TC_Stop(TC2, 2); // stop ind ISR, just in case
 	//Serial.println("attached");
@@ -16,7 +19,12 @@ void stim_nextphase()
 	Stim_ready = 1; // set flag so ISR_PMARK starts the stim going when pmark happens
 	lastStimTrigger = currentMicros; //record time we last did one
 
-	iStim++; // increment stimulation conter
+	if (iWiperRep == StimAmpSeqReps)
+	{
+		iWiper++;
+		iWiperRep = 0;
+	}
+
 
 	if (iStim == NumDelay) // reset counter if all of them are done
 	{
@@ -26,8 +34,30 @@ void stim_nextphase()
 		//Serial.println("shuffled phases");
 	}
 
+	if (iWiper == StimAmpSeqLength) // reset counter if all of them are done
+	{
+		iWiper = 0;
+		iWiperRep = 0;
+
+	}
+
+
+
   attachInterrupt(INTR_PMARK, ISR_PMARK, FALLING); // attach the interupt to the pmark pin - turning on and off in this way prevents errors with pmarks happening during stimulation
 
+  if (StimAmpMode)
+  {
+	  curStimWiperValue = StimAmpSeq[iWiper]; //use the wiper value in the sequence
+  }
+  else
+  { 
+	  curStimWiperValue = StimWiperValue; // use the wiper value sent from PC
+  }
+
+
+
+  Serial.print("WiperSetting: ");
+  Serial.println(curStimWiperValue);
 
 }
 
@@ -44,7 +74,7 @@ void ISR_PMARK() // this ISR runs when pmark detected
 		Stim_goflag = 1; // set flag for the TC7 Handler
 		Stim_ready = 0; //no more stims till time has elapsed
 		//digitalWriteDirect(BONUS_1,0);
-    TC_Start(TC1, 1); // start the timer ISR for the stim trigger
+		TC_Start(TC1, 1); // start the timer ISR for the stim trigger
 
      
 	}
@@ -69,6 +99,8 @@ int stim_init(long Freq) //initialise the stimulator trigger
 	NumDelay = 0;
 	StiminterruptCtr = 0;
 	iStim = 0;
+	iWiper = 0;
+	iWiperRep = 0;
 
 	StimPulseWidthTicks = StimPulseWidth / mintime; // convert the pulse width into integer number of ticks
 
@@ -100,7 +132,15 @@ int stim_init(long Freq) //initialise the stimulator trigger
 		PC_sendphaseupdate(); //send phase stuff to PC
 		//Serial.println(StimWiperValue);
 
-		Stim_SetDigipot(StimWiperValue); // set the potentiometer voltage
+		if (StimAmpMode)
+		{
+			curStimWiperValue = StimAmpSeq[iWiper]; //use the wiper value in the sequence
+		}
+		else
+		{
+			curStimWiperValue = StimWiperValue; // use the wiper value sent from PC
+		}
+		Stim_SetDigipot(curStimWiperValue); // set the potentiometer voltage
 	}
 
 	return goodnessflag;

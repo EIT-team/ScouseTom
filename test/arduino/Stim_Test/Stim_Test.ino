@@ -10,8 +10,8 @@ Code to check stim - triangle wave out on "STIM OUT" Pin
 #include <Wire.h>
 int del_short = 20; // time to delay between digipot settings
 int del_long = 1000*1000; // time to delay between waves
-int MinVal=210;
-int MaxVal=255;
+int MinVal=219;
+int MaxVal=248;
 
 void setup() {
   // put your setup code here, to run once:
