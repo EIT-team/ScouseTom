@@ -5,7 +5,7 @@
 
 %% read that business
 
-in=dlmread('PulseVoltage.txt');
+in=dlmread('../labview/PulseVoltage.txt');
 
 %% reshape based on repeats
 
