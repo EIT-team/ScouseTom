@@ -1,8 +1,8 @@
 ##################################
 #ScouseTom Pulse Voltage Settings
-#Date and time this file was created : 09-Jan-2018 11:56:26
-#The PC name was : EIT-DATA-LAPPY
-#The Username was : eit-data
+#Date and time this file was created : 09-Jan-2018 12:21:44
+#The PC name was : JIMBLES-PC
+#The Username was : Jimbles
 #WiperSetting	StimVoltage
 210	10.25
 211	10.24

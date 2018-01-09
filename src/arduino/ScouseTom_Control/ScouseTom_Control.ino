@@ -1079,6 +1079,9 @@ void dostuff()
 	break;
 	case	9: //start compliance check
 	{
+	
+		
+		
 		/*
 
 		copy start inject but
@@ -1340,21 +1343,21 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 			Stim_goflag = 0; //stop it from happening again
 			TC_Stop(TC1, 1);
 
+			if (StimAmpMode)
+			{
+				Stim_SetDigipot(curStimWiperValue); // set the potentiometer voltage
+				iWiperRep++; // increment Wiper Rep Counter
+			}
+
+
+			iStim++; // increment stimulation conter
 		}
 
 		StiminterruptCtr++; //increment intrctr
 	}
 	else
 	{
-		Stim_SetDigipot(curStimWiperValue); // set the potentiometer voltage
 		StiminterruptCtr = 0; //reset intrcntr
-		//Stim_SetDigipot(StimAmpSeq[iWiper]); // set the potentiometer voltage
-
-
-		iStim++; // increment stimulation conter
-		iWiperRep++; // increment Wiper Rep Counter
-
-
 	}
  digitalWriteDirect(BONUS_1,0); 
 

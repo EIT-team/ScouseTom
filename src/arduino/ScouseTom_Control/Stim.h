@@ -20,11 +20,12 @@ const int StimSeqLength = 2; // length of stim sequence below
 int StimSeq[StimSeqLength] = { 0,180 }; // sequence of phases in degrees
 
 
-const boolean StimAmpMode = 0; // set to 0 to do "normal" stim which is at single level set by user, set to 1 to use the sequence below
+const boolean StimAmpMode = 1; // set to 0 to do "normal" stim which is at single level set by user, set to 1 to use the sequence below
 
-const int StimAmpSeqLength = 4;
-int StimAmpSeqReps = 5;
-int StimAmpSeq[StimAmpSeqLength] = { 219, 230,241,248 }; // wiper setting
+
+int StimAmpSeqReps = 5; // repeats per output voltage level
+const int StimAmpSeqLength = 4; // length of array below
+int StimAmpSeq[StimAmpSeqLength] = { 250,240,228,216 }; // wiper setting
 
 
 void stim_nextphase();

@@ -1,20 +1,7 @@
 void stim_nextphase()
 {
-	//digitalWriteDirect(PWR_STIM, HIGH); //turn on stimulator power supply
-	//Stim_SetDigipot(StimAmpSeq[iWiper]); // set the potentiometer voltage
 
-	d1 = Stim_delays[Stim_PhaseOrder[iStim]]; // number of ticks to wait after pmark before starting simulation
-	d2 = d1 + StimPulseWidthTicks; // number of ticks to set pin low
-
-	//sprintf(PC_outputBuffer, "%d: d1 = %d, d2 = %d", iStim, d1, d2);
-	//Serial.println(PC_outputBuffer);
-	//StiminterruptCtr = 0;
-
-	//Stim_SetDigipot(StimAmpSeq[iWiper]); // set the potentiometer voltage
-
-	//Serial.println("attaching ISR");
     TC_Stop(TC2, 2); // stop ind ISR, just in case
-	//Serial.println("attached");
  
 	Stim_ready = 1; // set flag so ISR_PMARK starts the stim going when pmark happens
 	lastStimTrigger = currentMicros; //record time we last did one
@@ -23,23 +10,28 @@ void stim_nextphase()
 	{
 		iWiper++;
 		iWiperRep = 0;
+		iStim = 0;
 	}
-
 
 	if (iStim == NumDelay) // reset counter if all of them are done
 	{
 		iStim = 0;
-		//shuffle(Stim_PhaseOrder, NumDelay); //shuffle the phases again
-		//PC_sendphaseupdate(); //send order to PC
-		//Serial.println("shuffled phases");
 	}
 
 	if (iWiper == StimAmpSeqLength) // reset counter if all of them are done
 	{
 		iWiper = 0;
 		iWiperRep = 0;
-
+		iStim = 0;
 	}
+
+
+
+	d1 = Stim_delays[Stim_PhaseOrder[iStim]]; // number of ticks to wait after pmark before starting simulation
+	d2 = d1 + StimPulseWidthTicks; // number of ticks to set pin low
+
+	//sprintf(PC_outputBuffer, "%d,%d,%d", iStim, d1, d2);
+	//Serial.println(PC_outputBuffer);
 
 
 
@@ -54,10 +46,8 @@ void stim_nextphase()
 	  curStimWiperValue = StimWiperValue; // use the wiper value sent from PC
   }
 
-
-
-  Serial.print("WiperSetting: ");
-  Serial.println(curStimWiperValue);
+  //Serial.print("WiperSetting: ");
+  //Serial.println(curStimWiperValue);
 
 }
 
@@ -194,8 +184,8 @@ void stim_calcdelays(long Freq) //calculate the possible delays for this freq
 		Stim_PhaseOrder[n] = n;
 	}
 
-
-  Serial.println("");
+	/*
+	Serial.println("");
 	Serial.print("T:");
 	Serial.println(T,4);
 	Serial.print("phaseacc:");
@@ -226,6 +216,7 @@ void stim_calcdelays(long Freq) //calculate the possible delays for this freq
 		Serial.print(",");
 	}
 	Serial.println("...");
+	*/
 
 
 
