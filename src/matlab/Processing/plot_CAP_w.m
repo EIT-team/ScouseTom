@@ -9,8 +9,8 @@ EEG=pop_loadbv;
  %Good_ch=map_;
  
  
-   map_p=[1:29]; % Montage
-   map_=[1:18,20:30]; %REF = 19
+   map_p=[1:30]; % Montage
+   map_=[1:29]; %REF = 19
    % map_=[2:30]; %REF = 1
    
    ring = [7 28 12 23 21 16 26 9 13 4 3 15 8 27 14 22];

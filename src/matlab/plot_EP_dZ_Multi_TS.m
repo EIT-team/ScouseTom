@@ -136,7 +136,6 @@ DataF = nan(size(Data));
 
 %%
 
-iStim=1;
 %%for iStim = 1:size(TT.Stimulations,2)
     
     T_trig=TT.Stimulations{iStim};

@@ -12,13 +12,15 @@ TT=ScouseTom_TrigProcess(Trigger,HDR);
 % becayse we use chn 5 as ref, we have to record all elecs 1-4.
 
 % map_ = [9:19 25];
-map_ = [ 7 8 9:18 25];
+% map_ = [ 7 8 9:18 25];
 % map_ = [ 7 8 9 10 11];
 % map_ = [5 6 7  9:18];
 
+map_ = [ 5:14 ];
+
 % map_=[3:4];
 
-ref_chn=19;
+%ref_chn=19;
 
 Good_ch=map_;
 
@@ -132,11 +134,11 @@ xlabel('Time ms');
 ylabel('EP mV');
 title(sprintf('EP in file %s Stimulation %d',fname,iStim))
 % xlim([tau_max/2 - 10   tau_max])
-xlim([247.5 270])
-
+% xlim([247.5 270])
+%xlim([45 75])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-ylim([-20 5])
+ ylim([-1 1])
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 
