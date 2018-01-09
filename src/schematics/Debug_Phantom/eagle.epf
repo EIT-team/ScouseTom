@@ -365,7 +365,7 @@ UsedLibrary="C:/SPB_Data/external_lbrs/mini din 8 james.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="1973 -135 2928 649"
+Loc="-1040 193 -184 799"
 State=2
 Number=0
 
