@@ -9613,6 +9613,9 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <text x="322.58" y="-109.22" size="1.778" layer="91">Turn on Power for Stim</text>
 <text x="373.38" y="-170.18" size="1.778" layer="91">DC DC Convertor for STIM, 12V</text>
 <text x="436.88" y="-96.52" size="1.778" layer="91">VOLTAGE ADJUSTMENT</text>
+<text x="-116.84" y="-20.32" size="1.778" layer="91">Trigger link Cable</text>
+<text x="-20.32" y="-22.86" size="1.778" layer="91">Serial Com With CS</text>
+<text x="63.5" y="-17.78" size="1.778" layer="91">All Values from datasheet</text>
 </plain>
 <instances>
 <instance part="U2" gate="A" x="73.66" y="17.78"/>
@@ -11102,6 +11105,13 @@ Connect V_SELECT to V_ISO_TRIG for 5V, to GND to 3.3V</text>
 <wire x1="-60.96" y1="-33.02" x2="-60.96" y2="-30.48" width="0.1524" layer="91"/>
 <wire x1="-60.96" y1="-30.48" x2="-58.42" y2="-30.48" width="0.1524" layer="91"/>
 <label x="-58.42" y="-30.48" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="DIN1" gate="G$1" pin="2"/>
+<wire x1="-101.6" y1="-30.48" x2="-106.68" y2="-30.48" width="0.1524" layer="91"/>
+<wire x1="-106.68" y1="-30.48" x2="-106.68" y2="-27.94" width="0.1524" layer="91"/>
+<wire x1="-106.68" y1="-27.94" x2="-132.08" y2="-27.94" width="0.1524" layer="91"/>
+<label x="-132.08" y="-27.94" size="1.778" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="BONUS_4" class="0">
