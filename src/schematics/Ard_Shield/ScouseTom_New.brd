@@ -36,7 +36,7 @@
 <layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
-<layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
+<layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
 <layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
@@ -159,7 +159,7 @@
 <text x="25.9" y="48.6" size="1.778" layer="21" font="vector" ratio="20" rot="R90" align="center">IND</text>
 <text x="-1.95" y="41.7" size="1.016" layer="21" font="vector" ratio="20" rot="R180" align="center-right">GND</text>
 <text x="-2.75" y="36.55" size="1.016" layer="21" font="vector" ratio="20" rot="R180" align="center-right">PMRK</text>
-<text x="-5.85" y="53.45" size="1.778" layer="21" font="vector" ratio="20" rot="R180" align="center-right">ActiChamp
+<text x="-6.2" y="53.85" size="1.778" layer="21" font="vector" ratio="20" rot="R180" align="center-right">ActiChamp
 Triggers</text>
 <text x="-3.15" y="27.3" size="1.778" layer="21" font="vector" ratio="20" align="center">Keithley
 CS COMM</text>
@@ -3418,7 +3418,7 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="VALUE" x="103.087" y="41.89" size="1.778" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="DSUB1" library="DSUBJAMES" package="DSUB9" value="CS DSUB" x="2.75" y="22.71" smashed="yes">
-<attribute name="NAME" x="18.63705" y="18.6596" size="1.016" layer="25" ratio="10" rot="R270"/>
+<attribute name="NAME" x="18.63705" y="17.8096" size="0.8128" layer="25" ratio="10" rot="R270"/>
 <attribute name="VALUE" x="2.75" y="25.123" size="1.778" layer="27" ratio="10"/>
 </element>
 <element name="C21" library="resistor" package="C0805" value="10uF" x="51.125" y="27.04" smashed="yes" rot="R270">
