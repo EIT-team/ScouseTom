@@ -70,6 +70,7 @@ end
 
 N_prt = size(ExpSetup.Protocol,1);
 N_freq= size(ExpSetup.Freq,1);
+N_shunt = size(ExpSetup.Protocol,2)/2;
 
 if (ExpSetup.StimulatorPulseWidth ==0 || ExpSetup.StimulatorTriggerOffset ==0 || ExpSetup.StimulatorTriggerTime ==0)
     Stimmode=0;
@@ -213,19 +214,23 @@ while (finished_sending ==0)
     
     %send sources
     for n=1:N_prt
-        okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Info.Protocol_Sent(n,1),['Source ' num2str(ExpSetup.Protocol(n,1))]);
-        if (~okflag)
-            finished_sending=1;
+        for s = 1:N_shunt
+            okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Info.Protocol_Sent(n,s),['Source ' num2str(ExpSetup.Protocol(n,s))]);
+            if (~okflag)
+                finished_sending=1;
             break
+            end
         end
     end
     
     %send sinks
     for n=1:N_prt
-        okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Info.Protocol_Sent(n,2),['Sink ' num2str(ExpSetup.Protocol(n,2))]);
-        if (~okflag)
-            finished_sending=1;
+        for s = N_shunt+1:N_shunt*2
+            okflag=ScouseTom_ard_sendnumconfim(Ard,ExpSetup.Info.Protocol_Sent(n,s),['Sink ' num2str(ExpSetup.Protocol(n,s))]);
+            if (~okflag)
+                finished_sending=1;
             break
+            end
         end
     end
     fprintf('Protocol OK, ');

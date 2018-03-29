@@ -20,10 +20,14 @@ dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.StimulatorWiperSetting)];
 
 
 for nn=1:ExpSetup.Info.ProtocolLength
-    dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.Protocol_Sent(nn,1))];
+    for s = 1:ExpSetup.Info.Shunt
+        dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.Protocol_Sent(nn,s))];
+    end
 end
 for nn=1:ExpSetup.Info.ProtocolLength
-    dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.Protocol_Sent(nn,2))];
+    for s = ExpSetup.Info.Shunt+1:ExpSetup.Info.Shunt*2
+        dbstring=[dbstring sprintf('<%d>',ExpSetup.Info.Protocol_Sent(nn,s))];
+    end
 end
 
 for nn=1:ExpSetup.Info.FreqNum

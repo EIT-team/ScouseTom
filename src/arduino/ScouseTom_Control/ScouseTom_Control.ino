@@ -56,7 +56,7 @@ int PC_commgoodness = 1;
 int PC_inputgoodness = 0;
 /*############ Injection Stuff  - consts in Injection.h ############*/
 
-int Injection[maxInjections][2] = { 0 }; //number of injections in protocol - max 200 to avoid dynamic memory allocation
+int Injection[maxInjections][ NumPrt ] = { 0 }; //number of injections in protocol - max 200 to avoid dynamic memory allocation
 int NumInj = 0; //number of injection pairs in protocol - set from PC comm
 int NumFreq = 0; // number of frequencies (and corresponding amplitudes) to use - set from PC comm
 int NumElec = 0; // number of electrodes used - this is used in contact check at the moment, but likely used for dual systems too
@@ -508,7 +508,8 @@ void dostuff()
 				Serial.print(" and ");
 				Serial.println(Injection[iPrt][1]);*/
 				///* debug trig */indpins_pulse(0, 0, 0, 2);
-				SetSwitchesFixed(); // if switches havent been programmed then do that based on iPrt and take a set amount of time
+				//SetSwitchesFixed(); // if switches havent been programmed then do that based on iPrt and take a set amount of time
+        SetSwitchesFixed_shunt();
 			}
 
 			if (FirstInj == 1) // if its the first time then switch straight away, otherwise check if the switch time has been met

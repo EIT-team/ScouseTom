@@ -24,9 +24,11 @@ int TotalPins = PinsPerBoard * NumBoard; // total number of pins available
 
 void SwitchChn();
 void SetSwitchesFixed();
+void SetSwitchesFixed_shunt();
 void SetSwitchesFixed_Contact();
 void SwitchChn_Contact() ;
 void programswitches(int sourcechn, int sinkchn, int maxpins);
+void programswitches_shunt(int injchn[], int maxpins);
 void SwitchesPwrOn();
 void SwitchesPwrOff();
 void shuffle(int *array, int n);

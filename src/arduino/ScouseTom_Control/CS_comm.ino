@@ -94,7 +94,8 @@ void CS_next_freq() // set up next frequency of injection
 		*/
 		StartTime_CS = micros();
 
-		programswitches(Injection[iPrt][0], Injection[iPrt][1], TotalPins); //programme the switches
+		//programswitches(Injection[iPrt][0], Injection[iPrt][1], TotalPins); //programme the switches
+    programswitches_shunt(Injection[iPrt], TotalPins);
 		SwitchChn(); // open switches to CS
 		//tsw = micros();
 

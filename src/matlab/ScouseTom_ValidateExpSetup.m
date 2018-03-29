@@ -263,10 +263,24 @@ end
 %% timing and protocol ones
 
 if size(ExpSetup.Protocol,2) ~= 2
-    warning('Weird protocol vector');
-    goodnessflag=0;
-    return
-end
+    
+        yesresp='YES! ';
+        noresp= 'NO!';
+        titlestr='We are in shunting mode!!';
+        promptstr='You want to be shunting right?';
+        resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
+        
+        if isempty(resp) %if user quits dialogue then save in default
+            warning('User didnt specify, gonna assume you want to shunt');
+        end
+        
+        if strcmp(resp,yesresp) == 1
+           
+        else
+            goodnessflag = 0;
+            return
+        end
+ end
 
 if max(max(ExpSetup.Protocol)) > ExpSetup.Elec_num
     warning('Number of electrodes lower than the maximum channel');
@@ -554,11 +568,13 @@ end
 %update the number of lines in protocol - this is different after
 %adjustment for bad elecs
 N_prt = size(ExpSetup.Protocol,1);
+N_shunt = size(ExpSetup.Protocol,2)/2;
 
 %user can edit ExpSetup on the Fly, so make sure ExpSetup.Info relates to
 %the ExpSetup as it ACTUALLY IS
 
 ExpSetup.Info.ProtocolLength=N_prt;
+ExpSetup.Info.Shunt = N_shunt;
 ExpSetup.Info.FreqNum=N_freq;
 ExpSetup.Info.ProtocolTime=sum(N_prt*(ExpSetup.MeasurementTime/1000)); %time in seconds for one complete protocol
 ExpSetup.Info.TotalTime=ExpSetup.Repeats*ExpSetup.Info.ProtocolTime;
