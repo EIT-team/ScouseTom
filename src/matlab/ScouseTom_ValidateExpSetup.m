@@ -49,10 +49,29 @@ else
 end
 
 
-
 %% get some info first
 
 goodnessflag=1;
+
+
+%Make sure user knows we are in 4 shunt mode
+yesresp='YES! ';
+noresp= 'NO!';
+titlestr='We are in shunting mode!!';
+promptstr='You want to be shunting right?';
+resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
+        
+if isempty(resp) %if user quits dialogue then save in default
+     warning('User didnt specify, gonna assume you want to shunt');
+end
+        
+if strcmp(resp,yesresp) == 1
+           
+else
+        goodnessflag = 0;
+    return
+end
+
 
 N_prt = size(ExpSetup.Protocol,1);
 N_freq= size(ExpSetup.Freq,1);
@@ -262,25 +281,11 @@ end
 
 %% timing and protocol ones
 
-if size(ExpSetup.Protocol,2) ~= 2
-    
-        yesresp='YES! ';
-        noresp= 'NO!';
-        titlestr='We are in shunting mode!!';
-        promptstr='You want to be shunting right?';
-        resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
-        
-        if isempty(resp) %if user quits dialogue then save in default
-            warning('User didnt specify, gonna assume you want to shunt');
-        end
-        
-        if strcmp(resp,yesresp) == 1
-           
-        else
-            goodnessflag = 0;
-            return
-        end
- end
+if size(ExpSetup.Protocol,2) ~= 8
+    warning('Number of electrodes per protocol line needs to be 8');
+    goodnessflag=0;
+	return 
+end
 
 if max(max(ExpSetup.Protocol)) > ExpSetup.Elec_num
     warning('Number of electrodes lower than the maximum channel');

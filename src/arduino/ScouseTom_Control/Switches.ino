@@ -195,16 +195,8 @@ void programswitches_shunt(int injchn[], int maxpins)
 
   //Define which are sources and which are sinks
   int sourcechn[ NumShunt ] = {injchn[0], injchn[1], injchn[2], injchn[3]};
-  Serial.println(sourcechn[0]);
-  Serial.println(sourcechn[1]);
-  Serial.println(sourcechn[2]);
-  Serial.println(sourcechn[3]);
   
   int sinkchn[ NumShunt ] = {injchn[4], injchn[5], injchn[6], injchn[7]};
-    Serial.println(sinkchn[0]);
-  Serial.println(sinkchn[1]);
-  Serial.println(sinkchn[2]);
-  Serial.println(sinkchn[3]);
   
   //current on due this takes 220 us - could be sped up significantly but digitalwritedirect was too fast for optocouplers/switches
   //Set SYNC low to enable programming of switches
@@ -220,6 +212,7 @@ void programswitches_shunt(int injchn[], int maxpins)
     {
       if (sourcechn[i] == j)  digitalWrite(DINp, HIGH);
       if (sinkchn[i] == j)  digitalWrite(DINn, HIGH);
+    }
       //Generate clock pulse to clock in switch values to DIN pins.
       digitalWrite(SCLK, HIGH);
       digitalWrite(SCLK, LOW);
@@ -227,7 +220,6 @@ void programswitches_shunt(int injchn[], int maxpins)
       digitalWriteDirect(DINp, LOW);
       digitalWriteDirect(DINn, LOW);
     }
-  }
 }
 
 

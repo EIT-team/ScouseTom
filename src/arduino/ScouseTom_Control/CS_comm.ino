@@ -222,12 +222,12 @@ int CS_sendsettings_check(long Amp, long Freq)
 		return goodnessflag;
 	}
 
-	sprintf(CS_outputBuffer, "SOUR:WAVE:AMPL %dE-6", Amp); //make amp setting string in microamps so have to use E-6
+	sprintf(CS_outputBuffer, "SOUR:WAVE:AMPL %dE-9", Amp); //make amp setting string in nanoamps so have to use E-9
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); //to pc for debug
 
 	CS_getresponse("SOUR:WAVE:AMPL?", CS_timeoutlimit); // check amp set ok
-	goodnessflag = CS_checkresponse_num(Amp, sc_micro); // amp in uA so set scale to sc_micro
+	goodnessflag = CS_checkresponse_num(Amp, sc_nano); // amp in uA so set scale to sc_micro
 
 	/*
 	if (goodnessflag == 0) // if bad comm then return and complain
@@ -253,13 +253,13 @@ void CS_sendsettings(long Amp, long Freq, boolean FreqFirst)
 		Serial1.println(CS_outputBuffer); // send to CS
 		//Serial.println(CS_outputBuffer); //to pc for debug
 
-		sprintf(CS_outputBuffer, "SOUR:WAVE:AMPL %dE-6", Amp); //make amp setting string in microamps so have to use E-6
+		sprintf(CS_outputBuffer, "SOUR:WAVE:AMPL %dE-9", Amp); //make amp setting string in nanoamps so have to use E-9
 		Serial1.println(CS_outputBuffer); // send to CS
 		//Serial.println(CS_outputBuffer); //to pc for debug
 	}
 	else
 	{
-		sprintf(CS_outputBuffer, "SOUR:WAVE:AMPL %dE-6", Amp); //make amp setting string in microamps so have to use E-6
+		sprintf(CS_outputBuffer, "SOUR:WAVE:AMPL %dE-9", Amp); //make amp setting string in nanoamps so have to use E-9
 		Serial1.println(CS_outputBuffer); // send to CS
 		//Serial.println(CS_outputBuffer); //to pc for debug
 
@@ -352,7 +352,7 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 
 void CS_Disp_single(long Amp, long Freq, int Rep, int Repeats) //display text for singlefreqmode
 {
-	sprintf(CS_outputBuffer, "DISP:WIND2:TEXT \"%duA:%dHz:Rep %d of %d\"", Amp, Freq, Rep, Repeats); //make string to send to CS
+	sprintf(CS_outputBuffer, "DISP:WIND2:TEXT \"%dnA:%dHz:Rep %d of %d\"", Amp, Freq, Rep, Repeats); //make string to send to CS
 	Serial1.println(CS_outputBuffer); // send to CS
 	//Serial.println(CS_outputBuffer); // debug to PC
 }
@@ -369,7 +369,7 @@ void CS_Disp_Contact(int Pair, int Elecs) //display text for singlefreqmode
 
 void CS_Disp_multi(long Amp, long Freq, int Fnum, int Ftot, int Pnum, int Ptot, int Rep, int Repeats)
 {
-	//sprintf(CS_outputBuffer, "DISP:WIND2:TEXT \"%duA:%dHz:Fr %d/%d:Pr %d/%d:Rp %d/%d\"", Amp, Freq, Fnum,Ftot,Pnum,Ptot, Rep, Repeats); //make string to send to CS
+	//sprintf(CS_outputBuffer, "DISP:WIND2:TEXT \"%dnA:%dHz:Fr %d/%d:Pr %d/%d:Rp %d/%d\"", Amp, Freq, Fnum,Ftot,Pnum,Ptot, Rep, Repeats); //make string to send to CS
 
 	if (LongDispWind) // if any of them are bigger than 3 characters long then shorten
 	{
@@ -710,22 +710,23 @@ boolean CS_SetRange()
 
 	if (RangeGoodness)
 	{
-		sprintf(CS_outputBuffer, "SOUR:CURR:RANG %dE-6", maxamp); //ask CS to set range based on highest amp
+		sprintf(CS_outputBuffer, "SOUR:CURR:RANG %dE-9", maxamp); //ask CS to set range based on highest amp
 		Serial1.println(CS_outputBuffer); // send to CS
 		//Serial.println(CS_outputBuffer); //to pc for debug
 
-		if (curRange > 2) //higher 2 values returned in milli
-		{
+//HERE IA A NANO HACK
+		//if (curRange > 2) //higher 2 values returned in milli
+		//{
 			//Serial.println("Doing milli");
-			CS_getresponse("SOUR:CURR:RANG?", CS_timeoutlimit); // check range 
-			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange] / 1000, sc_milli); //output is in mA for highest 2
-		}
-		else
-		{
+			//CS_getresponse("SOUR:CURR:RANG?", CS_timeoutlimit); // check range 
+			//RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange] / 1000, sc_milli); //output is in mA for highest 2
+		//}
+//		else
+		//{
 			//Serial.println("Doing micro");
 			CS_getresponse("SOUR:CURR:RANG?", CS_timeoutlimit); // check compliance is set ok set ok
-			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange], sc_micro); // output is in microA for lowest 2
-		}
+			RangeGoodness = CS_checkresponse_num(CurrentRanges[curRange], sc_nano); // output is in microA for lowest 2
+		//}
 
 	}
 
