@@ -57,8 +57,8 @@ goodnessflag=1;
 %Make sure user knows we are in 4 shunt mode
 yesresp='YES! ';
 noresp= 'NO!';
-titlestr='We are in shunting mode!!';
-promptstr='You want to be shunting right?';
+titlestr='2 electrode shunting mode!!';
+promptstr='You want to be shunting 2 electrodes right?';
 resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
         
 if isempty(resp) %if user quits dialogue then save in default
@@ -281,8 +281,8 @@ end
 
 %% timing and protocol ones
 
-if size(ExpSetup.Protocol,2) ~= 8
-    warning('Number of electrodes per protocol line needs to be 8');
+if size(ExpSetup.Protocol,2) ~= 4
+    warning('Number of electrodes per protocol line needs to be 4');
     goodnessflag=0;
 	return 
 end

@@ -194,9 +194,9 @@ void programswitches_shunt(int injchn[], int maxpins)
 {
 
   //Define which are sources and which are sinks
-  int sourcechn[ NumShunt ] = {injchn[0], injchn[1], injchn[2], injchn[3]};
+  int sourcechn[ NumShunt ] = {injchn[0], injchn[1]};
   
-  int sinkchn[ NumShunt ] = {injchn[4], injchn[5], injchn[6], injchn[7]};
+  int sinkchn[ NumShunt ] = {injchn[2], injchn[3]};
   
   //current on due this takes 220 us - could be sped up significantly but digitalwritedirect was too fast for optocouplers/switches
   //Set SYNC low to enable programming of switches
