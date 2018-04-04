@@ -57,8 +57,8 @@ goodnessflag=1;
 %Make sure user knows we are in 4 shunt mode
 yesresp='YES! ';
 noresp= 'NO!';
-titlestr='We are in shunting mode!!';
-promptstr='You want to be shunting right?';
+titlestr='4 shunting mode!!';
+promptstr='You want to be shunting 4 electrodes right?';
 resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
         
 if isempty(resp) %if user quits dialogue then save in default
