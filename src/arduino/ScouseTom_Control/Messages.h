@@ -12,7 +12,7 @@ String MSG_Init = "2 Shunt and Nano";
 String MSG_Init_2 = "Initialising...";
 
 //Idle messages
-String MSG_Idle = "4 Shunt Nano System Idle";
+String MSG_Idle = "2 Shunt Nano System Idle";
 String MSG_Idle_2 = "...";
 
 //Start Messages
