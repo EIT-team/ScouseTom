@@ -8,11 +8,11 @@ Wind2 represents the text for the smaller window at the bottom of the screen
 */
 
 //Initialisation messages during CS_init
-String MSG_Init = "4 Shunt and Nano";
+String MSG_Init = "8 Shunt and Nano";
 String MSG_Init_2 = "Initialising...";
 
 //Idle messages
-String MSG_Idle = "4 Shunt Nano System Idle";
+String MSG_Idle = "8 Shunt Nano System Idle";
 String MSG_Idle_2 = "...";
 
 //Start Messages
