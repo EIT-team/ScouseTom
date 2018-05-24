@@ -21,16 +21,16 @@ void stim_nextphase()
 	if (iStim == NumDelay) // reset counter if all of them are done
 	{
 		iStim = 0;
-		shuffle(temp_PhaseOrder, 180); //shuffle the phases again
-    for (int pair_idx = 1; pair_idx > 360; pair_idx++)
+		shuffle(Temp_PhaseOrder, 180); //shuffle the phases again
+    for (int n = 0; n > 360; n++)
     {
-      if (pair_idx % 2 == 0)
+      if (n % 2 == 0)
       {
-        Stim_PhaseOrder[pair_idx] = temp_PhaseOrder[pair_idx/2];
+        Stim_PhaseOrder[n] = Temp_PhaseOrder[n/2];
       }
-      if (pair_idx % 2 != 0)
+      if (n % 2 != 0)
       {
-        Stim_PhaseOrder[pair_idx] = temp_PhaseOrder[pair_idx-1] + 180;
+        Stim_PhaseOrder[n] = Temp_PhaseOrder[n-1] + 90;
       }
     }
 		PC_sendphaseupdate(); //send order to PC
@@ -81,16 +81,16 @@ int stim_init(long Freq) //initialise the stimulator trigger
 	//Serial.println(StimPulseWidthTicks);
 
 	stim_calcdelays(Freq); //calculate the delays for this frequency - 
-	shuffle(temp_PhaseOrder, 180); // randomise the order of the delays
-  for (int pair_idx = 1; pair_idx <= 360; pair_idx++)
+	shuffle(Temp_PhaseOrder, 180); // randomise the order of the delays
+  for (int n = 0; n <= 360; n++)
   {
-    if (pair_idx % 2 == 0)
+    if (n % 2 == 0)
     {
-      Stim_PhaseOrder[pair_idx] = temp_PhaseOrder[pair_idx/2];
+      Stim_PhaseOrder[n] = Temp_PhaseOrder[n/2];
     }
-    if (pair_idx % 2 != 0)
+    if (n % 2 != 0)
     {
-      Stim_PhaseOrder[pair_idx] = temp_PhaseOrder[pair_idx-1] + 180;
+      Stim_PhaseOrder[n] = Stim_PhaseOrder[n-1] + 90;
     }
   }
 	CS_PhaseMarker = stim_setpmark(Freq); //get the phasemarker phase 
@@ -172,7 +172,7 @@ void stim_calcdelays(long Freq) //calculate the possible delays for this freq
 
 	for (int n = 0; n < 180; n++) // populate phase order array
 	{
-		temp_PhaseOrder[n] = n;
+		Temp_PhaseOrder[n] = n;
 	}
 
 
