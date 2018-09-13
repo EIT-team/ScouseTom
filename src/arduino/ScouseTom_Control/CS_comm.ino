@@ -157,8 +157,14 @@ int CS_start() //start current injection
 	int goodnessflag = 1; //communication ok flag
 
 	//Serial.println("arming");
-	Serial1.println("SOUR:WAVE:ARM"); // put CS in "ARM" mode
 
+  Serial1.println("SOUR:WAVE:EXTR:ENAB ON");
+  Serial1.println("SOUR:WAVE:EXTR:ILIN 4");
+  Serial1.println("SOUR:WAVE:EXTR:IGN OFF");
+  Serial1.println("SOUR:WAVE:EXTR:IVAL 0.00");
+	Serial1.println("SOUR:WAVE:ARM"); // put CS in "ARM" mode
+  
+ 
 	/* not checking at the moment as its to slow ~30ms
 
 	CS_getresponse("SOUR:WAVE:ARM?"); //check it went ok
