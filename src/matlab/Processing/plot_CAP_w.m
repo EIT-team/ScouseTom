@@ -35,7 +35,7 @@ EEG=pop_loadbv;
  tau=100;
  size_bin=floor(tau*Fs/1000);
  
- Data= EEG.data';
+ Data= double(EEG.data');
  
  %Data=detrend(Data);
  
