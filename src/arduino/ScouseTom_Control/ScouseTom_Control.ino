@@ -383,7 +383,7 @@ void dostuff()
 	}
 	break;
 
-	case 1: // start injection state
+  case 1: // start injection state
 	{
 		//Serial.println("lets start injecting shall we?");
 
@@ -422,7 +422,7 @@ void dostuff()
 
 			curComplianceCheckOffset = SetComplianceOffset(curMeasTime);
 
-			state = 2; //move to injecting state next loop
+			//state = 2; //move to injecting state next loop
 			FirstInj = 1; // flag that we are on the first injection
 			SwitchesProgrammed = 0; // show that switches are not set
 
@@ -431,6 +431,7 @@ void dostuff()
 
 				CS_AutoRangeOn(); //set ranging to normal
 				CS_commgoodness = CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
+        CS_commgoodness = 1;
 				if (!CS_commgoodness)
 				{
 					state = 0; // dont start injection if things are fucked
@@ -446,9 +447,17 @@ void dostuff()
 					CS_Disp_Wind2(MSG_CS_SET_OK_2);
 					// turn on switches ready for injecting and that
 					SwitchesPwrOn();
+                
 
 					//Serial.println("Switches POWERED ON");
 					delay(50);
+          Serial1.println("SOUR:WAVE:ARM"); // put CS in "ARM" mode
+          Serial1.println("SOUR:WAVE:INIT"); //start current injection!
+
+          delay(50);
+
+          digitalWriteDirect(CS_EXTRA,HIGH);
+
 				}
 			}
 			else // we are in multifrequency mode and thus we need to set more stuff before we start injection
@@ -482,6 +491,7 @@ void dostuff()
 			checkidle = 1;
 		}
 	}
+ 
 	break;
 	case 2: //injection
 	{
@@ -525,7 +535,7 @@ void dostuff()
 
 				//start current source
 				StartTime_CS = micros();
-				CS_start();
+				//CS_start();
 				
 				///* debug trig */indpins_pulse(0, 0, 0, 1);
 
@@ -1252,7 +1262,7 @@ void getCMD(char CMDIN)
 	{
 		if (state == 0) // if the system is idle ONLY
 		{
-			state = 1;
+			state = 2;
 		}
 		break;
 	}
@@ -1297,7 +1307,14 @@ void getCMD(char CMDIN)
 		}
 		break;
 	}
-
+  case 'M': //start injection
+  {
+    if (state == 0) // if the system is idle ONLY
+    {
+      state = 1;
+    }
+    break;
+  }
 	default: // if not one of these commands then keep state the same
 		state = state; //a bit didactic but hey
 		break;

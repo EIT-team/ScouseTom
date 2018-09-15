@@ -308,8 +308,17 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 	// turn on phase marker as only need to do this once
 
 	Serial1.println("SOUR:WAVE:PMARK:STAT 1");
-
 	CS_getresponse("SOUR:WAVE:PMARK:STAT?", CS_timeoutlimit);
+
+  Serial1.println("SOUR:WAVE:PMARK:OLIN 3");
+  //CS_getresponse("SOUR:WAVE:PMARK:STAT?", CS_timeoutlimit);
+
+
+  //Set pin for external triggering
+  Serial1.println("SOUR:WAVE:EXTR:ENAB ON");
+  Serial.println("SOUR:WAVE:EXTR:ILIN 2");
+  
+ 
 	goodnessflag = CS_checkresponse("1");
 
 	if (goodnessflag == 0) // if bad comm then return and complain
@@ -318,7 +327,6 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 		return goodnessflag;
 	}
 
-	// Set wave type as we only need to do this once
 
 	Serial1.println("SOUR:WAVE:FUNC SIN");
 	CS_getresponse("SOUR:WAVE:FUNC?", CS_timeoutlimit);
