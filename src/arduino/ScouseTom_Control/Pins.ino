@@ -68,7 +68,7 @@ void reset_ind()
 	digitalWriteDirect(IND_EX_1, LOW);
 	digitalWriteDirect(IND_EX_2, LOW);
 	digitalWriteDirect(IND_EX_3, HIGH);
-  digitalWriteDirect(CS_EXTRA, LOW);
+  digitalWriteDirect(CS_EXTRA, HIGH);
 }
 
 

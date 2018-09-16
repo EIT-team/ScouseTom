@@ -68,6 +68,7 @@ long  Amp[maxFreqs] = { 0 }; //amplitude in uA - container for max 20
 long  Freq[maxFreqs] = { 0 }; //freq in Hz - contaier for max 20 set in
 long MeasTime[maxFreqs] = { 0 }; //injection time in microseconds - set by user (USER SELECTS MILLISECONDS BUT SCALED IN MICROSECONDS AS DUE IS FASTER)
 long curMeasTime = 0; // current measurement time changed by compliance check, or one of the MeasTime vars 
+long curInjTrig = 5000000; //Realign sine waves every 5s
 
 int FreqOrder[maxFreqs] = { 0 }; // order of the frequencies - initilised
 long curFreqIdx = 0; // index of frequency vector current being injected
@@ -164,6 +165,7 @@ long lastInjSwitch = 0; //time when channels were switched - SingleFreqMode
 long lastFreqSwitch = 0; //time when Freq was last changed - MultipleFreqMode
 long lastStimTrigger = 0; //time when stimulation trigger was last activated
 long currentMicros = 0; // current time in micros
+long lastCurrentTrig = 0; //time when phase of current was last aligned
 
 int iFreq = 0; //current frequency
 int iPrt = 0; //current protocol line
@@ -421,6 +423,7 @@ void dostuff()
 			//if measurement time is 10ms or less, there is not enough time to check the compliance (as it takes about 5ms), so set the check time higher than switch time so it never happens
 
 			curComplianceCheckOffset = SetComplianceOffset(curMeasTime);
+      
 
 			//state = 2; //move to injecting state next loop
 			FirstInj = 1; // flag that we are on the first injection
@@ -429,9 +432,9 @@ void dostuff()
 			if (SingleFreqMode) // see if we are in single freq mode and then set some of the settings that wont change
 			{
 
-				CS_AutoRangeOn(); //set ranging to normal
+				//CS_AutoRangeOn(); //set ranging to normal
 				CS_commgoodness = CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
-        CS_commgoodness = 1;
+      
 				if (!CS_commgoodness)
 				{
 					state = 0; // dont start injection if things are fucked
@@ -443,20 +446,27 @@ void dostuff()
 				{
 					// everything is ok - lets inject!
 					Serial.print(CS_commokmsg);
-					CS_Disp(MSG_CS_SET_OK);
-					CS_Disp_Wind2(MSG_CS_SET_OK_2);
+					//CS_Disp(MSG_CS_SET_OK);
+					//CS_Disp_Wind2(MSG_CS_SET_OK_2);
 					// turn on switches ready for injecting and that
 					SwitchesPwrOn();
                 
 
 					//Serial.println("Switches POWERED ON");
 					delay(50);
+          
           Serial1.println("SOUR:WAVE:ARM"); // put CS in "ARM" mode
           Serial1.println("SOUR:WAVE:INIT"); //start current injection!
 
-          delay(50);
+      //    delay(50);
 
-          digitalWriteDirect(CS_EXTRA,HIGH);
+//          digitalWriteDirect(CS_EXTRA,LOW);
+//          delay(10);
+//          digitalWriteDirect(CS_EXTRA, HIGH);
+
+        
+          state = 0;
+          checkidle = 1;
 
 				}
 			}
@@ -490,9 +500,22 @@ void dostuff()
 			state = 0;
 			checkidle = 1;
 		}
+   
 	}
  
 	break;
+
+  case 10:
+  {
+         delay(50);
+
+          digitalWriteDirect(CS_EXTRA,LOW);
+          delay(100);
+          digitalWriteDirect(CS_EXTRA, HIGH);
+          state = 0;
+          checkidle = 1;
+  }
+  break;
 	case 2: //injection
 	{
 		/* INJECTION!!! THIS IS THE MAIN EVENT FOLKS
@@ -552,7 +575,11 @@ void dostuff()
 				FirstInj = 0; // we dont want this to happen again
 				Switchflag = 1; //we also want to switch the channels right now
 
-
+         digitalWriteDirect(CS_EXTRA,LOW);
+         delay(10);
+        digitalWriteDirect(CS_EXTRA, HIGH);
+        lastCurrentTrig = micros();
+//        
 
 				if (StimMode) {
 					Stimflag = 1;
@@ -593,6 +620,15 @@ void dostuff()
 						/*sprintf(PC_outputBuffer, "Stim: %d", currentMicros - lastInjSwitch);
 						Serial.println(PC_outputBuffer);*/
 					}
+          else if ((currentMicros - lastCurrentTrig) > curInjTrig)
+         {
+
+           digitalWriteDirect(CS_EXTRA,LOW);
+          delay(10);
+          digitalWriteDirect(CS_EXTRA, HIGH);
+          lastCurrentTrig = micros();
+            
+         }
 					else if ((currentMicros - lastInjSwitch) > (curComplianceCheckOffset) && CompCheckFlag)
 					{
 						//check the compliance and do stuff based on the result
@@ -605,7 +641,7 @@ void dostuff()
 						CompCheckFlag = 0;
 
 					}
-
+        
 				}
 
 
@@ -634,9 +670,11 @@ void dostuff()
 				{
 
 					///* debug trig */indpins_pulse(0, 0, 0, 1);
-
 					SwitchChn(); // switch channel
 					StimOffsetCurrent = StimOffset; //reset the stimoffset as we are switching again
+          digitalWriteDirect(CS_EXTRA,LOW); //reset the current
+          delay(10);
+          digitalWriteDirect(CS_EXTRA, HIGH);
 				}
 
 				// indicator and stimulation things here too!!!!!!!
@@ -1315,6 +1353,15 @@ void getCMD(char CMDIN)
     }
     break;
   }
+
+    case 'G': //start injection
+  {
+    if (state == 0) // if the system is idle ONLY
+    {
+      state = 10;
+    }
+    break;
+  }
 	default: // if not one of these commands then keep state the same
 		state = state; //a bit didactic but hey
 		break;
@@ -1404,7 +1451,3 @@ inline void digitalWriteDirect(int pin, int val) {
 	if (val) g_APinDescription[pin].pPort->PIO_SODR = g_APinDescription[pin].ulPin;
 	else    g_APinDescription[pin].pPort->PIO_CODR = g_APinDescription[pin].ulPin;
 }
-
-
-
-

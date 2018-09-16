@@ -316,7 +316,8 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 
   //Set pin for external triggering
   Serial1.println("SOUR:WAVE:EXTR:ENAB ON");
-  Serial.println("SOUR:WAVE:EXTR:ILIN 2");
+  Serial1.println("SOUR:WAVE:EXTR:ILIN 2");
+  Serial1.println("SOUR:WAVE:EXTR:IGN OFF");
   
  
 	goodnessflag = CS_checkresponse("1");
@@ -354,6 +355,9 @@ int CS_init() // initialise current source - set sin and compliance and turn on 
 	goodnessflag = CS_SetCompliance(Compliance);
 
 	return goodnessflag;
+
+
+  CS_AutoRangeOn(); 
 }
 
 

@@ -15,17 +15,17 @@ CScommOKmsg='+OK';
 
 %% close ports if any already open
 
-if ~isempty(instrfind)
-    fclose(instrfind);
-end
+% if ~isempty(instrfind)
+%     fclose(instrfind);
+% end
 
 %% Initialise Arduino Serial Object
 
 % in case the arduino communication was opened already
-if exist('Ard','var')
-    close(Ard);
-    clear('Ard');
-end
+% if exist('Ard','var')
+%     close(Ard);
+%     clear('Ard');
+% end
 
 
 % Reset and Connect to Arduino

@@ -11,9 +11,9 @@ function [ Ard,goodnessflag ] = ScouseTom_ard_init( COMPORTSTR )
 %
 % written by the dissolute yet munificent Jimmy 2015
 
-if ~isempty(instrfind)
-    fclose(instrfind);
-end
+% if ~isempty(instrfind)
+%     fclose(instrfind);
+% end
 
 %arduino resets on opening serial port
 
