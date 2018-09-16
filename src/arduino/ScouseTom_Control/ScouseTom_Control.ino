@@ -575,11 +575,11 @@ void dostuff()
 				FirstInj = 0; // we dont want this to happen again
 				Switchflag = 1; //we also want to switch the channels right now
 
-         digitalWriteDirect(CS_EXTRA,LOW);
-         delay(10);
-        digitalWriteDirect(CS_EXTRA, HIGH);
-        lastCurrentTrig = micros();
-//        
+//         digitalWriteDirect(CS_EXTRA,LOW);
+          delay(10);
+//        digitalWriteDirect(CS_EXTRA, HIGH);
+//        lastCurrentTrig = micros();
+////        
 
 				if (StimMode) {
 					Stimflag = 1;
@@ -623,10 +623,10 @@ void dostuff()
           else if ((currentMicros - lastCurrentTrig) > curInjTrig)
          {
 
-           digitalWriteDirect(CS_EXTRA,LOW);
-          delay(10);
-          digitalWriteDirect(CS_EXTRA, HIGH);
-          lastCurrentTrig = micros();
+//           digitalWriteDirect(CS_EXTRA,LOW);
+            delay(10);
+//          digitalWriteDirect(CS_EXTRA, HIGH);
+//          lastCurrentTrig = micros();
             
          }
 					else if ((currentMicros - lastInjSwitch) > (curComplianceCheckOffset) && CompCheckFlag)
