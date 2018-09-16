@@ -234,47 +234,54 @@ int PC_getsettings()
 			int tmp_in = 0;
 
 			//get sources
-			for (int n = 0; n < NumInj; n++)
-			{
-				tmp_in = getasciinum();
-				sendasciinum(tmp_in);
-				if (tmp_in == -1)
-				{
-					Serial.print("<Source Bad>");
-					commgoodness = 0;
-					break;
-				}
-				Injection[n][0] = tmp_in;
-			}
+       for (int n = 0; n < NumInj; n++)
+         {
+          for (int m = 0; m < NumShunt; m++)
+  			{
+  				tmp_in = getasciinum();
+  				sendasciinum(tmp_in);
+  				if (tmp_in == -1)
+  				{
+  					Serial.print("<Source Bad>");
+  					commgoodness = 0;
+  					break;
+  				}
+  				Injection[n][m] = tmp_in;
+  			}
+  
+  			if (tmp_in == -1)
+  			{
+  				Serial.print("<Source Bad>");
+  				commgoodness = 0;
+  				break;
+  			}
+      }
 
-			if (tmp_in == -1)
-			{
-				Serial.print("<Source Bad>");
-				commgoodness = 0;
-				break;
-			}
 
 			//Serial.println("sourcesok");
 
 			//get sinks
-			for (int n = 0; n < NumInj; n++)
-			{
-				tmp_in = getasciinum();
-				sendasciinum(tmp_in);
-				if (tmp_in == -1)
-				{
-					Serial.print("<Sink Bad>");
-					commgoodness = 0;
-					break;
-				}
-				Injection[n][1] = tmp_in;
-			}
-			if (tmp_in == -1)
-			{
-				Serial.print("<Sink Bad>");
-				commgoodness = 0;
-				break;
-			}
+     for (int n = 0; n < NumInj; n++)
+       {
+  			for (int m = NumShunt; m < NumShunt*2; m++)
+  			{
+  				tmp_in = getasciinum();
+  				sendasciinum(tmp_in);
+  				if (tmp_in == -1)
+  				{
+  					Serial.print("<Sink Bad>");
+  					commgoodness = 0;
+  					break;
+  				}
+  				Injection[n][m] = tmp_in;
+  			}
+  			if (tmp_in == -1)
+  			{
+  				Serial.print("<Sink Bad>");
+  				commgoodness = 0;
+  				break;
+  			}
+     }
 
 			//Serial.println("sinksok");
 
@@ -461,14 +468,17 @@ int checkinputs()
 					Serial.println(IllegalChannels[i]);*/
 					
 					//if sourced or sink through bad one then return error
-					if (Injection[curinj][0] == IllegalChannels[i] || Injection[curinj][1] == IllegalChannels[i])
-					{
-						Serial.print("<IllegalChnProtLine");
-						Serial.print(curinj+1);
-						Serial.print(">");
-						inputok = 0;
-						break;
-					}
+          for (int j = 0; j < NumPrt; j++) //loop through all electrodes in one injection
+          {
+					  if (Injection[curinj][j] == IllegalChannels[i])
+  					{
+  						Serial.print("<IllegalChnProtLine");
+  						Serial.print(curinj+1);
+  						Serial.print(">");
+  						inputok = 0;
+  						break;
+  					}
+          }
 				}
 			}
 

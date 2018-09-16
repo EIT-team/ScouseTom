@@ -27,7 +27,8 @@ void init_pins()
 	pinMode(IND_EX_2, OUTPUT);
 	pinMode(IND_EX_3, OUTPUT);
 
-
+  //trigger for current start
+  pinMode(CS_EXTRA, OUTPUT);
 
 
 	//interupt channels
@@ -69,6 +70,7 @@ void reset_ind()
 	digitalWriteDirect(IND_EX_1, LOW);
 	digitalWriteDirect(IND_EX_2, LOW);
 	digitalWriteDirect(IND_EX_3, HIGH);
+  digitalWriteDirect(CS_EXTRA, HIGH);
 }
 
 

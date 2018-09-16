@@ -56,6 +56,24 @@ void SetSwitchesFixed()
 }
 
 
+
+void SetSwitchesFixed_shunt()
+{
+  /*Serial.print("Programming Switches:iPrt ");
+  Serial.println(iPrt);*/
+  //start programming timer
+  //tswprogstart = micros();
+  //set up switches
+  programswitches_shunt(Injection[iPrt],TotalPins);
+
+  SwitchesProgrammed = 1; //set flag to indicate the switches have been programmed
+  //tswprogend = micros();
+  //ensure the switching always takes same time SwitchTime
+  //delayMicroseconds(SwitchTimeFix - (tswprogend - tswprogstart));
+}
+
+
+
 void SetSwitchesFixed_Contact() //specifically for contact check
 {
 
@@ -169,6 +187,41 @@ void programswitches(int sourcechn, int sinkchn, int maxpins)
 		digitalWriteDirect(DINn, LOW);
 	}
 }
+
+
+//function to program switches so they are shunted
+void programswitches_shunt(int injchn[], int maxpins)
+{
+
+  //Define which are sources and which are sinks
+  int sourcechn[ NumShunt ] = {injchn[0], injchn[1], injchn[2], injchn[3]};
+  
+  int sinkchn[ NumShunt ] = {injchn[4], injchn[5], injchn[6], injchn[7]};
+  
+  //current on due this takes 220 us - could be sped up significantly but digitalwritedirect was too fast for optocouplers/switches
+  //Set SYNC low to enable programming of switches
+  digitalWrite(SYNC, LOW);
+  //Iterate 40 times, once for each switch. Turn on switches based on values in Injection[][]
+  //1st command sent is for switch 40, last is for switch 1.
+  //Switches correspond directly to pins on DSUB - switch 1 goes to pin 1 etc.
+  for (int j = maxpins; j > 0; j--) {
+    digitalWriteDirect(DINp, LOW);
+    digitalWriteDirect(DINn, LOW);
+
+    for (int i =0; i< NumShunt; i++)
+    {
+      if (sourcechn[i] == j)  digitalWrite(DINp, HIGH);
+      if (sinkchn[i] == j)  digitalWrite(DINn, HIGH);
+    }
+      //Generate clock pulse to clock in switch values to DIN pins.
+      digitalWrite(SCLK, HIGH);
+      digitalWrite(SCLK, LOW);
+      //Set low again
+      digitalWriteDirect(DINp, LOW);
+      digitalWriteDirect(DINn, LOW);
+    }
+}
+
 
 void SwitchesPwrOn()
 {

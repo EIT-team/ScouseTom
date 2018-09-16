@@ -17,16 +17,18 @@ long tswprogend = 0;
 long indtimerstart = 0; //vars for timing of indicator pin
 long indtimerend = 0;	//
 
-int NumBoard = 1; // number of Switching boards attached in daisy chain - starts at 1 for first call of Switch_init, then set by user
+int NumBoard = 2; // number of Switching boards attached in daisy chain - starts at 1 for first call of Switch_init, then set by user
 int TotalPins = PinsPerBoard * NumBoard; // total number of pins available 
 
 
 
 void SwitchChn();
 void SetSwitchesFixed();
+void SetSwitchesFixed_shunt();
 void SetSwitchesFixed_Contact();
 void SwitchChn_Contact() ;
 void programswitches(int sourcechn, int sinkchn, int maxpins);
+void programswitches_shunt(int injchn[], int maxpins);
 void SwitchesPwrOn();
 void SwitchesPwrOff();
 void shuffle(int *array, int n);
