@@ -1,4 +1,4 @@
-function [ Ard,ExpSetup, logfid, matlog ] = ScouseTom_StartFile( Ard,ExpSetup,NoPrompt)
+function [ Ard,ExpSetup, logfid, matlog ] = ScouseTom_StartFile_c( Ard,ExpSetup, prt_n,NoPrompt)
 %ScouseTom_Start Start injection with scoustom system
 %
 %   Script to start injection on the ScouseTom system. User must have run
@@ -96,8 +96,8 @@ else %set some defaults
 end
 
 %% create log file for this injection
-
-log_suffix='_log.txt';
+log_path = 'D:\Mayo';
+log_suffix=[num2str(prt_n) 'c_log.txt'];
 logfname=fullfile(logpath,[logstr log_suffix]);
 
 if RecordingData % increment log file name for non testing ones only
