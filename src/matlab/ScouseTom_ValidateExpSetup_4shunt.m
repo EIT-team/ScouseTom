@@ -55,22 +55,22 @@ goodnessflag=1;
 
 
 %Make sure user knows we are in 4 shunt mode
-yesresp='YES! ';
-noresp= 'NO!';
-titlestr='4 shunting mode!!';
-promptstr='You want to be shunting 4 electrodes right?';
-resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
-        
-if isempty(resp) %if user quits dialogue then save in default
-     warning('User didnt specify, gonna assume you want to shunt');
-end
-        
-if strcmp(resp,yesresp) == 1
-           
-else
-        goodnessflag = 0;
-    return
-end
+% yesresp='YES! ';
+% noresp= 'NO!';
+% titlestr='4 shunting mode!!';
+% promptstr='You want to be shunting 4 electrodes right?';
+% resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
+%         
+% if isempty(resp) %if user quits dialogue then save in default
+%      warning('User didnt specify, gonna assume you want to shunt');
+% end
+%         
+% if strcmp(resp,yesresp) == 1
+%            
+% else
+%         goodnessflag = 0;
+%     return
+% end
 
 
 N_prt = size(ExpSetup.Protocol,1);
@@ -386,7 +386,7 @@ if ExpSetup.Elec_num > ChnPerBoard
     
     %for each board, add the channels which are not connected to Dsub to
     %Bad Elec
-    
+  ProtAdjust = 1;  
     if isempty(ProtAdjust) %if user hasnt specified if we do this or not, ask
         
         % ask if user wants to change protocol
@@ -487,13 +487,13 @@ end
 
 ampok=checkIEC60601(ExpSetup.Amp,ExpSetup.Freq);
 
-if ampok
-    goodnessflag=1;
-else
-    warning('AMP AND FREQ TOO HIGH FOR HUMAN STUDIES! CARRYING ON ANYWAY...')
-    uiwait(msgbox('Exceeding IEC60601. Are you sure? Will carry on for now','Too high current?','warn','modal'));
-    goodnessflag=1;
-end
+% if ampok
+%     goodnessflag=1;
+% else
+%     warning('AMP AND FREQ TOO HIGH FOR HUMAN STUDIES! CARRYING ON ANYWAY...')
+%     uiwait(msgbox('Exceeding IEC60601. Are you sure? Will carry on for now','Too high current?','warn','modal'));
+%     goodnessflag=1;
+% end
 
 %% Check if we need to calculate more measurement times
 
