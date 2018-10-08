@@ -183,8 +183,8 @@ void setup() {
 	SwitchesPwrOn();
 
 	// setup CS connection
-	Serial1.begin(57600); // 57600 fastest baud that worked with AD chip - sparkfun connector may allow 115200 which would be nice
-	CS_commgoodness = CS_init(); // make sure CS is off asap
+//	Serial1.begin(57600); // 57600 fastest baud that worked with AD chip - sparkfun connector may allow 115200 which would be nice
+//	CS_commgoodness = CS_init(); // make sure CS is off asap
 
 
 	Wire.begin(); // start I2C
@@ -205,7 +205,7 @@ void setup() {
 	//number comes from here https://github.com/ivanseidel/DueTimer/blob/master/TimerCounter.md
 	//set timer interupts - this might possible conflict with servo library as I didnt check.....
 	pmc_set_writeprotect(false);		 // disable write protection for pmc registers
-	pmc_enable_periph_clk(ID_TC4);	 // enable peripheral clock TC4 this means T4 on TC1 channel 1  - this is the timer for the stim trigger output
+	pmc_enable_periph_clk(ID_TC4);	 // enable peripheral clock TC7 this means isntance T7 on TC2 channel 1  - this is the timer for the stim trigger output
 	pmc_enable_periph_clk(ID_TC8); // enable TC8 or instance T8 on timer TC2 channel 2 - this is the timer for indicator pins
 	//pmc_enable_periph_clk(ID_TC6); // enable TC6 or instance T6 on timer TC2 channel 0 - this is the timer for the fake pmark
 
@@ -252,29 +252,29 @@ void setup() {
 
 	// initialise current source again and check the phase marker connection
 
-	CS_commgoodness = CS_init();
+//	CS_commgoodness = CS_init();
 
 	//Serial.print("init done");
 
-	if (CS_commgoodness)
-	{
-		// check phase marker if current source connection ok
-		CS_Pmarkgoodness = CheckPmark();
-
-		if (CS_Pmarkgoodness)
-		{
+//	if (CS_commgoodness)
+//	{
+//		// check phase marker if current source connection ok
+//		CS_Pmarkgoodness = CheckPmark();
+//
+//		if (CS_Pmarkgoodness)
+//		{
 			Serial.print(CS_commokmsg); // everything is totally fine!
-		}
-		else
-		{
-			Serial.print(CS_pmarkerrmsg);
-		}
-	}
+//		}
+//		else
+//		{
+//			Serial.print(CS_pmarkerrmsg);
+//		}
+//	}
 
-	else
-	{
-		Serial.print(CS_commerrmsg);
-	}
+//	else
+//	{
+//		Serial.print(CS_commerrmsg);
+//	}
 
 
 	/*#############Switch INIT#############*/
@@ -374,8 +374,8 @@ void dostuff()
 			long currentmillis = millis();
 			if ((currentmillis - lastidle) > idlewait)
 			{
-				CS_Disp(MSG_Idle);
-				CS_Disp_Wind2(MSG_Idle_2);
+//				CS_Disp(MSG_Idle);
+//				CS_Disp_Wind2(MSG_Idle_2);
 				checkidle = 1;
 				//here is where the pmc_enable_sleep_mode stuff would go
 			}
@@ -389,12 +389,12 @@ void dostuff()
 
 		if (PC_inputgoodness && CS_commgoodness) // only do anything if settings are ok
 		{
-			CS_Disp(MSG_Start);
-			CS_Disp_Wind2(MSG_Start_2);
+			//CS_Disp(MSG_Start);
+			//CS_Disp_Wind2(MSG_Start_2);
 
 
 			//remove anything left from the current source buffer - we dont care about it anymore!
-			CS_serialFlush();
+			//CS_serialFlush();
 
 
 			Serial.print(CS_commokmsg); // send ok msg to pc
@@ -429,21 +429,22 @@ void dostuff()
 			if (SingleFreqMode) // see if we are in single freq mode and then set some of the settings that wont change
 			{
 
-				CS_AutoRangeOn(); //set ranging to normal
-				CS_commgoodness = CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
+		//		CS_AutoRangeOn(); //set ranging to normal
+		//		CS_commgoodness = CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
+      CS_commgoodness =1;
 				if (!CS_commgoodness)
 				{
 					state = 0; // dont start injection if things are fucked
 					Serial.print(CS_commerrmsg);
-					CS_Disp(MSG_CS_SET_ERR);
-					CS_Disp_Wind2(MSG_CS_SET_ERR_2);
+					//CS_Disp(MSG_CS_SET_ERR);
+					//CS_Disp_Wind2(MSG_CS_SET_ERR_2);
 				}
 				else
 				{
 					// everything is ok - lets inject!
 					Serial.print(CS_commokmsg);
-					CS_Disp(MSG_CS_SET_OK);
-					CS_Disp_Wind2(MSG_CS_SET_OK_2);
+					//CS_Disp(MSG_CS_SET_OK);
+					//CS_Disp_Wind2(MSG_CS_SET_OK_2);
 					// turn on switches ready for injecting and that
 					SwitchesPwrOn();
 
@@ -454,15 +455,15 @@ void dostuff()
 			else // we are in multifrequency mode and thus we need to set more stuff before we start injection
 			{
 
-				boolean AutoOffOK = CS_AutoRangeOff(); //set ranging to off
-				boolean RangeSetOK = CS_SetRange(); // set range to max required
+				boolean AutoOffOK = 1; //CS_AutoRangeOff(); //set ranging to off
+				boolean RangeSetOK = 1; //CS_SetRange(); // set range to max required
 
 				if (!(AutoOffOK && RangeSetOK))
 				{
 					state = 0;
 					Serial.print(CS_commerrmsg);
-					CS_Disp(MSG_CS_SET_ERR);
-					CS_Disp_Wind2(MSG_CS_SET_ERR_2);
+			//		CS_Disp(MSG_CS_SET_ERR);
+			//		CS_Disp_Wind2(MSG_CS_SET_ERR_2);
 				}
 
 			}
@@ -525,13 +526,13 @@ void dostuff()
 
 				//start current source
 				StartTime_CS = micros();
-				CS_start();
+		//		CS_start();
 				
 				///* debug trig */indpins_pulse(0, 0, 0, 1);
 
 				//display some stuff on the front
-				CS_Disp(MSG_SYS_RUN);
-				CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, curNumRep);
+			//	CS_Disp(MSG_SYS_RUN);
+			//	CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, curNumRep);
 
 				indpins_pulse(1, 0, 0, 0); //send start pulse to indicators
 
@@ -633,7 +634,7 @@ void dostuff()
 
 				if (iPrt == 1 && iRep > 0 && iRep < curNumRep) // if we have a new thing to display then update
 				{
-					CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, curNumRep);
+					//CS_Disp_single(Amp[iFreq], Freq[iFreq], iRep, curNumRep);
 
 					PC_sendupdate(); // send info to PC
 					CompProcessMulti();// send compliance status to PC
@@ -739,7 +740,7 @@ void dostuff()
 
 	case 3: // stop injection state
 	{
-		CS_stop(); //stop current source
+		//CS_stop(); //stop current source
 		stim_stop(); //stop stimulation
 		Stim_SetDigipot(StimOffValue); // set stim voltage low again
 		SwitchesPwrOff(); // turn off switch network
@@ -748,10 +749,10 @@ void dostuff()
 		indpins_pulse(0, 1, 0, 0); // indicate injection has stopped
 
 		//front panel stuff
-		CS_Disp(MSG_SYS_STOP);
-		CS_Disp_Wind2(MSG_SYS_STOP_2);
+		//CS_Disp(MSG_SYS_STOP);
+		//CS_Disp_Wind2(MSG_SYS_STOP_2);
 
-		//Serial.println("Stopping injection");
+		Serial.println("Stopping injection");
 		//Serial.print(CS_finishedmsg);
 
 		reset_pins(); //over the top but reset all of the switches again
@@ -772,17 +773,17 @@ void dostuff()
 		}
 
 		//front panel stuff
-		CS_Disp(MSG_SYS_STOP);
-		CS_Disp_Wind2(MSG_SYS_STOP_2);
+		//CS_Disp(MSG_SYS_STOP);
+		//CS_Disp_Wind2(MSG_SYS_STOP_2);
 
 		//Serial.println("Stopping injection");
 		Serial.print(CS_finishedmsg);
 
 		//remove anything left from the current source buffer - we dont care about it anymore!
-		CS_serialFlush();
+		//CS_serialFlush();
 
 		//put the range stuff back to normal - in case we changed it doing multifreq
-		CS_AutoRangeOn();
+		//CS_AutoRangeOn();
 	}
 
 	break;
@@ -791,8 +792,8 @@ void dostuff()
 	{
 		if (PC_inputgoodness && CS_commgoodness) // only do anything if settings are ok
 		{
-			CS_Disp(MSG_CONTACT_CHECK_RUN);
-			CS_Disp_Wind2(MSG_CONTACT_CHECK_RUN_2);
+			//CS_Disp(MSG_CONTACT_CHECK_RUN);
+			//CS_Disp_Wind2(MSG_CONTACT_CHECK_RUN_2);
 
 			Serial.print(CS_commokmsg); // send ok msg to pc
 
@@ -813,9 +814,9 @@ void dostuff()
 
 			curComplianceCheckOffset = ContactTime / 2;
 
-			CS_AutoRangeOn(); //set ranging to normal
+			//CS_AutoRangeOn(); //set ranging to normal
 
-			CS_commgoodness = CS_sendsettings_check(ContactAmp, ContactFreq); // send settings to current source
+			CS_commgoodness = 1;// CS_sendsettings_check(ContactAmp, ContactFreq); // send settings to current source
 
 			/* do this in the first iteration of the inject state - so the communication order the is the same!
 			if (StimMode && CS_commgoodness) // initialise stimulator trigger if we are in stim mode
@@ -828,14 +829,14 @@ void dostuff()
 			{
 				state = 0; // dont start injection if things are fucked
 				Serial.print(CS_commerrmsg);
-				CS_Disp(MSG_CS_SET_ERR);
-				CS_Disp_Wind2(MSG_CS_SET_ERR_2);
+				//CS_Disp(MSG_CS_SET_ERR);
+				//CS_Disp_Wind2(MSG_CS_SET_ERR_2);
 			}
 			else
 			{
 				Serial.print(CS_commokmsg);
-				CS_Disp(MSG_CS_SET_OK);
-				CS_Disp_Wind2(MSG_CS_SET_OK_2);
+				//CS_Disp(MSG_CS_SET_OK);
+				//CS_Disp_Wind2(MSG_CS_SET_OK_2);
 
 				SwitchesPwrOn(); //turn on switches
 				delay(50); // cant remember what this delay is for!
@@ -854,8 +855,8 @@ void dostuff()
 	{
 		//do the CS init again
 		//Serial.println("initialising");
-		CS_commgoodness = 0;
-		CS_commgoodness = CS_init();
+		CS_commgoodness = 1;
+		//CS_commgoodness = CS_init();
 
 		if (CS_commgoodness)
 		{
@@ -865,12 +866,12 @@ void dostuff()
 		{
 			Serial.print(CS_commerrmsg);
 		}
-		CS_Disp(MSG_SET_READ);
-		CS_Disp_Wind2(MSG_SET_READ_2);
+		//CS_Disp(MSG_SET_READ);
+		//CS_Disp_Wind2(MSG_SET_READ_2);
 
 
 		//remove anything left from the current source buffer - we dont care about it anymore!
-		CS_serialFlush();
+		//CS_serialFlush();
 
 
 		//get settings from PC
@@ -880,15 +881,15 @@ void dostuff()
 		if (PC_commgoodness)
 		{
 			Serial.print(CS_commokmsg);
-			CS_Disp(MSG_SET_READ_OK);
-			CS_Disp_Wind2(MSG_SET_READ_OK_2);
+			//CS_Disp(MSG_SET_READ_OK);
+			//CS_Disp_Wind2(MSG_SET_READ_OK_2);
 		}
 		else
 		{
 			//Serial.println(CS_settingserrmsg);
 			Serial.print(CS_commerrmsg);
-			CS_Disp(MSG_SET_READ_ERR);
-			CS_Disp_Wind2(MSG_SET_READ_ERR_2);
+			//CS_Disp(MSG_SET_READ_ERR);
+			//CS_Disp_Wind2(MSG_SET_READ_ERR_2);
 		}
 
 		/*check settings are ok - all sent to CS with verification ONCE
@@ -898,29 +899,29 @@ void dostuff()
 		if (PC_commgoodness)
 		{
 			//Serial.println("checking inputs");
-			PC_inputgoodness = checkinputs(); // check inputs
+			PC_inputgoodness = 1; //checkinputs(); // check inputs
 
 			if (!PC_inputgoodness) // moan if its not ok
 			{
 				//Serial.println("INPUT CHECK FAILED");
 				Serial.print(CS_settingserrmsg);
-				CS_Disp(MSG_SET_ERR);
-				CS_Disp_Wind2(MSG_SET_ERR_2);
+				//CS_Disp(MSG_SET_ERR);
+				//CS_Disp_Wind2(MSG_SET_ERR_2);
 			}
 			else
 			{
-				PC_inputgoodness = CS_SetRange();
+				PC_inputgoodness = 1; //CS_SetRange();
 
 				if (PC_inputgoodness)
 				{
 					Serial.print(CS_commokmsg);
-					CS_Disp(MSG_SET_CHK_OK);
-					CS_Disp_Wind2(MSG_SET_CHK_OK_2);
+					//CS_Disp(MSG_SET_CHK_OK);
+					//CS_Disp_Wind2(MSG_SET_CHK_OK_2);
 				}
 				else
 				{
-					CS_Disp(MSG_RNG_ERR);
-					CS_Disp_Wind2(MSG_RNG_ERR_2);
+					//CS_Disp(MSG_RNG_ERR);
+					//CS_Disp_Wind2(MSG_RNG_ERR_2);
 				}
 			}
 
@@ -975,10 +976,10 @@ void dostuff()
 			StartTime_CS = micros();
 
 			//start current source
-			CS_start();
+			//CS_start();
 			//display some stuff on the front
-			CS_Disp(MSG_CONTANT_CHECK_START);
-			CS_Disp_Contact(iContact, NumElec);
+			//CS_Disp(MSG_CONTANT_CHECK_START);
+			//CS_Disp_Contact(iContact, NumElec);
 
 			indpins_pulse(2, 0, 0, 0); //two pulses for indicating contact check
 			//indpins_pulse(0, 0, 3, 0); // compatible with OLD CODE ONLY
@@ -1175,7 +1176,7 @@ void dostuff()
 
 			bool compsetok = 0;
 
-			compsetok = CS_SetCompliance(curCompliance);
+			compsetok = 1; //CS_SetCompliance(curCompliance);
 
 			if (!compsetok)
 			{
@@ -1185,7 +1186,7 @@ void dostuff()
 			/*Serial.print("setting Freq to: ");
 			Serial.println(Freq[iFreq]);
 			*/
-			CS_commgoodness = CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
+			CS_commgoodness = 1;//CS_sendsettings_check(Amp[iFreq], Freq[iFreq]); // send settings to current source
 
 
 
@@ -1313,15 +1314,15 @@ void TC4_Handler() //this is the ISR for the 667kHz timer - runs every 1.5 uS - 
 	if (Stim_goflag) //if we should go
 	{
 		//StiminterruptCtr++; //increment intrctr
-		if (!Stim_pinstate && StiminterruptCtr >= d1) // check if timer is up and pulse still low
+		if (Stim_pinstate && StiminterruptCtr >= d1) // check if timer is up and pulse still low
 		{
-			digitalWriteDirect(IND_STIM, 1); //write pin high
+			digitalWriteDirect(IND_STIM, 0); //write pin high
 			Stim_pinstate = !Stim_pinstate;
 		}
-		else if (Stim_pinstate && StiminterruptCtr >= d2)
+		else if (!Stim_pinstate && StiminterruptCtr >= d2)
 		{
 
-			digitalWriteDirect(IND_STIM, 0); //write pin low
+			digitalWriteDirect(IND_STIM, 1); //write pin low
 			Stim_pinstate = !Stim_pinstate;
 
 			Stim_goflag = 0; //stop it from happening again

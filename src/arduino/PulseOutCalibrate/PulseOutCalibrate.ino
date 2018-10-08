@@ -23,7 +23,6 @@ Serial output -1 when finished, which should stop the VI running too
 
 */
 
-#include "PCBPins.h" // Pins for PCB version - these have been altered to more logical layout for PCB
 
 #include <Wire.h>
 
@@ -31,6 +30,10 @@ int currentval = 0;
 
 int hightime = 220; // time of pulse high - 200 ms sampled in LV - a bit higher to ensure only HIGH value recorded
 int lowtime = 100; // time pulse low 
+
+int stimpin = 24; // this is the pin used for stimulation IND_STIM
+int PWR_STIM = 52; //power on pin
+
 int pulsedelay = 500;// delay between each setting of the digipot
 int serialdelay = 500; // delay between sending potentiometer value and setting pin high - this is to give time for labview to get its shit together. VI is inefficient as cant do proper retriggering
 
@@ -51,8 +54,8 @@ void setup()
 	digitalWrite(PWR_STIM, HIGH);    // turn the LED off by making the voltage LOW
 
 
-	pinMode(IND_STIM, OUTPUT);
-	digitalWrite(IND_STIM, LOW);    // turn the LED off by making the voltage LOW
+	pinMode(stimpin, OUTPUT);
+	digitalWrite(stimpin, LOW);    // turn the LED off by making the voltage LOW
 
 	// wait for PC to be ready 
 	establishContact();
@@ -74,10 +77,10 @@ void setup()
 	}
 
 
-	digitalWrite(IND_STIM, LOW);
+	digitalWrite(stimpin, LOW);
 	DigipotSetR(MinVal); // reset as I think 256 causes some weirdness
 	Serial.println("-1");
-	digitalWrite(IND_STIM, LOW);
+	digitalWrite(PWR_STIM, LOW);
 
 
 }
@@ -112,9 +115,9 @@ void pulsestim(int rep)
 
 	for (int i = 0; i < rep; i++)
 	{
-		digitalWrite(IND_STIM, HIGH);   // turn the LED on (HIGH is the voltage level)
+		digitalWrite(stimpin, HIGH);   // turn the LED on (HIGH is the voltage level)
 		delay(hightime);              // wait for a second
-		digitalWrite(IND_STIM, LOW);    // turn the LED off by making the voltage LOW
+		digitalWrite(stimpin, LOW);    // turn the LED off by making the voltage LOW
 		delay(lowtime);              // wait for a second
 
 	}

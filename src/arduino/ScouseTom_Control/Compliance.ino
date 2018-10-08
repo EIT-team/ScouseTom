@@ -85,7 +85,7 @@ void CompProcessSingle(int ProtocolLine)
 
 	boolean CompStatus = 0;
 
-	CompStatus = CS_CheckCompliance();
+	CompStatus = 1; //CS_CheckCompliance();
 
 	//only write the new value if the old value was low - this makes no difference if its in singlefreqmode
 	//but in multifreq mode this means that if one freq is bad it keeps that bad value until it is sent at the end of the protocol
@@ -159,7 +159,7 @@ void ResetAfterCompliance()
 	ComplianceCheckMode = 0;
 	iCompCheck = 0;
 	iCompCheckFreq = 0;
-	CS_SetCompliance(Compliance);
+	//CS_SetCompliance(Compliance);
 }
 
 

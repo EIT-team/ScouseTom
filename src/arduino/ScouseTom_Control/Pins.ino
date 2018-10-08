@@ -62,7 +62,7 @@ void reset_ind()
 {
 	//reset all indicator pins 
 	digitalWriteDirect(IND_SWITCH, LOW);
-	digitalWriteDirect(IND_STIM, LOW);
+	digitalWriteDirect(IND_STIM, HIGH);
 	digitalWriteDirect(IND_FREQ, LOW);
 	digitalWriteDirect(IND_START, LOW);
 	digitalWriteDirect(IND_STOP, LOW);

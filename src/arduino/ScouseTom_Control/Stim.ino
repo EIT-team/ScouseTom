@@ -10,9 +10,13 @@ void stim_nextphase()
 	//StiminterruptCtr = 0;
 
 	//Serial.println("attaching ISR");
-	attachInterrupt(INTR_PMARK, ISR_PMARK, FALLING); // attach the interupt to the pmark pin - turning on and off in this way prevents errors with pmarks happening during stimulation
+	//attachInterrupt(INTR_PMARK, ISR_PMARK, FALLING); // attach the interupt to the pmark pin - turning on and off in this way prevents errors with pmarks happening during stimulation
+    Stim_goflag = 1; // set flag for the TC7 Handler
+    Stim_ready = 0; //no more stims till time has elapsed
+    
 	//Serial.println("attached");
 	TC_Start(TC1, 1); // start the timer ISR for the stim trigger
+  delay(1);
 	Stim_ready = 1; // set flag so ISR_PMARK starts the stim going when pmark happens
 	lastStimTrigger = currentMicros; //record time we last did one 
 
@@ -22,7 +26,7 @@ void stim_nextphase()
 	{
 		iStim = 0;
 		shuffle(Stim_PhaseOrder, NumDelay); //shuffle the phases again
-		PC_sendphaseupdate(); //send order to PC
+		//PC_sendphaseupdate(); //send order to PC
 		//Serial.println("shuffled phases");
 	}
 
@@ -40,7 +44,7 @@ void ISR_PMARK() // this ISR runs when pmark detected
 
 		Stim_goflag = 1; // set flag for the TC7 Handler
 		Stim_ready = 0; //no more stims till time has elapsed
-		detachInterrupt(INTR_PMARK); //remove this interupt as we want to ignore it during stimulation
+//		detachInterrupt(INTR_PMARK); //remove this interupt as we want to ignore it during stimulation
 	}
 }
 
@@ -74,13 +78,13 @@ int stim_init(long Freq) //initialise the stimulator trigger
 
 	CS_PhaseMarker = stim_setpmark(Freq); //get the phasemarker phase 
 
-	sprintf(CS_outputBuffer, "SOUR:WAVE:PMARK:LEV %d", CS_PhaseMarker); //make string to send to CS
-	Serial1.println(CS_outputBuffer); // send to CS
+	//sprintf(CS_outputBuffer, "SOUR:WAVE:PMARK:LEV %d", CS_PhaseMarker); //make string to send to CS
+	//Serial1.println(CS_outputBuffer); // send to CS
 
 	int goodnessflag = 0;
 
-	CS_getresponse("SOUR:WAVE:PMARK:LEV?", CS_timeoutlimit);
-	goodnessflag = CS_checkresponse_num(CS_PhaseMarker, 1);
+	//CS_getresponse("SOUR:WAVE:PMARK:LEV?", CS_timeoutlimit);
+	goodnessflag = 1; //CS_checkresponse_num(CS_PhaseMarker, 1);
 
 	if (goodnessflag == 0) // if bad comm then return and complain
 	{
@@ -103,7 +107,7 @@ int stim_init(long Freq) //initialise the stimulator trigger
 void stim_stop()
 {
 	//stop all interupts and timers
-	detachInterrupt(INTR_PMARK);
+//	detachInterrupt(INTR_PMARK);
 	TC_Stop(TC1, 1);
 
 	//Stim_SetDigipot(StimOffValue); // set stim voltage low again
@@ -216,30 +220,31 @@ int CheckPmark()
 	PMARK_TEST_FLAG = 0;
 	int CheckOK = 0;
 
-	CS_sendsettings(1, 10000,1); // send settings to current source
+	//CS_sendsettings(1, 10000,1); // send settings to current source
 	//Serial.println("starting pmark check");
 
-	CS_start();
+	//CS_start();
 
-	attachInterrupt(INTR_PMARK, ISR_PMARK_TEST, FALLING); // attach the interupt to the pmark pin -
-
+	//attachInterrupt(INTR_PMARK, ISR_PMARK_TEST, FALLING); // attach the interupt to the pmark pin -
+    Stim_goflag = 1; // set flag for the TC7 Handler
+    Stim_ready = 0; //no more stims till time has elapsed
 	delay(100);
 
-	detachInterrupt(INTR_PMARK);
-	CS_stop();
+	//detachInterrupt(INTR_PMARK);
+	//CS_stop();
 	//Serial.println("pmark check done");
 
 
-	if (PMARK_TEST_FLAG > 50)
-	{
+//	if (PMARK_TEST_FLAG > 50)
+//	{
 		CheckOK = 1;
 		//Serial.println("pmark ok");
-	}
-	else
-	{
-		CheckOK = 0;
+//	}
+//	else
+//	{
+//		CheckOK = 0;
 		//Serial.println("pmark bad");
-	}
+//	}
 
 	return CheckOK;
 }

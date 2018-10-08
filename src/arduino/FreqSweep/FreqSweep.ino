@@ -13,7 +13,7 @@ long Amplitude = 100; // amplitude in uA to inject
 const int NumFreq = 20; // number of frequencies to check
 int Freq[NumFreq] = { 500  ,1000  ,1500  ,2000  ,2500  ,3000  ,3500  ,4000  ,4500  ,5000  ,5500  ,6000  ,6500  ,7000  ,7500  ,8000  ,8500  ,9000  ,9500,  10000 };
 
-int Injection_pair[2] = { 2,4 }; // which electrodes the current is injected between
+int Injection_pair[2] = { 1,10 }; // which electrodes the current is injected between
 
 int InjectionTime = 5000; // injection time in ms
 

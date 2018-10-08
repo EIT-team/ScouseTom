@@ -407,7 +407,7 @@ int checkinputs()
 	while (finished == 0) //again stupid way of doing it
 	{
 
-		boolean compsetok = CS_SetCompliance(Compliance);
+		boolean compsetok = 1; //CS_SetCompliance(Compliance);
 
 		if (!compsetok)
 		{
