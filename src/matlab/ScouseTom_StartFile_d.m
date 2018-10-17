@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 function [ Ard,ExpSetup, logfid, matlog ] = ScouseTom_StartFile_d( Ard,ExpSetup,iPrt,Stim,NoPrompt)
+=======
+function [ Ard,ExpSetup, logfid, matlog ] = ScouseTom_StartFile_d( Ard,ExpSetup, prt_n,NoPrompt)
+>>>>>>> 0723cf7aea2e98c4d2199748989648ca7781c66b
 %ScouseTom_Start Start injection with scoustom system
 %
 %   Script to start injection on the ScouseTom system. User must have run
@@ -46,6 +50,7 @@ end
 
 RecordingData=0; %should we look for a file?
 
+<<<<<<< HEAD
 % if ~NoPrompt
 %     % ask if user wants to change protocol
 %     yesresp='YES, it is, honest';
@@ -69,6 +74,31 @@ RecordingData=0; %should we look for a file?
 %     end
 %     
 % end
+=======
+if ~NoPrompt
+    % ask if user wants to change protocol
+    yesresp='YES, it is, honest';
+    noresp='NO! Im testing leave me alone';
+    titlestr='Where is your eeg data being saved?';
+    promptstr=sprintf('EEG SYSTEM SHOULD BE READY TO SAVE NOW - FOR REALS\n You will have to point to the file');
+    resp=questdlg(promptstr,titlestr,yesresp,noresp,yesresp);
+    
+    if isempty(resp) %if user quits dialogue then save in default
+        warning('User didnt say if testing, taking this to mean they ARE testing and dont want to save');
+        RecordingData=0;
+    end
+    
+    
+    if strcmp(resp,yesresp) == 1
+        %     disp('User is ready to record - will need confirmation');
+        RecordingData=1;
+    else
+        %     disp('User is testing, will save log in working directory instead');
+        %might want to set so that it doesnt save at all...
+    end
+    
+end
+>>>>>>> 0723cf7aea2e98c4d2199748989648ca7781c66b
 
 if RecordingData % if we are saving then look for the eeg file to save everything
     
@@ -117,6 +147,7 @@ else
     end
 end
 
+<<<<<<< HEAD
 logpath = 'C:\Users\KAMPFF-LAB-EIT\EIT\Rat_053\Both_All';
 log_suffix='_log.txt';
 if Stim == 0
@@ -124,6 +155,12 @@ logstr = ['depth_no_stim_prt' num2str(iPrt)];
 else
     logstr = ['depth_stim_prt' num2str(iPrt)];
 end
+=======
+
+log_path = 'D:\Mayo';
+logstr=['prt' num2str(prt_n)];
+log_suffix=[num2str(prt_n) 'd_log.txt'];
+>>>>>>> 0723cf7aea2e98c4d2199748989648ca7781c66b
 logfname=fullfile(logpath,[logstr log_suffix]);
 
 %open log file and make header

@@ -96,6 +96,7 @@ else %set some defaults
 end
 
 %% create log file for this injection
+
 log_suffix='_log.txt';
 logfname=fullfile(logpath,[logstr log_suffix]);
 
