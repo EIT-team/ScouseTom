@@ -122,7 +122,7 @@ int Stim_ready = 0; // are we ready to stimulate again? this is so we ignore pha
 int CS_PhaseMarker = 0; // phase in degrees which phase marker occurs on the current source - set so that delay of 0 in stim routine occurs at ~0 phase
 int PMARK_TEST_FLAG = 0; // flag used in PMARK check routines - this is set high by ISR_PMARK_TEST if all working ok
 int CS_Pmarkgoodness = 0; // flag to confirm Phasemarker has been checked ok
-
+int Temp_PhaseOrder[180] = { 0 };
 /*########### Stimulation Voltage stuff - consts in Stim.h ############*/
 
 int StimWiperValue = 0; // Wiper position for setting voltage of stimulation - must be 0-256 although usable range is between 215 and 250 with 215 approx 10V and 250 ~3V
@@ -1388,7 +1388,3 @@ inline void digitalWriteDirect(int pin, int val) {
 	if (val) g_APinDescription[pin].pPort->PIO_SODR = g_APinDescription[pin].ulPin;
 	else    g_APinDescription[pin].pPort->PIO_CODR = g_APinDescription[pin].ulPin;
 }
-
-
-
-

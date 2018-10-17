@@ -1,4 +1,4 @@
-function [ Ard,ExpSetup ] = ScouseTom_Start( Ard,ExpSetup, NoPrompt)
+function [ Ard,ExpSetup ] = ScouseTom_Start_no_stim( Ard,ExpSetup,iPrt, NoPrompt)
 %ScouseTom_Start Start injection with scoustom system
 %
 %   Script to start injection on the ScouseTom system. User must have run
@@ -150,12 +150,15 @@ else
     end
 end
 
-
+logpath = 'C:\Users\KAMPFF-LAB-EIT\EIT\Rat_053\Depth_All';
+log_suffix='_log.txt';
+logstr = ['depth_no_stim_prt' num2str(iPrt)];
+logfname=fullfile(logpath,[logstr log_suffix]);
 
 %open log file and make header
 logfid=fopen(logfname,'w+');
 writelogheader(logfid,ExpSetup,eegfname);
-
+RecordingData = 1;
 
 %% create matlab file for it too
 
