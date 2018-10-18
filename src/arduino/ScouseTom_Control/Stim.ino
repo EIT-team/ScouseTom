@@ -30,7 +30,7 @@ void stim_nextphase()
       }
       if (n % 2 != 0)
       {
-        Stim_PhaseOrder[n] = Temp_PhaseOrder[n-1] + 90;
+        Stim_PhaseOrder[n] = Temp_PhaseOrder[n-1] + 180;
       }
     }
 		PC_sendphaseupdate(); //send order to PC
@@ -90,7 +90,7 @@ int stim_init(long Freq) //initialise the stimulator trigger
     }
     if (n % 2 != 0)
     {
-      Stim_PhaseOrder[n] = Stim_PhaseOrder[n-1] + 90;
+      Stim_PhaseOrder[n] = Stim_PhaseOrder[n-1] + 180;
     }
   }
 	CS_PhaseMarker = stim_setpmark(Freq); //get the phasemarker phase 
@@ -164,8 +164,9 @@ void stim_calcdelays(long Freq) //calculate the possible delays for this freq
 
 		for (int i = 0; i < NumDelay; i++)
 		{
-			Stim_delays[i] = i*phaseacc;
-			Stim_phases[i] = i;
+      float TimeTarget = i*phaseacc;
+			Stim_delays[i] = round(TimeTarget / mintime);
+			Stim_phases[i] = ((Stim_delays[i] * mintime) / T) * 360;
 		}
 
 	}

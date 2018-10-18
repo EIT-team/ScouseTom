@@ -111,6 +111,7 @@ int Stim_delays[360] = { 0 }; //holds all possible delays up to a maximum of 360
 int Stim_phases[360] = { 0 }; // phases each of the delays equate too - cast to int because who cares about .5 of a degree of phase?
 int Stim_PhaseOrder[360] = { 0 }; //order of the phase delays - shuffled and sent to PC every time it gets to the end
 int Temp_PhaseOrder[180] = { 0 };
+
 int d1 = 0; //current delay before stimulation trigger - in ticks of TC4 handler
 int d2 = 0;// time to stop stimulation trigger - d1+Stimpulsewidth - in ticks of TC4 handler
 int StiminterruptCtr = 0; // counter of the number of ticks of the TC4 handler since pmark pulse
