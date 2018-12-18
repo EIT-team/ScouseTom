@@ -1911,18 +1911,18 @@ These strictly adhere to the PCB Train board house specs. The rules are &lt;i&gt
 <attribute name="MF" value="" x="-51.6614" y="47.3474" size="1.778" layer="28" rot="MR270" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="-51.6614" y="47.3474" size="1.778" layer="28" rot="MR270" display="off"/>
 </element>
-<element name="R163" library="rcl" package="R0402" value="300k" x="-61.5" y="72" rot="MR270"/>
-<element name="R164" library="rcl" package="R0402" value="300k" x="-63" y="72" rot="MR270"/>
-<element name="R165" library="rcl" package="R0402" value="300k" x="-64.5" y="72" rot="MR270"/>
-<element name="R168" library="rcl" package="R0402" value="75k" x="-66" y="72" rot="MR270"/>
-<element name="R171" library="rcl" package="R0402" value="24k" x="-67.5" y="72" rot="MR270"/>
-<element name="R172" library="rcl" package="R0402" value="30k" x="-85.1486" y="46.9196" rot="MR90"/>
-<element name="R173" library="rcl" package="R0402" value="30k" x="-86.7486" y="46.9196" rot="MR90"/>
-<element name="R174" library="rcl" package="R0402" value="30k" x="-88.4486" y="46.9196" rot="MR90"/>
-<element name="R175" library="rcl" package="R0402" value="9k" x="-90.1486" y="46.9196" rot="MR90"/>
-<element name="R176" library="rcl" package="R0402" value="3k" x="-56.4545" y="47.3366" rot="MR90"/>
-<element name="R177" library="rcl" package="R0402" value="3k" x="-57.9545" y="47.3366" rot="MR270"/>
-<element name="R178" library="rcl" package="R0402" value="3k" x="-59.5911" y="47.3268" rot="MR90"/>
+<element name="R163" library="rcl" package="R0402" value="10k" x="-61.5" y="72" rot="MR270"/>
+<element name="R164" library="rcl" package="R0402" value="10k" x="-63" y="72" rot="MR270"/>
+<element name="R165" library="rcl" package="R0402" value="10k" x="-64.5" y="72" rot="MR270"/>
+<element name="R168" library="rcl" package="R0402" value="10k" x="-66" y="72" rot="MR270"/>
+<element name="R171" library="rcl" package="R0402" value="10k" x="-67.5" y="72" rot="MR270"/>
+<element name="R172" library="rcl" package="R0402" value="2k" x="-85.1486" y="46.9196" rot="MR90"/>
+<element name="R173" library="rcl" package="R0402" value="2k" x="-86.7486" y="46.9196" rot="MR90"/>
+<element name="R174" library="rcl" package="R0402" value="500" x="-88.4486" y="46.9196" rot="MR90"/>
+<element name="R175" library="rcl" package="R0402" value="500" x="-90.1486" y="46.9196" rot="MR90"/>
+<element name="R176" library="rcl" package="R0402" value="100" x="-56.4545" y="47.3366" rot="MR90"/>
+<element name="R177" library="rcl" package="R0402" value="100" x="-57.9545" y="47.3366" rot="MR270"/>
+<element name="R178" library="rcl" package="R0402" value="200" x="-59.5911" y="47.3268" rot="MR90"/>
 <element name="J1" library="con-molex" package="6410-04" value="22-27-2041-04" x="-36" y="47" smashed="yes" rot="R90">
 <attribute name="OC_NEWARK" value="unknown" x="-36" y="47" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MPN" value="" x="-36" y="47" size="1.778" layer="27" rot="R90" display="off"/>
