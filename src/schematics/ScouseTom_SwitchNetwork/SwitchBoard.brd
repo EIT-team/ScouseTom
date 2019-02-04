@@ -8,7 +8,7 @@
 </settings>
 <grid distance="0.005" unitdist="inch" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.0127" altunitdist="mm" altunit="mm"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
@@ -28,9 +28,9 @@
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="16" fill="1" visible="no" active="yes"/>
 <layer number="22" name="bPlace" color="14" fill="1" visible="yes" active="yes"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
@@ -1706,6 +1706,18 @@ IN</text>
 <text x="143.129" y="94.488" size="2.54" layer="22" font="vector" ratio="12" rot="MR0" align="center">+</text>
 <text x="-8.89" y="99.822" size="0.8128" layer="21">CHK POLARITY</text>
 <text x="-0.254" y="99.822" size="0.8128" layer="22" rot="MR0">CHK POLARITY</text>
+<polygon width="0.254" layer="21">
+<vertex x="25.654" y="89.281"/>
+<vertex x="25.527" y="89.281"/>
+<vertex x="25.527" y="89.535"/>
+<vertex x="25.654" y="89.535"/>
+<vertex x="25.781" y="89.535"/>
+<vertex x="25.781" y="89.281"/>
+</polygon>
+<wire x1="30.734" y1="86.995" x2="31.877" y2="86.995" width="0.254" layer="21"/>
+<wire x1="31.2674" y1="86.4362" x2="31.2674" y2="87.5792" width="0.254" layer="21"/>
+<wire x1="15.24" y1="88.9" x2="16.383" y2="88.9" width="0.254" layer="21"/>
+<wire x1="15.7734" y1="88.3412" x2="15.7734" y2="89.4842" width="0.254" layer="21"/>
 </plain>
 <libraries>
 <library name="Analog Devices_By_element14_Batch_1">
