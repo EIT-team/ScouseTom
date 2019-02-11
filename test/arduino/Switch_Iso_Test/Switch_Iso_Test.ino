@@ -7,10 +7,10 @@ int del = 500 * 1000; // time to delay between hgih and low
 void setup() {
 	// put your setup code here, to run once:
 	Serial.begin(115200);
-	Serial.print("ScouseTom Switch Pin Check: All Switch pins should go high and low every ");
+	Serial.print("ScouseTom Switch Pin Check: DINp,DINn,SCLK,SYNC,RESET pins should go high and low every ");
 	Serial.print(del / 1000);
 	Serial.println("ms");
-	Serial.println("Remember test pins are floating unless you connect them to something");
+	Serial.println("The test pins should read 0 - Remember test pins are floating unless you connect them to something");
 	Serial.println("If you are using daisychained boards the DIN+ and DIN- pins will not transfer across boards, as switches are not being set");
 	init_pins();
 
