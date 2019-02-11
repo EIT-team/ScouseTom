@@ -1,0 +1,28 @@
+* C:\Users\djave\ScouseTom\src\schematics\Small_CS\Sim\Howland_Improved_OPA2188.asc
+V1 +V 0 +15
+V2 -V 0 -15
+R1 N002 N001 {R}
+R2 N001 0 {R}
+VSIG IN 0 SINE(0 0.5 1K) AC 0.5
+R3 VOUT N003 {R}
+R4 N003 IN {R}
+Rload VOUT 0 {x}
+R5 N002 VOUT {R2}
+C1 N002 N001 10p
+XU2 N001 N003 -V +V N002 OPA2188
+;.tran 0 2m 1m
+;.step param X list 10 100 1K 10K
+.param R=100k
+.param R2=2k
+.inc ..\..\..\..\lib\spice\ADA4522.cir
+.ac dec 3m 1 1MEG
+.lib ..\..\..\..\lib\spice\OPA2188_TINA_AIO\OPA2188.lib
+* changed U1 val to ADA4522
+* U1 to OPA2188
+* ADD SCOUSETOM/LIB/SPICE TO LTSPICE SEARCH PATH
+;.noise V(VOUT) VSIG dec 100 1 1MEG
+;.param X=2K
+.step param X list 10 10K
+.lib OPA2188_TINA_AIO\OPA2188.lib
+.backanno
+.end
