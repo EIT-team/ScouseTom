@@ -1,14 +1,14 @@
 
-for iPrt = 1:20
+for iPrt = 1:30
     
     fclose(Ard_d);
-    fclose(Ard_c);
+   fclose(Ard_c);
     
-    [Ard_d] = ScouseTom_Init_Two_Ard('COM3');
-    [Ard_c] = ScouseTom_Init_Two_Ard('COM4');
+    [Ard_d] = ScouseTom_Init_Two_Ard('COM4');
+    [Ard_c] = ScouseTom_Init_Two_Ard('COM3');
     
     %% No stimulation no EIT (raw EEG collection)
-    pause(30);
+    pause(10);
     %% No stimulation with EIT
     n = [1];
     n2 = [2];
@@ -49,8 +49,10 @@ for iPrt = 1:20
 
  %%  Stimulation with EIT 
     
-     n = [1,3,5,7];
+    n = [1,3,5,7];
      n2 = [2,4,6,8];
+%       n = [1,3];
+%       n2 = [2,4];
      for j = 1:length(n)
         ExpSetup_d_stim.Protocol(n(j),1:4) = Protocol_d(iPrt,1:4);
         ExpSetup_d_stim.Protocol(n(j),5:8) = Protocol_d(iPrt,5:8);
@@ -63,8 +65,10 @@ for iPrt = 1:20
       
       pause(1);
       
-     n = [1,3,5,7];
-     n2 = [2,4,6,8];
+    n = [1,3,5,7];
+    n2 = [2,4,6,8];
+%          n = [1,3];
+%       n2 = [2,4];
      for j = 1:length(n)
         ExpSetup_c_stim.Protocol(n(j),1) = Protocol(iPrt,1);
         ExpSetup_c_stim.Protocol(n(j),2) = Protocol(iPrt,2);

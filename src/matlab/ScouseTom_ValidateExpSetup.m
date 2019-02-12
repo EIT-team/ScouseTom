@@ -367,7 +367,7 @@ if ExpSetup.Elec_num > ChnPerBoard
     
     %for each board, add the channels which are not connected to Dsub to
     %Bad Elec
-    
+  ProtAdjust = 1;  
     if isempty(ProtAdjust) %if user hasnt specified if we do this or not, ask
         
         % ask if user wants to change protocol

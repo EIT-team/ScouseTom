@@ -120,8 +120,8 @@ else
     end
 end
 
-<<<<<<< HEAD
-logpath = 'C:\Users\KAMPFF-LAB-EIT\EIT\Rat_053\Both_All';
+
+logpath = 'C:\Users\KAMPFF-LAB-EIT\EIT\Rat_056\All';
 log_suffix='_log.txt';
 if Stim == 0
 logstr = ['cortex_no_stim_prt' num2str(iPrt)];
