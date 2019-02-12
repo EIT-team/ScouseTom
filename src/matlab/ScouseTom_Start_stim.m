@@ -1,4 +1,4 @@
-function [ Ard,ExpSetup ] = ScouseTom_Start_depth( Ard,ExpSetup,iPrt, NoPrompt)
+function [ Ard,ExpSetup ] = ScouseTom_Start_stim( Ard,ExpSetup,iPrt, Stim, NoPrompt)
 %ScouseTom_Start Start injection with scoustom system
 %
 %   Script to start injection on the ScouseTom system. User must have run
@@ -152,7 +152,11 @@ end
 
 logpath = 'C:\Users\KAMPFF-LAB-EIT\EIT\Rat_053\Depth_All';
 log_suffix='_log.txt';
-logstr = ['depth_stim_prt' num2str(iPrt)];
+if Stim == 0
+logstr = ['depth_no_stim_prt' num2str(iPrt)];
+else
+    logstr = ['depth_stim_prt' num2str(iPrt)];
+end
 logfname=fullfile(logpath,[logstr log_suffix]);
 
 %open log file and make header
