@@ -21,7 +21,25 @@ void stim_nextphase()
 	if (iStim == NumDelay) // reset counter if all of them are done
 	{
 		iStim = 0;
-		shuffle(Stim_PhaseOrder, NumDelay); //shuffle the phases again
+		shuffle(Temp_PhaseOrder, 180); //shuffle the phases again
+    for (int n = 0; n > 360; n++)
+    {
+      if (n % 2 == 0)
+      {
+        Stim_PhaseOrder[n] = Temp_PhaseOrder[n/2];
+      }
+      if (n % 2 != 0)
+        {
+          if (Stim_PhaseOrder[n-1]<180)
+          {
+            Stim_PhaseOrder[n] = Stim_PhaseOrder[n-1] + 180;
+          }
+          else
+          {
+            Stim_PhaseOrder[n] = Stim_PhaseOrder[n-1] - 180;
+          }
+        }
+    }
 		PC_sendphaseupdate(); //send order to PC
 		//Serial.println("shuffled phases");
 	}
@@ -70,8 +88,25 @@ int stim_init(long Freq) //initialise the stimulator trigger
 	//Serial.println(StimPulseWidthTicks);
 
 	stim_calcdelays(Freq); //calculate the delays for this frequency - 
-	shuffle(Stim_PhaseOrder, NumDelay); // randomise the order of the delays
-
+	shuffle(Temp_PhaseOrder, 180); // randomise the order of the delays
+  for (int n = 0; n <= 360; n++)
+  {
+    if (n % 2 == 0)
+    {
+      Stim_PhaseOrder[n] = Temp_PhaseOrder[n/2];
+    }
+    if (n % 2 != 0)
+      {
+        if (Stim_PhaseOrder[n-1]<180)
+        {
+          Stim_PhaseOrder[n] = Stim_PhaseOrder[n-1] + 180;
+        }
+        else
+        {
+          Stim_PhaseOrder[n] = Stim_PhaseOrder[n-1] - 180;
+        }
+      }
+  }
 	CS_PhaseMarker = stim_setpmark(Freq); //get the phasemarker phase 
 
 	sprintf(CS_outputBuffer, "SOUR:WAVE:PMARK:LEV %d", CS_PhaseMarker); //make string to send to CS
@@ -143,15 +178,16 @@ void stim_calcdelays(long Freq) //calculate the possible delays for this freq
 
 		for (int i = 0; i < NumDelay; i++)
 		{
-			Stim_delays[i] = i*phaseacc;
-			Stim_phases[i] = i;
+      float TimeTarget = i*phaseacc;
+			Stim_delays[i] = round(TimeTarget / mintime);
+			Stim_phases[i] = ((Stim_delays[i] * mintime) / T) * 360;
 		}
 
 	}
 
-	for (int n = 0; n < NumDelay; n++) // populate phase order array
+	for (int n = 0; n < 180; n++) // populate phase order array
 	{
-		Stim_PhaseOrder[n] = n;
+		Temp_PhaseOrder[n] = 2*n;
 	}
 
 
@@ -256,4 +292,3 @@ void Stim_SetDigipot(int val)
 	Wire.write(val);             // sends potentiometer value byte
 	Wire.endTransmission();     // stop transmitting
 }
-

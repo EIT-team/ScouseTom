@@ -110,6 +110,7 @@ int NumDelay = 0; //the total number of possible delays, as calcluated from the 
 int Stim_delays[360] = { 0 }; //holds all possible delays up to a maximum of 360 - these are the number of ticks to wait before starting trigger
 int Stim_phases[360] = { 0 }; // phases each of the delays equate too - cast to int because who cares about .5 of a degree of phase?
 int Stim_PhaseOrder[360] = { 0 }; //order of the phase delays - shuffled and sent to PC every time it gets to the end
+int Temp_PhaseOrder[180] = { 0 };
 
 int d1 = 0; //current delay before stimulation trigger - in ticks of TC4 handler
 int d2 = 0;// time to stop stimulation trigger - d1+Stimpulsewidth - in ticks of TC4 handler
@@ -1387,7 +1388,3 @@ inline void digitalWriteDirect(int pin, int val) {
 	if (val) g_APinDescription[pin].pPort->PIO_SODR = g_APinDescription[pin].ulPin;
 	else    g_APinDescription[pin].pPort->PIO_CODR = g_APinDescription[pin].ulPin;
 }
-
-
-
-
