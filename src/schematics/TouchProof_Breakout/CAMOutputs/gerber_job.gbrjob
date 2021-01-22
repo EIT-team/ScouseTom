@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2019-03-26T22:28:56Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.3.2"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.57,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "TouchProof_Breakout"
+        },
+        "Owner": "James Avery <j.avery.10@ucl.ac.uk>",
+        "Size": {
+            "X": 100,
+            "Y": 100
+        }
+    }
+}
